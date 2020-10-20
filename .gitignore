@@ -1,0 +1,14 @@
+*.pyc
+*~
+/.vscode
+__pycache__
+db.sqlite3
+/static
+.DS_Store
+*.zip
+/koolapic/migrations
+/KAPICEnv
+Pipfile
+Pipfile.lock
+.history
+.idea
