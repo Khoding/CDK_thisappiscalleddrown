@@ -10,7 +10,7 @@ class User(models.Model):
     email = models.EmailField()
     tel_m = models.TextField()
     tel_p = models.TextField()
-    adress = models.TextField()
+    address = models.TextField()
     npa = models.IntegerField()
     localite = models.TextField()
     password = models.TextField()

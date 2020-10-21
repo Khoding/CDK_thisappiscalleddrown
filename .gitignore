@@ -7,7 +7,7 @@ db.sqlite3
 .DS_Store
 *.zip
 /koolapic/migrations
-/KAPICEnv
+/venv
 Pipfile
 Pipfile.lock
 .history

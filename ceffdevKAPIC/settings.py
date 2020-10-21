@@ -25,7 +25,7 @@ SECRET_KEY = '&!#*0j@b+h$cl8dr6#16zb8xq9^==)ni*5o!y(lw%0+17^l2k#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps
-    'koolapic.apps.KoolapicConfig',
+    'koolapic',
 ]
 
 MIDDLEWARE = [
