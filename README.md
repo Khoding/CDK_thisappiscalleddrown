@@ -1,3 +1,3 @@
 # Koolapic
 ## Documentation
-[https://github.com/Khoding/ceffdevKAPIC/wiki](Wiki)
+[Wiki](https://github.com/Khoding/ceffdevKAPIC/wiki)
