@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # Apps
     'koolapic',
+    'koolapicAPI',
 ]
 
 MIDDLEWARE = [
