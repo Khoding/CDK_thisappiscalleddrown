@@ -1,7 +1,11 @@
 {% extends 'koolapic/base.html' %}
 
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
 {% block head %}
-    <title>{{ title }}</title>
 
     <meta name="description" content="{{ decription }}">
 
@@ -12,8 +16,8 @@
 
     <meta property="twitter:title" content="{{ decription }}">
     <meta property="twitter:description" content="{{ decription }}">
-{% endblock %}
+{% endblock head %}
 
 {% block content %}
     <h1>Bienvenue sur Koolapic</h1>
-{% endblock %}
+{% endblock content %}
