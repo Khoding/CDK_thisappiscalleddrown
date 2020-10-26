@@ -1,10 +1,7 @@
 from django.contrib import admin
-from koolapicAPI.models import User, Activity, Group, Inscription, Admission
+from koolapicAPI.models import Activity, Group, Inscription, Admission
 
 
-# Register your models here.
-
-admin.site.register(User)
 admin.site.register(Activity)
 admin.site.register(Group)
 admin.site.register(Inscription)

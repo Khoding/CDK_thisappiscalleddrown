@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:type" content="website">
+    <meta name="msapplication-config" content="{% static 'koolapic/xml/tile.xml' %}"> <!-- Ne marche pas -->
+    <meta name="application-name" content="Koolapic">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6358EB">
+
+    {% block head %} {% endblock head %}
+
+    <title>
+        {% block title %}
+            Base -
+            {% block title_extension %} {{ title }} {% endblock title_extension %}
+        {% endblock title %}
+    </title>
+
+    <link href="{% static "koolapic/css/custom.css" %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container">
+xd
+    {% block content %} {% endblock content %}
+</div>
+</body>
+</html>
