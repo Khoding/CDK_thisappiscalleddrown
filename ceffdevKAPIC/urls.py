@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(koolapicAPI.urls)),
 
-    path('accounts/', include('accounts.urls')),
+    path('users/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
