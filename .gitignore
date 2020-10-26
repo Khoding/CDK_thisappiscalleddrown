@@ -15,3 +15,4 @@ Pipfile.lock
 /venv
 /.history
 /koolapicAPI/migrations
+/koolapic/migrations
