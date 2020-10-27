@@ -24,9 +24,6 @@
 {% block content %}
     <h1>Bienvenue sur Koolapic</h1>
 
-<<<<<<< HEAD
-{% endblock %}
-=======
     {% if user.is_authenticated %}
         Hi {{ user.username }}!
         <p><a href="{% url 'logout' %}">Log Out</a></p>
@@ -36,4 +33,3 @@
         <a href="{% url 'signup' %}">Sign Up</a>
     {% endif %}
 {% endblock content %}
->>>>>>> master
