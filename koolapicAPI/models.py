@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+# from django.core.validators import PositiveIntergerField
 
 
 class Activity(models.Model):
@@ -10,17 +12,17 @@ class Activity(models.Model):
     end_inscription_date = models.DateTimeField()
     end_location = models.TextField()
     remarks = models.TextField()
-    max_participants = models.IntegerField()
+    max_participants = models.PositiveIntegerField()
     last_update = models.DateTimeField()
 
     def __str__(self):
         return self.description
 
+    def get_absolute_url(self):
+        return reverse("activity_detail", kwargs={'pk': self.pk})
+
     class Meta:
         verbose_name_plural = "Activities"
-
-
-# class Group pas faite parce qu'on pourrait utiliser l'api Facebook pour les gérer (prendre le nom, la banière, etc depuis Facebook)
 
 
 class Group(models.Model):
