@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Liste des activités</h1>
+    <br>
+    <div class="activities">
+        {% for activity in object_list %}
+            <h4>{{ activity.description }}</h4>
+            <a href="{{activity.get_absolute_url}}">détail</a>
+            <br>
+            <hr>
+        {% endfor %}
+    </div>
+{% endblock content %}
