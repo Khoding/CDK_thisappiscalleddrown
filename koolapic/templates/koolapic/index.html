@@ -1,20 +1,39 @@
-{% extends 'koolapic/base.html' %}
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Index -
+    {% block title_extension %}
+        {{ title }}
+    {% endblock title_extension %}
+{% endblock title %}
 
 {% block head %}
-    <title>{{ title }}</title>
 
-    <meta name="description" content="{{ decription }}">
+    <meta name="description" content="{{ description }}">
 
 
-    <meta property="og:title" content="{{ decription }}">
-    <meta property="og:description" content="{{ decription }}">
-    <meta property="og:twitter" content="{{ decription }}">
+    <meta property="og:title" content="{{ description }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:twitter" content="{{ description }}">
 
-    <meta property="twitter:title" content="{{ decription }}">
-    <meta property="twitter:description" content="{{ decription }}">
-{% endblock %}
+    <meta property="twitter:title" content="{{ description }}">
+    <meta property="twitter:description" content="{{ description }}">
+{% endblock head %}
 
 {% block content %}
     <h1>Bienvenue sur Koolapic</h1>
 
+<<<<<<< HEAD
 {% endblock %}
+=======
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <p><a href="{% url 'logout' %}">Log Out</a></p>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Log In</a> |
+        <a href="{% url 'signup' %}">Sign Up</a>
+    {% endif %}
+{% endblock content %}
+>>>>>>> master

@@ -1,23 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-
-class User(models.Model):
-    # FB ID sera géré avec une api
-    first_name = models.TextField(max_length=45)
-    last_name = models.TextField(max_length=45)
-    email = models.EmailField()
-    tel_m = models.TextField()
-    tel_p = models.TextField()
-    address = models.TextField()
-    npa = models.IntegerField()
-    localite = models.TextField()
-    password = models.TextField()
-    last_login = models.DateTimeField()
-    date_don = models.DateTimeField()
-    inscription = models.DateTimeField()
-
 
 class Activity(models.Model):
     start_date = models.DateTimeField()

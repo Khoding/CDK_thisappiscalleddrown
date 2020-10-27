@@ -20,7 +20,11 @@ import koolapic.urls
 import koolapicAPI.urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include(koolapic.urls)),
+    path('admin/', admin.site.urls),
     path('api/', include(koolapicAPI.urls)),
+
+    path('users/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
