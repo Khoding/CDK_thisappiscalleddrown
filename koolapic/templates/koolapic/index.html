@@ -26,7 +26,12 @@
 
     {% if user.is_authenticated %}
         Hi {{ user.username }}!
+        {% if user.profile_pic %}
+            <img src="{{ user.profile_pic.url }}" alt="" />
+            <hr class="hr">
+        {% endif %}
         <p><a href="{% url 'logout' %}">Log Out</a></p>
+        <p><a href="{% url 'edit_profile' %}">edit profile</a></p>
     {% else %}
         <p>You are not logged in</p>
         <a href="{% url 'login' %}">Log In</a> |

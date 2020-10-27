@@ -3,6 +3,8 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
+    pass
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/")
     tel_m = models.TextField(null=True)
     tel_p = models.TextField(null=True)
     address = models.TextField(null=True)

@@ -8,7 +8,7 @@ from koolapic.views import IndexView, ActivityListView, ActivityCreateView, Acti
 
 
 urlpatterns = [
-    path('', IndexView.as_view()),
+    path('', IndexView.as_view(), name='home'),
     path('index/', IndexView.as_view()),
     path('home/', IndexView.as_view()),
     path('api/', include('koolapicAPI.urls')),
