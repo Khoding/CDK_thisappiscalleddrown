@@ -75,7 +75,10 @@ ROOT_URLCONF = 'ceffdevKAPIC.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'ceffdevKAPIC/templates'],
+        'DIRS': [
+            BASE_DIR / 'ceffdevKAPIC/templates',
+            BASE_DIR / 'koolapic/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

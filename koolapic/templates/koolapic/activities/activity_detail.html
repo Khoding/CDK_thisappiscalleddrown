@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Détails de l'activité</h1>
+    <br>
+    <h3>{{ activity.description }}</h3>
+    <ul>
+        <li><b>Coordonnées : </b> {{ activity.coordinates }}</li>
+        <li><b>Date de la dernière inscription : </b>{{ activity.end_inscription_date }}</li>
+        <li><b>Date de départ : </b>{{ activity.start_date }}</li>
+        <li><b>Lieu de départ : </b>{{ activity.start_location }}</li>
+        <li><b>Date de fin : </b>{{ activity.end_date }}</li>
+        <li><b>Lieu de fin : </b>{{ activity.end_location }}</li>
+        <li><b>Nombre maximum de participants : </b>{{ activity.max_participants }}</li>
+        <li><b>Dernière mise à jour : </b>{{ activity.last_update }}</li>
+        <li><b>Remarques : </b>{{ activity.remarks }}</li>
+    </ul>
+{% endblock content %}
