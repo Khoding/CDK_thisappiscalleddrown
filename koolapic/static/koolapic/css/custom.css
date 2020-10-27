@@ -1,8 +1,12 @@
 @charset "UTF-8";
 /*
-Toutes la configuration de Bootstrap.
+Toute la configuration de Bootstrap.
  */
-@import "variables.css";
+/*
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Noto Sans JP', sans-serif;
+font-family: 'Roboto', sans-serif;
+ */
 /*!
  * Bootstrap v4.5.3 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
