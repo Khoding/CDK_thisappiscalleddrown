@@ -13,6 +13,9 @@ class Activity(models.Model):
     max_participants = models.IntegerField()
     last_update = models.DateTimeField()
 
+    def __str__(self):
+        return self.description
+
     class Meta:
         verbose_name_plural = "Activities"
 
@@ -30,6 +33,9 @@ class Group(models.Model):
     banner_color = models.TextField()
     alias = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Inscription(models.Model):
     date = models.DateTimeField()
@@ -37,7 +43,13 @@ class Inscription(models.Model):
     presence = models.IntegerField()
     guests_number = models.IntegerField()
 
+    def __str__(self):
+        return self.remark
+
 
 class Admission(models.Model):
     date = models.DateTimeField()
     code = models.TextField()
+
+    def __str__(self):
+        return self.code

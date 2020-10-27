@@ -49,9 +49,16 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.discord',
 
     # Apps
+    'rest_framework',
     'koolapic',
     'koolapicAPI',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

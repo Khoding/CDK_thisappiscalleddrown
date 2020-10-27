@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.urls import path
 
-from koolapic.views import IndexView
-from koolapicAPI.views import IndexAPIView
+from .views import AdmissionViewSet, ActivityViewSet, GroupViewSet, InscriptionViewSet, UserViewSet
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path('', IndexAPIView.as_view()),
-]
+router = DefaultRouter()
+router.register('admission', AdmissionViewSet, basename='admission')
+router.register('activity', ActivityViewSet, basename='activity')
+router.register('group', GroupViewSet, basename='group')
+router.register('inscription', InscriptionViewSet, basename='inscription')
+router.register('user', UserViewSet, basename='user')
+urlpatterns = router.urls
