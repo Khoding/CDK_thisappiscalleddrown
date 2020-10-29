@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 # from django.core.validators import PositiveIntergerField
 
 
@@ -14,12 +15,18 @@ class Activity(models.Model):
     remarks = models.TextField()
     max_participants = models.PositiveIntegerField()
     last_update = models.DateTimeField()
+    slug = models.SlugField(null=True, unique=True)
 
     def __str__(self):
         return self.description
 
     def get_absolute_url(self):
-        return reverse("activity_detail", kwargs={'pk': self.pk})
+        return reverse("activity_detail", kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.description)
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Activities"
