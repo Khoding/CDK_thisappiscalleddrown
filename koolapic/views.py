@@ -32,6 +32,7 @@ class ActivityListView(ListView):
 
 class ActivityDetailView(DetailView):
     model = Activity
+    query_pk_and_slug = True
     template_name = "koolapic/activities/activity_detail.html"
 
     def get_context_data(self, **kwargs):
