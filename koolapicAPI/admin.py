@@ -2,7 +2,11 @@ from django.contrib import admin
 from koolapicAPI.models import Activity, Group, Inscription, Admission
 
 
-admin.site.register(Activity)
+class ActivityAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('description',)}
+
+
+admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Group)
 admin.site.register(Inscription)
 admin.site.register(Admission)

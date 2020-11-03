@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Détails du groupe</h1>
+    <br>
+    <h3>{{ group.name }}</h3>
+    {% if group.image %}
+        <img src="{{ group.image.url }}">
+    {% endif %}
+    <ul>
+        <li><b>Description : </b> {{ group.description }}</li>
+        <li><b>Status : </b> {{ group.status }}</li>
+        <li><b>Date du dernier don : </b> {{ group.date_don }}</li>
+        <li><b>Text : </b> {{ group.home_text }}</li>
+        <li><b>Couleur de la bannière : </b> {{ group.banner_color }}</li>
+        <li><b>Alias : </b> {{ group.alias }}</li>
+    </ul>
+{% endblock content %}
