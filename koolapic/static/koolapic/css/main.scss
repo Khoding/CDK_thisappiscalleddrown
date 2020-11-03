@@ -34,3 +34,20 @@ label {
 #main-navbar-logo {
   height: 9vh;
 }
+
+#main-navbar-pp {
+  height: 9vh;
+  border-radius: 100px;
+}
+
+#main-navbar-pp:hover {
+  filter: brightness(105%);
+}
+
+#main-navbar-nopp {
+  color: $white;
+}
+
+#main-navbar-nopp::before {
+  height: 9vh;
+}
