@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'koolapic',
     'koolapicAPI',
+
+    # Widget Tweaks
+    'widget_tweaks',
 ]
 
 REST_FRAMEWORK = {
@@ -143,7 +146,7 @@ MEDIA_ROOT = (BASE_DIR / 'media')
 STATIC_ROOT = (BASE_DIR / 'static')
 
 STATICFILES_DIRS = [
-    (BASE_DIR / 'ceffdevKAPIC/static'),
+    BASE_DIR / 'koolapic/static',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
