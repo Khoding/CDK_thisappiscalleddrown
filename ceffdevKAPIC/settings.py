@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'koolapic',
     'koolapicAPI',
+
+    'colorfield'
 ]
 
 REST_FRAMEWORK = {
