@@ -54,6 +54,8 @@ INSTALLED_APPS = [
 
     # Widget Tweaks
     'widget_tweaks',
+
+    'colorfield'
 ]
 
 REST_FRAMEWORK = {
