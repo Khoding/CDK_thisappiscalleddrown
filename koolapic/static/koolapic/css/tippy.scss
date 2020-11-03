@@ -1,0 +1,25 @@
+/* Thème custom pour Tippy */
+
+@import "variables";
+
+.tippy-box[data-theme~='koolapic'] {
+  background-color: $palette_secondary;
+  color: $white;
+}
+
+.tippy-box[data-theme~='koolapic'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: $palette_secondary;
+  transform: scale(1.5);
+}
+.tippy-box[data-theme~='koolapic'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: $palette_secondary;
+  transform: scale(1.5);
+}
+.tippy-box[data-theme~='koolapic'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: $palette_secondary;
+  transform: scale(1.5);
+}
+.tippy-box[data-theme~='koolapic'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: $palette_secondary;
+  transform: scale(1.5);
+}

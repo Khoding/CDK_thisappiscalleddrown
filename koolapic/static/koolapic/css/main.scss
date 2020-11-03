@@ -1,0 +1,26 @@
+/* Imports */
+
+@import "variables";
+
+@import "custom";
+
+@import "tippy";
+
+/* Formulaires */
+.form-error {
+  color: $palette_danger;
+}
+
+.form-logo {
+  width: 25%;
+}
+
+label {
+  margin-top: 1em;
+}
+
+/* Cartes */
+.card-footer p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
