@@ -13,6 +13,6 @@ urlpatterns = [
     path('home/', IndexView.as_view()),
     path('api/', include('koolapicAPI.urls')),
     path('activities/list', ActivityListView.as_view(), name="activity_list"),
-    path('activites/<slug:slug>/', ActivityDetailView.as_view(), name="activity_detail"),
-    path('activities/add', ActivityCreateView.as_view()),
+    path('activities/<slug:slug>/', ActivityDetailView.as_view(), name="activity_detail"),
+    path('activities/add', ActivityCreateView.as_view(), name="add_activity"),
 ]
