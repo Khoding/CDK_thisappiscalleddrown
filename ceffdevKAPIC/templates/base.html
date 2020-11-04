@@ -60,7 +60,7 @@
                 </li>
             </ul>
             {% if user.is_authenticated %}
-                <a href="{% url 'profile' %}" title="Profil">
+                <a href="{% url 'profile' %}">
                     {% if user.profile_pic %}
                         <img id="main-navbar-pp" src="{{ user.profile_pic.url }}" alt="Votre photo de profil">
                     {% else %}
@@ -73,11 +73,16 @@
         </div>
     </nav>
 </header>
-
-    <footer class="footer mt-auto py-3">
-        <div class="container">
-            <span class="text-muted">&#169; {{ current_year }} Ceff Industrie</span>
-        </div>
-    </footer>
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</main>
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <span class="text-muted">&#169; {{ current_year }} Ceff Industrie</span>
+    </div>
+</footer>
 </body>
 </html>

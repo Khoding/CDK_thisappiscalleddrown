@@ -9963,6 +9963,10 @@ label {
   margin-top: 1em;
 }
 
+input[type=file] {
+  border: none;
+}
+
 /* Cartes */
 .card-footer p {
   margin-block-start: 0;
@@ -9990,10 +9994,7 @@ label {
 
 #main-navbar-nopp {
   color: #FFFFFF;
-}
-
-#main-navbar-nopp::before {
-  height: 9vh;
+  font-size: 7vh;
 }
 
 /*# sourceMappingURL=main.css.map */
