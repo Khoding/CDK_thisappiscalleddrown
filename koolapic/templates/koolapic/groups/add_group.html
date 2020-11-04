@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
     <h1>Ajouter un groupe</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Ajouter">
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-dark">Ajouter</button>
+        {% endbuttons %}
     </form>
 {% endblock content %}
