@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
+{% load bootstrap4 %}
+
 {% block content %}
-    <h1>Modifier l'activité</h1>
+    <h1>Modifier une activité</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Modifier">
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-dark">Modifier</button>
+        {% endbuttons %}
     </form>
 {% endblock content %}

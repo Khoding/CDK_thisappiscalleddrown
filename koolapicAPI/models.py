@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
-from colorfield.fields import ColorField
-# from django.core.validators import PositiveIntergerField
 
 
 class Activity(models.Model):
@@ -48,7 +46,7 @@ class Group(models.Model):
     date_don = models.DateTimeField()
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/")
     home_text = models.TextField()
-    banner_color = ColorField(default='#FF0000')
+    banner_color = models.TextField(max_length=8)
     alias = models.TextField()
     slug = models.SlugField(null=True, unique=True)
 

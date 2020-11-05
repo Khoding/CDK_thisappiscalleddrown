@@ -1,19 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Edit User: {{ user.username }}
+    Modifier l'utilisateur : {{ user.username }}
 {% endblock title %}
 
-{% load bootstrap4 %}
-
 {% block content %}
-    <h2>Edit User</h2>
+    <h2>Modifier l'utilisateur</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-            <button type="submit" class="btn btn-dark">Update profile</button>
-        {% endbuttons %}
+        {% include 'includes/form_snippet.html' %}
+        <br>
+        <button type="submit" class="btn btn-dark">Mettre à jour le profil</button>
     </form>
 
 {% endblock content %}
