@@ -12,6 +12,7 @@ from koolapicAPI.models import Activity, Group
 
 from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm
 
+
 class IndexView(TemplateView):
     template_name = 'koolapic/index.html'
 
