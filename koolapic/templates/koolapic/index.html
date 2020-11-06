@@ -8,7 +8,7 @@
     {% if user.is_authenticated %}
         Salut {{ user.username }} ! Tu dors encore ?
         {% if user.profile_pic %}
-            <img src="{{ user.profile_pic.url }}" alt="profile image" width="50" />
+            <img src="{{ user.profile_pic.url }}" alt="profile image" width="50"/>
             <hr>
         {% endif %}
         <p><a href="{% url 'logout' %}">Log Out</a></p>

@@ -11,6 +11,17 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Reading .env file
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,15 +30,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&!#*0j@b+h$cl8dr6#16zb8xq9^==)ni*5o!y(lw%0+17^l2k#'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,16 +58,21 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.discord',
 
     # Apps
-    'rest_framework',
+    'ceffdevKAPIC',
     'koolapic',
     'koolapicAPI',
 
     # Widget Tweaks
     'widget_tweaks',
 
+    # Django REST Framework
+    'rest_framework',
+
+    # Color Field
     'colorfield'
 ]
 
+# REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -100,11 +115,18 @@ WSGI_APPLICATION = 'ceffdevKAPIC.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        },
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'TEST': {
+            'NAME': env("TEST_DATABASE_NAME")
+        }
     }
 }
 
