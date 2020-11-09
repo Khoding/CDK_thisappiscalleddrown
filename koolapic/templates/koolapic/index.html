@@ -6,7 +6,7 @@
     <h1>Bienvenue sur Koolapic</h1>
 
     {% if user.is_authenticated %}
-        Salut {{ user.username }} ! Tu dors encore ?
+        Salut {{ user.username }} !
         {% if user.profile_pic %}
             <img src="{{ user.profile_pic.url }}" alt="profile image" width="50" />
             <hr>
