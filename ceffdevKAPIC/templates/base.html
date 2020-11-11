@@ -92,7 +92,7 @@
                         </li>
                     </ul>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'profile' slug=user.slug %}">
+                    <a href="{% url 'users:profile' slug=user.slug %}">
                         {% if user.profile_pic %}
                         <img id="main-navbar-pp" src="{{ user.profile_pic.url }}" alt="Votre photo de profil" />
                         {% else %}

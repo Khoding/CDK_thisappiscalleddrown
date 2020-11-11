@@ -11,7 +11,7 @@
     </h2>
     {% if user.is_authenticated %}
         {% if object.id == user.id %}
-            <a class="btn btn-primary" href="{% url 'edit_profile' slug=object.slug %}">Edit Profile</a>
+            <a class="btn btn-primary" href="{% url 'users:edit_profile' slug=object.slug %}">Edit Profile</a>
         {% endif %}
     {% endif %}
 
