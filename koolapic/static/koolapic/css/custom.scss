@@ -1,8 +1,8 @@
 /*
 Configuration principale en CSS.
- */
+*/
 
-@import "variables"; /* Importation des variables */
+@import 'variables';
 
 /* Définition de la palette dans Bootstrap */
 $primary: $palette_primary;
@@ -17,7 +17,7 @@ $font-family-sans-serif: $sans-serif;
 $font-family-monospace: $monospace;
 
 /* Importation de Bootstrap */
-@import "../../../../node_modules/bootstrap/scss/bootstrap";
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
 
 /* Importation de FontAwesome */
-@import "../fontawesome-free/css/all.css";
+@import '../fontawesome-free/css/all.css';

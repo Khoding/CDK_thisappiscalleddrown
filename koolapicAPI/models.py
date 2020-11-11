@@ -41,6 +41,7 @@ class Activity(models.Model):
 
 class Group(models.Model):
     name = models.TextField()
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField()
     status = models.TextField()
     date_don = models.DateTimeField()

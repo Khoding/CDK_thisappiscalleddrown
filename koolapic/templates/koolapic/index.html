@@ -6,15 +6,15 @@
     <h1>Bienvenue sur Koolapic</h1>
 
     {% if user.is_authenticated %}
-        Salut {{ user.username }} ! Tu dors encore ?
+        Salut {{ user.username }} !
         {% if user.profile_pic %}
             <img src="{{ user.profile_pic.url }}" alt="profile image" width="50"/>
             <hr>
         {% endif %}
-        <p><a href="{% url 'logout' %}">Log Out</a></p>
+        <p><a href="{% url 'users:logout' %}">Log Out</a></p>
     {% else %}
         <p>You are not logged in</p>
-        <a href="{% url 'login' %}">Log In</a> |
-        <a href="{% url 'signup' %}">Sign Up</a>
+        <a href="{% url 'users:login' %}">Log In</a> |
+        <a href="{% url 'users:signup' %}">Sign Up</a>
     {% endif %}
 {% endblock content %}

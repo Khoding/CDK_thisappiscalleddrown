@@ -1,5 +1,6 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, FormView
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 
@@ -14,21 +15,31 @@ class SignUpView(CreateView):
     template_name = 'account/signup.html'
 
 
+class LoginView(FormView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'account/login.html'
+
+
 class UserEditView(UpdateView):
     form_class = CustomUserChangeForm
     success_url = reverse_lazy('home')
     template_name = 'account/edit_profile.html'
 
-    def get_object(self, queryset=True):
-        return self.request.user
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.object.username
+        return context
 
 
 class UserProfileView(DetailView):
     model = CustomUser
     template_name = 'account/profile.html'
 
-    def get_object(self, queryset=True):
-        return self.request.user
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.object.username
+        return context
 
 
 class PasswordsChangeView(PasswordChangeView):

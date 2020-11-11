@@ -1,3 +1,37 @@
+@charset "UTF-8";
+/* Thème custom pour Tippy */
+/*
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Noto Sans JP', sans-serif;
+font-family: 'Overpass Mono', sans-serif;
+font-family: 'Roboto', sans-serif;
+ */
+.tippy-box[data-theme~='koolapic'] {
+  background-color: #4A486B;
+  color: #FFFFFF;
+}
 
+.tippy-box[data-theme~='koolapic'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #4A486B;
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
 
+.tippy-box[data-theme~='koolapic'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #4A486B;
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+
+.tippy-box[data-theme~='koolapic'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #4A486B;
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+
+.tippy-box[data-theme~='koolapic'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #4A486B;
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
 /*# sourceMappingURL=tippy.css.map */
