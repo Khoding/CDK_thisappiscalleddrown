@@ -59,6 +59,7 @@ class Activity(models.Model):
     last_update = models.DateTimeField()
     slug = models.SlugField(null=True, unique=True)
     groups = models.ForeignKey(Group, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.description
