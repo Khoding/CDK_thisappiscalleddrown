@@ -1,5 +1,5 @@
 /*
-Configuration principale en CSS.
+Configuration de Bootstrap en CSS.
  */
 
 @import "variables"; /* Importation des variables */
@@ -18,6 +18,3 @@ $font-family-monospace: $monospace;
 
 /* Importation de Bootstrap */
 @import "../../../../node_modules/bootstrap/scss/bootstrap";
-
-/* Importation de FontAwesome */
-@import "../lib/fontawesome-free/css/all.css";

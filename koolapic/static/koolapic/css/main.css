@@ -1,14 +1,18 @@
 @charset "UTF-8";
-/* Imports */
+/* CSS principal */
+/* Variables */
+/* Variables */
 /*
 font-family: 'Noto Sans', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
 font-family: 'Overpass Mono', sans-serif;
 font-family: 'Roboto', sans-serif;
  */
+/* Bootstrap configuré */
 /*
-Configuration principale en CSS.
+Configuration de Bootstrap en CSS.
  */
+/* Variables */
 /*
 font-family: 'Noto Sans', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
@@ -9918,7 +9922,9 @@ h3 {
   }
 }
 /* Importation de FontAwesome */
+/* Thème Tippy */
 /* Thème custom pour Tippy */
+/* Variables */
 /*
 font-family: 'Noto Sans', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
