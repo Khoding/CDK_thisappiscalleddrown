@@ -150,7 +150,7 @@ class GroupDeleteView(DeleteView):
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'koolapic/signup.html'
+    template_name = 'account/signup.html'
     success_message = 'Compte créé avec succès'
 
     def get_context_data(self, **kwargs):
@@ -163,7 +163,7 @@ class SignUpView(CreateView):
 class KoolapicLoginView(LoginView):
     authentication_form = AuthenticationForm
     redirect_field_name = reverse_lazy('index')
-    template_name = 'koolapic/login.html'
+    template_name = 'account/login.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

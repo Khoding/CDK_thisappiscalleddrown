@@ -1,10 +1,16 @@
-/* Imports */
+/* CSS principal */
 
-@import 'variables';
+/* Variables */
+@import "variables";
 
-@import 'custom';
+/* Bootstrap configuré */
+@import "custom";
 
-@import 'tippy';
+/* Importation de FontAwesome */
+@import "../lib/fontawesome-free/css/all.css";
+
+/* Thème Tippy */
+@import "tippy";
 
 /* Formulaires */
 .form-error {

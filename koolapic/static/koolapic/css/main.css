@@ -1,14 +1,18 @@
 @charset "UTF-8";
-/* Imports */
+/* CSS principal */
+/* Variables */
+/* Variables */
 /*
 font-family: 'Noto Sans', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
 font-family: 'Overpass Mono', sans-serif;
 font-family: 'Roboto', sans-serif;
  */
+/* Bootstrap configuré */
 /*
-Configuration principale en CSS.
+Configuration de Bootstrap en CSS.
  */
+/* Variables */
 /*
 font-family: 'Noto Sans', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
@@ -25,7 +29,7 @@ font-family: 'Roboto', sans-serif;
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-@import "../fontawesome-free/css/all.css";
+@import "../lib/fontawesome-free/css/all.css";
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -9918,7 +9922,9 @@ h3 {
   }
 }
 /* Importation de FontAwesome */
+/* Thème Tippy */
 /* Thème custom pour Tippy */
+/* Variables */
 /*
 font-family: 'Noto Sans', sans-serif;
 font-family: 'Noto Sans JP', sans-serif;
