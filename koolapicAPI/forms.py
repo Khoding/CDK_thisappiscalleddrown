@@ -26,14 +26,23 @@ class CustomActivityChangeForm(forms.ModelForm):
         fields = '__all__'
         exclude = ('slug',)
 
+        widgets = {
+            'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+        }
+
 
 class CustomGroupCreationForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = "__all__"
         exclude = ('slug', 'admission')
+
         widgets = {
             'banner_color': TextInput(attrs={'type': 'color'}),
+            'date_don': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
         }
 
 
@@ -42,6 +51,8 @@ class CustomGroupChangeForm(forms.ModelForm):
         model = Group
         fields = '__all__'
         exclude = ('slug', 'admission')
+
         widgets = {
             'banner_color': TextInput(attrs={'type': 'color'}),
+            'date_don': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
         }

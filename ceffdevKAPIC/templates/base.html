@@ -75,8 +75,7 @@
                 {% if user.is_authenticated %}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users:profile' slug=user.slug %}">Profil</a>
-                    <a class="nav-link" href="{% url 'koolapic:users:profile' %}">Profil</a>
+                    <a class="nav-link" href="{% url 'koolapic:users:profile' slug=user.slug %}">Profil</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
@@ -93,8 +92,7 @@
                 </li>
             </ul>
             {% if user.is_authenticated %}
-                <a href="{% url 'users:profile' slug=user.slug %}">
-                <a href="{% url 'koolapic:users:profile' %}">
+                <a href="{% url 'koolapic:users:profile' slug=user.slug %}">
                     {% if user.profile_pic %}
                         <img id="main-navbar-pp" src="{{ user.profile_pic.url }}" alt="Votre photo de profil">
                     {% else %}

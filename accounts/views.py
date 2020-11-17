@@ -16,7 +16,7 @@ class SignUpView(CreateView):
 
 class UserEditView(UpdateView):
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('koolapic:home')
     template_name = 'account/edit_profile.html'
 
     def get_queryset(self):
@@ -41,4 +41,4 @@ class UserProfileView(DetailView):
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
     template_name = 'account/change_password.html'
-    success_url = reverse_lazy('users:profile')
+    success_url = reverse_lazy('koolapic:users:profile')
