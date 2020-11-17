@@ -58,6 +58,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_activity' %}" tabindex="-1">Ajouter une activité</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_group' %}" tabindex="-1">Ajouter un groupe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'activity_list' %}" tabindex="-1">Liste des activités</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'group_list' %}" tabindex="-1">Liste des groupes</a>
+                </li>
             </ul>
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}">
