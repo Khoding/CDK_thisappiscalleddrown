@@ -57,10 +57,16 @@ INSTALLED_APPS = [
 
     # Widget Tweaks
     'widget_tweaks',
+    'bootstrap_datepicker_plus',
 
     # Django REST Framework
     'rest_framework',
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
+
 
 # REST Framework
 REST_FRAMEWORK = {
