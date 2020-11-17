@@ -1,9 +1,15 @@
-/* Imports */
+/* CSS principal */
 
+/* Variables */
 @import "variables";
 
+/* Bootstrap configuré */
 @import "custom";
 
+/* Importation de FontAwesome */
+@import "../lib/fontawesome-free/css/all.css";
+
+/* Thème Tippy */
 @import "tippy";
 
 /* Formulaires */

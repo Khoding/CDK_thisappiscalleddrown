@@ -1,9 +1,11 @@
 $(document).ready(function () {
+    /* Fonction utilisée quand la page a fini de chargée */
     $(function () {
         createPopovers()
         createShowPasswordButtons()
     });
 
+    /* Crée un popover pour chaque bouton qui en a besoin */
     function createPopovers() {
         let buttons = $('.tooltip-btn')
 
@@ -22,6 +24,7 @@ $(document).ready(function () {
         }
     }
 
+    /* Crée un bouton "Montrer le mot de passe" pour chaque input qui en a besoin */
     function createShowPasswordButtons() {
         let buttons = $('.show-passwd-btn')
 
@@ -31,6 +34,7 @@ $(document).ready(function () {
         }
     }
 
+    /* Gestionnaire d'événement "Click" des boutons "Montrer le mot de passe" */
     function togglePassword(event) {
         let button = event.currentTarget
         let passwordInput = $('#' + button.dataset.forField)
