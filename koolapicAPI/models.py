@@ -30,16 +30,16 @@ class Group(models.Model):
         return self.name
 
     def get_detail_url(self):
-        return reverse("group_detail", kwargs={'slug': self.slug})
+        return reverse("koolapic:group_detail", kwargs={'slug': self.slug})
 
     def get_add_url(self):
-        return reverse("add_group", kwargs={'slug': self.slug})
+        return reverse("koolapic:add_group", kwargs={'slug': self.slug})
 
     def get_update_url(self):
-        return reverse("update_group", kwargs={'slug': self.slug})
+        return reverse("koolapic:update_group", kwargs={'slug': self.slug})
 
     def get_confirm_delete_url(self):
-        return reverse("group_confirm_delete", kwargs={'slug': self.slug})
+        return reverse("koolapic:group_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -58,23 +58,23 @@ class Activity(models.Model):
     max_participants = models.PositiveIntegerField()
     last_update = models.DateTimeField()
     slug = models.SlugField(null=True, unique=True)
-    groups = models.ForeignKey(Group, on_delete=models.DO_NOTHING)
+    groups = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.description
 
     def get_detail_url(self):
-        return reverse("activity_detail", kwargs={'slug': self.slug})
+        return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
 
     def get_add_url(self):
-        return reverse("add_activity", kwargs={'slug': self.slug})
+        return reverse("koolapic:add_activity", kwargs={'slug': self.slug})
 
     def get_update_url(self):
-        return reverse("update_activity", kwargs={'slug': self.slug})
+        return reverse("koolapic:update_activity", kwargs={'slug': self.slug})
 
     def get_confirm_delete_url(self):
-        return reverse("activity_confirm_delete", kwargs={'slug': self.slug})
+        return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.description)

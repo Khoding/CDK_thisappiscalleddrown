@@ -10,7 +10,7 @@ class CustomActivityCreationForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = "__all__"
-        exclude = ('slug', 'user')
+        exclude = ('slug',)
 
         widgets = {
             'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
@@ -24,7 +24,7 @@ class CustomActivityChangeForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = '__all__'
-        exclude = ('slug', 'user')
+        exclude = ('slug',)
 
 
 class CustomGroupCreationForm(forms.ModelForm):

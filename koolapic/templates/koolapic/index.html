@@ -16,5 +16,6 @@
         <p>You are not logged in</p>
         <a href="{% url 'login' %}">Log In</a> |
         <a href="{% url 'users:signup' %}">Sign Up</a>
+        <a href="{% url 'koolapic:users:signup' %}">Sign Up</a>
     {% endif %}
 {% endblock content %}

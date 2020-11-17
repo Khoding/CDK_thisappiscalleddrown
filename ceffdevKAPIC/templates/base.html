@@ -61,7 +61,7 @@
 <body class="d-flex flex-column h-100">
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-        <a class="navbar-brand" href="{% url 'home' %}">
+        <a class="navbar-brand" href="{% url 'koolapic:home' %}">
             <img id="main-navbar-logo" src="{% static 'koolapic/images/logo.png' %}" alt="Logo de Koolapic">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,29 +70,31 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link" href="{% url 'koolapic:home' %}">Home</a>
                 </li>
                 {% if user.is_authenticated %}
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:profile' slug=user.slug %}">Profil</a>
+                    <a class="nav-link" href="{% url 'koolapic:users:profile' %}">Profil</a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'add_activity' %}" tabindex="-1">Ajouter une activité</a>
+                    <a class="nav-link" href="{% url 'koolapic:add_activity' %}" tabindex="-1">Ajouter une activité</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'add_group' %}" tabindex="-1">Ajouter un groupe</a>
+                    <a class="nav-link" href="{% url 'koolapic:add_group' %}" tabindex="-1">Ajouter un groupe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'activity_list' %}" tabindex="-1">Liste des activités</a>
+                    <a class="nav-link" href="{% url 'koolapic:activity_list' %}" tabindex="-1">Liste des activités</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'group_list' %}" tabindex="-1">Liste des groupes</a>
+                    <a class="nav-link" href="{% url 'koolapic:group_list' %}" tabindex="-1">Liste des groupes</a>
                 </li>
             </ul>
             {% if user.is_authenticated %}
                 <a href="{% url 'users:profile' slug=user.slug %}">
+                <a href="{% url 'koolapic:users:profile' %}">
                     {% if user.profile_pic %}
                         <img id="main-navbar-pp" src="{{ user.profile_pic.url }}" alt="Votre photo de profil">
                     {% else %}
