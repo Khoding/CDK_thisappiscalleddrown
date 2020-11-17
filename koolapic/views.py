@@ -52,7 +52,7 @@ class ActivityDetailView(DetailView):
 class ActivityCreateView(CreateView):
     template_name = 'koolapic/activities/add_activity.html'
     form_class = CustomActivityCreationForm
-    success_url = reverse_lazy("activity_list")
+    success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -66,7 +66,7 @@ class ActivityUpdateView(UpdateView):
     model = Activity
     template_name = 'koolapic/activities/update_activity.html'
     form_class = CustomActivityChangeForm
-    success_url = reverse_lazy("activity_list")
+    success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -78,7 +78,7 @@ class ActivityUpdateView(UpdateView):
 class ActivityDeleteView(DeleteView):
     model = Activity
     template_name = 'koolapic/activities/activity_confirm_delete.html'
-    success_url = reverse_lazy("activity_list")
+    success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -113,7 +113,7 @@ class GroupDetailView(DetailView):
 class GroupCreateView(CreateView):
     template_name = 'koolapic/groups/add_group.html'
     form_class = CustomGroupCreationForm
-    success_url = reverse_lazy("group_list")
+    success_url = reverse_lazy("koolapic:group_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -126,7 +126,7 @@ class GroupUpdateView(UpdateView):
     model = Group
     template_name = 'koolapic/groups/update_group.html'
     form_class = CustomGroupChangeForm
-    success_url = reverse_lazy("group_list")
+    success_url = reverse_lazy("koolapic:group_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -138,7 +138,7 @@ class GroupUpdateView(UpdateView):
 class GroupDeleteView(DeleteView):
     model = Group
     template_name = 'koolapic/groups/group_confirm_delete.html'
-    success_url = reverse_lazy("group_list")
+    success_url = reverse_lazy("koolapic:group_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

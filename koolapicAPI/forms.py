@@ -8,14 +8,14 @@ class CustomActivityCreationForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = "__all__"
-        exclude = ('slug', 'user')
+        exclude = ('slug',)
 
 
 class CustomActivityChangeForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = '__all__'
-        exclude = ('slug', 'user')
+        exclude = ('slug',)
 
 
 class CustomGroupCreationForm(forms.ModelForm):

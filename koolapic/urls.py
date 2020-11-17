@@ -8,10 +8,12 @@ from koolapic.views import IndexView, ActivityListView, ActivityCreateView, Acti
     GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView
 from koolapic.views import IndexView, SignUpView, KoolapicLoginView
 
+app_name = 'koolapic'
+
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
-    path('api/', include('koolapicAPI.urls')),
-    path('users/', include('accounts.urls')),
+    path('api/', include('koolapicAPI.urls'), name='api'),
+    path('users/', include('accounts.urls'), name='users'),
     path('activities/list', ActivityListView.as_view(), name="activity_list"),
     path('activities/<slug:slug>/', ActivityDetailView.as_view(), name="activity_detail"),
     path('activities/add', ActivityCreateView.as_view(), name="add_activity"),
