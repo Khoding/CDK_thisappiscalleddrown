@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
-
+{% load easy_maps_tags %}
 {% block content %}
     <h1>Ajouter une activité</h1>
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
+        {% easy_map "Suisse" 1000 400 %}
         {% buttons %}
             <button type="submit" class="btn btn-dark">Ajouter</button>
         {% endbuttons %}

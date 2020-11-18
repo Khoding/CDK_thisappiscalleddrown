@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 import koolapic.urls
 import koolapicAPI.urls
 
+app_name = 'admin'
+
 urlpatterns = [
     path('', include(koolapic.urls)),
     path('admin/', admin.site.urls),

@@ -71,7 +71,8 @@ class ActivityUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -83,7 +84,8 @@ class ActivityDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -95,7 +97,8 @@ class GroupListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -106,7 +109,8 @@ class GroupDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -118,7 +122,8 @@ class GroupCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -131,7 +136,8 @@ class GroupUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -143,7 +149,8 @@ class GroupDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
