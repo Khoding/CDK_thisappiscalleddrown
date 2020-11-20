@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+import accounts.urls
 import koolapic.urls
 import koolapicAPI.urls
 
@@ -27,7 +28,6 @@ app_name = 'admin'
 urlpatterns = [
     path('', include(koolapic.urls)),
     path('admin/', admin.site.urls),
-    path('api/', include(koolapicAPI.urls)),
-    path('accounts/', include('allauth.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('api/', include(koolapicAPI.urls, namespace='api')),
+    path('accounts/', include(accounts.urls, namespace='accounts'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
