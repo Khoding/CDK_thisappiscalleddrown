@@ -11,10 +11,10 @@
             <img src="{{ user.profile_pic.url }}" alt="profile image" width="50"/>
             <hr>
         {% endif %}
-        <p><a href="{% url 'logout' %}">Log Out</a></p>
+        <p><a href="{% url 'accounts:logout' %}">Log Out</a></p>
     {% else %}
         <p>You are not logged in</p>
-        <a href="{% url 'login' %}">Log In</a> |
-        <a href="{% url 'koolapic:users:signup' %}">Sign Up</a>
+        <a href="{% url 'accounts:login' %}">Log In</a> |
+        <a href="{% url 'accounts:signup' %}">Sign Up</a>
     {% endif %}
 {% endblock content %}

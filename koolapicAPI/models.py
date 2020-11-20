@@ -23,7 +23,7 @@ class Group(models.Model):
     banner_color = models.TextField(max_length=8)
     alias = models.TextField()
     slug = models.SlugField(null=True, unique=True)
-    users = models.ManyToManyField(CustomUser)
+    users = models.ManyToManyField(CustomUser, null=True, blank=True)
     admission = models.ForeignKey(Admission, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -58,8 +58,8 @@ class Activity(models.Model):
     max_participants = models.PositiveIntegerField()
     last_update = models.DateTimeField()
     slug = models.SlugField(null=True, unique=True)
-    groups = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    groups = models.ForeignKey(Group, null=True, unique=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, null=True, unique=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.description

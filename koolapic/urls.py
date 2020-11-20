@@ -1,21 +1,18 @@
 from django.contrib import admin
+from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.urls import path
 from django.urls import include, path
 
-from koolapic.views import IndexView, ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, ActivityDeleteView, \
+from koolapic.views import ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, ActivityDeleteView, \
     GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView
-from koolapic.views import IndexView, SignUpView, KoolapicLoginView
-
-# import ceffdevKAPIC.urls
+from koolapic.views import IndexView
 
 app_name = 'koolapic'
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
-    path('api/', include('koolapicAPI.urls'), name='api'),
-    path('users/', include('accounts.urls'), name='users'),
 
     path('activities/list', ActivityListView.as_view(), name="activity_list"),
     path('activities/<slug:slug>/', ActivityDetailView.as_view(), name="activity_detail"),
