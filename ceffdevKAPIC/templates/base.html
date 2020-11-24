@@ -91,6 +91,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'koolapic:group_list' %}" tabindex="-1">Liste des groupes</a>
                 </li>
+             {% if user.is_superuser%}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}" tabindex="-1">Admin</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="/api" tabindex="-1">Api</a>
+                </li>
+            {% endif %}
             </ul>
             {% if user.is_authenticated and user.profile_pic.url %}
                 <a href="{% url 'accounts:profile' slug=user.slug %}">

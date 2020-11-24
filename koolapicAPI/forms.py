@@ -4,6 +4,9 @@ from django.forms import TextInput
 from .models import Activity, Admission, Group, Inscription
 
 from bootstrap_datepicker_plus import DateTimePickerInput
+# TODO pas encore fini
+from easy_maps.widgets import AddressWithMapWidget
+# TODO pas encore fini
 
 
 class CustomActivityCreationForm(forms.ModelForm):
@@ -17,6 +20,9 @@ class CustomActivityCreationForm(forms.ModelForm):
             'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            # TODO pas encore fini
+            'address': AddressWithMapWidget({'class': 'vTextField'})
+            # TODO pas encore fini
         }
 
 
@@ -31,6 +37,9 @@ class CustomActivityChangeForm(forms.ModelForm):
             'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            # TODO pas encore fini
+            'address': AddressWithMapWidget({'class': 'vTextField'})
+            # TODO pas encore fini
         }
 
 
