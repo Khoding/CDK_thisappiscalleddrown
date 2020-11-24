@@ -1,3 +1,6 @@
+/* Nécessite :
+   JQuery (Slim supporté)
+ */
 $(document).ready(function () {
     /* Fonction utilisée quand la page a fini de chargée */
     $(function () {

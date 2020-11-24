@@ -1,3 +1,8 @@
+/* Nécessite :
+   JQuery (Slim supporté)
+   Popper.js
+   Tippy.js
+ */
 $(document).ready(function () {
     /* Fonction utilisée quand la page a fini de charger */
     $(function () {
