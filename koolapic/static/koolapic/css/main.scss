@@ -29,6 +29,10 @@ input[type='file'] {
   border: none;
 }
 
+.btn-txt-light {
+  color: $white;
+}
+
 /* Cartes */
 .card-footer p {
   margin-block-start: 0;
@@ -40,6 +44,10 @@ input[type='file'] {
 }
 
 /* Menu */
+.navbar {
+  font-size: 1.25rem;
+}
+
 #main-navbar {
   height: 10vh;
   margin-bottom: 1vh;

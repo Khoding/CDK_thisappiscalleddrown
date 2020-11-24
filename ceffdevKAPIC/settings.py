@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # Applications Packages / Modification de defaults
     'accounts',  # Pour changer le model User
     'bootstrap4',
+    'easy_maps',
 
     'allauth',
     'allauth.account',
@@ -78,6 +79,7 @@ BOOTSTRAP4 = {
     'include_jquery': True,
 }
 
+EASY_MAPS_GOOGLE_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
 
 # REST Framework
 REST_FRAMEWORK = {
