@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+    <h2> Hi {{ object.username }} !
+        {% if object.profile_pic %}
+            <img src="{{ object.profile_pic.url }}" alt="profile image" width="50"/>
+        {% endif %}
+    </h2>
+    {% if user.is_authenticated %}
+        {% if object.id == user.id %}
+            <a class="btn btn-primary" href="{% url 'accounts:edit_profile' slug=object.slug %}">Edit Profile</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}

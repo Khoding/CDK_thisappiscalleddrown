@@ -1,0 +1,17 @@
+{% load static %}
+<div class="card">
+    <div class="card-header">Créer un compte sur Koolapic</div>
+    <img class="card-img form-logo mx-auto" alt="Logo" src="{% static 'koolapic/images/logo.png' %}">
+    <div class="card-body">
+        <form action="{{ form_action }}" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% include "includes/form_snippet.html" %}
+            <br>
+            <input type="submit" class="btn btn-primary" value="Créer un compte" name="Créer un compte">
+        </form>
+    </div>
+    <div class="card-footer">
+        <p class="text-right">Vous avez déjà un compte ? <a href="{% url 'accounts:login' %}">Connectez-vous</a>.</p>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+/* CSS principal */
+
+/* Variables */
+@import "variables";
+
+/* Bootstrap configuré */
+@import "custom";
+
+/* Importation de FontAwesome */
+@import "../lib/fontawesome-free/css/all.css";
+
+/* Thème Tippy */
+@import "tippy";
+
+/* Formulaires */
+.form-error {
+  color: $palette_danger;
+}
+
+.form-logo {
+  width: 25%;
+}
+
+label {
+  margin-top: 1em;
+}
+
+input[type='file'] {
+  border: none;
+}
+
+.btn-txt-light {
+  color: $white;
+}
+
+/* Cartes */
+.card-footer p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.card {
+  border-radius: 0 0;
+}
+
+/* Menu */
+.navbar {
+  font-size: 1.25rem;
+}
+
+#main-navbar {
+  height: 10vh;
+  margin-bottom: 1vh;
+}
+
+#main-navbar-logo {
+  min-height: 50px;
+  height: 9vh;
+}
+
+#main-navbar-pp {
+  min-height: 50px;
+  height: 9vh;
+  border-radius: 100px;
+}
+
+#main-navbar-pp:hover {
+  filter: brightness(105%);
+}
+
+#main-navbar-nopp {
+  color: $white;
+  font-size: 7vh;
+}
+
+/* Messages */
+.messages {
+  z-index: 1000;
+  position: fixed;
+  top: -8vh;
+  left: 0;
+  width: 75%;
+  margin-left: 12.5%;
+  /* Animations JavaScript */
+}

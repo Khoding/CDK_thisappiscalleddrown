@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <h1>Liste des groupes</h1>
+        </div>
+        <div class="col-md-1">
+            <h1>
+                <a class="btn btn-primary" title="Créer un groupe" href="{% url 'koolapic:add_group' %}" role="button">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </h1>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        {% for group in object_list %}
+            <div style="border: 2px solid black; padding: 5px" class="row rounded">
+                <div class="col-md-10" style="border-left: 5px solid {{ group.banner_color }}; padding-top: 5px">
+                    <h4>{{ group.name }}</h4>
+                </div>
+                <div class="col-md-2 text-right">
+                    <a class="btn btn-primary" title="Modifier le groupe" href="{{ group.get_update_url }}" role="button">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <a class="btn btn-primary" title="Afficher les détails du groupe" href="{{ group.get_detail_url }}" role="button">
+                        <i class="fas fa-align-justify"></i>
+                    </a>
+                    <a class="btn btn-danger delete-modal" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}" role="button">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+{% endblock content %}

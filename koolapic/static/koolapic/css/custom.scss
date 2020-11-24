@@ -1,14 +1,20 @@
 /*
-Toute la configuration de Bootstrap.
+Configuration de Bootstrap en CSS.
  */
 
-@import "variables";
+@import 'variables';
 
-@import "../../../../node_modules/bootstrap/scss/bootstrap";
-
+/* Définition de la palette dans Bootstrap */
 $primary: $palette_primary;
 $secondary: $palette_secondary;
 $success: $palette_success;
 $danger: $palette_danger;
 $warning: $palette_warning;
 $info: $palette_info;
+
+/* Définition des polices d'écriture dans Bootstrap */
+$font-family-sans-serif: $sans-serif;
+$font-family-monospace: $monospace;
+
+/* Importation de Bootstrap */
+@import "../../../../node_modules/bootstrap/scss/bootstrap";

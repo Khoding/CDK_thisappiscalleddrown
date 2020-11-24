@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        td {
+            width: 300px;
+        }
+    </style>
+    <h1>Détails du groupe</h1>
+    <br>
+    <h3>{{ group.name }}</h3>
+    {% if group.image %}
+        <img class="img-thumbnail" width="600px" src="{{ group.image.url }}">
+    {% endif %}
+    <table class="table-bordered">
+        <tr>
+            <td><b>Description</b></td>
+            <td>{{ group.description }}</td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td>{{ group.status }}</td>
+        </tr>
+        <tr>
+            <td><b>Date du dernier don</b></td>
+            <td>{{ group.date_don }}</td>
+        </tr>
+        <tr>
+            <td><b>Text</b></td>
+            <td>{{ group.home_text }}</td>
+        </tr>
+        <tr>
+            <td><b>Couleur de la bannière</b></td>
+            <td style="background-color: {{ group.banner_color }}; color: {{ group.banner_color }}">{{ group.banner_color }}</td>
+        </tr>
+        <tr>
+            <td><b>Alias</b></td>
+            <td> {{ group.alias }}</td>
+        </tr>
+    </table>
+
+{% endblock content %}

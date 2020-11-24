@@ -1,0 +1,37 @@
+{% load widget_tweaks %}
+
+{% for field in form %}
+    <div class="field {{ field|widget_type }}">
+        {{ field.label_tag }}
+
+        {% if field|widget_type != "clearablefileinput" %}
+            <div class="input-group">
+        {% endif %}
+        {{ field|add_class:"form-control" }}
+        {% if field.help_text %}
+            <div class="input-group-append">
+
+                {% if field|widget_type == "passwordinput" %}
+                    <button type="button" class="btn btn-primary show-passwd-btn" title="Voir le mot de passe" data-for-field="{{ field.auto_id }}" id="{{ field.auto_id }}showbtn">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                {% endif %}
+
+
+                <button type="button" class="btn btn-primary tooltip-btn" title="Aide" id="{{ field.auto_id }}btn" data-tooltip-id="{{ field.auto_id }}tooltip">?</button>
+                <div class="tooltip" id="{{ field.auto_id }}tooltip" title="Aide">
+                    <p>{{ field.help_text }}</p>
+                </div>
+            </div>
+        {% endif %}
+        {% if field|widget_type != "clearablefileinput" %}
+            </div>
+        {% endif %}
+
+        {% for error in field.errors %}
+            <small class="form-text form-error">
+                {{ error }}
+            </small>
+        {% endfor %}
+    </div>
+{% endfor %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Suppression du groupe</h3>
+    <form method="post">{% csrf_token %}
+        <div class="modal-body">
+            <p>Êtes-vous sûr de vouloir supprimer <b>"{{ object }}"</b> ?</p>
+            <input type="submit" class="btn btn-danger" value="Supprimer">
+        </div>
+    </form>
+{% endblock content %}

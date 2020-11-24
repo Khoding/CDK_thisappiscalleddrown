@@ -12,6 +12,9 @@ Pipfile.lock
 /.idea
 /node_modules
 /static
+/media
 /venv
 /.history
 migrations
+
+.env

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Modifier l'utilisateur : {{ user.username }}
+{% endblock title %}
+
+{% block content %}
+    <h2>Modifier l'utilisateur</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'includes/form_snippet.html' %}
+        <br>
+        <button type="submit" class="btn btn-dark">Mettre à jour le profil</button>
+    </form>
+
+{% endblock content %}
