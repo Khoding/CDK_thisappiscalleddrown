@@ -12,8 +12,7 @@ $(document).ready(function () {
         let buttons = $('.show-passwd-btn')
 
         for (let i = 0; i < buttons.length; i++) {
-            let button = buttons[i];
-            button.addEventListener('click', togglePassword)
+            buttons[i].addEventListener('click', togglePassword)
         }
     }
 
