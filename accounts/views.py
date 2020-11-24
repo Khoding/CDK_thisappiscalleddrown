@@ -1,3 +1,5 @@
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
@@ -71,9 +73,11 @@ class UserLoginView(LoginView):
 
 
 class UserLogoutView(TemplateView):
-    authentication_form = AuthenticationForm
-    redirect_field_name = reverse_lazy('koolapic:home')
     template_name = 'accounts/logout.html'
+
+    def post(self, request):
+        logout(request)
+        return redirect("koolapic:home")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
