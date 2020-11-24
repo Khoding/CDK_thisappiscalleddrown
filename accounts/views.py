@@ -1,3 +1,8 @@
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.messages import SUCCESS
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
@@ -12,6 +17,7 @@ class EditUserProfileView(UpdateView):
     form_class = CustomUserChangeForm
     success_url = reverse_lazy('koolapic:home')
     template_name = 'accounts/edit_profile.html'
+    success_message = 'Profil modifié avec succès !'
 
     def get_queryset(self):
         return CustomUser.objects.all()
@@ -37,6 +43,7 @@ class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
     template_name = 'accounts/change_password.html'
     success_url = reverse_lazy('accounts:profile')
+    success_message = 'Mot de passe changé avec succès !'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -49,7 +56,7 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('accounts:login')
     template_name = 'accounts/signup.html'
-    success_message = 'Compte créé avec succès'
+    success_message = 'Compte créé avec succès !'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -58,10 +65,11 @@ class SignUpView(CreateView):
         return context
 
 
-class UserLoginView(LoginView):
+class UserLoginView(SuccessMessageMixin, LoginView):
     authentication_form = AuthenticationForm
     redirect_field_name = reverse_lazy('koolapic:home')
     template_name = 'accounts/login.html'
+    success_message = "Vous avez été connecté avec succès !"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,9 +79,12 @@ class UserLoginView(LoginView):
 
 
 class UserLogoutView(TemplateView):
-    authentication_form = AuthenticationForm
-    redirect_field_name = reverse_lazy('koolapic:home')
     template_name = 'accounts/logout.html'
+
+    def post(self, request):
+        logout(request)
+        messages.add_message(request, SUCCESS, 'Vous avez été déconnecté avec succès !')
+        return redirect("koolapic:home")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
