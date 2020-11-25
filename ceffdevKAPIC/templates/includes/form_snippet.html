@@ -15,9 +15,8 @@
             <div class="input-group">
         {% endif %}
         {{ field|add_class:"form-control" }}
-        {% if field.help_text %}
+        {% if field.help_text and field|widget_type != "textarea" %}
             <div class="input-group-append">
-
                 {% if field|widget_type == "passwordinput" %}
                     <button type="button" class="btn btn-primary show-passwd-btn" title="Voir le mot de passe" data-for-field="{{ field.auto_id }}" id="{{ field.auto_id }}showbtn">
                         <i class="fas fa-eye"></i>

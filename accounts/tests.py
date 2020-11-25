@@ -16,6 +16,7 @@ class UserTestCase(TestCase):
             tel_m="+41 077 123 32 12",
             tel_p="+41 069 696 96 96"
         )
+
         CustomUser.objects.create(
             email="monke@test.com",
             username="monke",
