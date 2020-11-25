@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.messages import SUCCESS
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -83,7 +82,7 @@ class UserLogoutView(TemplateView):
 
     def post(self, request):
         logout(request)
-        messages.add_message(request, SUCCESS, 'Vous avez été déconnecté avec succès !')
+        messages.success(request, 'Vous avez été déconnecté avec succès !')
         return redirect("koolapic:home")
 
     def get_context_data(self, **kwargs):
