@@ -31,6 +31,11 @@ DEBUG = os.getenv("DEBUG")
 # ALLOWED HOSTS
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
 
+# Google key
+# TODO pas encore fini
+EASY_MAPS_GOOGLE_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
+EASY_MAPS_CENTER = (-41.3, 32)
+# TODO pas encore fini
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -63,6 +68,11 @@ INSTALLED_APPS = [
 
     # Django REST Framework
     'rest_framework',
+
+    # Google map with easy-map
+# TODO pas encore fini
+    'easy_maps',
+# TODO pas encore fini
 ]
 
 BOOTSTRAP4 = {
