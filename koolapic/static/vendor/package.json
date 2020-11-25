@@ -1,0 +1,46 @@
+{
+  "name": "koolapic",
+  "version": "1.0.0",
+  "description": "Koolapic vous permet d'organiser vos projet facilement sur le Web 2.0",
+  "private": true,
+  "keywords": [
+    "koolapic",
+    "ceffdevkapic",
+    "agenda",
+    "calendar",
+    "activities"
+  ],
+  "homepage": "https://koolapic.net",
+  "repository": {
+    "url": "https://github.com/ceffDptInfo/ceffdevKAPIC",
+    "type": "git"
+  },
+  "author": "ceff Industrie",
+  "contributors": [
+    {
+      "name": "Nicolas Schwab",
+      "email": "Nicolas.Schwab@ceff.ch"
+    },
+    {
+      "name": "Julien Rutscho",
+      "email": "Julien.Rutscho@ceff.ch"
+    },
+    {
+      "name": "Lorenzo Di Benedetto",
+      "email": "Lorenzo.DiBenedetto@ceff.ch"
+    },
+    {
+      "name": "Adrien Matthieu Rossier",
+      "email": "AdrienMatthieu.Rossier@ceff.ch"
+    }
+  ],
+  "license": "All rights reserved",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@popperjs/core": "^2.5.4",
+    "animejs": "^3.2.1",
+    "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
+    "superagent": "^6.1.0"
+  }
+}

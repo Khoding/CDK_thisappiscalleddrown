@@ -7,10 +7,15 @@
 @import "custom";
 
 /* Importation de FontAwesome */
-@import "../lib/fontawesome-free/css/all.css";
+@import "../../vendor/node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 /* Thème Tippy */
 @import "tippy";
+
+/* Police */
+a, a:hover, a:active, a:visited {
+  text-decoration: none;
+}
 
 /* Formulaires */
 .form-error {
@@ -82,4 +87,26 @@ input[type='file'] {
   width: 75%;
   margin-left: 12.5%;
   /* Animations JavaScript */
+}
+
+/* Activités */
+.activity {
+  padding: 1em;
+  margin-bottom: 1vh;
+  border: $primary solid 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.activity-description {
+  display: inline;
+}
+
+.activity-actions {
+  float: right;
+}
+
+.activity-action-btn {
+  margin-right: 0.5em;
 }

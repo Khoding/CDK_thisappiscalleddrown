@@ -1,9 +1,11 @@
 /**
+ * Animations diverses.
  * Nécessite :
  * JQuery (Slim supporté)
  * Anime.js
  */
-import anime from '../lib/animejs/lib/anime.es.js';
+
+import anime from '../../vendor/node_modules/animejs/lib/anime.es.js';
 
 anime({
     targets: '.messages',
