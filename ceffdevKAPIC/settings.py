@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts',  # Pour changer le model User
     'bootstrap4',
     'easy_maps',
+    'impostor',
 
     'allauth',
     'allauth.account',
@@ -183,6 +184,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
+    'impostor.backend.AuthBackend',
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )

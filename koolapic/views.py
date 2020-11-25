@@ -1,9 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, CreateView
-from django.contrib import messages
-from accounts.forms import CustomUserCreationForm
-from accounts.models import CustomUser
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from koolapicAPI.models import Activity, Group
