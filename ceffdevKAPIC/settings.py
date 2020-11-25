@@ -68,18 +68,11 @@ INSTALLED_APPS = [
 
     # Django REST Framework
     'rest_framework',
-
-    # Google map with easy-map
-# TODO pas encore fini
-    'easy_maps',
-# TODO pas encore fini
 ]
 
 BOOTSTRAP4 = {
     'include_jquery': True,
 }
-
-EASY_MAPS_GOOGLE_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
 
 # REST Framework
 REST_FRAMEWORK = {
