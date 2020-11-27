@@ -4,8 +4,8 @@
     Dépendances : aucune
 {% endcomment %}
 
-{% if messages %}
-    <div class="messages">
+<div id="messages">
+    {% if messages %}
         {% for message in messages %}
             {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                 <div class="alert alert-dismissable alert-danger show {{ message.tags }}" role="alert">
@@ -57,5 +57,5 @@
                 </div>
             {% endif %}
         {% endfor %}
-    </div>
-{% endif %}
+    {% endif %}
+</div>

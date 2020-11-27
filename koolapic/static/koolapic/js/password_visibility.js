@@ -1,6 +1,8 @@
-/* Nécessite :
-   JQuery (Slim supporté)
- */
+/**
+ * Visibilité du mot de passe.
+ * Nécessite :
+ * JQuery (Slim supporté)
+ **/
 $(document).ready(function () {
     /* Fonction utilisée quand la page a fini de chargée */
     $(function () {
@@ -12,12 +14,12 @@ $(document).ready(function () {
         let buttons = $('.show-passwd-btn')
 
         for (let i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', togglePassword)
+            buttons[i].addEventListener('click', togglePasswordListener)
         }
     }
 
     /* Gestionnaire d'événement "Click" des boutons "Montrer le mot de passe" */
-    function togglePassword(event) {
+    function togglePasswordListener(event) {
         let button = event.currentTarget
         let passwordInput = $('#' + button.dataset.forField)
 

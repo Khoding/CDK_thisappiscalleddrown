@@ -12,6 +12,11 @@ $danger: $palette_danger;
 $warning: $palette_warning;
 $info: $palette_info;
 
+/* Style des alertes de Bootstrap */
+$alert-bg-level: 0 !default;
+$alert-border-level: 0 !default;
+$alert-color-level: -11 !default;
+
 /* Définition des polices d'écriture dans Bootstrap */
 $font-family-sans-serif: $sans-serif;
 $font-family-monospace: $monospace;

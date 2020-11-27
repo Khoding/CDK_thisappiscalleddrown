@@ -78,15 +78,20 @@ input[type='file'] {
   font-size: 7vh;
 }
 
-/* Messages */
-.messages {
+/* Alertes et messages */
+#messages {
   z-index: 1000;
   position: fixed;
-  top: -8vh;
+  bottom: -2vh;
   left: 0;
   width: 75%;
   margin-left: 12.5%;
   /* Animations JavaScript */
+}
+
+.close {
+  color: $white;
+  opacity: 1;
 }
 
 /* Activités */
