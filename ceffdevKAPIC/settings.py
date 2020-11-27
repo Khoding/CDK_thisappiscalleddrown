@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     # Applications Packages / Modification de defaults
     'accounts',  # Pour changer le model User
     'bootstrap4',
+# TODO pas encore fini
     'easy_maps',
+# TODO pas encore fini
     'impostor',
 
     'allauth',

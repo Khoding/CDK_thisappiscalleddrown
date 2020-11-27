@@ -94,3 +94,14 @@ class Inscription(models.Model):
 
     def __str__(self):
         return self.remarks
+
+
+class Donation(models.Model):
+    amount = models.FloatField()
+    date = models.DateTimeField()
+    description = models.TextField()
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=True)
+
+    def __str__(self):
+        return self.description
