@@ -34,10 +34,6 @@ input[type='file'] {
   border: none;
 }
 
-.btn-txt-light {
-  color: $white;
-}
-
 /* Cartes */
 .card-footer p {
   margin-block-start: 0;
@@ -48,39 +44,178 @@ input[type='file'] {
   border-radius: 0 0;
 }
 
+/* Header */
+header {
+  margin-bottom: 1em;
+  padding: 1vw;
+}
+
 /* Menu */
-.navbar {
+.nav-item {
+  position: relative;
+}
+
+@include media-breakpoint-up(md) {
+  .active::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    transform-origin: center center;
+    width: 10px;
+    height: 10px;
+    background-color: $white;
+    animation-name: bullet-transition;
+    animation-duration: 0.5s;
+  }
+
+  .active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -13px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    transform-origin: center center;
+    width: 16px;
+    height: 16px;
+    border: 1px solid $white;
+    animation-name: bullet-transition;
+    animation-duration: 0.5s;
+  }
+
+  @keyframes bullet-transition {
+    from {
+      opacity: 0;
+      transform: translateY(-50%) rotate(0deg);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(-50%) rotate(45deg);
+    }
+  }
+}
+
+#mainNavbar {
+  z-index: 1000;
   font-size: 1.25rem;
+  position: fixed;
+  transition-property: left;
+  transition-duration: 0.5s;
+
+  @include media-breakpoint-down(md) {
+    width: 100%;
+    height: 100%;
+    left: -100%;
+    padding: 0;
+    text-align: center;
+  }
+
+  @include media-breakpoint-up(md) {
+    min-width: 17rem;
+    width: 20rem;
+    height: 100vh;
+    left: -20rem;
+  }
 }
 
-#main-navbar {
+@include media-breakpoint-down(md) {
+  #profilePicture {
+    z-index: 1100;
+    display: inline;
+    min-height: 50px;
+    height: 9vh;
+    right: 3rem;
+    border-radius: 100px;
+  }
+}
+
+#mainNavbar.toggled {
+  left: 0;
+}
+
+#mainNavbarLogo {
+  min-height: 50px;
   height: 10vh;
-  margin-bottom: 1vh;
 }
 
-#main-navbar-logo {
+#mainNavbarOverlay {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 999;
+  position: fixed;
+  left: -100vw;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: left 0.5s, opacity 0.5s;
+}
+
+#mainNavbarOverlay.toggled {
+  left: 0;
+  opacity: 1;
+}
+
+#mainNavbar .navbar-brand {
+  margin-top: 10vh;
+}
+
+.nav-toggler {
+  z-index: 0;
+  color: $primary;
+  font-size: 2.75rem;
+  background: none;
+  vertical-align: top;
   min-height: 50px;
   height: 9vh;
+  width: 9vh;
+  border: 0;
+  padding: 0;
+  margin-top: 0;
 }
 
-#main-navbar-pp {
-  min-height: 50px;
-  height: 9vh;
-  border-radius: 100px;
+.nav-toggler:focus {
+  outline: 0;
 }
 
-#main-navbar-pp:hover {
+/* Header */
+#mainHeader {
+  padding-left: 3vw;
+  padding-right: 3vw;
+}
+
+#mainHeader .p-2 {
+  padding: 0 !important;
+}
+
+@include media-breakpoint-up(md) {
+  #profilePicture {
+    z-index: 1100;
+    position: fixed;
+    display: inline;
+    min-height: 50px;
+    height: 9vh;
+    right: 3rem;
+    border-radius: 100px;
+  }
+}
+
+#profilePicture:hover {
   filter: brightness(105%);
 }
 
-#main-navbar-nopp {
+#noProfilePicture {
   color: $white;
   font-size: 7vh;
 }
 
 /* Alertes et messages */
 #messages {
-  z-index: 1000;
+  z-index: 1001;
   position: fixed;
   bottom: -2vh;
   left: 0;
