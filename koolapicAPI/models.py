@@ -97,11 +97,11 @@ class Inscription(models.Model):
 
 
 class Donation(models.Model):
-    amount = models.FloatField()
-    date = models.DateTimeField()
-    description = models.TextField()
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=True)
+    amount = models.FloatField(verbose_name="Montant")
+    date = models.DateTimeField(verbose_name="Date de la donation")
+    description = models.TextField(max_length=500, null=True, blank=True, verbose_name="Description")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, verbose_name="Utilisateur")
+    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=True, verbose_name="Groupe")
 
     def __str__(self):
         return self.description
