@@ -141,7 +141,7 @@ header {
 }
 
 @include media-breakpoint-down(md) {
-  #profilePicture {
+  #profilePicture, #noProfilePicture {
     z-index: 1100;
     display: inline;
     min-height: 50px;
@@ -212,7 +212,7 @@ header {
 }
 
 @include media-breakpoint-up(md) {
-  #profilePicture {
+  #profilePicture, #noProfilePicture {
     z-index: 1100;
     position: fixed;
     display: inline;
@@ -228,8 +228,16 @@ header {
 }
 
 #noProfilePicture {
-  color: $white;
+  color: $primary;
   font-size: 7vh;
+
+  opacity: 1;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }
 
 /* Alertes et messages */
