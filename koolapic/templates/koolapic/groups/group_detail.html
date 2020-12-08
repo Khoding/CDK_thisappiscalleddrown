@@ -1,51 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <style>
-        td {
-            width: 300px;
-        }
-    </style>
-    <h1>Détails du groupe</h1>
-    <br>
-    <h3>{{ group.name }}</h3>
-    {% if group.image %}
-        <img class="img-thumbnail" width="600px" src="{{ group.image.url }}">
-    {% endif %}
-    <table class="table-bordered">
-        <tr>
-            <td><b>Description</b></td>
-            <td>{{ group.description }}</td>
-        </tr>
-        <tr>
-            <td><b>Status</b></td>
-            <td>{{ group.status }}</td>
-        </tr>
-        <tr>
-            <td><b>Date du dernier don</b></td>
-            <td>{{ group.date_don }}</td>
-        </tr>
-        <tr>
-        <tr>
-            <td><b>Text</b></td>
-            <td>{{ group.home_text }}</td>
-        </tr>
-        <tr>
-            <td><b>Couleur de la bannière</b></td>
-            <td style="background-color: {{ group.banner_color }}; color: {{ group.banner_color }}">{{ group.banner_color }}</td>
-        </tr>
-        <tr>
-            <td><b>Alias</b></td>
-            <td> {{ group.alias }}</td>
-        </tr>
-        <tr>
-            <td><b>Users</b></td>
-                <td>
-                    {% for user in group.users.all %}
-                        {{ user }}{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                </td>
-        </tr>
-    </table>
+    {% for group_user in group.users.all %}
+        {% if user.pk == group_user.pk or user.is_superuser %}
+            <h1>Détails du groupe</h1>
+            <br>
+            <h3>{{ group.name }}</h3>
+            {% if group.image %}
+                <img class="img-thumbnail" width="600px" src="{{ group.image.url }}">
+            {% endif %}
+            <table class="table-bordered">
+                <tr>
+                    <td><b>Description</b></td>
+                    <td>{{ group.description }}</td>
+                </tr>
+                <tr>
+                    <td><b>Status</b></td>
+                    <td>{{ group.status }}</td>
+                </tr>
+                <tr>
+                    <td><b>Date du dernier don</b></td>
+                    <td>{{ group.date_don }}</td>
+                </tr>
+                <tr>
+                <tr>
+                    <td><b>Text</b></td>
+                    <td>{{ group.home_text }}</td>
+                </tr>
+                <tr>
+                    <td><b>Couleur de la bannière</b></td>
+                    <td style="background-color: {{ group.banner_color }}; color: {{ group.banner_color }}">{{ group.banner_color }}</td>
+                </tr>
+                <tr>
+                    <td><b>Alias</b></td>
+                    <td> {{ group.alias }}</td>
+                </tr>
+                <tr>
+                    <td><b>Users</b></td>
+                    <td>
+                        {% for group_user in group.users.all %}
+                            {{ group_user }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            Vous n'avez pas accès à cette page
+        {% endif %}
+    {% endfor %}
 
 {% endblock content %}

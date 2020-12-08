@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from koolapicAPI.models import Activity, Group
 
@@ -16,7 +17,7 @@ class IndexView(TemplateView):
         return context
 
 
-class ActivityListView(ListView):
+class ActivityListView(LoginRequiredMixin, ListView):
     template_name = 'koolapic/activities/activity_list.html'
     model = Activity
     paginate_by = 25
@@ -28,7 +29,7 @@ class ActivityListView(ListView):
         return context
 
 
-class ActivityDetailView(DetailView):
+class ActivityDetailView(LoginRequiredMixin, DetailView):
     model = Activity
     template_name = "koolapic/activities/activity_detail.html"
 
@@ -39,7 +40,7 @@ class ActivityDetailView(DetailView):
         return context
 
 
-class ActivityCreateView(CreateView):
+class ActivityCreateView(LoginRequiredMixin, CreateView):
     template_name = 'koolapic/activities/add_activity.html'
     form_class = CustomActivityCreationForm
     success_url = reverse_lazy("koolapic:activity_list")
@@ -51,7 +52,7 @@ class ActivityCreateView(CreateView):
         return context
 
 
-class ActivityUpdateView(UpdateView):
+class ActivityUpdateView(LoginRequiredMixin, UpdateView):
     model = Activity
     template_name = 'koolapic/activities/update_activity.html'
     form_class = CustomActivityChangeForm
@@ -64,7 +65,7 @@ class ActivityUpdateView(UpdateView):
         return context
 
 
-class ActivityDeleteView(DeleteView):
+class ActivityDeleteView(LoginRequiredMixin, DeleteView):
     model = Activity
     template_name = 'koolapic/activities/activity_confirm_delete.html'
     success_url = reverse_lazy("koolapic:activity_list")
@@ -76,7 +77,7 @@ class ActivityDeleteView(DeleteView):
         return context
 
 
-class GroupListView(ListView):
+class GroupListView(LoginRequiredMixin, ListView):
     template_name = 'koolapic/groups/group_list.html'
     model = Group
     paginate_by = 25
@@ -88,7 +89,7 @@ class GroupListView(ListView):
         return context
 
 
-class GroupDetailView(DetailView):
+class GroupDetailView(LoginRequiredMixin, DetailView):
     model = Group
     template_name = "koolapic/groups/group_detail.html"
 
@@ -99,7 +100,7 @@ class GroupDetailView(DetailView):
         return context
 
 
-class GroupCreateView(CreateView):
+class GroupCreateView(LoginRequiredMixin, CreateView):
     template_name = 'koolapic/groups/add_group.html'
     form_class = CustomGroupCreationForm
     success_url = reverse_lazy("koolapic:group_list")
@@ -111,7 +112,7 @@ class GroupCreateView(CreateView):
         return context
 
 
-class GroupUpdateView(UpdateView):
+class GroupUpdateView(LoginRequiredMixin, UpdateView):
     model = Group
     template_name = 'koolapic/groups/update_group.html'
     form_class = CustomGroupChangeForm
@@ -124,7 +125,7 @@ class GroupUpdateView(UpdateView):
         return context
 
 
-class GroupDeleteView(DeleteView):
+class GroupDeleteView(LoginRequiredMixin, DeleteView):
     model = Group
     template_name = 'koolapic/groups/group_confirm_delete.html'
     success_url = reverse_lazy("koolapic:group_list")

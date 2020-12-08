@@ -5,7 +5,6 @@ from accounts.models import CustomUser
 from django.db.models import Q
 
 import itertools
-import uuid
 
 
 class Admission(models.Model):
@@ -62,7 +61,7 @@ class Activity(models.Model):
     remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
     max_participants = models.PositiveIntegerField(verbose_name="Nombre maximum de participants")
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour")
-    slug = models.SlugField(null=True, unique=True, verbose_name="Slug", default=uuid.uuid4, max_length=255,)
+    slug = models.SlugField(null=True, unique=True, verbose_name="Slug", max_length=255,)
     groups = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupes")
     user = models.ManyToManyField(CustomUser, verbose_name="Utilisateur")
 
