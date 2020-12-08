@@ -66,7 +66,6 @@ class SignUpView(CreateView):
 
 class UserLoginView(SuccessMessageMixin, LoginView):
     authentication_form = AuthenticationForm
-    redirect_field_name = reverse_lazy('koolapic:home')
     template_name = 'accounts/login.html'
     success_message = "Vous avez été connecté avec succès !"
 

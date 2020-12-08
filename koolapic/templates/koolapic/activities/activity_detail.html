@@ -1,60 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <style>
-        td {
-            width: 300px;
-        }
-    </style>
-    <h1>Détails de l'activité</h1>
-    <br>
-    <h3>{{ activity.description }}</h3>
-    <table class="table-bordered">
-        <tr>
-            <td><b>ID</b></td>
-            <td>{{ activity.id }}</td>
-        </tr>
-        <tr>
-            <td><b>Coordonnées</b></td>
-            <td>{{ activity.coordinates }}</td>
-        </tr>
-        <tr>
-            <td><b>Date de la dernière inscription</b></td>
-            <td>{{ activity.end_inscription_date }}</td>
-        </tr>
-        <tr>
-            <td><b>Date de départ</b></td>
-            <td>{{ activity.start_date }}</td>
-        </tr>
-        <tr>
-            <td><b>Lieu de départ</b></td>
-            <td>{{ activity.start_location }}</td>
-        </tr>
-        <tr>
-            <td><b>Date de fin</b></td>
-            <td>{{ activity.end_date }}</td>
-        </tr>
-        <tr>
-            <td><b>Lieu de fin</b></td>
-            <td> {{ activity.end_location }}</td>
-        </tr>
-        <tr>
-            <td><b>Nombre maximum de participants</b></td>
-            <td> {{ activity.end_location }}</td>
-        </tr>
-        <tr>
-            <td><b>Dernière mise à jour</b></td>
-            <td> {{ activity.last_update }}</td>
-        </tr>
-        <tr>
-            <td><b>Remarques</b></td>
-            <td> {{ activity.remarks }}</td>
-        </tr>
+    {% for activity_user in activity.user.all %}
+        {% if user.pk == activity_user.pk or user.is_superuser %}
+            <h1>Détails de l'activité</h1>
+            <br>
+            <h3>{{ activity.description }}</h3>
+            <table class="table-bordered">
+                <tr>
+                    <td><b>ID</b></td>
+                    <td>{{ activity.id }}</td>
+                </tr>
+                <tr>
+                    <td><b>Coordonnées</b></td>
+                    <td>{{ activity.coordinates }}</td>
+                </tr>
+                <tr>
+                    <td><b>Date de la dernière inscription</b></td>
+                    <td>{{ activity.end_inscription_date }}</td>
+                </tr>
+                <tr>
+                    <td><b>Date de départ</b></td>
+                    <td>{{ activity.start_date }}</td>
+                </tr>
+                <tr>
+                    <td><b>Lieu de départ</b></td>
+                    <td>{{ activity.start_location }}</td>
+                </tr>
+                <tr>
+                    <td><b>Date de fin</b></td>
+                    <td>{{ activity.end_date }}</td>
+                </tr>
+                <tr>
+                    <td><b>Lieu de fin</b></td>
+                    <td> {{ activity.end_location }}</td>
+                </tr>
+                <tr>
+                    <td><b>Nombre maximum de participants</b></td>
+                    <td> {{ activity.end_location }}</td>
+                </tr>
+                <tr>
+                    <td><b>Dernière mise à jour</b></td>
+                    <td> {{ activity.last_update }}</td>
+                </tr>
+                <tr>
+                    <td><b>Remarques</b></td>
+                    <td> {{ activity.remarks }}</td>
+                </tr>
 
-        <tr>
-            <td><b>Groupe</b></td>
-            <td> {{ activity.groups }}</td>
-        </tr>
-    </table>
+                <tr>
+                    <td><b>Groupe</b></td>
+                    <td> {{ activity.groups }}</td>
+                </tr>
+
+                <tr>
+                    <td><b>ID User</b></td>
+                    <td>
+                        {% for activity_user in activity.user.all %}
+                            {{ activity_user }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        {% else %}
+            Vous n'avez pas accès à cette page
+        {% endif %}
+    {% endfor %}
 
 {% endblock content %}
