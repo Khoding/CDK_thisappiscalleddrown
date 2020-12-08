@@ -46,6 +46,7 @@
     <script src="{% static 'koolapic/js/password_visibility.js' %}" crossorigin="anonymous"></script>
     <script src="{% static 'koolapic/js/popovers.js' %}" crossorigin="anonymous"></script>
     <script src="{% static 'koolapic/js/modals.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/nav.js' %}" crossorigin="anonymous" type="module"></script>
     <script src="{% static 'koolapic/js/animations.js' %}" crossorigin="anonymous" type="module"></script>
 
     <!-- Favicon -->
@@ -65,70 +66,58 @@
     {% block head %} {% endblock head %}
 </head>
 <body class="d-flex flex-column h-100">
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+{% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark flex-column d-flex nav-toggleable" id="mainNavbar" data-overlay="#mainNavbarOverlay">
+        <div class="d-md-none mb-5 nav-toggler text-white toggler-mobile" data-target="#mainNavbar">
+            <i class="fas fa-times"></i>
+        </div>
         <a class="navbar-brand" href="{% url 'koolapic:home' %}">
-            <img id="main-navbar-logo" src="{% static 'koolapic/images/logo.png' %}" alt="Logo de Koolapic">
+            <img id="mainNavbarLogo" src="{% static 'koolapic/images/logo.png' %}" alt="Logo de Koolapic">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'koolapic:home' %}">Accueil</a>
+        <ul class="navbar-nav flex-column d-flex">
+            <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:home" %}active{% endif %}">
+                <a class="nav-link" href="{% url 'koolapic:home' %}">Accueil</a>
+            </li>
+            <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:activity_list" %}active{% endif %}">
+                <a class="nav-link" href="{% url 'koolapic:activity_list' %}" tabindex="-1">Activités</a>
+            </li>
+            <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:group_list" %}active{% endif %}">
+                <a class="nav-link" href="{% url 'koolapic:group_list' %}" tabindex="-1">Groupes</a>
+            </li>
+            {% if user.is_superuser %}
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="{% url 'admin:index' %}" tabindex="-1">Admin</a>
                 </li>
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'koolapic:add_activity' %}" tabindex="-1">Ajouter une activité</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'koolapic:add_group' %}" tabindex="-1">Ajouter un groupe</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'koolapic:activity_list' %}" tabindex="-1">Liste des activités</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'koolapic:group_list' %}" tabindex="-1">Liste des groupes</a>
-                    </li>
-                {% endif %}
-                {% if user.is_superuser %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Administration
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{% url 'admin:index' %}" tabindex="-1">Admin</a>
-                            <a class="dropdown-item" href="/api" tabindex="-1">API</a>
-                        </div>
-                    </li>
-                {% endif %}
-            </ul>
-            {% if not user.is_authenticated %}
-                <ul class="navbar-nav">
-                    <li class="nav-item mr-4">
-                        <a class="btn btn-outline-primary btn-txt-light" href="{% url 'accounts:signup' %}" tabindex="-1">S'enregistrer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="{% url 'accounts:login' %}" tabindex="-1">Se connecter</a>
-                    </li>
-                </ul>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="/api" tabindex="-1">API</a>
+                </li>
             {% endif %}
-
-            {% if user.is_authenticated %}
-                {% if user.profile_pic %}
-                    <a href="{% url 'accounts:profile' slug=user.slug %}">
-                        <img id="main-navbar-pp" src="{{ user.profile_pic.url }}" alt="Votre photo de profil">
-                    </a>
-                {% else %}
-                    <a href="{% url 'accounts:profile' slug=user.slug %}">
-                        <i id="main-navbar-nopp" class="fas fa-user-circle"></i>
-                    </a>
-                {% endif %}
-            {% endif %}
+        </ul>
+        <div class="d-md-none mb-5">
+            {% include 'includes/profile_picture.html' %}
         </div>
     </nav>
+    <div id="mainNavbarOverlay" data-target="#mainNavbar"></div>
+{% endif %}
+
+<header class="d-flex justify-content-between" id="mainHeader">
+    {% if user.is_authenticated %}
+        <div class="p-2">
+            <button class="nav-toggler text-primary" type="button" data-target="#mainNavbar" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="p-2 d-none d-md-flex">
+            {% include 'includes/profile_picture.html' %}
+        </div>
+    {% else %}
+        <div class="p-2">
+            <a class="btn btn-outline-primary btn-txt-light" href="{% url 'accounts:signup' %}" tabindex="-1">S'enregistrer</a>
+            <a class="btn btn-primary" href="{% url 'accounts:login' %}" tabindex="-1">Se connecter</a>
+        </div>
+    {% endif %}
 </header>
+
 <main role="main" class="flex-shrink-0">
     {% include "includes/message_snippet.html" %}
     <div class="container">
