@@ -16,6 +16,25 @@
 a, a:hover, a:active, a:visited {
   text-decoration: none;
 }
+.dark-muted-txt {
+  color: $palette_dark_muted;
+}
+
+.dark-homepage-title{
+  font-size: 50px;
+}
+
+.dark-homepage-text{
+  font-size: 25px;
+}
+
+.dark-homepage-footer{
+  font-size: 32px;
+}
+
+.emphasis-txt {
+  color: $white;
+}
 
 /* Formulaires */
 .form-error {

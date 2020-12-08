@@ -38,6 +38,14 @@
             <td><b>Alias</b></td>
             <td> {{ group.alias }}</td>
         </tr>
+        <tr>
+            <td><b>Users</b></td>
+                <td>
+                    {% for user in group.users.all %}
+                        {{ user }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </td>
+        </tr>
     </table>
 
 {% endblock content %}

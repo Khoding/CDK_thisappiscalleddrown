@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 from accounts.models import CustomUser
+from django.db.models import Q
+
+import itertools
+import uuid
 
 
 class Admission(models.Model):
@@ -23,7 +27,7 @@ class Group(models.Model):
     banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
     alias = models.CharField(max_length=120, verbose_name="Alias")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
-    users = models.ManyToManyField(CustomUser, null=True, blank=True, verbose_name="Utilisateurs")
+    users = models.ManyToManyField(CustomUser, blank=True, verbose_name="Utilisateurs")
     admission = models.ForeignKey(Admission, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Admission")
 
     def __str__(self):
@@ -47,9 +51,9 @@ class Group(models.Model):
 
 
 class Activity(models.Model):
+    name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     start_date = models.DateTimeField(verbose_name="Date de début")
     end_date = models.DateTimeField(verbose_name="Date de fin")
-    name = models.CharField(max_length=100, default="Activité sans nom", verbose_name="Nom de l'activité")
     description = models.TextField(max_length=500, verbose_name="Description")
     start_location = models.CharField(max_length=100, verbose_name="Lieu de départ")
     coordinates = models.CharField(max_length=30, verbose_name="Coordonnées")
@@ -58,12 +62,12 @@ class Activity(models.Model):
     remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
     max_participants = models.PositiveIntegerField(verbose_name="Nombre maximum de participants")
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour")
-    slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
+    slug = models.SlugField(null=True, unique=True, verbose_name="Slug", default=uuid.uuid4, max_length=255,)
     groups = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupes")
-    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, verbose_name="Utilisateur")
+    user = models.ManyToManyField(CustomUser, verbose_name="Utilisateur")
 
     def __str__(self):
-        return self.description
+        return self.name
 
     def get_detail_url(self):
         return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
@@ -78,7 +82,22 @@ class Activity(models.Model):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name) + slugify(self.user) + slugify(self.start_date)
+        max_length = Activity._meta.get_field('slug').max_length
+        self.slug = orig = slugify(self)[:max_length]
+        for x in itertools.count(10):
+            if self.id:
+                if Activity.objects.filter(Q(slug=self.slug),
+                                           Q(author=self.user),
+                                           Q(id=self.id),
+                                           ).exists():
+                    break
+            if not Activity.objects.filter(
+                slug=self.slug
+            ).exists():
+                break
+
+            # Truncate & Minus 1 for the hyphen.
+            self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
         return super().save(*args, **kwargs)
 
     class Meta:

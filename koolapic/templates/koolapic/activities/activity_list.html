@@ -16,23 +16,27 @@
     <br>
     <div class="container">
         {% for activity in object_list %}
-            <div style="border: 2px solid black; padding: 5px" class="row rounded">
-                <div class="col-md-10" style="padding-top: 5px">
-                    <h4>{{ activity.description }}</h4>
-                </div>
-                <div class="col-md-2 text-right">
-                    <a class="btn btn-primary" title="Modifier l'activité" href="{{ activity.get_update_url }}" role="button">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a class="btn btn-primary" title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}" role="button">
-                        <i class="fas fa-align-justify"></i>
-                    </a>
-                    <a class="btn btn-danger delete-modal" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}" role="button">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </div>
-            </div>
-            <br>
+            {% for activity_user in activity.user.all %}
+                {% if user.pk == activity_user.pk or user.is_superuser %}
+                    <div style="border: 2px solid black; padding: 5px" class="row rounded">
+                        <div class="col-md-10" style="padding-top: 5px">
+                            <h4>{{ activity.name }} - {{ activity_user.first_name }} {{ activity_user.last_name }}</h4>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <a class="btn btn-primary" title="Modifier l'activité" href="{{ activity.get_update_url }}" role="button">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a class="btn btn-primary" title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}" role="button">
+                                <i class="fas fa-align-justify"></i>
+                            </a>
+                            <a class="btn btn-danger delete-modal" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}" role="button">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
     </div>
     <div class="pagination">

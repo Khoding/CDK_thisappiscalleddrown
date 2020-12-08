@@ -16,23 +16,27 @@
     <br>
     <div class="container">
         {% for group in object_list %}
-            <div style="border: 2px solid black; padding: 5px" class="row rounded">
-                <div class="col-md-10" style="border-left: 5px solid {{ group.banner_color }}; padding-top: 5px">
-                    <h4>{{ group.name }}</h4>
-                </div>
-                <div class="col-md-2 text-right">
-                    <a class="btn btn-primary" title="Modifier le groupe" href="{{ group.get_update_url }}" role="button">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a class="btn btn-primary" title="Afficher les détails du groupe" href="{{ group.get_detail_url }}" role="button">
-                        <i class="fas fa-align-justify"></i>
-                    </a>
-                    <a class="btn btn-danger delete-modal" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}" role="button">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </div>
-            </div>
-            <br>
+            {% for group_user in group.users.all %}
+                {% if user.pk == group_user.pk or user.is_superuser %}
+                    <div style="border: 2px solid black; padding: 5px" class="row rounded">
+                        <div class="col-md-10" style="border-left: 5px solid {{ group.banner_color }}; padding-top: 5px">
+                            <h4>{{ group.name }} - {{ group_user.first_name }} {{ group_user.last_name }}</h4>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <a class="btn btn-primary" title="Modifier le groupe" href="{{ group.get_update_url }}" role="button">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a class="btn btn-primary" title="Afficher les détails du groupe" href="{{ group.get_detail_url }}" role="button">
+                                <i class="fas fa-align-justify"></i>
+                            </a>
+                            <a class="btn btn-danger delete-modal" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}" role="button">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                {% endif %}
+            {% endfor %}
         {% endfor %}
     </div>
     <div class="pagination">
