@@ -68,6 +68,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
     authentication_form = AuthenticationForm
     template_name = 'accounts/login.html'
     success_message = "Vous avez été connecté avec succès !"
+    success_url = reverse_lazy('koolapic:index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

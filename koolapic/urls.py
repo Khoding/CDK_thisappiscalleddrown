@@ -7,12 +7,13 @@ from django.urls import include, path
 
 from koolapic.views import ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, ActivityDeleteView, \
     GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView
-from koolapic.views import IndexView
+from koolapic.views import IndexView, HomeView
 
 app_name = 'koolapic'
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='home'),
+    path('app/', IndexView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='homepage'),
 
     path('activities/', ActivityListView.as_view(), name="activity_list"),
     path('activities/<slug:slug>/', ActivityDetailView.as_view(), name="activity_detail"),

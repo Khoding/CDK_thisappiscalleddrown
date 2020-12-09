@@ -66,61 +66,65 @@
     {% block head %} {% endblock head %}
 </head>
 <body class="d-flex flex-column h-100">
-{% if user.is_authenticated %}
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark flex-column d-flex nav-toggleable" id="mainNavbar" data-overlay="#mainNavbarOverlay">
-        <div class="d-md-none mb-5 nav-toggler text-white toggler-mobile" data-target="#mainNavbar">
-            <i class="fas fa-times"></i>
-        </div>
-        <a class="navbar-brand" href="{% url 'koolapic:home' %}">
-            <img id="mainNavbarLogo" src="{% static 'koolapic/images/logo/svg/Logo Koolapic Fill -  White.svg' %}" alt="Logo de Koolapic">
-        </a>
-        <ul class="navbar-nav flex-column d-flex">
-            <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:home" %}active{% endif %}">
-                <a class="nav-link" href="{% url 'koolapic:home' %}">Accueil</a>
-            </li>
-            <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:activity_list" %}active{% endif %}">
-                <a class="nav-link" href="{% url 'koolapic:activity_list' %}" tabindex="-1">Activités</a>
-            </li>
-            <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:group_list" %}active{% endif %}">
-                <a class="nav-link" href="{% url 'koolapic:group_list' %}" tabindex="-1">Groupes</a>
-            </li>
-            {% if user.is_superuser %}
-                <li class="nav-item p-2">
-                    <a class="nav-link" href="{% url 'admin:index' %}" tabindex="-1">Admin</a>
-                </li>
-                <li class="nav-item p-2">
-                    <a class="nav-link" href="/api" tabindex="-1">API</a>
-                </li>
-            {% endif %}
-        </ul>
-        <div class="d-md-none mb-5">
-            {% include 'includes/profile_picture.html' %}
-        </div>
-    </nav>
-    <div id="mainNavbarOverlay" data-target="#mainNavbar"></div>
-{% endif %}
-
-<header class="d-flex justify-content-between" id="mainHeader">
+{% block navbar %}
     {% if user.is_authenticated %}
-        <div class="p-2">
-            <button class="nav-toggler text-primary" type="button" data-target="#mainNavbar" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        <div class="p-2 d-none d-md-flex">
-            {% include 'includes/profile_picture.html' %}
-        </div>
-    {% else %}
-        <div class="p-2">
-            <a class="btn btn-outline-primary btn-txt-light" href="{% url 'accounts:signup' %}" tabindex="-1">S'enregistrer</a>
-            <a class="btn btn-primary" href="{% url 'accounts:login' %}" tabindex="-1">Se connecter</a>
-        </div>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark flex-column d-flex nav-toggleable" id="mainNavbar" data-overlay="#mainNavbarOverlay">
+            <div class="d-md-none mb-5 nav-toggler text-white toggler-mobile" data-target="#mainNavbar">
+                <i class="fas fa-times"></i>
+            </div>
+            <a class="navbar-brand" href="{% url 'koolapic:home' %}">
+                <img id="mainNavbarLogo" src="{% static 'koolapic/images/logo/svg/Logo Koolapic Fill -  White.svg' %}" alt="Logo de Koolapic">
+            </a>
+            <ul class="navbar-nav flex-column d-flex">
+                <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:home" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'koolapic:home' %}">Accueil</a>
+                </li>
+                <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:activity_list" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'koolapic:activity_list' %}" tabindex="-1">Activités</a>
+                </li>
+                <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:group_list" %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'koolapic:group_list' %}" tabindex="-1">Groupes</a>
+                </li>
+                {% if user.is_superuser %}
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="{% url 'admin:index' %}" tabindex="-1">Admin</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a class="nav-link" href="/api" tabindex="-1">API</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="d-md-none mb-5">
+                {% include 'includes/profile_picture.html' %}
+            </div>
+        </nav>
+        <div id="mainNavbarOverlay" data-target="#mainNavbar"></div>
     {% endif %}
-</header>
+{% endblock navbar %}
+
+{% block topbar %}
+    {% if user.is_authenticated %}
+
+        <header
+                class="d-flex justify-content-between {% if request.resolver_match.view_name == "koolapic:homepage" %}bg-primary mb-0{% endif %}"
+                id="mainHeader">
+                <button class="nav-toggler
+                {% if request.resolver_match.view_name != "koolapic:homepage" %}
+                text-primary{% else %}text-white
+                {% endif %}" type="button" data-target="#mainNavbar" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+            <div class="p-2 d-none d-md-flex">
+                {% include 'includes/profile_picture.html' %}
+            </div>
+
+        </header>
+    {% endif %}
+{% endblock topbar %}
 
 <main role="main" class="flex-shrink-0">
     {% include "includes/message_snippet.html" %}
-    <div class="container">
+    <div class="{% if request.resolver_match.view_name != "koolapic:homepage" %}container{% endif %}">
         {% block content %}
         {% endblock %}
     </div>

@@ -1,14 +1,27 @@
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from accounts.forms import CustomUserCreationForm
 from koolapicAPI.models import Activity, Group
 
 from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm
 
 
-class IndexView(TemplateView):
+class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'koolapic/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        return context
+
+
+class HomeView(TemplateView):
+    template_name = 'koolapic/homepage.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -25,7 +38,7 @@ class ActivityListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'La liste des activités sur Koolapic'
         return context
 
 
@@ -36,7 +49,7 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'La page détail d\'une activités sur Koolapic'
         return context
 
 
@@ -48,7 +61,7 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Créer une activité sur Koolapic'
         return context
 
 
@@ -61,7 +74,7 @@ class ActivityUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Modifier une activité sur Koolapic'
         return context
 
 
@@ -73,7 +86,7 @@ class ActivityDeleteView(LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Supprime une activité sur Koolapic'
         return context
 
 
@@ -85,7 +98,7 @@ class GroupListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'La liste des groupes sur Koolapic'
         return context
 
 
@@ -96,7 +109,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'La page détail d\'un groupe sur Koolapic'
         return context
 
 
@@ -108,7 +121,7 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Créer un groupe sur Koolapic'
         return context
 
 
@@ -121,7 +134,7 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Modifie un groupe sur Koolapic'
         return context
 
 
@@ -133,5 +146,34 @@ class GroupDeleteView(LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Supprime un groupe sur Koolapic'
         return context
+
+
+class SignUpView(CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'account/signup.html'
+    success_message = 'Compte créé avec succès'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Compte Koolapic'
+        context['description'] = 'Créer un compte sur Koolapic'
+        return context
+
+
+class KoolapicLoginView(LoginView):
+    authentication_form = AuthenticationForm
+    redirect_field_name = reverse_lazy('koolapic:index')
+    template_name = 'account/login.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Compte Koolapic'
+        context['description'] = 'Se connecter à son compte sur Koolapic'
+        return context
+
+
+class LogoutView(TemplateView):
+    pass
