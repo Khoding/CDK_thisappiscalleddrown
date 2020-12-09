@@ -24,6 +24,22 @@ script {
   display: none;
 }
 
+.no-result {
+  color: white;
+  font-size: 1.5em;
+}
+
+.gradient-container {
+  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
+  border-radius: 10px;
+  padding: 1em;
+  color: $white;
+}
+
+.white-transparent-panel {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
 /* Police */
 a, a:hover, a:active, a:visited {
   text-decoration: none;
@@ -277,12 +293,6 @@ header {
   opacity: 1;
 }
 
-/* Commun */
-.no-result {
-  color: white;
-  font-size: 1.5em;
-}
-
 /* Activités */
 .activities-list::-webkit-scrollbar {
   width: 6px;
@@ -334,7 +344,6 @@ header {
   cursor: pointer;
   min-width: 100%;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.25);
   @include media-breakpoint-up(sm) {
     min-width: 75%;
     width: 75%;
@@ -405,4 +414,25 @@ header {
 
 .activity-location, .activity-group, .activity-date {
   @include ellipsis();
+}
+
+/* Profil */
+.profile-name {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+}
+
+.profile-pp {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  border-radius: 100%;
+}
+
+.profile-action-button {
+  margin-left: 1rem;
+  font-size: 16px;
+  text-align: center;
 }
