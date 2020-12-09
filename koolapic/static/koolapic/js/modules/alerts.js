@@ -4,18 +4,23 @@
  * JQuery (Slim supporté)
  */
 
-import anime from '../../../vendor/node_modules/animejs/lib/anime.es.js';
+
+/* Anime.js */
+import anime from '../../../vendor/node_modules/animejs/lib/anime.es.js'; // Animation
 
 export {alert}
 
+/**
+ * Ajoute une alerte avec un message sur la page
+ * @param severity string : severité du message
+ * @param message string : message
+ */
 function alert(severity, message) {
 
     severity = severity.toUpperCase()
     let bootstrapColor = 'light'
     let srOnly = 'Message de sévérité inconnue : '
     let messagesWrapper = $("#messages")[0]
-
-    console.log(messagesWrapper)
 
     switch (severity) {
         case 'DEBUG':
@@ -50,6 +55,7 @@ function alert(severity, message) {
             </div>
         </div>`
 
+    /* Animation */
     anime({
         targets: '#messages',
         easing: 'easeOutElastic(1, .5)',
