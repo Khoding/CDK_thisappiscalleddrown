@@ -3,6 +3,9 @@
 /* Variables */
 @import "variables";
 
+/* Mixins SCSS */
+@import 'mixins/mixins';
+
 /* Bootstrap configuré */
 @import "custom";
 
@@ -12,23 +15,33 @@
 /* Thème Tippy */
 @import "tippy";
 
+/* Layout global */
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+script {
+  display: none;
+}
+
 /* Police */
 a, a:hover, a:active, a:visited {
   text-decoration: none;
 }
+
 .dark-muted-txt {
   color: $palette_dark_muted;
 }
 
-.dark-homepage-title{
+.dark-homepage-title {
   font-size: 50px;
 }
 
-.dark-homepage-text{
+.dark-homepage-text {
   font-size: 25px;
 }
 
-.dark-homepage-footer{
+.dark-homepage-footer {
   font-size: 32px;
 }
 
@@ -74,8 +87,12 @@ header {
   position: relative;
 }
 
+.nav-item a.nav-link {
+  color: $white;
+}
+
 @include media-breakpoint-up(md) {
-  .active::before {
+  #mainNavbar.active::before {
     content: "";
     display: block;
     position: absolute;
@@ -90,7 +107,7 @@ header {
     animation-duration: 0.5s;
   }
 
-  .active::after {
+  #mainNavbar.active::after {
     content: "";
     display: block;
     position: absolute;
@@ -121,8 +138,10 @@ header {
   z-index: 1000;
   font-size: 1.25rem;
   position: fixed;
-  transition-property: left;
-  transition-duration: 0.5s;
+  opacity: 0;
+  transition: left 0.5s, opacity 0.1s;
+  box-shadow: 0 7px 10px black;
+  background-color: $palette_primary;
 
   @include media-breakpoint-down(md) {
     width: 100%;
@@ -153,6 +172,7 @@ header {
 
 #mainNavbar.toggled {
   left: 0;
+  opacity: 1;
 }
 
 #mainNavbarLogo {
@@ -162,7 +182,7 @@ header {
 
 #mainNavbarOverlay {
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.75);
+  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
   z-index: 999;
   position: fixed;
   left: -100vw;
@@ -176,7 +196,7 @@ header {
 
 #mainNavbarOverlay.toggled {
   left: 0;
-  opacity: 1;
+  opacity: 0.75;
 }
 
 #mainNavbar .navbar-brand {
@@ -220,11 +240,12 @@ header {
     height: 9vh;
     right: 3rem;
     border-radius: 100px;
+    filter: drop-shadow(0 0 0.25rem white);
   }
 }
 
 #profilePicture:hover {
-  filter: brightness(105%);
+  filter: drop-shadow(0 0 0.35rem white) brightness(105%);
 }
 
 #noProfilePicture {
@@ -256,24 +277,132 @@ header {
   opacity: 1;
 }
 
-/* Activités */
-.activity {
-  padding: 1em;
-  margin-bottom: 1vh;
-  border: $primary solid 2px;
-  border-radius: 5px;
-  cursor: pointer;
-  user-select: none;
+/* Commun */
+.no-result {
+  color: white;
+  font-size: 1.5em;
 }
 
-.activity-description {
+/* Activités */
+.activities-list::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.activities-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.activities-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.activities-list::-webkit-scrollbar-thumb:hover {
+  background: lighten($primary, 13%);
+}
+
+.activities-list {
+  margin: 0;
+  padding: 0 0 0.5em;
+  width: 100%;
+  height: 100%;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-color: $white transparent;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+  @include media-breakpoint-down(md) {
+    scrollbar-width: thick;
+  }
+  @include media-breakpoint-up(md) {
+    scrollbar-width: thin;
+  }
+}
+
+.activities-list-wrapper {
+  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.card.activity {
+  border: none;
+  border-radius: 5px;
+  margin-left: 0;
+  cursor: pointer;
+  min-width: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.25);
+  @include media-breakpoint-up(sm) {
+    min-width: 75%;
+    width: 75%;
+  }
+  @include media-breakpoint-up(md) {
+    min-width: 50%;
+    width: 50%;
+  }
+  @include media-breakpoint-up(lg) {
+    min-width: 37.5%;
+    width: 37.5%;
+  }
+  @include media-breakpoint-up(xl) {
+    min-width: 25%;
+    width: 25%;
+  }
+}
+
+.activity div.card-header h4 {
+  display: block;
+  @include ellipsis();
+  font-weight: bold;
+  font-size: 64px;
+  color: $white;
+  @include media-breakpoint-up(lg) {
+    font-size: 1em !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.25em !important;
+  }
+}
+
+.activity .card-header, .activity .card-footer {
+  color: $white;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: none;
+}
+
+.activity .card-header {
+  border-bottom: 1px solid $white;
+}
+
+.activity .card-footer {
+  background-color: transparent;
+}
+
+.activity .card-body {
+  color: $white;
+  background-color: transparent;
+}
+
+.activity-name {
   display: inline;
 }
 
-.activity-actions {
-  float: right;
+.activity-action-btn {
+  width: 42px;
+  height: 42px;
+  margin-left: 5px;
+  font-size: 16px;
+  text-align: center;
 }
 
-.activity-action-btn {
-  margin-right: 0.5em;
+.activity-action-btn .icon {
+  vertical-align: middle;
+}
+
+.activity-location, .activity-group, .activity-date {
+  @include ellipsis();
 }

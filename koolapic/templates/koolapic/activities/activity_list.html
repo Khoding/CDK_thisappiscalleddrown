@@ -1,59 +1,82 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'koolapic/js/activities.js' %}" crossorigin="anonymous" type="module"></script>
+{% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-md-11">
             <h1>Liste des activités</h1>
         </div>
-        <div class="col-md-1">
-            <h1>
-                <a class="btn btn-primary" title="Créer une activité" href="{% url 'koolapic:add_activity' %}" role="button">
-                    <i class="fas fa-plus"></i>
-                </a>
-            </h1>
-        </div>
     </div>
-    <br>
-    <div class="container">
-        {% for activity in object_list %}
-            {% for activity_user in activity.user.all %}
-                {% if user.pk == activity_user.pk or user.is_superuser %}
-                    <div style="border: 2px solid black; padding: 5px" class="row rounded">
-                        <div class="col-md-10" style="padding-top: 5px">
-                            <h4>{{ activity.name }} - {{ activity_user.first_name }} {{ activity_user.last_name }}</h4>
+    <div class="activities-list-wrapper">
+        <div>
+            <div>
+                <a class="btn btn-outline-light" title="Créer une activité" href="{% url 'koolapic:add_activity' %}" role="button">
+                    <i class="fas fa-plus"></i> Nouvelle activité
+                </a>
+            </div>
+        </div>
+        <br>
+        <div class="activities-list card-deck horizontal-scroll">
+            {% if object_list.count %}
+                {% for activity in object_list %}
+                    <div class="card activity" data-activity-id="{{ activity.id }}">
+                        <div class="card-header">
+                            <h4 class="activity-name">{{ activity.name }}</h4>
                         </div>
-                        <div class="col-md-2 text-right">
-                            <a class="btn btn-primary" title="Modifier l'activité" href="{{ activity.get_update_url }}" role="button">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                            <a class="btn btn-primary" title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}" role="button">
-                                <i class="fas fa-align-justify"></i>
-                            </a>
-                            <a class="btn btn-danger delete-modal" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}" role="button">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
+                        <div class="card-body">
+                            <div class="activity-date">
+                                <i class="fas fa-calendar-alt"></i> Du {{ activity.start_date }}<br>
+                                au {{ activity.start_date }}
+                            </div>
+                            <div class="activity-location">
+                                <i class="fas fa-map-marked"></i> {{ activity.start_location }} {% if activity.end_location %} → {{ activity.end_location }} {% endif %}
+                            </div>
+                            <div class="activity-group">
+                                <i class="fas fa-users"></i> {{ activity.groups }}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="activity-actions d-flex flex-row-reverse">
+                                <a class="btn btn-primary align-middle activity-action-btn" title="Modifier l'activité" href="{{ activity.get_update_url }}" role="button">
+                                    <i class="icon fas fa-pen text-center"></i>
+                                </a>
+                                <a class="btn btn-primary align-middle activity-action-btn" title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}" role="button">
+                                    <i class="icon fas fa-align-justify text-center"></i>
+                                </a>
+                                <a class="btn btn-danger delete-modal align-top activity-action-btn" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}" role="button">
+                                    <i class="icon fas fa-trash-alt text-center"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <br>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
+                {% endfor %}
+            {% else %}
+                <div class="no-result">Vous n'avez pas d'activité à venir</div>
+            {% endif %}
+        </div>
     </div>
-    <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
+    <div class="modal" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activityModalTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Modifier</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

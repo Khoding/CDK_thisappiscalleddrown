@@ -33,7 +33,12 @@ class HomeView(TemplateView):
 class ActivityListView(LoginRequiredMixin, ListView):
     template_name = 'koolapic/activities/activity_list.html'
     model = Activity
-    paginate_by = 25
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return self.model.objects.all
+        else:
+            return self.model.objects.order_by('start_date').filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
