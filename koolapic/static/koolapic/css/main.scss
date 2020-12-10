@@ -36,6 +36,10 @@ script {
   color: $white;
 }
 
+.gradient-container hr {
+  border: 2px solid $white;
+}
+
 .white-transparent-panel {
   background-color: rgba(255, 255, 255, 0.25);
 }
@@ -43,6 +47,10 @@ script {
 /* Police */
 a, a:hover, a:active, a:visited {
   text-decoration: none;
+}
+
+b {
+  letter-spacing: 1px;
 }
 
 .dark-muted-txt {
@@ -417,22 +425,81 @@ header {
 }
 
 /* Profil */
-.profile-name {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 25px;
+.profile-container {
+  padding: 2.5rem;
+}
+
+.profile-infos-panel {
+  border-radius: $border-radius;
+  padding: 2rem;
 }
 
 .profile-pp {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 20%;
+  margin-bottom: 1rem;
+  width: 14vw;
   border-radius: 100%;
+}
+
+.profile-name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.profile-username {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.profile-role {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.profile-info {
+  font-size: 1rem !important;
+  @include media-breakpoint-up(lg) {
+    font-size: 1.25rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.5rem !important;
+  }
+}
+
+.profile-info-label {
+  font-size: 1rem !important;
+  @include media-breakpoint-up(lg) {
+    font-size: 1.25rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.5rem !important;
+  }
+  margin-top: 0.75em;
+}
+
+.profile-infos-panel h1,
+.profile-infos-panel h2,
+.profile-infos-panel h3,
+.profile-infos-panel h4,
+.profile-infos-panel h5,
+.profile-infos-panel h6 {
+  font-weight: bold;
+}
+
+.profile-action-buttons {
+  margin-top: 1em;
 }
 
 .profile-action-button {
   margin-left: 1rem;
   font-size: 16px;
   text-align: center;
+  @include media-breakpoint-down(md) {
+    width: 100%;
+  }
 }

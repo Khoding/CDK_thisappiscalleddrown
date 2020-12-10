@@ -26,6 +26,10 @@ $font-family-monospace: $monospace;
 @import "../../vendor/node_modules/bootstrap/scss/bootstrap";
 
 /* Personnalisation des éléments */
-.btn-outline-light:hover, .btn-outline-light:focus, .btn-outline-light:active, .btn-outline-light.active, .open>.dropdown-toggle.btn-outline-light {
-    color: $primary !important;
+.btn-outline-light:hover,
+.btn-outline-light:focus,
+.btn-outline-light:active,
+.btn-outline-light.active,
+.open > .dropdown-toggle.btn-outline-light {
+  color: $primary !important;
 }
