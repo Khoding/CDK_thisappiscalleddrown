@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for activity_user in activity.user.all %}
+{#    {% for activity_user in activity.user.all %}#}
         {% if user.pk == activity_user.pk or user.is_superuser %}
             <h1>Détails de l'activité</h1>
             <br>
@@ -65,6 +65,6 @@
         {% else %}
             Vous n'avez pas accès à cette page
         {% endif %}
-    {% endfor %}
+{#    {% endfor %}#}
 
 {% endblock content %}
