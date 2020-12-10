@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for group_user in group.users.all %}
+{#    {% for group_user in group.users.all %}#}
         {% if user.pk == group_user.pk or user.is_superuser %}
             <h1>Détails du groupe</h1>
             <br>
@@ -47,6 +47,6 @@
         {% else %}
             Vous n'avez pas accès à cette page
         {% endif %}
-    {% endfor %}
+{#    {% endfor %}#}
 
 {% endblock content %}
