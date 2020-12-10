@@ -4,13 +4,11 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    {% if object.id == user.id %}
-        <div class="d-lg-none">
-            {% include 'accounts/includes/profile_mobile.html' %}
-        </div>
+    <div class="d-lg-none">
+        {% include 'accounts/includes/profile_mobile.html' %}
+    </div>
 
-        <div class="d-none d-lg-block">
+    <div class="d-none d-lg-block">
         {% include 'accounts/includes/profile_desktop.html' %}
-        </div>
-    {% endif %}
+    </div>
 {% endblock content %}

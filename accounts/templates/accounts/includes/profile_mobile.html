@@ -52,44 +52,63 @@
                     </div>
                 {% endif %}
             {% endif %}
-            <hr>
-            <h3>Informations avancées</h3>
-            <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-user-plus"></i> Compte créé le</b></div>
-            </div>
-            <div class="profile-info row">
-                <div class="col">{{ object.signup_date }}</div>
-            </div>
+            {% if object.id == user.id and view_as == "self" %}
+                <hr>
+                <h3>Informations avancées</h3>
+                <div class="profile-info-label row">
+                    <div class="col"><b><i class="fas fa-user-plus"></i> Compte créé le</b></div>
+                </div>
+                <div class="profile-info row">
+                    <div class="col">{{ object.signup_date }}</div>
+                </div>
 
-            <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-sign-in-alt"></i> Dernière connexion</b></div>
-            </div>
-            <div class="profile-info row">
-                <div class="col">{{ object.last_login }}</div>
-            </div>
+                <div class="profile-info-label row">
+                    <div class="col"><b><i class="fas fa-sign-in-alt"></i> Dernière connexion</b></div>
+                </div>
+                <div class="profile-info row">
+                    <div class="col">{{ object.last_login }}</div>
+                </div>
 
-            <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-heart"></i> Dernier don</b></div>
-            </div>
-            <div class="profile-info row">
-                <div class="col">{{ object.donation_date }}</div>
-            </div>
+                <div class="profile-info-label row">
+                    <div class="col"><b><i class="fas fa-heart"></i> Dernier don</b></div>
+                </div>
+                <div class="profile-info row">
+                    <div class="col">{{ object.donation_date }}</div>
+                </div>
 
-            <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-hashtag"></i> Slug</b></div>
-            </div>
-            <div class="profile-info row">
-                <div class="col">{{ object.slug }}</div>
-            </div>
+                <div class="profile-info-label row">
+                    <div class="col"><b><i class="fas fa-hashtag"></i> Slug</b></div>
+                </div>
+                <div class="profile-info row">
+                    <div class="col">{{ object.slug }}</div>
+                </div>
+            {% endif %}
         </div>
     </div>
-
-    <div class="d-flex flex-row-reverse profile-action-buttons">
-        <a class="btn btn-outline-light p-2 profile-action-button" href="{% url 'accounts:edit_profile' slug=object.slug %}">
-            <i class="fas fa-edit"></i> Modifier votre profil
-        </a>
-        <a class="btn btn-danger p-2 profile-action-button" href="{% url 'accounts:logout' %}">
-            <i class="fas fa-sign-out-alt"></i> Se déconnecter
-        </a>
-    </div>
+    {% if object.id == user.id and view_as == "self" %}
+        <div class="row profile-action-buttons">
+            <a class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'accounts:edit_profile' slug=object.slug %}">
+                <i class="fas fa-edit"></i> Modifier votre profil
+            </a>
+        </div>
+        <div class="row profile-action-buttons">
+            <form action="{% url 'accounts:profile' slug=object.slug %}" method="get" id="profileForm">
+                <input type="hidden" name="view_as" value="guest">
+            </form>
+            <button type="submit" form="profileForm" class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'accounts:profile' slug=object.slug %}">
+                <i class="far fa-eye"></i> Vue invité
+            </button>
+        </div>
+        <div class="row profile-action-buttons">
+            <a class="btn btn-lg btn-danger p-2 profile-action-button" href="{% url 'accounts:logout' %}">
+                <i class="fas fa-sign-out-alt"></i> Se déconnecter
+            </a>
+        </div>
+    {% else %}
+        <div class="row profile-action-buttons">
+            <a class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'accounts:profile' slug=object.slug %}">
+                <i class="fas fa-chevron-left"></i> Quitter la vue invité
+            </a>
+        </div>
+    {% endif %}
 </div>

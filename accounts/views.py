@@ -30,12 +30,22 @@ class EditUserProfileView(UpdateView):
 class UserProfileView(DetailView):
     model = CustomUser
     template_name = 'accounts/profile.html'
+    view_as = 'self'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Profil'
         context['description'] = 'Voir son profil'
+        context['view_as'] = self.view_as
+        print(context["view_as"])
         return context
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get("view_as") is None or request.GET.get("view_as") == "" or request.GET.get("view_as") == "self":
+            self.view_as = 'self'
+        else:
+            self.view_as = 'guest'
+        return super(UserProfileView, self).get(request, *args, **kwargs)
 
 
 class PasswordsChangeView(PasswordChangeView):
