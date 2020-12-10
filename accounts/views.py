@@ -14,7 +14,7 @@ from .models import CustomUser
 
 class EditUserProfileView(UpdateView):
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy('koolapic:home')
+    success_url = reverse_lazy('koolapic:home')  # TODO: rediriger vers le profil
     template_name = 'accounts/edit_profile.html'
     success_message = 'Profil modifié avec succès !'
 
