@@ -40,6 +40,7 @@
     "@popperjs/core": "^2.5.4",
     "animejs": "^3.2.1",
     "bootstrap": "^4.5.3",
+    "cropperjs": "^1.5.9",
     "jquery": "^3.5.1"
   }
 }

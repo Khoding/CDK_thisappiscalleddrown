@@ -48,6 +48,10 @@
     <script src="{% static 'koolapic/js/modals.js' %}" crossorigin="anonymous" type="module"></script>
     <script src="{% static 'koolapic/js/nav.js' %}" crossorigin="anonymous" type="module"></script>
     <script src="{% static 'koolapic/js/animations.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/crop.js' %}" crossorigin="anonymous" type="module"></script>
+
+    <!-- JavaScript Cropper -->
+    <script src="{% static 'vendor/node_modules/cropperjs/dist/cropper.esm.js' %}" crossorigin="anonymous" type="module"></script>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="{% static 'koolapic/meta/favicon.ico' %}"/>
@@ -61,6 +65,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Noto+Sans+JP:wght@700&family=Roboto&family=Overpass+Mono:wght@300;400;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <!-- CSS custom -->
     <link href="{% static "koolapic/css/main.css" %}" rel="stylesheet" type="text/css">
+    <!-- Cropper -->
+    <link  href="{% static 'vendor/node_modules/cropperjs/dist/cropper.css' %}" rel="stylesheet">
 
     <!-- Ajout d'infos supplémentaires dans le head en fonction de la page -->
     {% block head %} {% endblock head %}

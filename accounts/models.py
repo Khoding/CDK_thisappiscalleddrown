@@ -23,3 +23,7 @@ class CustomUser(AbstractUser):
         if not self.slug:
             self.slug = slugify(self.username)
         return super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
