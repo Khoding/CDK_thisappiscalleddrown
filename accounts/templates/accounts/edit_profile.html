@@ -4,13 +4,20 @@
     Modifier l'utilisateur : {{ user.username }}
 {% endblock title %}
 
+{% block head %}
+
+{% endblock %}
+
 {% block content %}
     <h2>Modifier l'utilisateur</h2>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" id="formUpload">
         {% csrf_token %}
         {% include 'includes/form_snippet.html' %}
         <br>
         <button type="submit" class="btn btn-primary">Mettre à jour le profil</button>
     </form>
+    <div id="modalCrop">
+        <img alt="Photo de profile" src="" id="image" style="max-width: 100%;">
+    </div>
 
 {% endblock content %}
