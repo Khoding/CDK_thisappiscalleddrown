@@ -1,4 +1,4 @@
-<div class="gradient-container profile-container">
+<div class="gradient-lp large-padding-container text-white">
     <div class="profile-infos">
         {% if object.profile_pic %}
             <img src="{{ object.profile_pic.url }}" class="profile-pp" alt="Photo de profil" width="100"/>
@@ -14,8 +14,8 @@
                 <i class="fas fa-desktop"></i> Administrateur
             {% endif %}
         </h3>
-        <hr>
-        <div class="white-transparent-panel profile-infos-panel">
+        <hr class="hr-white">
+        <div class="bg-wt medium-padding-container">
             <h3>Informations</h3>
             <div class="profile-info row">
                 <div class="col col-1"><i class="fas fa-envelope"></i></div>
@@ -52,7 +52,7 @@
                 {% endif %}
             {% endif %}
             {% if object.id == user.id and view_as == "self" %}
-                <hr>
+                <hr class="hr-white">
                 <h3>Informations avancées</h3>
                 <div class="profile-info-label row">
                     <div class="col"><b><i class="fas fa-user-plus"></i> Compte créé le</b></div>
@@ -99,7 +99,7 @@
                 <i class="fas fa-sign-out-alt"></i> Se déconnecter
             </a>
         </div>
-    {% else %}
+    {% elif view_as == "guest" %}
         <div class="row profile-action-buttons">
             <a class="btn btn-outline-light p-2 profile-action-button" href="{% url 'accounts:profile' slug=object.slug %}">
                 <i class="fas fa-chevron-left"></i> Quitter la vue invité

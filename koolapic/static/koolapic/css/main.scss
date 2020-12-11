@@ -9,6 +9,9 @@
 /* Bootstrap configuré */
 @import "custom";
 
+/* Importe les classes utilitaires */
+@import "utils";
+
 /* Importation de FontAwesome */
 @import "../../vendor/node_modules/@fortawesome/fontawesome-free/css/all.css";
 
@@ -24,24 +27,10 @@ script {
   display: none;
 }
 
+/* Classes utilitaires */
 .no-result {
   color: white;
   font-size: 1.5em;
-}
-
-.gradient-container {
-  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
-  border-radius: 10px;
-  padding: 1em;
-  color: $white;
-}
-
-.gradient-container hr {
-  border: 2px solid $white;
-}
-
-.white-transparent-panel {
-  background-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Police */
@@ -302,112 +291,6 @@ header {
 }
 
 /* Activités */
-.activities-list::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.activities-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.activities-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-}
-
-.activities-list::-webkit-scrollbar-thumb:hover {
-  background: lighten($primary, 13%);
-}
-
-.activities-list {
-  margin: 0;
-  padding: 0 0 0.5em;
-  width: 100%;
-  height: 100%;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-color: $white transparent;
-  user-select: none;
-  -webkit-overflow-scrolling: touch;
-  @include media-breakpoint-down(md) {
-    scrollbar-width: thick;
-  }
-  @include media-breakpoint-up(md) {
-    scrollbar-width: thin;
-  }
-}
-
-.activities-list-wrapper {
-  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
-  border-radius: 10px;
-  padding: 1em;
-}
-
-.card.activity {
-  border: none;
-  border-radius: 5px;
-  margin-left: 0;
-  cursor: pointer;
-  min-width: 100%;
-  width: 100%;
-  @include media-breakpoint-up(sm) {
-    min-width: 75%;
-    width: 75%;
-  }
-  @include media-breakpoint-up(md) {
-    min-width: 50%;
-    width: 50%;
-  }
-  @include media-breakpoint-up(lg) {
-    min-width: 37.5%;
-    width: 37.5%;
-  }
-  @include media-breakpoint-up(xl) {
-    min-width: 25%;
-    width: 25%;
-  }
-}
-
-.activity div.card-header h4 {
-  display: block;
-  @include ellipsis();
-  font-weight: bold;
-  font-size: 64px;
-  color: $white;
-  @include media-breakpoint-up(lg) {
-    font-size: 1em !important;
-  }
-  @include media-breakpoint-up(xl) {
-    font-size: 1.25em !important;
-  }
-}
-
-.activity .card-header, .activity .card-footer {
-  color: $white;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: none;
-}
-
-.activity .card-header {
-  border-bottom: 1px solid $white;
-}
-
-.activity .card-footer {
-  background-color: transparent;
-}
-
-.activity .card-body {
-  color: $white;
-  background-color: transparent;
-}
-
-.activity-name {
-  display: inline;
-}
-
 .activity-action-btn {
   width: 42px;
   height: 42px;
@@ -420,20 +303,7 @@ header {
   vertical-align: middle;
 }
 
-.activity-location, .activity-group, .activity-date {
-  @include ellipsis();
-}
-
 /* Profil */
-.profile-container {
-  padding: 2.5rem;
-}
-
-.profile-infos-panel {
-  border-radius: $border-radius;
-  padding: 2rem;
-}
-
 .profile-pp {
   display: block;
   margin-left: auto;
