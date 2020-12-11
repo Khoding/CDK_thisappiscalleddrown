@@ -1,0 +1,48 @@
+<div class="gradient-lp text-white small-padding-container">
+    <h2>Groupes auxquels vous appartenez</h2>
+    <!-- TODO: place temporaire pour le bouton -->
+    <div>
+        <a class="btn btn-outline-light" title="Créer un nouveau groupe" href="{% url 'koolapic:add_group' %}" role="button">
+            <i class="fas fa-plus"></i> Créer un groupe
+        </a>
+    </div>
+    <br>
+    <div class="card-deck horizontal-scroll">
+        {% if groups.count %}
+            {% for group in groups %}
+                <div class="card infocard bg-wt" data-activity-id="{{ activity.id }}">
+                    <img class="card-img" src="{{ group.image.url }}">
+                    <div class="card-header">
+                        <h4>{{ group.name }}</h4>
+                        <h5>{{ group.user_count }} membre{% if group.user_count > 1 %}s{% endif %}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-justify">{{ group.description }}</div>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        {% else %}
+            <div class="no-result">Vous n'appartenez à aucun groupe.</div>
+        {% endif %}
+    </div>
+</div>
+<div class="modal" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activityModalTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>

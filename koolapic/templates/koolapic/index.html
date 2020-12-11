@@ -3,18 +3,9 @@
 {% block head %} {% endblock head %}
 
 {% block content %}
-    <h1>Bienvenue sur Koolapic</h1>
-
     {% if user.is_authenticated %}
-        Salut {{ user.username }} !
-        {% if user.profile_pic %}
-            <img src="{{ user.profile_pic.url }}" alt="profile image" width="50"/>
-            <hr>
-        {% endif %}
-        <p><a href="{% url 'accounts:logout' %}">Log Out</a></p>
-    {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'accounts:login' %}">Log In</a> |
-        <a href="{% url 'accounts:signup' %}">Sign Up</a>
+        {% include 'koolapic/activities/includes/upcoming_activity_list.html' %}
+        <br>
+        {% include 'koolapic/groups/includes/your_groups.html' %}
     {% endif %}
 {% endblock content %}

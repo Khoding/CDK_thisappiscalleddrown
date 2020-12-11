@@ -18,7 +18,7 @@ class Admission(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=120, verbose_name="Nom du groupe")
-    description = models.TextField(verbose_name="Description")
+    description = models.TextField(verbose_name="Description", max_length=200)
     status = models.CharField(max_length=25, verbose_name="Statut")
     date_don = models.DateTimeField()
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
@@ -61,7 +61,7 @@ class Activity(models.Model):
     remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
     max_participants = models.PositiveIntegerField(verbose_name="Nombre maximum de participants")
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour")
-    slug = models.SlugField(null=True, unique=True, verbose_name="Slug", max_length=255,)
+    slug = models.SlugField(null=True, unique=True, verbose_name="Slug", max_length=255)
     groups = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupes")
     user = models.ManyToManyField(CustomUser, verbose_name="Utilisateur")
 

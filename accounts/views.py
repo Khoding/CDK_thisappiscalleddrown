@@ -37,7 +37,6 @@ class UserProfileView(DetailView):
         context['title'] = 'Profil'
         context['description'] = 'Voir son profil'
         context['view_as'] = self.view_as
-        print(context["view_as"])
         return context
 
     def get(self, request, *args, **kwargs):
