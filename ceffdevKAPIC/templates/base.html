@@ -111,7 +111,7 @@
 
 {% block topbar %}
     {% if user.is_authenticated %}
-        <header class="d-flex justify-content-between gradient-l2" id="mainHeader">
+        <header class="d-flex justify-content-between gradient-l2 mb-5" id="mainHeader">
             <button class="nav-toggler text-white" type="button" data-target="#mainNavbar" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation">
                 <i class="fas fa-bars"></i>
             </button>
@@ -131,12 +131,45 @@
         {% endblock %}
     </div>
 </main>
-<footer class="footer mt-auto py-3">
+<footer class="footer mt-5 py-3 medium-padding-container gradient-l2 text-white">
     <div class="container text-md-center">
-        <span class="text-muted">&#169; {{ current_year }} Koolapic - Tous droits réservés - </span>
-        <a href="https://www.ceff.ch/industrie">ceff Industrie</a>
-        <br>
-        <a href="mailto:support@kooolapic.net">Signaler un problème</a>
+        <div class="row justify-content-center">
+            <div class="col">
+                <a href="{% url 'koolapic:conditions' %}">Conditions</a>
+            </div>
+            <div class="col">
+                <a href="{% url 'koolapic:confidentiality' %}">Confidentialité</a>
+            </div>
+            <div class="col">
+                <a href="{% url 'koolapic:licenses' %}">Licences</a>
+            </div>
+        </div>
+        <div class="row justify-content-center footer-icons">
+            <div class="p-2">
+                <a href="https://www.ceff.ch/ceff" title="Site du ceff"><i class="fas fa-globe"></i></a>
+            </div>
+            <div class="p-2">
+                <a href="https://www.facebook.com/leceff/" title="Facebook"><i class="fab fa-facebook"></i></a>
+            </div>
+            <div class="p-2">
+                <a href="https://www.linkedin.com/school/ceff_2/" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="p-2">
+                <a href="https://www.instagram.com/ceff.ch/" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="p-2">
+                <a href="https://www.youtube.com/channel/UCAkHuchjf7itOixiFYO2TEw" title="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="p-2">
+                <a href="https://github.com/ceffDptInfo" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+        <hr class="hr-white">
+        <div class="row justify-content-center">
+            <div class="p-2 footer-text">
+                &#169; {{ current_year }} Koolapic &ndash; ceff<span class="d-none d-md-inline"> Industrie</span> &ndash; tous droits réservés
+            </div>
+        </div>
     </div>
 </footer>
 </body>

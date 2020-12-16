@@ -38,19 +38,21 @@
 
 /* Containers spéciaux */
 
+// Container avec les bordures arrondies
+.rounded-corner-container {
+  border-radius: $border-radius;
+}
+
 // Container avec padding
 .small-padding-container {
-  border-radius: $border-radius;
   padding: 1rem;
 }
 
 .medium-padding-container {
-  border-radius: $border-radius;
   padding: 1.75rem;
 }
 
 .large-padding-container {
-  border-radius: $border-radius;
   padding: 2.5rem;
 }
 

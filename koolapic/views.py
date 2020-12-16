@@ -202,5 +202,13 @@ class KoolapicLoginView(LoginView):
         return context
 
 
-class LogoutView(TemplateView):
+class ConditionsView(TemplateView):
+    pass
+
+
+class ConfidentialityView(TemplateView):
+    pass
+
+
+class LicenseView(TemplateView):
     pass

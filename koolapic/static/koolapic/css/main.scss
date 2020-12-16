@@ -362,17 +362,19 @@ header {
 }
 
 /* Homepage */
-.dark-muted-txt {
-  color: $palette-d1;
-}
-
 .homepage-text {
   font-size: 1.25em;
+}
+
+/*
+.dark-muted-txt {
+  color: $palette-d1;
 }
 
 .dark-homepage-footer {
   font-size: 32px;
 }
+*/
 
 // Bouton call to action
 .cta-button {
@@ -385,4 +387,40 @@ header {
 .cta-button:hover {
   background-color: $palette-d1;
   color: white;
+}
+
+/* Footer */
+.footer {
+  font-weight: bold;
+    font-size: 0.75em !important;
+    @include media-breakpoint-up(lg) {
+    font-size: 1.125rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.25rem !important;
+  }
+}
+
+.footer .footer-icons {
+   font-size: 1.5rem !important;
+}
+
+.footer a {
+  color: white;
+  transition: color 0.25s;
+}
+
+.footer a:hover {
+  color: lighten($palette-primary, 25%);
+}
+
+.footer-text {
+  font-weight: normal;
+  font-size: 0.75rem !important;
+  @include media-breakpoint-up(lg) {
+    font-size: 1.1rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.25rem !important;
+  }
 }
