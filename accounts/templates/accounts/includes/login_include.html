@@ -6,7 +6,7 @@
     </div>
     <img class="card-img form-logo mx-auto" alt="Logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}">
     <div class="card-body">
-        <form action="{{ form_action }}" method="post" novalidate class="medium-padding-container bg-wt">
+        <form action="{{ form_action }}" method="post" novalidate class="medium-padding-container bg-wt rounded-corner-container">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% include "includes/form_snippet.html" %}
