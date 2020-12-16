@@ -23,7 +23,7 @@ class CustomUserChangeForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         custom_user = super(CustomUserChangeForm, self).save()
-        if self.cleaned_data.get('x'):
+        if self.cleaned_data.get('width'):
             x = self.cleaned_data.get('x')
             y = self.cleaned_data.get('y')
             w = self.cleaned_data.get('width')
