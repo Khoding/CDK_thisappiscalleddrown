@@ -54,6 +54,10 @@
   padding: 2.5rem;
 }
 
+.no-padding-container {
+  padding: 0 !important;
+}
+
 .blank-img {
   background-color: $gray-400;
 }
@@ -113,11 +117,43 @@
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+/* Formcards */
+.card.formcard {
+  border: none !important;
+  border-radius: $border-radius;
+}
+
+.formcard .card-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.formcard .card-footer {
+  font-size: 1.25rem;
+}
+
+.formcard .card-header, .formcard .card-footer {
+  background-color: transparent;
+  border: none;
+}
+
+/*
+.formcard a {
+  color: $palette-d2;
+  background-color: white;
+  border-radius: 3px;
+  padding: 2px;
+}
+*/
+.formcard a:hover {
+  color: $palette-d1;
+}
+
 /* Infocards */
 
 // Infocard
 .card.infocard {
-  border: none;
+  border: none !important;
   border-radius: 5px;
   margin-left: 0;
   cursor: pointer;
@@ -180,6 +216,7 @@
 }
 
 /* Génération de classes par couleur */
+// Palette
 @each $name, $color in $palette {
   .gradient-#{$name} {
     @include koolapic-gradient($palette-primary, $color);
@@ -205,6 +242,23 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .btn-#{$name} {
+    color: $white;
+    background-color: $color;
+  }
+
+  .btn-#{$name}:hover {
+    color: $white !important;
+    background-color: darken($color, 10%) ;
+  }
+
+  .text-#{$name} {
+    color: $color;
+  }
+}
+
+// Couleurs sémantiques
+@each $name, $color in $semantics {
   .text-#{$name} {
     color: $color;
   }

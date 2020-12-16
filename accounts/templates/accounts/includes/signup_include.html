@@ -1,9 +1,12 @@
 {% load static %}
-<div class="card">
-    <div class="card-header">Créer un compte sur Koolapic</div>
-    <img class="card-img form-logo mx-auto" alt="Logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-primary.svg' %}">
+<div class="card gradient-l2 formcard text-white">
+    <div class="card-header">
+        Créer un compte sur Koolapic
+        <hr class="hr-white">
+    </div>
+    <img class="card-img form-logo mx-auto" alt="Logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}">
     <div class="card-body">
-        <form action="{{ form_action }}" method="post" novalidate>
+        <form action="{{ form_action }}" method="post" novalidate class="medium-padding-container bg-wt">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% include "includes/form_snippet.html" %}
@@ -12,6 +15,6 @@
         </form>
     </div>
     <div class="card-footer">
-        <p class="text-right">Vous avez déjà un compte ? <a href="{% url 'accounts:login' %}">Connectez-vous</a>.</p>
+        <p class="text-right">Vous avez déjà un compte ? <a href="{% url 'accounts:login' %}" class="btn btn-d2">Connectez-vous</a></p>
     </div>
 </div>

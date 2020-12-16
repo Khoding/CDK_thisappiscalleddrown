@@ -1,10 +1,14 @@
 {% load static %}
-<div class="card">
-    <div class="card-header">Se déconnecter de votre compte Koolapic</div>
+<div class="card formcard gradient-l2 text-white">
+    <div class="card-header">
+        Se déconnecter de votre compte Koolapic
+        <hr class="hr-white">
+    </div>
     <div class="card-body">
-        <h1>Au revoir !</h1>
-        <br>
-        <form action="{{ form_action }}" method="post" novalidate>
+        <form action="{{ form_action }}" method="post" novalidate class="bg-wt medium-padding-container">
+            <h1>Au revoir !</h1>
+            <p>Nous espérons que votre séjour parmi nous vous aura plu.</p>
+            <br>
             {% csrf_token %}
             {{ form.non_field_errors }}
             <input type="submit" class="btn btn-primary" value="Se déconnecter" name="Se déconnecter">

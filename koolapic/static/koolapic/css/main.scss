@@ -42,14 +42,20 @@ b {
   letter-spacing: 1px;
 }
 
-
 /* Formulaires */
-.form-error {
-  color: $semantics-danger;
+.form-logo {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 10%;
 }
 
-.form-logo {
-  width: 25%;
+.form-error {
+  margin-top: 0;
+  padding: 3px;
+  color: $semantics-danger;
+  font-weight: bolder;
+  letter-spacing: 1px;
+  font-size: 16px;
 }
 
 label {
@@ -72,7 +78,7 @@ input[type='file'] {
 
 /* Header */
 header {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   padding: 1vw;
 }
 
@@ -228,7 +234,7 @@ header {
 @include media-breakpoint-up(md) {
   #profilePicture, #noProfilePicture {
     z-index: 1100;
-    position: fixed;
+    position: absolute;
     display: inline;
     min-height: 50px;
     height: 9vh;
