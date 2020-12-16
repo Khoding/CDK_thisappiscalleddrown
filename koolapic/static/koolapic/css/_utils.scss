@@ -1,7 +1,8 @@
 @import "variables";
+@import "../../vendor/node_modules/bootstrap/scss/variables";
 
 /* Mixins SCSS */
-@import 'mixins/mixins';
+@import 'mixins';
 
 /* Texte */
 
@@ -25,10 +26,12 @@
   color: $black;
 }
 
+// hr en blanc
 .hr-white {
-   border: 2px solid $white;
+  border: 2px solid $white;
 }
 
+// hr en noir
 .hr-black {
   border: 2px solid $black;
 }
@@ -49,6 +52,14 @@
 .large-padding-container {
   border-radius: $border-radius;
   padding: 2.5rem;
+}
+
+.no-padding-container {
+  padding: 0 !important;
+}
+
+.blank-img {
+  background-color: $gray-400;
 }
 
 // Scrolling horizontal
@@ -86,24 +97,19 @@
 }
 
 .horizontal-scroll::-webkit-scrollbar-thumb:hover {
-  background: lighten($palette_primary, 13%);
+  background: lighten($palette-primary, 13%);
 }
 
 /* Couleurs de fond */
 
-// Light & primary
-.gradient-lp {
-  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
-}
-
-// Primary & dark
-.gradient-dp {
-  background: radial-gradient(circle at top right, $palette-d2, $palette_primary);
-}
 
 // Arrière-plan transparent et blanc
 .bg-wt {
   background-color: rgba(255, 255, 255, 0.25);
+}
+
+.bg-wt-50 {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 // Arrière-plan transparent et noir
@@ -111,11 +117,43 @@
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+/* Formcards */
+.card.formcard {
+  border: none !important;
+  border-radius: $border-radius;
+}
+
+.formcard .card-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.formcard .card-footer {
+  font-size: 1.25rem;
+}
+
+.formcard .card-header, .formcard .card-footer {
+  background-color: transparent;
+  border: none;
+}
+
+/*
+.formcard a {
+  color: $palette-d2;
+  background-color: white;
+  border-radius: 3px;
+  padding: 2px;
+}
+*/
+.formcard a:hover {
+  color: $palette-d1;
+}
+
 /* Infocards */
 
 // Infocard
 .card.infocard {
-  border: none;
+  border: none !important;
   border-radius: 5px;
   margin-left: 0;
   cursor: pointer;
@@ -175,4 +213,53 @@
 .infocard .card-body {
   color: $white;
   background-color: transparent;
+}
+
+/* Génération de classes par couleur */
+// Palette
+@each $name, $color in $palette {
+  .gradient-#{$name} {
+    @include koolapic-gradient($palette-primary, $color);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .gradient-#{$name}-i {
+    @include koolapic-gradient($color, $palette-primary);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .gradient-text-#{$name} {
+    background: -webkit-radial-gradient($palette-primary, $color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gradient-text-#{$name}-i {
+    background: -webkit-radial-gradient($color, $palette-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .btn-#{$name} {
+    color: $white;
+    background-color: $color;
+  }
+
+  .btn-#{$name}:hover {
+    color: $white !important;
+    background-color: darken($color, 10%) ;
+  }
+
+  .text-#{$name} {
+    color: $color;
+  }
+}
+
+// Couleurs sémantiques
+@each $name, $color in $semantics {
+  .text-#{$name} {
+    color: $color;
+  }
 }

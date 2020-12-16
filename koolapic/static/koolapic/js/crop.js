@@ -10,6 +10,7 @@ $(document).ready(function () {
             reader.onload = function (e) {
                 $("#image").attr("src", e.target.result);
                 let image = document.getElementById("image");
+                $("#modalCrop").modal('show');
                 const cropper = new Cropper(image, {
                     aspectRatio: 1 / 1,
                     crop(event) {

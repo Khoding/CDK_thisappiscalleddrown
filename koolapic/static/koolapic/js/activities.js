@@ -13,7 +13,7 @@ $(document).ready(function () {
     })
 
     function addEventsListeners() {
-        let activities = $(".activity")
+        let activities = $(".infocard")
 
         for (let i = 0; i < activities.length; i++) {
             //activities[i].addEventListener('click', activityClickListener);

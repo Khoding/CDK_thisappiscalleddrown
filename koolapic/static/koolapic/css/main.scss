@@ -4,7 +4,7 @@
 @import "variables";
 
 /* Mixins SCSS */
-@import 'mixins/mixins';
+@import 'mixins';
 
 /* Bootstrap configuré */
 @import "custom";
@@ -27,9 +27,9 @@ script {
   display: none;
 }
 
-/* Classes utilitaires */
+/* Classes utilitaires diverses */
 .no-result {
-  color: white;
+  color: $white;
   font-size: 1.5em;
 }
 
@@ -42,33 +42,20 @@ b {
   letter-spacing: 1px;
 }
 
-.dark-muted-txt {
-  color: $palette_dark_muted;
-}
-
-.dark-homepage-title {
-  font-size: 50px;
-}
-
-.dark-homepage-text {
-  font-size: 25px;
-}
-
-.dark-homepage-footer {
-  font-size: 32px;
-}
-
-.emphasis-txt {
-  color: $white;
-}
-
 /* Formulaires */
-.form-error {
-  color: $palette_danger;
+.form-logo {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 10%;
 }
 
-.form-logo {
-  width: 25%;
+.form-error {
+  margin-top: 0;
+  padding: 3px;
+  color: $semantics-danger;
+  font-weight: bolder;
+  letter-spacing: 1px;
+  font-size: 16px;
 }
 
 label {
@@ -91,7 +78,7 @@ input[type='file'] {
 
 /* Header */
 header {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   padding: 1vw;
 }
 
@@ -154,7 +141,7 @@ header {
   opacity: 0;
   transition: left 0.5s, opacity 0.1s;
   box-shadow: 0 7px 10px black;
-  background-color: $palette_primary;
+  background-color: $palette-primary;
 
   @include media-breakpoint-down(md) {
     width: 100%;
@@ -195,7 +182,7 @@ header {
 
 #mainNavbarOverlay {
   cursor: pointer;
-  background: radial-gradient(circle at top right, $palette-l2, $palette_primary);
+  background: radial-gradient(circle at top right, $palette-l2, $palette-primary);
   z-index: 999;
   position: fixed;
   left: -100vw;
@@ -247,7 +234,7 @@ header {
 @include media-breakpoint-up(md) {
   #profilePicture, #noProfilePicture {
     z-index: 1100;
-    position: fixed;
+    position: absolute;
     display: inline;
     min-height: 50px;
     height: 9vh;
@@ -372,4 +359,30 @@ header {
   @include media-breakpoint-down(md) {
     width: 100%;
   }
+}
+
+/* Homepage */
+.dark-muted-txt {
+  color: $palette-d1;
+}
+
+.homepage-text {
+  font-size: 1.25em;
+}
+
+.dark-homepage-footer {
+  font-size: 32px;
+}
+
+// Bouton call to action
+.cta-button {
+  background-color: $palette-d2;
+  color: white;
+  transition: background-color 0.4s;
+}
+
+// Bouton call to action
+.cta-button:hover {
+  background-color: $palette-d1;
+  color: white;
 }

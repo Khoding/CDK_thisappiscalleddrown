@@ -34,9 +34,7 @@
         {% endif %}
 
         {% for error in field.errors %}
-            <small class="form-text form-error">
-                {{ error }}
-            </small>
+            <small class="form-text form-error">{{ error }}</small>
         {% endfor %}
     </div>
 {% endfor %}

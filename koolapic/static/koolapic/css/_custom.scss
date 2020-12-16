@@ -5,13 +5,13 @@ Configuration de Bootstrap en CSS.
 @import 'variables';
 
 /* Définition de la palette dans Bootstrap */
-$primary: $palette_primary;
+$primary: $palette-primary;
 $secondary: $palette-l1;
 
-$success: $palette_success;
-$danger: $palette_danger;
-$warning: $palette_warning;
-$info: $palette_info;
+$success: $semantics-success;
+$danger: $semantics-danger;
+$warning: $semantics-warning;
+$info: $semantics-info;
 
 /* Style des alertes de Bootstrap */
 $alert-bg-level: 0 !default;

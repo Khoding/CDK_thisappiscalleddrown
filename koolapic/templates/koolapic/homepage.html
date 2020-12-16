@@ -9,116 +9,94 @@
     {% if user.is_authenticated %}
         {{ block.super }}
     {% else %}
-        <div class="bg-primary">
-            <div class="container-fluid w-75">
-                <nav class="navbar navbar-expand-md navbar-dark bg-primary nav-stacked justify-content">
+        <header class="container-fluid w-75 gradient-l2 medium-padding-container">
+            <div class="d-flex justify-content-between">
+                <div class="p-2 no-padding-container">
                     <a class="navbar-brand" href="{% url 'koolapic:home' %}">
                         <img id="main-navbar-logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}" alt="Logo de Koolapic">
                     </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="btn text-white" href="{% url 'accounts:login' %}" tabindex="-1">Se connecter</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-light" href="{% url 'accounts:signup' %}" tabindex="-1">S'enregistrer</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                </div>
+                <div class="p-2 no-padding-container">
+                    <a class="btn btn-outline-light" href="{% url 'accounts:login' %}">Se connecter</a>
+                    <a class="btn btn-outline-light m-2" href="{% url 'accounts:signup' %}">S'enregistrer</a>
+                </div>
             </div>
-        </div>
-
+        </header>
     {% endif %}
 {% endblock topbar %}
 
 {% block content %}
-    <div class="bg-primary w-100 mb-5">
-        <div class="jumbotron bg-primary">
-            <div class="container">
-                <div class="w-75 text-white">
-                    <h1 class="mb-3 dark-homepage-title">
-                        Planifier vos activités de groupe <br> avec facilité sur <b>Koolapic</b>
-                    </h1>
+    <div class="w-100 mb-5">
+        <div class="container">
+            <div class="w-75">
+                <h1 class="mb-3 gradient-text-l2"><b>Planifiez vos activités de groupe <br>avec facilité sur Koolapic</b></h1>
+            </div>
+            <div class="w-75">
+                <p class="homepage-text mb-5">
+                    Une interface web pour planifier vos activités en toute simplicité. Vous êtes un groupe d'amis, de sportifs, ou autres et vous désirez un espace de planification et d'inscription aux activités que vous organisez ?
+                    <b>Koolapic</b> est la solution pour vous !
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="large-padding-container">
+        <div class="container-fluid w-75">
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-6">
+                    <h1 class="gradient-text-l2">Organisez vos activités avec <b>Koolapic</b> !</h1>
+                    <p class="homepage-text">
+                        L'interface d'une grande simplicité de <b>Koolapic</b> vous permet d'organiser rapidement vos activités de tout type.
+                    </p>
                 </div>
-                <div class="w-75 dark-muted-txt">
-                    <p class="dark-homepage-text mb-5">
-                        Une interface web pour planifier vos activités en toute simplicité. Vous êtes un groupe d'amis, de sportifs, ou autres et vous désirez un espace de planification et d'inscription aux activités que vous organisez ?
-                        <b class="emphasis-txt">Koolapic</b> est la solution pour vous !
+                <div class="col-6">
+                    <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-Fill-primary.svg' %}" alt="Logo de Koolapic">
+                </div>
+            </div>
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-5">
+                    <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-primary.svg' %}" alt="Logo de Koolapic">
+                </div>
+                <div class="col-7">
+                    <h1 class="gradient-text-l2">Compatible avec <b>tous vos appareils</b> !</h1>
+                    <p class="homepage-text">
+                        Vous pouvez planifier vos activités depuis <b>n'importe quel appareil</b>. Accédez à Koolapic depuis votre ordinateur, votre téléphone mobile ou encore votre tablette sans aucun problème !
+                    </p>
+                </div>
+            </div>
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-5">
+                    <h1 class="gradient-text-l2"><b>Invitez vos amis</b> à y participer !</h1>
+                    <p class="homepage-text">
+                        De <b>nombreux moyens sont fournis</b> afin d'inviter des personnes à participer à vos activités.
+                    </p>
+                </div>
+                <div class="col-6">
+                    <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-primary.svg' %}" alt="Logo de Koolapic">
+                </div>
+            </div>
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-5">
+                    <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-primary.svg' %}" alt="Logo de Koolapic">
+                </div>
+                <div class="col-6">
+                    <h1 class="gradient-text-l2">Créé par des élèves du <b>ceff Industrie</b></h1>
+                    <p class="homepage-text">
+                        <b>Koolapic</b> a été créé par des apprentis informaticiens du <b>ceff Industrie</b>.
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid w-75">
-        <div class="shadow p-5 rounded row mb-5">
-            <div class="col-6">
-                <h1>
-                    Organisez vos activités avec <b>Koolapic</b> !
+    <div class="gradient-l2 w-100 mb-5">
+        <div class="container medium-padding-container">
+            <div class="text-white px-5 py-2">
+                <h1 class="mb-5 text-center">
+                    Inscrivez-vous et utilisez <b>Koolapic</b> afin de pouvoir planifier vos activités en toute simplicité !
                 </h1>
-                <p class="dark-homepage-text text-muted">
-                    L'interface d'une grande simplicité de <b>Koolapic</b> vous permet d'organiser rapidement vos activités de tout type.
-                </p>
-            </div>
-            <div class="col-6">
-                <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-Fill-primary.svg' %}" alt="Logo de Koolapic">
-            </div>
-        </div>
-        <div class="shadow p-5 rounded row mb-5">
-            <div class="col-5">
-                <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-secondary.svg' %}" alt="Logo de Koolapic">
-            </div>
-            <div class="col-7">
-                <h1>
-                    Compatible avec <b>tous vos appareils</b> !
-                </h1>
-                <p class="dark-homepage-text text-muted">
-                    Vous pouvez planifier vos activités depuis <b>n'importe quel appareil</b>. Accédez à Koolapic depuis votre ordinateur, votre téléphone mobile ou encore votre tablette sans aucun problème !
-                </p>
-            </div>
-        </div>
-        <div class="shadow p-5 rounded row mb-5">
-            <div class="col-5">
-                <h1>
-                    <b>Invitez vos amis</b> à y participer !
-                </h1>
-                <p class="dark-homepage-text text-muted">
-                    De <b>nombreux moyens sont fournis</b> afin d'inviter des personnes à participer à vos activités.
-                </p>
-            </div>
-            <div class="col-6">
-                <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-secondary.svg' %}" alt="Logo de Koolapic">
-            </div>
-        </div>
-        <div class="shadow p-5 rounded row mb-5">
-            <div class="col-5">
-                <img class="d-flex mx-auto h-100" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-secondary.svg' %}" alt="Logo de Koolapic">
-            </div>
-            <div class="col-6">
-                <h1>
-                    Créé par des élèves du <b>ceff Industrie</b>
-                </h1>
-                <p class="dark-homepage-text text-muted">
-                    <b>Koolapic</b> a été créé par des apprentis informaticien du <b>ceff Industrie</b>
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="bg-primary w-100 mb-5">
-        <div class="jumbotron bg-primary mb">
-            <div class="container">
-                <div class="text-white px-5 py-2">
-                    <h1 class="mb-5 dark-homepage-footer text-center">
-                        Inscrivez-vous et utilisez <b>Koolapic</b> afin de pouvoir planifier vos activités en toute simplicité !
-                    </h1>
-                    <div class="d-flex justify-content-center">
-                        <a href="{% url 'accounts:signup' %}">
-                            <input type="button" class="btn btn-light text-secondary" value="Créer un compte sur Koolapic" name="Créer un compte sur Koolapic">
-                        </a>
-                    </div>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'accounts:signup' %}">
+                        <input type="button" class="btn btn-lg cta-button" value="Créer un compte sur Koolapic" name="Créer un compte sur Koolapic">
+                    </a>
                 </div>
             </div>
         </div>
