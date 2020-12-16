@@ -391,7 +391,13 @@ header {
 
 /* Footer */
 .footer {
-  font-size: 1.25em;
+  font-size: 0.75rem !important;
+  @include media-breakpoint-up(lg) {
+    font-size: 1rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.25rem !important;
+  }
   font-weight: bold;
 }
 
