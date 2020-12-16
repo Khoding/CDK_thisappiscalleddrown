@@ -1,4 +1,4 @@
-<div class="gradient-lp text-white small-padding-container">
+<div class="gradient-l2 text-white small-padding-container">
     <h2>Groupes auxquels vous appartenez</h2>
     <!-- TODO: place temporaire pour le bouton -->
     <div>
@@ -13,13 +13,15 @@
                 <div class="card infocard bg-wt" data-activity-id="{{ activity.id }}">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}">
+                    {% else %}
+                        <div class="card-img blank-img"></div>
                     {% endif %}
                     <div class="card-header">
                         <h4>{{ group.name }}</h4>
                         <h5>{{ group.user_count }} membre{% if group.user_count > 1 %}s{% endif %}</h5>
                     </div>
                     <div class="card-body">
-                        <div class="text-justify">{{ group.description }}</div>
+                        <div>{{ group.description }}</div>
                     </div>
                 </div>
                 <br>

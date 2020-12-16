@@ -9,22 +9,32 @@ font-family: 'Roboto', sans-serif;
 
 $palette-d2: #B54FF6;
 $palette-d1: #7544D4;
-$palette_primary: #6358EB;
+$palette-primary: #6358EB;
 $palette-l1: #4460D4;
 $palette-l2: #4F9CF6;
 
+$semantics-danger: #EB4034;
+$semantics-success: #3DD750;
+$semantics-warning: #F5EF45;
+$semantics-info: #45DEF5;
 
-$palette_danger: #eb4034;
-$palette_success: #3dd750;
-$palette_warning: #f5ef45;
-$palette_info: #45def5;
+$palette: (
+        "d2": $palette-d2,
+        "d1": $palette-d1,
+        "p": $palette-primary,
+        "l1": $palette-l1,
+        "l2": $palette-l2
+);
+
+$semantics: (
+        "danger": $semantics-danger,
+        "success": $semantics-success,
+        "warning": $semantics-warning,
+        "info": $semantics-info
+);
+
 $white: #FFFFFF;
 $black: #000000;
-
-$palette_light: #A59FEE;
-$palette_attenuation: #4C44B8;
-$palette_dark: #2C286B;
-$palette_dark_muted: #C2C2C2;
 
 $sans-serif: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $headings: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino, serif;
