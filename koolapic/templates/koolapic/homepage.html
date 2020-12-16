@@ -9,27 +9,19 @@
     {% if user.is_authenticated %}
         {{ block.super }}
     {% else %}
-        <div class="container-fluid w-75">
-            <nav class="navbar navbar-expand-md nav-stacked justify-content">
-                <a class="navbar-brand" href="{% url 'koolapic:home' %}">
-                    <img id="main-navbar-logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}" alt="Logo de Koolapic">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="btn text-white" href="{% url 'accounts:login' %}" tabindex="-1">Se connecter</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-light" href="{% url 'accounts:signup' %}" tabindex="-1">S'enregistrer</a>
-                        </li>
-                    </ul>
+        <header class="container-fluid w-75 gradient-l2 medium-padding-container">
+            <div class="d-flex justify-content-between">
+                <div class="p-2 no-padding-container">
+                    <a class="navbar-brand" href="{% url 'koolapic:home' %}">
+                        <img id="main-navbar-logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}" alt="Logo de Koolapic">
+                    </a>
                 </div>
-            </nav>
-        </div>
+                <div class="p-2 no-padding-container">
+                    <a class="btn btn-outline-light" href="{% url 'accounts:login' %}">Se connecter</a>
+                    <a class="btn btn-outline-light m-2" href="{% url 'accounts:signup' %}">S'enregistrer</a>
+                </div>
+            </div>
+        </header>
     {% endif %}
 {% endblock topbar %}
 
@@ -37,7 +29,7 @@
     <div class="w-100 mb-5">
         <div class="container">
             <div class="w-75">
-                <h1 class="mb-3 gradient-text-l2"><b>Planifiez vos activités de groupe <br> avec facilité sur Koolapic</b></h1>
+                <h1 class="mb-3 gradient-text-l2"><b>Planifiez vos activités de groupe <br>avec facilité sur Koolapic</b></h1>
             </div>
             <div class="w-75">
                 <p class="homepage-text mb-5">

@@ -92,7 +92,7 @@ class UserLogoutView(TemplateView):
     def post(self, request):
         logout(request)
         messages.success(request, 'Vous avez été déconnecté avec succès !')
-        return redirect("koolapic:home")
+        return redirect("koolapic:homepage")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
