@@ -13,6 +13,9 @@ app_name = 'koolapic'
 
 urlpatterns = [
     path('app/', IndexView.as_view(), name='home'),
+    path('conditions/', IndexView.as_view(), name='conditions'),
+    path('confidentiality/', IndexView.as_view(), name='confidentiality'),
+    path('licenses/', IndexView.as_view(), name='licenses'),
     path('', HomeView.as_view(), name='homepage'),
 
     path('activities/', ActivityListView.as_view(), name="activity_list"),
