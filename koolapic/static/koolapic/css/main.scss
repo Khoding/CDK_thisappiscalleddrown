@@ -391,18 +391,18 @@ header {
 
 /* Footer */
 .footer {
-  font-size: 0.75rem !important;
-  @include media-breakpoint-up(lg) {
-    font-size: 1rem !important;
+  font-weight: bold;
+    font-size: 0.75em !important;
+    @include media-breakpoint-up(lg) {
+    font-size: 1.125rem !important;
   }
   @include media-breakpoint-up(xl) {
     font-size: 1.25rem !important;
   }
-  font-weight: bold;
 }
 
-.footer-icons {
-  font-size: 1.5em;
+.footer .footer-icons {
+   font-size: 1.5rem !important;
 }
 
 .footer a {
@@ -416,4 +416,11 @@ header {
 
 .footer-text {
   font-weight: normal;
+  font-size: 0.75rem !important;
+  @include media-breakpoint-up(lg) {
+    font-size: 1.1rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.25rem !important;
+  }
 }
