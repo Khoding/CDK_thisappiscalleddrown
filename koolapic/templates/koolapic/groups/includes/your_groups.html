@@ -11,11 +11,13 @@
         {% if groups.count %}
             {% for group in groups %}
                 <div class="card infocard bg-wt" data-activity-id="{{ activity.id }}">
-                    <img class="card-img" src="{{ group.image.url }}">
+                    {% if group.image %}
+                        <img class="card-img" src="{{ group.image.url }}">
+                    {% endif %}
                     <div class="card-header">
                         <h4>{{ group.name }}</h4>
                         <h5>{{ group.user_count }} membre{% if group.user_count > 1 %}s{% endif %}</h5>
-                    </div>
+                    </div>d
                     <div class="card-body">
                         <div class="text-justify">{{ group.description }}</div>
                     </div>
