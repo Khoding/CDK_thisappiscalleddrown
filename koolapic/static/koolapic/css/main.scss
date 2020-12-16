@@ -362,17 +362,19 @@ header {
 }
 
 /* Homepage */
-.dark-muted-txt {
-  color: $palette-d1;
-}
-
 .homepage-text {
   font-size: 1.25em;
+}
+
+/*
+.dark-muted-txt {
+  color: $palette-d1;
 }
 
 .dark-homepage-footer {
   font-size: 32px;
 }
+*/
 
 // Bouton call to action
 .cta-button {
@@ -385,4 +387,27 @@ header {
 .cta-button:hover {
   background-color: $palette-d1;
   color: white;
+}
+
+/* Footer */
+.footer {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.footer-icons {
+  font-size: 1.5em;
+}
+
+.footer a {
+  color: white;
+  transition: color 0.25s;
+}
+
+.footer a:hover {
+  color: lighten($palette-primary, 25%);
+}
+
+.footer-text {
+  font-weight: normal;
 }
