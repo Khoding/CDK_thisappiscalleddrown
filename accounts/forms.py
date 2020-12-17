@@ -8,7 +8,7 @@ from utils.image_utils import crop_image
 from .models import CustomUser
 
 VALID_IMAGE_EXTENSIONS = [
-    'bmp', 'gif', 'png', 'apng', 'webp', 'jpg', 'jpeg'
+    'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
 ]
 
 
