@@ -32,10 +32,9 @@ DEBUG = os.getenv("DEBUG")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
 
 # Google key
-# TODO pas encore fini
 EASY_MAPS_GOOGLE_KEY = 'AIzaSyDwIyYoPt1gABaxAHHxW3AZ0rn0TB7l-jw'
 EASY_MAPS_CENTER = (47.15031219558188, 6.992616014219671)
-# TODO pas encore fini
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,9 +48,7 @@ INSTALLED_APPS = [
     # Applications Packages / Modification de defaults
     'accounts',  # Pour changer le model User
     'bootstrap4',
-# TODO pas encore fini
     'easy_maps',
-# TODO pas encore fini
     'impostor',
 
     'allauth',

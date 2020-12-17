@@ -9,11 +9,11 @@
 
 {% for field in form %}
     <div class="field {{ field|widget_type }}">
-        {{ field.label_tag }}
-
-        {% if field|widget_type != "clearablefileinput" %}
-            <div class="input-group">
-        {% endif %}
+        {% if field|widget_type != "hiddeninput" %}
+            {{ field.label_tag }}
+            {% if field|widget_type != "clearablefileinput" %}
+                <div class="input-group">
+            {% endif %}
         {{ field|add_class:"form-control" }}
         {% if field.help_text and field|widget_type != "textarea" %}
             <div class="input-group-append">
@@ -33,8 +33,13 @@
             </div>
         {% endif %}
 
-        {% for error in field.errors %}
-            <small class="form-text form-error">{{ error }}</small>
-        {% endfor %}
+            {% for error in field.errors %}
+                <small class="form-text form-error">{{ error }}</small>
+            {% endfor %}
+        {% elif field|widget_type == "hiddeninput" %}
+            <div class="d-none input-group">
+                {{ field|add_class:"form-control" }}
+            </div>
+        {% endif %}
     </div>
 {% endfor %}
