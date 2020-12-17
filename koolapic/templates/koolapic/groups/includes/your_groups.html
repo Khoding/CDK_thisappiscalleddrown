@@ -10,7 +10,7 @@
     <div class="card-deck horizontal-scroll">
         {% if groups.count %}
             {% for group in groups %}
-                <div class="card infocard bg-wt" data-activity-id="{{ activity.id }}">
+                <div class="card infocard bg-wt" data-group-id="{{ group.id }}" onclick="window.location='{% url 'koolapic:group_detail' slug=group.slug %}'">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}">
                     {% else %}
