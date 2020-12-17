@@ -1,8 +1,19 @@
-from PIL import Image
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
+from django.core import validators
+from django.core.validators import FileExtensionValidator
+from django.forms import ImageField
 
+from utils.image_utils import crop_image
 from .models import CustomUser
+
+VALID_IMAGE_EXTENSIONS = [
+    'bmp', 'gif', 'png', 'apng', 'webp', 'jpg', 'jpeg'
+]
+
+
+class ImageCropField(ImageField):
+    default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -16,10 +27,11 @@ class CustomUserChangeForm(forms.ModelForm):
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
     height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    profile_pic = ImageCropField(required=False, label="Photo de profil")
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'tel_m', 'tel_p', 'npa', 'locality', 'address', 'profile_pic', 'bio', 'x', 'y', 'width', 'height',)
+        fields = ('username', 'first_name', 'last_name', 'email', 'tel_m', 'tel_p', 'npa', 'locality', 'address', 'bio', 'profile_pic', 'x', 'y', 'width', 'height')
 
     def save(self, *args, **kwargs):
         custom_user = super(CustomUserChangeForm, self).save()
@@ -29,9 +41,5 @@ class CustomUserChangeForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            image = Image.open(custom_user.profile_pic)
-            cropped_image = image.crop((x, y, w + x, h + y))
-            resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
-            resized_image.save(custom_user.profile_pic.path)
-
+            crop_image((x, y, w, h), (200, 200), custom_user.profile_pic.path)
         return custom_user
