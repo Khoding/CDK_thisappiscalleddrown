@@ -17,14 +17,24 @@ class Admission(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=120, verbose_name="Nom du groupe")
-    description = models.TextField(verbose_name="Description", max_length=200)
-    status = models.CharField(max_length=25, verbose_name="Statut")
-    date_don = models.DateTimeField()
+    INVITATION_POLICY_CHOICES = [
+        ('PU', 'Public'),  # Tout le monde peut rejoindre
+        ('AA', 'Privé'),  # Les administrateurs doivent accepter les demandes
+        ('OI', 'Sur invitation'),  # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
+        ('OAI', 'Sur invitation par un admin'),  # Seuls les administrateurs peuvent inviter des personnes
+    ]
+
+    VISIBILITY_CHOICES = [
+        ('IN', 'Invisible'),
+        ('VI', 'Visible'),
+    ]
+
+    name = models.CharField(max_length=50, verbose_name="Nom du groupe")
+    description = models.TextField(max_length=200, verbose_name="Description")
+    visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
+    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='AA')
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
-    home_text = models.CharField(max_length=150, verbose_name="Texte d'affichage")
     banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
-    alias = models.CharField(max_length=120, verbose_name="Alias")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
     users = models.ManyToManyField(CustomUser, blank=True, verbose_name="Utilisateurs")
     admission = models.ForeignKey(Admission, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Admission")
@@ -51,19 +61,18 @@ class Group(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
-    start_date = models.DateTimeField(verbose_name="Date de début")
-    end_date = models.DateTimeField(verbose_name="Date de fin")
-    description = models.TextField(max_length=500, verbose_name="Description")
+    end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions", blank=True, null=True)
     start_location = models.CharField(max_length=100, verbose_name="Lieu de départ")
-    coordinates = models.CharField(max_length=30, verbose_name="Coordonnées")
-    end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions")
+    start_date = models.DateTimeField(verbose_name="Date de début")
+    description = models.TextField(max_length=500, verbose_name="Description")
     end_location = models.CharField(max_length=100, verbose_name="Lieu de début")
-    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
+    end_date = models.DateTimeField(verbose_name="Date de fin")
+    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")  # Markdown
     max_participants = models.PositiveIntegerField(verbose_name="Nombre maximum de participants")
-    last_update = models.DateTimeField(verbose_name="Dernière mise à jour")
-    slug = models.SlugField(null=True, unique=True, verbose_name="Slug", max_length=255)
-    groups = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupes")
-    user = models.ManyToManyField(CustomUser, verbose_name="Utilisateur")
+    last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
+    slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
+    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
+    users = models.ManyToManyField(CustomUser, verbose_name="Utilisateurs")
 
     def __str__(self):
         return self.name
@@ -86,12 +95,12 @@ class Activity(models.Model):
         for x in itertools.count(10):
             if self.id:
                 if Activity.objects.filter(Q(slug=self.slug),
-                                           Q(author=self.user),
+                                           Q(author=self.users),
                                            Q(id=self.id),
                                            ).exists():
                     break
             if not Activity.objects.filter(
-                slug=self.slug
+                    slug=self.slug
             ).exists():
                 break
 
