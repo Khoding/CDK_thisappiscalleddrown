@@ -7,14 +7,19 @@ $(document).ready(function () {
         if (cropper) {
             cropper.destroy();
         }
+        console.log(this)
         if (this.files && this.files[0]) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 $("#imageCrop").attr('src', e.target.result);
                 let image = document.getElementById('imageCrop');
-                $("#modalCrop").modal('show');
+                let modal = $("#modalCrop");
+                modal.modal('show');
                 cropper = new Cropper(image, {
+                    viewMode: 2,
                     aspectRatio: 1 / 1,
+                    minCropBoxWidth: 100,
+                    minCropBoxHeight: 100,
                     crop(event) {
                         x = event.detail.x;
                         y = event.detail.y
@@ -27,14 +32,10 @@ $(document).ready(function () {
         }
     });
 
-    $("#saveImageCropped").click(function () {
+    $("#formUpload").click(function () {
         $("#id_x").val(x);
         $("#id_y").val(y);
         $("#id_width").val(width);
         $("#id_height").val(height);
-    });
-
-    $("#formUpload").click(function () {
-
     });
 });
