@@ -41,6 +41,6 @@ class CustomUserChangeForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_image((x, y, w, h), (100, 100), custom_user.profile_pic.path)
+            crop_image((x, y, w, h), (500, 500), custom_user.profile_pic.path)
 
         return custom_user

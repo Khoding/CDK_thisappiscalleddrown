@@ -78,7 +78,7 @@ class CustomGroupCreationForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_image((x, y, w, h), (100, 100), custom_group.image.path)
+            crop_image((x, y, w, h), (1072, 272), custom_group.image.path)
         return custom_group
 
 
@@ -105,5 +105,5 @@ class CustomGroupChangeForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_image((x, y, w, h), (100, 100), custom_group.image.path)
+            crop_image((x, y, w, h), (1072, 272), custom_group.image.path)
         return custom_group
