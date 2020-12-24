@@ -19,7 +19,7 @@ class ImageCropField(ImageField):
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name']
+        fields = ('username', 'email', 'first_name', 'last_name')
 
 
 class CustomUserChangeForm(forms.ModelForm):
@@ -41,5 +41,6 @@ class CustomUserChangeForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_image((x, y, w, h), (200, 200), custom_user.profile_pic.path)
+            crop_image((x, y, w, h), (500, 500), custom_user.profile_pic.path)
+
         return custom_user

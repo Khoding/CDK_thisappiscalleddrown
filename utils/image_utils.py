@@ -51,6 +51,7 @@ def crop_image(crop_dim, resize_dim, path):
 
 
 def crop_still_image(crop_dim, resize_dim, path, image):
+    crop_dim = (crop_dim[0], crop_dim[1], crop_dim[2] + crop_dim[0], crop_dim[3] + crop_dim[1])
     image = image.crop(crop_dim)
     image = image.resize(resize_dim, Image.ANTIALIAS)
     image.save(path, optimize=True)
