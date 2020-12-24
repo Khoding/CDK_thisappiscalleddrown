@@ -41,6 +41,8 @@
     "animejs": "^3.2.1",
     "bootstrap": "^4.5.3",
     "cropperjs": "^1.5.9",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "popper.js": "file:node_modules/popper.js",
+    "tippy.js": "^6.2.7"
   }
 }
