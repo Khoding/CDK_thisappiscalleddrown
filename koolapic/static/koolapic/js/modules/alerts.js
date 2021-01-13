@@ -8,14 +8,16 @@
 /* Anime.js */
 import anime from '../../../vendor/node_modules/animejs/lib/anime.es.js'; // Animation
 
-export {alert}
+window.displayAlert = displayAlert
+
+ export {displayAlert}
 
 /**
  * Ajoute une alerte avec un message sur la page
  * @param severity string : severité du message
  * @param message string : message
  */
-function alert(severity, message) {
+function displayAlert(severity, message) {
 
     severity = severity.toUpperCase()
     let bootstrapColor = 'light'
@@ -64,7 +66,7 @@ function alert(severity, message) {
         opacity: [0, 1],
         direction: 'alternate',
         complete: function (anim) {
-            $('#messages').find('.alert').remove()
+            $('#messages').find('.displayAlert').remove()
         }
     })
 }
