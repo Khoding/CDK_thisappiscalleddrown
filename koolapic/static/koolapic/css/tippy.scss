@@ -3,26 +3,13 @@
 @import "variables";
 
 .tippy-box[data-theme~='koolapic'] {
-  background-color: $palette-l1;
+  background-image: radial-gradient(circle at top right, $palette-d2, $palette-d1);
+  padding: 0.5em;
+  border-radius: 5px;
   color: $white;
 }
 
-.tippy-box[data-theme~='koolapic'][data-placement^='top'] > .tippy-arrow::before {
-  border-top-color: $palette-l1;
-  transform: scale(1.5);
-}
-
-.tippy-box[data-theme~='koolapic'][data-placement^='bottom'] > .tippy-arrow::before {
-  border-bottom-color: $palette-l1;
-  transform: scale(1.5);
-}
-
-.tippy-box[data-theme~='koolapic'][data-placement^='left'] > .tippy-arrow::before {
-  border-left-color: $palette-l1;
-  transform: scale(1.5);
-}
-
-.tippy-box[data-theme~='koolapic'][data-placement^='right'] > .tippy-arrow::before {
-  border-right-color: $palette-l1;
-  transform: scale(1.5);
+.tippy-box[data-animation='pop'][data-state='hidden'] {
+  opacity: 0;
+  transform: scale(0.75);
 }
