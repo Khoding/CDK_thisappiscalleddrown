@@ -1,6 +1,9 @@
+import json
+
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -149,6 +152,15 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['members_count'] = len(members) + len(admins)
         context['undisplayed_members_count'] = len(members) + len(admins) - 10
         return context
+
+    def post(self, *args, **kwargs):
+        data = json.loads(self.request.body.decode('utf-8'))
+        if data['action'] == 'join':
+            self.get_object().members.add(self.request.user)
+            return HttpResponse(status=200)
+        elif data['action'] == 'leave':
+            self.get_object().members.remove(self.request.user)
+            return HttpResponse(status=200)
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):

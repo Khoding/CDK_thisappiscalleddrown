@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block head %}
-    <script src="{% static 'koolapic/js/group_details.js' %}"></script>
+    <script src="{% static 'koolapic/js/group_details.js' %}" type="module"></script>
+    <script src="{% static 'koolapic/js/tabs.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -12,11 +13,21 @@
             <h1>{{ group.name }}</h1>
 
             <div class="group-members-overview d-none d-lg-block">
+                <div class="members-overview mb-2">
                 {% for user_p in members|slice:"10" %}
                     {% include 'includes/profile_picture.html' %}
                 {% empty %}
                     <h1 class="empty">Aucun membre n'est présent dans ce groupe.</h1>
                 {% endfor %}
+                </div>
+
+                {% if group.invitation_policy == "PU" and user not in members %}
+                    <button id="joinButton" type="button" class="btn btn-secondary" onclick="join();">Rejoindre</button>
+                {% endif %}
+
+                {% if user in members %}
+                    <button id="leaveButton" type="button" class="btn btn-secondary" onclick="leave();">Quitter</button>
+                {% endif %}
 
                 {% if members.count > 10 %}
                     <a href="#membersList" data-toggle="tab" role="link" aria-controls="link" class="undisplayed-elements-badge">+ {{ undisplayed_members_count }}</a>
