@@ -8,17 +8,17 @@
 {% load widget_tweaks %}
 
 {% for field in form %}
+    {% if field.help_text and field|widget_type != "textarea" %}
+        <div class="tooltip" id="{{ field.auto_id }}tooltip">
+            <strong>{{ field.help_text }}</strong>
+        </div>
+    {% endif %}
     <div class="field {{ field|widget_type }}">
         {% if field|widget_type != "hiddeninput" %}
             {{ field.label_tag }}
             {% if field|widget_type != "clearablefileinput" %}
                 <div class="input-group">
             {% endif %}
-        {% if field.help_text and field|widget_type != "textarea" %}
-            <div class="tooltip" id="{{ field.auto_id }}tooltip">
-                <strong>{{ field.help_text }}</strong>
-            </div>
-        {% endif %}
         {{ field|add_class:"form-control" }}
         {% if field.help_text and field|widget_type != "textarea" %}
             <div class="input-group-append">

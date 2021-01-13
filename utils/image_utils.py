@@ -13,30 +13,6 @@ ANIMATED_IMAGE_FORMATS = [
 ]
 
 
-def analyse_image(image):
-    results = {
-        'size': image.size,
-        'mode': 'global'
-    }
-
-    try:
-        for i in range(len(image.tile)):
-            if image.tile:
-                tile = image.tile[0]
-                update_region = tile[1]
-                update_region_dimensions = update_region[2:]
-                if update_region_dimensions != image.size:
-                    results['mode'] = 'partial'
-                    break
-        image.seek(image.tell() + 1)
-
-        if 'duration' in image.info:
-            results['duration'] = image.info['duration']
-    except EOFError:
-        pass
-    return results
-
-
 def crop_image(crop_dim, resize_dim, path):
     image = Image.open(path)
 
@@ -60,63 +36,41 @@ def crop_still_image(crop_dim, resize_dim, path, image):
 def crop_animated_image(crop_dim, resize_dim, path, image):
     # (x, y, width, height)
     crop_dim = (crop_dim[0], crop_dim[1], crop_dim[2] + crop_dim[0], crop_dim[3] + crop_dim[1])
-    image_data = analyse_image(image)
 
-    all_frames = extract_and_resize_frames(crop_dim, resize_dim, image_data, image)
+    frames = crop_and_resize_frames(crop_dim, resize_dim, image)
+
+    # frames[0].info = image.info
     if image.get_format_mimetype() == "image/webp":
-        all_frames[0].save(path, optimize=True, save_all=True, append_images=all_frames[1:], loop=1000)
+        frames[0].save(path, save_all=True, append_images=frames[1:], loop=0)
     elif image.get_format_mimetype() == "image/gif" or image.get_format_mimetype() == "image/apng":
-        if len(all_frames) == 1:
-            all_frames[0].save(path, optimize=True)
+        if len(list(frames)) == 1:
+            frames[0].save(path)
         else:
-            all_frames[0].save(path, optimize=True, save_all=True, append_images=all_frames[1:], loop=1000, duration=image_data['duration'])
+            frames[0].save(path, save_all=True, append_images=frames[1:], loop=0, duration=image.info['duration'])
 
 
-def extract_and_resize_frames(crop_dim, resize_dim, image_data, image):
-    """
-    Iterate the GIF, extracting each frame and resizing them
-
-
-    Returns:
-        An array of all frames
-    """
-    mode = image_data['mode']
-
-    i = 0
-    palette = image.getpalette()
+def crop_and_resize_frames(crop_dim, resize_dim, image):
+    frames = []
     last_frame = image.convert('RGBA')
-
-    all_frames = []
-
+    palette = image.getpalette()
     try:
         while True:
-
-            '''
-            Si le GIF utilise une palette locale, chaque frame aura sa propre palette.
-            Sinon, il appliquera une palette globale pour chaque nouvelle frame.
-            '''
             if not image.getpalette():
                 image.putpalette(palette)
 
             new_frame = Image.new('RGBA', image.size)
-
-            '''
-            
-            Is this file a "partial"-mode GIF where frames update a region of a different size to the entire image?
-            If so, we need to construct the new frame by pasting it on top of the preceding frames.
-            '''
-            if mode == 'partial':
-                new_frame.paste(last_frame)
-
+            new_frame.paste(last_frame)
             new_frame.paste(image, (0, 0), image.convert('RGBA'))
 
-            new_frame = new_frame.crop(crop_dim)
-            new_frame = new_frame.resize(resize_dim, Image.ANTIALIAS)
-            all_frames.append(new_frame)
+            image.convert('RGBA').save(f"C:/TEMP/gif/frame-{image.tell()}.gif")
 
-            i += 1
+            resized_frame = new_frame.crop(crop_dim)
+            resized_frame = resized_frame.resize(resize_dim, Image.ANTIALIAS)
+
+            frames.append(resized_frame)
             last_frame = new_frame
             image.seek(image.tell() + 1)
+
     except EOFError:
         pass
-    return all_frames
+    return frames
