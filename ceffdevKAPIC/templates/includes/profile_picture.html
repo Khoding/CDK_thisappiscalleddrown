@@ -1,9 +1,9 @@
-{% if user.profile_pic %}
-    <a href="{% url 'accounts:profile' slug=user.slug %}">
-        <img id="profilePicture" src="{{ user.profile_pic.url }}" alt="Votre photo de profil">
+{% if user_p.profile_pic %}
+    <a href="{% url 'accounts:profile' slug=user_p.slug %}" title="{{ user_p.first_name }} {{ user_p.last_name }}">
+        <img class="profile-picture" src="{{ user_p.profile_pic.url }}" alt="Votre photo de profil">
     </a>
 {% else %}
-    <a href="{% url 'accounts:profile' slug=user.slug %}" title="Profil">
-        <i id="noProfilePicture" class="fas fa-user-circle"></i>
+    <a href="{% url 'accounts:profile' slug=user_p.slug %}" title="Profil">
+        <i class="profile-picture fas fa-user-circle"></i>
     </a>
 {% endif %}

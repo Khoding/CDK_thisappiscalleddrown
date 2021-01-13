@@ -1,52 +1,57 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'koolapic/js/group_details.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-{#    {% for group_user in group.users.all %}#}
-        {% if user.pk == group_user.pk or user.is_superuser %}
-            <h1>Détails du groupe</h1>
-            <br>
-            <h3>{{ group.name }}</h3>
-            {% if group.image %}
-                <img class="img-thumbnail" width="600px" src="{{ group.image.url }}">
-            {% endif %}
-            <table class="table-bordered">
-                <tr>
-                    <td><b>Description</b></td>
-                    <td>{{ group.description }}</td>
-                </tr>
-                <tr>
-                    <td><b>Status</b></td>
-                    <td>{{ group.status }}</td>
-                </tr>
-                <tr>
-                    <td><b>Date du dernier don</b></td>
-                    <td>{{ group.date_don }}</td>
-                </tr>
-                <tr>
-                <tr>
-                    <td><b>Text</b></td>
-                    <td>{{ group.home_text }}</td>
-                </tr>
-                <tr>
-                    <td><b>Couleur de la bannière</b></td>
-                    <td style="background-color: {{ group.banner_color }}; color: {{ group.banner_color }}">{{ group.banner_color }}</td>
-                </tr>
-                <tr>
-                    <td><b>Alias</b></td>
-                    <td> {{ group.alias }}</td>
-                </tr>
-                <tr>
-                    <td><b>Users</b></td>
-                    <td>
-                        {% for group_user in group.users.all %}
-                            {{ group_user }}{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-            </table>
-        {% else %}
-            Vous n'avez pas accès à cette page
-        {% endif %}
-{#    {% endfor %}#}
+    <div class="group-header gradient-l2 small-padding-container rounded-corner-container text-white">
+        <img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">
+        <div class="group-panel small-padding-container">
+            <h1>{{ group.name }}</h1>
+
+            <div class="group-members-overview d-none d-lg-block">
+                {% for user_p in members|slice:"10" %}
+                    {% include 'includes/profile_picture.html' %}
+                {% empty %}
+                    <h1 class="empty">Aucun membre n'est présent dans ce groupe.</h1>
+                {% endfor %}
+
+                {% if members.count > 10 %}
+                    <a href="#membersList" data-toggle="tab" role="link" aria-controls="link" class="undisplayed-elements-badge">+ {{ undisplayed_members_count }}</a>
+                {% endif %}
+            </div>
+        </div>
+        <ul class="nav nav-tabs group-nav">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" id="aboutTab" href="#about" role="tab" data-controls="about" aria-controls="about">A propos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="membersTab" href="#members" role="tab" data-controls="members" aria-controls="members">Membres</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="activitiesTab" href="#activities" role="tab" data-controls="activities" aria-controls="activities">Activités</a>
+            </li>
+        </ul>
+        <div class="tab-content medium-padding-container">
+            <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
+                {% include 'koolapic/groups/includes/about_group.html' %}
+            </div>
+            <div class="tab-pane" id="members" role="tabpanel" aria-labelledby="membersTab">
+                {% include 'koolapic/groups/includes/group_members.html' %}
+            </div>
+            <div class="tab-pane" id="activities" role="tabpanel" aria-labelledby="activitiesTab">
+                {% include 'koolapic/groups/includes/group_activities.html' %}
+            </div>
+            <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="optionsTab">
+                <h1>Options</h1>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock content %}

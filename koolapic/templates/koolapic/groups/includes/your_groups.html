@@ -18,7 +18,7 @@
                     {% endif %}
                     <div class="card-header">
                         <h4>{{ group.name }}</h4>
-                        <h5>{{ group.user_count }} membre{% if group.user_count > 1 %}s{% endif %}</h5>
+                        <h5>{{ group.members_count }} membre{% if group.members_count > 1 %}s{% endif %}</h5>
                     </div>
                     <div class="card-body">
                         <div>{{ group.description }}</div>
@@ -27,7 +27,7 @@
                 <br>
             {% endfor %}
         {% else %}
-            <div class="no-result">Vous n'appartenez à aucun groupe.</div>
+            <div class="empty">Vous n'appartenez à aucun groupe.</div>
         {% endif %}
     </div>
 </div>

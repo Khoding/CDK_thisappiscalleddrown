@@ -18,13 +18,13 @@ class IndexView(LoginRequiredMixin, TemplateView):
         if self.request.user.is_superuser:
             return Activity.objects.all
         else:
-            return Activity.objects.order_by('start_date').filter(user=self.request.user)
+            return Activity.objects.order_by('start_date').filter(participants=self.request.user)
 
     def get_groups(self):
         if self.request.user.is_superuser:
-            return Group.objects.all().annotate(user_count=Count('users'))
+            return Group.objects.all().annotate(members_count=Count('members'))
         else:
-            return Group.objects.order_by('name').annotate(user_count=Count('users')).filter(users=self.request.user)
+            return Group.objects.order_by('name').annotate(members_count=Count('members')).filter(members=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,7 +54,7 @@ class ActivityListView(LoginRequiredMixin, ListView):
         if self.request.user.is_superuser:
             return self.model.objects.all
         else:
-            return self.model.objects.order_by('start_date').filter(user=self.request.user)
+            return self.model.objects.order_by('start_date').filter(participant=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,13 +114,13 @@ class ActivityDeleteView(LoginRequiredMixin, DeleteView):
 class GroupListView(LoginRequiredMixin, ListView):
     template_name = 'koolapic/groups/group_list.html'
     model = Group
-    context_object_name = "groups"
+    context_object_name = 'groups'
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.all().annotate(user_count=Count('users'))
+            return self.model.objects.all().annotate(members_count=Count('members'))
         else:
-            return self.model.objects.order_by('name').annotate(user_count=Count('users')).filter(users=self.request.user)
+            return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(members=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -131,12 +131,23 @@ class GroupListView(LoginRequiredMixin, ListView):
 
 class GroupDetailView(LoginRequiredMixin, DetailView):
     model = Group
-    template_name = "koolapic/groups/group_detail.html"
+    template_name = 'koolapic/groups/group_detail.html'
+    context_object_name = 'group'
 
     def get_context_data(self, **kwargs):
+        admins = self.object.admins.all()
+        admin_ids = admins.values_list('id', flat=True)
+        members = self.object.members.all().exclude(id__in=admin_ids)
+        banned_users = self.object.banned_users.all()
+
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'La page détail d\'un groupe sur Koolapic'
+        context['members'] = members
+        context['admins'] = admins
+        context['banned_users'] = banned_users
+        context['members_count'] = len(members) + len(admins)
+        context['undisplayed_members_count'] = len(members) + len(admins) - 10
         return context
 
 

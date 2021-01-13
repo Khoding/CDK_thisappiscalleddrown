@@ -8,7 +8,7 @@ import itertools
 
 
 class Admission(models.Model):
-    date = models.DateTimeField(verbose_name="Date d'admission")
+    date = models.DateTimeField(verbose_name="Date d'admission", auto_now_add=True)
     code = models.CharField(max_length=25)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Utilisateur")
 
@@ -36,7 +36,9 @@ class Group(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
     banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
-    users = models.ManyToManyField(CustomUser, blank=True, verbose_name="Utilisateurs")
+    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
+    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
+    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", null=True, blank=True, related_query_name="banned_user", verbose_name="Utilisateurs bannis")
     admission = models.ForeignKey(Admission, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Admission")
 
     def __str__(self):
@@ -72,7 +74,7 @@ class Activity(models.Model):
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
-    users = models.ManyToManyField(CustomUser, verbose_name="Utilisateurs")
+    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
 
     def __str__(self):
         return self.name
@@ -95,13 +97,11 @@ class Activity(models.Model):
         for x in itertools.count(10):
             if self.id:
                 if Activity.objects.filter(Q(slug=self.slug),
-                                           Q(author=self.users),
+                                           Q(author=self.participants),
                                            Q(id=self.id),
                                            ).exists():
                     break
-            if not Activity.objects.filter(
-                    slug=self.slug
-            ).exists():
+            if not Activity.objects.filter(slug=self.slug).exists():
                 break
 
             # Truncate & Minus 1 for the hyphen.
