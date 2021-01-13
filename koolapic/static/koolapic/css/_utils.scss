@@ -6,6 +6,12 @@
 
 /* Texte */
 
+// Texte quand un résultat est vide
+.empty {
+  color: $white;
+  font-size: 1.5em;
+}
+
 // Ellipse
 .text-ellipsis {
   @include ellipsis;
@@ -100,6 +106,25 @@
 
 .horizontal-scroll::-webkit-scrollbar-thumb:hover {
   background: lighten($palette-primary, 13%);
+}
+
+/* Badge des éléments non affichés */
+.undisplayed-elements-badge {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 64px;
+  font-size: 1.5em;
+  color: $white;
+  background-color: $palette-d2;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.undisplayed-elements-badge:active, .undisplayed-elements-badge:hover {
+  color: $white;
 }
 
 /* Couleurs de fond */
@@ -217,6 +242,15 @@
   background-color: transparent;
 }
 
+/* Images */
+.profile-picture {
+  width: 64px;
+  height: 64px;
+  font-size: 64px;
+  border-radius: 100%;
+}
+
+
 /* Génération de classes par couleur */
 // Palette
 @each $name, $color in $palette {
@@ -251,7 +285,7 @@
 
   .btn-#{$name}:hover {
     color: $white !important;
-    background-color: darken($color, 10%) ;
+    background-color: darken($color, 10%);
   }
 
   .text-#{$name} {

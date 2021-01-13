@@ -15,9 +15,6 @@
 /* Importation de FontAwesome */
 @import "../../vendor/node_modules/@fortawesome/fontawesome-free/css/all.css";
 
-/* Thème Tippy */
-@import "tippy";
-
 /* Layout global */
 body {
   -webkit-font-smoothing: antialiased;
@@ -25,12 +22,6 @@ body {
 
 script {
   display: none;
-}
-
-/* Classes utilitaires diverses */
-.no-result {
-  color: $white;
-  font-size: 1.5em;
 }
 
 /* Police */
@@ -169,6 +160,7 @@ header {
     border-radius: 100px;
   }
 }
+
 
 #mainNavbar.toggled {
   left: 0;
@@ -423,4 +415,34 @@ header {
   @include media-breakpoint-up(xl) {
     font-size: 1.25rem !important;
   }
+}
+
+/* Groupes */
+
+.group-banner {
+  // Taille conseillée : 1072 x 272
+  width: 100%;
+  height: 25vh;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.group-member-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.group-info {
+  font-size: 1rem !important;
+  @include media-breakpoint-up(lg) {
+    font-size: 1.25rem !important;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 1.5rem !important;
+  }
+  margin-top: 0.75em;
 }
