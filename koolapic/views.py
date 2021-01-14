@@ -78,6 +78,7 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
 
 class ActivityCreateView(LoginRequiredMixin, CreateView):
+    model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = CustomActivityCreationForm
     success_url = reverse_lazy("koolapic:activity_list")
@@ -86,6 +87,22 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Créer une activité sur Koolapic'
+        return context
+
+
+class ActivityCloneView(LoginRequiredMixin, CreateView):
+    model = Activity
+    template_name = 'koolapic/activities/add_activity.html'
+    form_class = CustomActivityCreationForm
+    success_url = reverse_lazy("koolapic:activity_list")
+
+    def get_context_data(self, **kwargs):
+        activity = self.get_object()
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Créer une activité sur Koolapic'
+        context['form'] = CustomActivityCreationForm(instance=activity)
         return context
 
 

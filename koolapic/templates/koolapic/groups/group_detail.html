@@ -21,7 +21,7 @@
                 {% endfor %}
                 </div>
 
-                {% if group.invitation_policy == "PU" and user not in members %}
+                {% if group.invitation_policy == "PU" and user not in members and user not in admins %}
                     <button id="joinButton" type="button" class="btn btn-secondary" onclick="join();">Rejoindre</button>
                 {% endif %}
 

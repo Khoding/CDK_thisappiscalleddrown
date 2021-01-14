@@ -82,8 +82,8 @@ class Activity(models.Model):
     def get_detail_url(self):
         return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
 
-    def get_add_url(self):
-        return reverse("koolapic:add_activity", kwargs={'slug': self.slug})
+    def get_clone_url(self):
+        return reverse("koolapic:clone_activity", kwargs={'slug': self.slug})
 
     def get_update_url(self):
         return reverse("koolapic:update_activity", kwargs={'slug': self.slug})
