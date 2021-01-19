@@ -291,6 +291,10 @@
   .text-#{$name} {
     color: $color;
   }
+
+  .hr-#{$name} {
+    border: 2px solid $color;
+  }
 }
 
 // Couleurs sémantiques
