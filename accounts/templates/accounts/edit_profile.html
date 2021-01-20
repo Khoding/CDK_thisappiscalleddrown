@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load forms_extras %}
 
 {% block title %}
     Modifier l'utilisateur : {{ user.username }}
@@ -12,7 +13,7 @@
     <h2>Modifier l'utilisateur</h2>
     <form method="POST" enctype="multipart/form-data" id="formUpload">
         {% csrf_token %}
-        {% include 'includes/form_snippet.html' %}
+        {% form form %}
         <br>
         <button type="submit" class="btn btn-primary">Mettre à jour le profil</button>
     </form>

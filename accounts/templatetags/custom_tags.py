@@ -1,7 +1,7 @@
 from django import template
+from ..models import CustomUser
 
 register = template.Library()
-from ..models import CustomUser
 
 
 @register.simple_tag
