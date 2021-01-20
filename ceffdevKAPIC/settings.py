@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'easy_maps',
     'impostor',
+    'ckeditor',
 
     'allauth',
     'allauth.account',
@@ -73,6 +74,8 @@ INSTALLED_APPS = [
 BOOTSTRAP4 = {
     'include_jquery': True,
 }
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 # REST Framework
 REST_FRAMEWORK = {

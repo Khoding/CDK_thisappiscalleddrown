@@ -1,11 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
+from ckeditor.fields import RichTextField
 
 
 class CustomUser(AbstractUser):
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/", verbose_name="Photo de profil")
-    bio = models.TextField(null=True, blank=True, verbose_name="Bio", help_text="A propos de vous", max_length=256)
+    bio = RichTextField(null=True, blank=True, verbose_name="Bio", help_text="A propos de vous", max_length=256)
     signup_date = models.DateTimeField(null=True, blank=True, verbose_name="Date d'inscription", help_text="Date d'inscription")
     donation_date = models.DateTimeField(null=True, blank=True, verbose_name="Date du dernier don", help_text="Date du dernier don")
     last_login = models.DateTimeField(auto_now_add=True, verbose_name="Dernier login", help_text="Date et heure du dernier login")
