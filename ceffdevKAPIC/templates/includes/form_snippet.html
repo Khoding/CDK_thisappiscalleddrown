@@ -37,7 +37,6 @@
         {% if field|widget_type != "clearablefileinput" %}
             </div>
         {% endif %}
-
             {% for error in field.errors %}
                 <small class="form-text form-error">{{ error }}</small>
             {% endfor %}

@@ -78,6 +78,7 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
 
 class ActivityCreateView(LoginRequiredMixin, CreateView):
+    model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = CustomActivityCreationForm
     success_url = reverse_lazy("koolapic:activity_list")
@@ -86,6 +87,22 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Créer une activité sur Koolapic'
+        return context
+
+
+class ActivityCloneView(LoginRequiredMixin, CreateView):
+    model = Activity
+    template_name = 'koolapic/activities/add_activity.html'
+    form_class = CustomActivityCreationForm
+    success_url = reverse_lazy("koolapic:activity_list")
+
+    def get_context_data(self, **kwargs):
+        activity = self.get_object()
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Créer une activité sur Koolapic'
+        context['form'] = CustomActivityCreationForm(instance=activity)
         return context
 
 
@@ -142,6 +159,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         admin_ids = admins.values_list('id', flat=True)
         members = self.object.members.all().exclude(id__in=admin_ids)
         banned_users = self.object.banned_users.all()
+        all_members_count = len(members) + len(admins)
 
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
@@ -149,8 +167,9 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['members'] = members
         context['admins'] = admins
         context['banned_users'] = banned_users
-        context['members_count'] = len(members) + len(admins)
-        context['undisplayed_members_count'] = len(members) + len(admins) - 10
+        context['all_members'] = members | admins
+        context['members_count'] = all_members_count
+        context['undisplayed_members_count'] = all_members_count - 10
         return context
 
     def post(self, *args, **kwargs):

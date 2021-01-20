@@ -11,17 +11,16 @@
         <img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">
         <div class="group-panel small-padding-container">
             <h1>{{ group.name }}</h1>
-
-            <div class="group-members-overview d-none d-lg-block">
+            <div id="groupOverview" class="group-members-overview d-none d-lg-block">
                 <div class="members-overview mb-2">
-                {% for user_p in members|slice:"10" %}
-                    {% include 'includes/profile_picture.html' %}
-                {% empty %}
-                    <h1 class="empty">Aucun membre n'est présent dans ce groupe.</h1>
-                {% endfor %}
+                    {% for user_p in all_members|slice:"10" %}
+                        {% include 'includes/profile_picture.html' %}
+                    {% empty %}
+                        <h1 class="empty">Aucun membre n'est présent dans ce groupe.</h1>
+                    {% endfor %}
                 </div>
 
-                {% if group.invitation_policy == "PU" and user not in members %}
+                {% if group.invitation_policy == "PU" and user not in members and user not in admins %}
                     <button id="joinButton" type="button" class="btn btn-secondary" onclick="join();">Rejoindre</button>
                 {% endif %}
 

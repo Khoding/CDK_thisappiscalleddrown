@@ -1,10 +1,12 @@
-from django.db import models
-from django.urls import reverse
-from django.template.defaultfilters import slugify
-from accounts.models import CustomUser
-from django.db.models import Q
-
 import itertools
+
+from ckeditor.fields import RichTextField
+from django.db import models
+from django.db.models import Q
+from django.template.defaultfilters import slugify
+from django.urls import reverse
+
+from accounts.models import CustomUser
 
 
 class Admission(models.Model):
@@ -32,13 +34,17 @@ class Group(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nom du groupe")
     description = models.TextField(max_length=200, verbose_name="Description")
     visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
-    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='AA')
+    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations",
+                                         choices=INVITATION_POLICY_CHOICES, default='AA')
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
     banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
-    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
-    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
-    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", null=True, blank=True, related_query_name="banned_user", verbose_name="Utilisateurs bannis")
+    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member",
+                                     verbose_name="Utilisateurs")
+    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin",
+                                    verbose_name="Administrateurs du groupe")
+    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", null=True, blank=True,
+                                          related_query_name="banned_user", verbose_name="Utilisateurs bannis")
     admission = models.ForeignKey(Admission, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Admission")
 
     def __str__(self):
@@ -69,12 +75,13 @@ class Activity(models.Model):
     description = models.TextField(max_length=500, verbose_name="Description")
     end_location = models.CharField(max_length=100, verbose_name="Lieu de début")
     end_date = models.DateTimeField(verbose_name="Date de fin")
-    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")  # Markdown
+    remarks = RichTextField(max_length=500, null=True, blank=True, verbose_name="Remarques")  # Markdown
     max_participants = models.PositiveIntegerField(verbose_name="Nombre maximum de participants")
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
-    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
+    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant",
+                                          verbose_name="Participants")
 
     def __str__(self):
         return self.name
@@ -82,8 +89,8 @@ class Activity(models.Model):
     def get_detail_url(self):
         return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
 
-    def get_add_url(self):
-        return reverse("koolapic:add_activity", kwargs={'slug': self.slug})
+    def get_clone_url(self):
+        return reverse("koolapic:clone_activity", kwargs={'slug': self.slug})
 
     def get_update_url(self):
         return reverse("koolapic:update_activity", kwargs={'slug': self.slug})

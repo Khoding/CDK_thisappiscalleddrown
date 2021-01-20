@@ -91,7 +91,7 @@ class CustomGroupChangeForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description', 'visibility', 'invitation_policy', 'banner_color', 'image', 'x', 'y', 'width', 'height')
+        fields = ('name', 'description', 'visibility', 'invitation_policy', 'banner_color', 'admins', 'members', 'banned_users', 'image', 'x', 'y', 'width', 'height')
 
         widgets = {
             'banner_color': TextInput(attrs={'type': 'color'}),
