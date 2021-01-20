@@ -2,5 +2,9 @@
 {% load forms_extras %}
 {% block content %}
     <h1>Ajouter une activité</h1>
-    {% form form %}
+    <form method="post">
+        {% form form %}
+        <br>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
 {% endblock content %}

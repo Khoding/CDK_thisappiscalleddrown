@@ -5,7 +5,6 @@
 {% block content %}
     <h1>Ajouter un groupe</h1>
     <form method="POST" enctype="multipart/form-data" id="formUpload">
-        {% csrf_token %}
         {% form form %}
         <br>
         <button type="submit" class="btn btn-primary">Mettre à jour le groupe</button>
