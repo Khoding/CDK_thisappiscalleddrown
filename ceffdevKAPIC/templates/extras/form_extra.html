@@ -1,0 +1,51 @@
+{% comment %}
+    Description : Snippet permettant de créer des formulaires de base.
+    Page du wiki : https://github.com/ceffDptInfo/ceffdevKAPIC/wiki/Messages
+    Dépendances : django-widget-tweaks
+    Nécessite les scripts : password_visibility.js et popovers.js
+{% endcomment %}
+
+{% load widget_tweaks %}
+
+{% csrf_token %}
+{% for field in form %}
+    {% if field.help_text and field|widget_type != "textarea" %}
+        <div class="tooltip" id="{{ field.auto_id }}tooltip">
+            <strong>{{ field.help_text }}</strong>
+        </div>
+    {% endif %}
+    <div class="field {{ field|widget_type }}">
+        {% if field|widget_type != "hiddeninput" %}
+            {{ field.label_tag }}
+            {% if field|widget_type != "clearablefileinput" %}
+                <div class="input-group">
+            {% endif %}
+        {{ field|add_class:"form-control" }}
+        {% if field.help_text and field|widget_type != "textarea" %}
+            <div class="input-group-append">
+                {% if field|widget_type == "passwordinput" %}
+                    <button type="button" class="btn btn-primary show-passwd-btn" title="Voir le mot de passe"
+                            data-for-field="{{ field.auto_id }}" id="{{ field.auto_id }}showbtn">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-primary popover-btn" id="{{ field.auto_id }}btn"
+                            data-template="{{ field.auto_id }}tooltip">?
+                    </button>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if field|widget_type != "clearablefileinput" %}
+            </div>
+        {% endif %}
+            {% for error in field.errors %}
+                <small class="form-text form-error">{{ error }}</small>
+            {% endfor %}
+        {% elif field|widget_type == "hiddeninput" %}
+            <div class="d-none input-group">
+                {{ field|add_class:"form-control" }}
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+{{ form.media }}

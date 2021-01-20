@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
-{% load bootstrap4 %}
-{% load easy_maps_tags %}
+{% load forms_extras %}
 {% block content %}
     <h1>Ajouter une activité</h1>
     <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% easy_map "Russia, Ekaterinburg, Mira 32" 1110 400 %}
-        {% buttons %}
-            <button type="submit" class="btn btn-dark">Ajouter</button>
-        {% endbuttons %}
+        {% form form %}
+        <br>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
-    {{ form.media }}
-
 {% endblock content %}

@@ -1,4 +1,6 @@
 {% load static %}
+{% load forms_extras %}
+
 <div class="card gradient-l2 formcard text-white">
     <div class="card-header">
         Se connecter à votre compte Koolapic
@@ -9,7 +11,7 @@
         <form action="{{ form_action }}" method="post" novalidate class="medium-padding-container bg-wt rounded-corner-container">
             {% csrf_token %}
             {{ form.non_field_errors }}
-            {% include "includes/form_snippet.html" %}
+            {% form form %}
             <br>
             <input type="submit" class="btn btn-primary" value="Se connecter" name="Se connecter">
         </form>

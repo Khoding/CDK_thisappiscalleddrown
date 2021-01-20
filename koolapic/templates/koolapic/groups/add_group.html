@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load forms_extras %}
 
 {% block content %}
     <h1>Ajouter un groupe</h1>
     <form method="POST" enctype="multipart/form-data" id="formUpload">
-        {% csrf_token %}
-        {% include 'includes/form_snippet.html' %}
+        {% form form %}
         <br>
         <button type="submit" class="btn btn-primary">Mettre à jour le groupe</button>
     </form>
