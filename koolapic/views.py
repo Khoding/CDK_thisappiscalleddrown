@@ -3,15 +3,16 @@ import json
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.forms import CustomUserCreationForm
-from koolapicAPI.models import Activity, Group
+from accounts.models import CustomUser
+from koolapicAPI.models import Activity, Group, Admission
 
-from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm
+from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, AdmissionCreationForm
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -170,6 +171,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['all_members'] = members | admins
         context['members_count'] = all_members_count
         context['undisplayed_members_count'] = all_members_count - 10
+        context['admission_form'] = AdmissionCreationForm
         return context
 
     def post(self, *args, **kwargs):
@@ -180,6 +182,42 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         elif data['action'] == 'leave':
             self.get_object().members.remove(self.request.user)
             return HttpResponse(status=200)
+        elif data['action'] == 'invite':
+            form = AdmissionCreationForm(data['form'])
+            message = {}
+
+            if form.is_valid():
+                if CustomUser.objects.filter(email=form.cleaned_data.get("email")).count() > 0:
+                    user = CustomUser.objects.get(email=form.cleaned_data.get("email"))
+
+                    message = form.cleaned_data.get("message")
+                    group = self.get_object()
+                    admission = Admission(user=user, group=group, message=message)
+                    admission.save()
+                    message = {
+                        "text": "Invitation envoyée.",
+                        "severity": "SUCCESS"
+                    }
+                    print(admission)
+                else:
+                    # TODO invitation quand le user n'a pas de compte
+                    message = {
+                        "text": "La personne n'a pas de compte Koolapic.",
+                        "severity": "WARNING"
+                    }
+            response_data = {
+                'message': message,
+            }
+            return JsonResponse(response_data)
+        else:
+            message = {
+                "text": "Les champs du formulaires ne sont pas valides.",
+                "severity": "ERROR"
+            }
+            response_data = {
+                'message': message
+            }
+            return JsonResponse(response_data)
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):

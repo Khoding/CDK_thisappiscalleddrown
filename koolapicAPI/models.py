@@ -2,20 +2,14 @@ import itertools
 
 from ckeditor.fields import RichTextField
 from django.db import models
-from django.db.models import Q
+from django.db.models.functions import datetime
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 from accounts.models import CustomUser
 
-
-class Admission(models.Model):
-    date = models.DateTimeField(verbose_name="Date d'admission", auto_now_add=True)
-    code = models.CharField(max_length=25)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Utilisateur")
-
-    def __str__(self):
-        return self.code
+import hashlib
+import itertools
 
 
 class Group(models.Model):
@@ -34,18 +28,13 @@ class Group(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nom du groupe")
     description = models.TextField(max_length=200, verbose_name="Description")
     visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
-    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations",
-                                         choices=INVITATION_POLICY_CHOICES, default='AA')
+    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='AA')
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
     banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
-    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member",
-                                     verbose_name="Utilisateurs")
-    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin",
-                                    verbose_name="Administrateurs du groupe")
-    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", null=True, blank=True,
-                                          related_query_name="banned_user", verbose_name="Utilisateurs bannis")
-    admission = models.ForeignKey(Admission, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Admission")
+    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
+    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
+    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user", verbose_name="Utilisateurs bannis")
 
     def __str__(self):
         return self.name
@@ -67,6 +56,28 @@ class Group(models.Model):
         return super().save(*args, **kwargs)
 
 
+class Admission(models.Model):
+    ACCEPTATION_CHOICES = [
+        ('ACC', 'Acceptée'),
+        ('NAC', 'Non acceptée')
+    ]
+
+    date = models.DateTimeField(verbose_name="Date d'admission", auto_now=True)
+    message = models.TextField(max_length=100, verbose_name="Message", blank=True, null=True)
+    code = models.CharField(max_length=125, verbose_name="Code d'invitation")
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, verbose_name="Utilisateur")
+    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
+    accepted = models.CharField(max_length=3, verbose_name="Accepté", blank=True, null=True)
+
+    def __str__(self):
+        return self.code
+
+    def save(self, *args, **kwargs):
+        code_hash = hashlib.sha256(f"{self.user}{self.date}{self.group}".encode('utf-8'))
+        self.code = code_hash.hexdigest()
+        return super().save(*args, **kwargs)
+
+
 class Activity(models.Model):
     name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions", blank=True, null=True)
@@ -80,8 +91,7 @@ class Activity(models.Model):
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
-    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant",
-                                          verbose_name="Participants")
+    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
 
     def __str__(self):
         return self.name
