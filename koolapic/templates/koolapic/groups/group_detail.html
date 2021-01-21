@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load forms_extras %}
 {% load static %}
 
 {% block head %}
@@ -18,6 +19,10 @@
                     {% empty %}
                         <h1 class="empty">Aucun membre n'est présent dans ce groupe.</h1>
                     {% endfor %}
+
+                    {% if members.count > 10 %}
+                        <a href="#membersList" data-toggle="tab" role="link" aria-controls="link" class="undisplayed-elements-badge">+ {{ undisplayed_members_count }}</a>
+                    {% endif %}
                 </div>
 
                 {% if group.invitation_policy == "PU" and user not in members and user not in admins %}
@@ -28,8 +33,10 @@
                     <button id="leaveButton" type="button" class="btn btn-secondary" onclick="leave();">Quitter</button>
                 {% endif %}
 
-                {% if members.count > 10 %}
-                    <a href="#membersList" data-toggle="tab" role="link" aria-controls="link" class="undisplayed-elements-badge">+ {{ undisplayed_members_count }}</a>
+                {% if user in all_members %}
+                    {% if group.invitation_policy == "PU" or group.invitation_policy == "OI" %}
+                        <button id="inviteButton" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#invitationModal">Inviter quelqu'un</button>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -62,6 +69,28 @@
             </div>
         </div>
     </div>
-
+    <div id="invitationModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Inviter quelqu'un sur {{ group.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="admissionForm">
+                        {% csrf_token %}
+                        {% form admission_form %}
+                        <div id="errors"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Annuler</button>
+                    <button type="button" onclick="sendInvite();" class="btn btn-primary" value="Inviter">Inviter</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}

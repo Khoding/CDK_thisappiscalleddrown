@@ -3,6 +3,7 @@ import {displayAlert} from './modules/alerts.js'
 
 window.join = join
 window.leave = leave
+window.sendInvite = sendInvite
 
 function join() {
     let data = {
@@ -13,6 +14,7 @@ function join() {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -36,6 +38,7 @@ function leave() {
             method: 'POST',
             headers: {
                 'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -48,5 +51,38 @@ function leave() {
         .catch(error => {
             console.error('Error:', error);
             displayAlert("ERROR", "Une erreur est survenue.")
+        });
+}
+
+/* Permet d'envoyer une invitation au groupe à une adresse email */
+function sendInvite() {
+    let data = {
+        action: 'invite',
+        form: {
+            email: $('#id_email').val(),
+            message: $('#id_message').val()
+        }
+    }
+
+    fetch(location.href, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+    )
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+                displayAlert(data['message'].severity, data['message'].text)
+            }
+        )
+        .catch(error => {
+            console.error('Error:', error);
+            displayAlert("ERROR", "Erreur.")
         });
 }

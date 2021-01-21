@@ -10,7 +10,7 @@ import anime from '../../../vendor/node_modules/animejs/lib/anime.es.js'; // Ani
 
 window.displayAlert = displayAlert
 
- export {displayAlert}
+export {displayAlert}
 
 /**
  * Ajoute une alerte avec un message sur la page

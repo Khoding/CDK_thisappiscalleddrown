@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
     address = models.CharField(max_length=50, null=True, blank=True, verbose_name="Adresse", help_text="Adresse du domicile")
     tel_p = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone professionnel", help_text="Téléphone professionnel")
     tel_m = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone personnel", help_text="Téléphone personnel")
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(null=True, verbose_name="Slug")
 
     def __str__(self):
         return self.username

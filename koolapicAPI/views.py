@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 
-from koolapicAPI.models import Activity, Admission, Group, Inscription
+from koolapicAPI.models import Activity, Admission, Group, Inscription, Notification
 from accounts.models import CustomUser
-from .serializers import AdmissionSerializer, ActivitySerializer, GroupSerializer, InscriptionSerializer, UserSerializer
+from .serializers import AdmissionSerializer, ActivitySerializer, GroupSerializer, InscriptionSerializer, UserSerializer, NotificationSerializer
 
 
 class AdmissionViewSet(viewsets.ModelViewSet):
@@ -28,3 +28,8 @@ class InscriptionViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
