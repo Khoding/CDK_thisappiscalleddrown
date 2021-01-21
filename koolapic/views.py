@@ -41,7 +41,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 
 class NotificationsView(ListView):
-    template_name = 'koolapic/notifications/notifications.html'
+    template_name = 'koolapic/notifications.html'
     model = Notification
 
     def get_queryset(self):

@@ -251,6 +251,9 @@ header {
   background-repeat: no-repeat;
   border: 2px solid $primary;
   transition: background-color;
+  @include media-breakpoint-down(md) {
+    background-image: none !important;
+  }
 }
 
 .notification-unread {
