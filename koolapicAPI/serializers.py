@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from koolapicAPI.models import Activity, Admission, Group, Inscription
+from koolapicAPI.models import Activity, Admission, Group, Inscription, Notification
 from accounts.models import CustomUser
 
 
@@ -31,3 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = CustomUser
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"
+        model = Notification

@@ -4,7 +4,7 @@
  * JQuery (Slim supporté)
  **/
 $(document).ready(function () {
-    /* Fonction utilisée quand la page a fini de chargée */
+    /* Fonction utilisée quand la page a fini de charger */
     $(function () {
         createShowPasswordButtons()
     });

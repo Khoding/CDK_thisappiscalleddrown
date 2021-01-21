@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'koolapic/js/notifications.js' %}" type="module"></script>
+{% endblock %}
+
+{% block navbar %}
+    {{ block.super }}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="notifications-list">
+        {% for notification in notification_list %}
+            <div class="notification-mobile d-lg-none">
+                {% include 'koolapic/notifications/notification_mobile.html' %}
+            </div>
+            <div class="notification-desktop">
+                <div class="notification-desktop d-none d-lg-block">
+                    {% include 'koolapic/notifications/notification_desktop.html' %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty">
+                Vous n'avez pas de notification...
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

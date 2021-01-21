@@ -2,10 +2,12 @@ import itertools
 
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.db.models import Q
 from django.db.models.functions import datetime
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 
+from accounts import admin
 from accounts.models import CustomUser
 
 import hashlib
@@ -64,17 +66,16 @@ class Admission(models.Model):
 
     date = models.DateTimeField(verbose_name="Date d'admission", auto_now=True)
     message = models.TextField(max_length=100, verbose_name="Message", blank=True, null=True)
-    code = models.CharField(max_length=125, verbose_name="Code d'invitation")
+    slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug d'invitation")
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, verbose_name="Utilisateur")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
     accepted = models.CharField(max_length=3, verbose_name="Accepté", blank=True, null=True)
 
     def __str__(self):
-        return self.code
+        return self.slug
 
     def save(self, *args, **kwargs):
-        code_hash = hashlib.sha256(f"{self.user}{self.date}{self.group}".encode('utf-8'))
-        self.code = code_hash.hexdigest()
+        self.slug = slugify(f"{self.group.slug}-{self.user.slug}")
         return super().save(*args, **kwargs)
 
 
@@ -149,3 +150,30 @@ class Donation(models.Model):
 
     def __str__(self):
         return self.description
+
+
+class Notification(models.Model):
+    SEVERITY_CHOICES = [
+        ('DEBUG', 'Débogage'),
+        ('INFO', 'Information'),
+        ('WARNING', 'Avertissement'),
+        ('DANGER', 'Danger'),
+    ]
+
+    STATUS = [
+        ("U", "Non lue"),
+        ("R", "Lue"),
+        ("D", "Supprimée"),
+    ]
+
+    status = models.CharField(max_length=3, default="U", verbose_name="Lue")
+    severity = models.CharField(max_length=10, default="INFO", verbose_name="Sévérité")
+    title = models.CharField(max_length=100, verbose_name="Titre")
+    description = models.CharField(max_length=250, verbose_name="Description")
+    link = models.CharField(max_length=250, null=True, blank=True, verbose_name="Lien")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Utilisateur')
+    date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Date d'envoi")
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Groupe")
+
+    def __str__(self):
+        return self.title

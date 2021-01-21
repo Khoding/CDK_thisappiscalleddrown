@@ -54,6 +54,7 @@ function leave() {
         });
 }
 
+/* Permet d'envoyer une invitation au groupe à une adresse email */
 function sendInvite() {
     let data = {
         action: 'invite',
@@ -75,18 +76,13 @@ function sendInvite() {
     )
         .then(response => {
             return response.json()
-
         })
         .then(data => {
-                console.log(data)
                 displayAlert(data['message'].severity, data['message'].text)
-
             }
         )
         .catch(error => {
             console.error('Error:', error);
             displayAlert("ERROR", "Erreur.")
         });
-
-    console.log(data)
 }

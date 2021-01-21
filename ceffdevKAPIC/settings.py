@@ -111,6 +111,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'ceffdevKAPIC.context_processors.get_current_year_to_context',
+                'ceffdevKAPIC.context_processors.get_unread_notifications_number_to_context',
             ],
         },
     },

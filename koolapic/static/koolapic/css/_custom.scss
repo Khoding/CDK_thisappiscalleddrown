@@ -39,3 +39,12 @@ $font-family-monospace: $monospace;
   background-color: transparent !important;
   background-image: radial-gradient(circle at top right, $primary, $palette-l2) !important;
 }
+
+.card-footer p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.card {
+  border-radius: 0 0;
+}

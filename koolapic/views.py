@@ -3,16 +3,17 @@ import json
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
-from django.http import HttpResponse, HttpRequest, JsonResponse
-from django.urls import reverse_lazy
+from django.http import HttpResponse, JsonResponse
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
-from koolapicAPI.models import Activity, Group, Admission
+from koolapicAPI.models import Activity, Group, Admission, Notification
 
 from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, AdmissionCreationForm
+from utils.notifications import send_group_notification, get_unread_notifications_number
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -37,6 +38,49 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context['activities'] = self.get_activities()
         context['groups'] = self.get_groups()
         return context
+
+
+class NotificationsView(ListView):
+    template_name = 'koolapic/notifications/notifications.html'
+    model = Notification
+
+    def get_queryset(self):
+        return self.model.objects.all().order_by('-date_sent')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        return context
+
+    def post(self, *args, **kwargs):
+        data = json.loads(self.request.body.decode('utf-8'))
+        if data['action'] == 'toggleStatus':
+            notification_id = data['notification']
+            notification = Notification.objects.get(id=notification_id)
+            if notification.status == 'R':
+                notification.status = 'U'
+                notification.save()
+                unread_notification_number = get_unread_notifications_number(user=self.request.user)
+                response_data = {
+                    'unreadNotificationNumber': unread_notification_number
+                }
+            elif notification.status == 'U':
+                notification.status = 'R'
+                notification.save()
+                unread_notification_number = get_unread_notifications_number(user=self.request.user)
+                response_data = {
+                    'unreadNotificationNumber': unread_notification_number
+                }
+            else:
+                message = {
+                    "text": "La notification n'est plus disponible.",
+                    "severity": "ERROR"
+                }
+                response_data = {
+                    'message': message
+                }
+            return JsonResponse(response_data)
 
 
 class HomeView(TemplateView):
@@ -184,40 +228,50 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             return HttpResponse(status=200)
         elif data['action'] == 'invite':
             form = AdmissionCreationForm(data['form'])
-            message = {}
 
             if form.is_valid():
                 if CustomUser.objects.filter(email=form.cleaned_data.get("email")).count() > 0:
                     user = CustomUser.objects.get(email=form.cleaned_data.get("email"))
-
                     message = form.cleaned_data.get("message")
                     group = self.get_object()
                     admission = Admission(user=user, group=group, message=message)
                     admission.save()
+                    username = f"{self.request.user.first_name} {self.request.user.last_name}"
+                    send_group_notification(
+                        user=user,
+                        title="Invitation à un groupe",
+                        severity="INFO",
+                        description=f"{username} vous a invité à rejoindre {group.name}",
+                        group=group,
+                        link=reverse("koolapic:invitation", kwargs={"slug": admission.slug})
+                    )
                     message = {
                         "text": "Invitation envoyée.",
                         "severity": "SUCCESS"
                     }
-                    print(admission)
                 else:
                     # TODO invitation quand le user n'a pas de compte
                     message = {
                         "text": "La personne n'a pas de compte Koolapic.",
                         "severity": "WARNING"
                     }
-            response_data = {
-                'message': message,
-            }
-            return JsonResponse(response_data)
-        else:
-            message = {
-                "text": "Les champs du formulaires ne sont pas valides.",
-                "severity": "ERROR"
-            }
-            response_data = {
-                'message': message
-            }
-            return JsonResponse(response_data)
+                response_data = {
+                    'message': message,
+                }
+                return JsonResponse(response_data)
+            else:
+                message = {
+                    "text": "Les champs du formulaires ne sont pas valides.",
+                    "severity": "ERROR"
+                }
+                response_data = {
+                    'message': message
+                }
+                return JsonResponse(response_data)
+
+
+class InvitationView(DetailView):
+    pass
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
