@@ -81,6 +81,9 @@ class NotificationsView(ListView):
                     'message': message
                 }
             return JsonResponse(response_data)
+        if data['action'] == "markAllAsRead":
+            Notification.objects.filter(status="U").update(status='R')
+            return HttpResponse(status=200)
 
 
 class HomeView(TemplateView):

@@ -15,5 +15,10 @@ def send_group_notification(user, title, severity, description, group, **kwargs)
     notification.save()
 
 
+def hide_notification(notification):
+    notification.status = "D"
+    notification.save()
+
+
 def get_unread_notifications_number(user):
-    return Notification.objects.filter(user=user, status="U").count()
+    return Notification.objects.filter(user=user, status="U").exclude(severity="DEBUG").count()

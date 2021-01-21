@@ -6,6 +6,9 @@ import {displayAlert} from './modules/alerts.js'
  * Nécessite :
  * JQuery (Slim supporté)
  **/
+
+window.markAllAsRead = markAllAsRead
+
 $(document).ready(function () {
     $(function () {
         let notifications = $('.notification')
@@ -68,29 +71,70 @@ $(document).ready(function () {
                 displayAlert("ERROR", "Une erreur est survenue.")
             });
     }
-
-    function stylizeNotification(notification) {
-        let bgImage = notification.getAttribute('data-bg-image')
-        if (notification.classList.contains('image-notification')) {
-            if (notification.classList.contains('notification-read')) {
-                notification.style = "background-image: linear-gradient(to right, #FFFFFF 70%, transparent 80%, transparent), url('" + bgImage + "');"
-            } else if (notification.classList.contains('notification-unread')) {
-                notification.style = "background-image: linear-gradient(to right, #6358EB 70%, transparent 80%, transparent), url('" + bgImage + "');"
-            }
-        }
-    }
-
-    function setBadgeNumber(number) {
-        let button = $("#notificationBtn")[0]
-
-        if (number !== 0) {
-            button.innerHTML = '<i class="fas fa-bell"></i>' +
-                '<span class="badge badge-danger notification-badge">' +
-                number +
-                '</span>'
-        } else {
-            button.innerHTML = '<i class="fas fa-bell"></i>'
-        }
-    }
 });
+
+function stylizeNotification(notification) {
+    let bgImage = notification.getAttribute('data-bg-image')
+    if (notification.classList.contains('image-notification')) {
+        if (notification.classList.contains('notification-read')) {
+            notification.style = "background-image: linear-gradient(to right, #FFFFFF 70%, transparent 80%, transparent), url('" + bgImage + "');"
+        } else if (notification.classList.contains('notification-unread')) {
+            notification.style = "background-image: linear-gradient(to right, #6358EB 70%, transparent 80%, transparent), url('" + bgImage + "');"
+        }
+    }
+}
+
+function setBadgeNumber(number) {
+    let button = $("#notificationBtn")[0]
+
+    if (number !== 0) {
+        button.innerHTML = '<i class="fas fa-bell"></i>' +
+            '<span class="badge badge-danger notification-badge">' +
+            number +
+            '</span>'
+    } else {
+        button.innerHTML = '<i class="fas fa-bell"></i>'
+    }
+}
+
+function markAllAsRead() {
+    let data = {
+        action: "markAllAsRead"
+    }
+
+    fetch(location.href, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+    )
+        .then(response => {
+            let buttons = $('.toggle-read-btn')
+
+            for (let i = 0; i < buttons.length; i++) {
+                let button = buttons[i]
+                button.innerHTML = '<i class="far fa-check-square"></i>'
+                button.classList.add('checked')
+            }
+
+            let notifications = $('.notification')
+
+            for (let i = 0; i < notifications.length; i++) {
+                let notification = notifications[i]
+                notification.classList.remove('notification-unread')
+                notification.classList.add('notification-read')
+
+                stylizeNotification(notification)
+                setBadgeNumber(0)
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            displayAlert("ERROR", "Une erreur est survenue.")
+        });
+}
 

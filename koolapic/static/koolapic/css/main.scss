@@ -218,6 +218,11 @@ header {
 
 #notificationBtn {
   font-size: 2em;
+  transition: filter 0.25s;
+
+  &:hover {
+    filter: drop-shadow(0 0 3px white) brightness(105%);
+  }
 }
 
 .notification-badge {
