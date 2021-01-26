@@ -115,7 +115,7 @@ class Activity(models.Model):
         for x in itertools.count(10):
             if self.id:
                 if Activity.objects.filter(Q(slug=self.slug),
-                                           Q(id=s.elf.id),
+                                           Q(id=self.id),
                                            ).exists():
                     break
             if not Activity.objects.filter(slug=self.slug).exists():
