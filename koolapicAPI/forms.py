@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextFormField
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
@@ -22,6 +23,8 @@ class ImageCropField(ImageField):
 
 
 class CustomActivityCreationForm(forms.ModelForm):
+    remarks = RichTextFormField(config_name="my-custom-toolbar")
+
     class Meta:
         model = Activity
         fields = "__all__"
@@ -39,6 +42,7 @@ class CustomActivityCreationForm(forms.ModelForm):
 
 
 class CustomActivityChangeForm(forms.ModelForm):
+    remarks = RichTextFormField(config_name="my-custom-toolbar")
     class Meta:
         model = Activity
         fields = '__all__'
