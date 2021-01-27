@@ -5,7 +5,7 @@ from django.core.validators import FileExtensionValidator
 from django.forms import TextInput, ImageField
 
 from utils.image_utils import crop_image
-from .models import Activity, Group, Invitation
+from koolapic.models import Activity, Group, Invitation
 
 from bootstrap_datepicker_plus import DateTimePickerInput
 # TODO pas encore fini

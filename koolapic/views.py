@@ -1,11 +1,10 @@
 import json
 
-from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -13,10 +12,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
-from koolapicAPI.models import Activity, Group, Invitation, Notification
+from koolapic.models import Activity, Group, Invitation, Notification
 
-from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
-from utils.notifications import send_group_notification, get_all_unread_notifications_number, notifications_to_dictionary
+from koolapic.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
+from utils.notifications import notifications_to_dictionary
 
 
 class IndexView(LoginRequiredMixin, TemplateView):

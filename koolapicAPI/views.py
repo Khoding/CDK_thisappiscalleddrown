@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from koolapicAPI.models import Activity, Invitation, Group, Inscription, Notification
+from koolapic.models import Activity, Invitation, Group, Inscription, Notification
 from accounts.models import CustomUser
 from .serializers import InvitationSerializer, ActivitySerializer, GroupSerializer, InscriptionSerializer, UserSerializer, NotificationSerializer
 

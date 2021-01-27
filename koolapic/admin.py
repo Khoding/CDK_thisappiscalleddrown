@@ -1,5 +1,5 @@
 from django.contrib import admin
-from koolapicAPI.models import Activity, Group, Inscription, Invitation, Notification, Donation
+from koolapic.models import Activity, Group, Inscription, Invitation, Notification, Donation
 
 
 @admin.register(Activity)

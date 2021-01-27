@@ -1,4 +1,4 @@
-from koolapicAPI.models import Notification, Invitation
+from koolapic.models import Notification, Invitation
 
 
 def send_notification(user, title, severity, description, **kwargs):
