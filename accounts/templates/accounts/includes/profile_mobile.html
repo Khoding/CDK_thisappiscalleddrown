@@ -29,7 +29,7 @@
                     <div class="col"><b><i class="fas fa-book"></i> Bio</b></div>
                 </div>
                 <div class="profile-info row">
-                    <div class="col">{{ object.bio }}</div>
+                    <div class="col">{{ object.bio|safe }}</div>
                 </div>
             {% endif %}
             {% if object.tel_m %}
@@ -68,7 +68,7 @@
                     <div class="col"><b><i class="fas fa-user-plus"></i> Compte créé le</b></div>
                 </div>
                 <div class="profile-info row">
-                    <div class="col">{{ object.signup_date }}</div>
+                    <div class="col">{{ object.date_joined }}</div>
                 </div>
 
                 <div class="profile-info-label row">

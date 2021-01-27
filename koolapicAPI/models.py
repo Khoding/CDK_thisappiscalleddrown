@@ -110,7 +110,6 @@ class Activity(models.Model):
         for x in itertools.count(10):
             if self.id:
                 if Activity.objects.filter(Q(slug=self.slug),
-                                           Q(author=self.participants),
                                            Q(id=self.id),
                                            ).exists():
                     break
