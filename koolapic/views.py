@@ -167,9 +167,9 @@ class GroupListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.all().annotate(members_count=Count('members'))
+            return self.model.objects.all().annotate(members_count=Count('members') + Count('admins'))
         else:
-            return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(members=self.request.user)
+            return self.model.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(members=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -302,6 +302,11 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
         context['title'] = 'Koolapic'
         context['description'] = 'Créer un groupe sur Koolapic'
         return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.admins.add(self.request.user)
+        return redirect(self.get_success_url())
 
 
 class GroupUpdateView(LoginRequiredMixin, UpdateView):

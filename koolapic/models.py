@@ -70,7 +70,7 @@ class Group(models.Model):
         return reverse("koolapic:group_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = generate_unique_vanity(5, 15, Group)
         return super().save(*args, **kwargs)
 
 

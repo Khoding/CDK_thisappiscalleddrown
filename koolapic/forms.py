@@ -43,6 +43,7 @@ class CustomActivityCreationForm(forms.ModelForm):
 
 class CustomActivityChangeForm(forms.ModelForm):
     remarks = RichTextFormField(config_name="my-custom-toolbar")
+
     class Meta:
         model = Activity
         fields = '__all__'

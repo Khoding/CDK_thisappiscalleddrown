@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="group-header gradient-l2 small-padding-container rounded-corner-container text-white">
-        <img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">
+        {% if group.image %}<img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">{% endif %}
         <div class="group-panel small-padding-container">
             <h1>{{ group.name }}</h1>
             <div id="groupOverview" class="group-members-overview d-none d-lg-block">
