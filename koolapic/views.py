@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
@@ -84,9 +85,9 @@ class ActivityListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.all
+            return self.model.objects.order_by('start_date').all
         else:
-            return self.model.objects.order_by('start_date').filter(participant=self.request.user)
+            return self.model.objects.order_by('start_date').filter(participants=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -167,9 +168,10 @@ class GroupListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.all().annotate(members_count=Count('members') + Count('admins'))
+            return self.model.objects.order_by('name').all().annotate(members_count=Count('members') + Count('admins'))
         else:
-            return self.model.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(members=self.request.user)
+            return self.model.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(Q(admins=self.request.user) |
+                                                                                                                         Q(members=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
