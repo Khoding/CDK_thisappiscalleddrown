@@ -17,23 +17,5 @@
         <br>
         <button type="submit" class="btn btn-primary">Mettre à jour le profil</button>
     </form>
-
-    <div class="modal" id="modalCrop" data-backdrop="static" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header gradient-l2">
-                    <h5 class="modal-title text-white" id="ModalLabel">Recadrez l'image</h5>
-                    <button class="btn btn-outline-light profile-action-button" data-dismiss="modal">
-                        <i class="fas fa-crop-alt"></i> Valider
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <img src="" alt="Photo de profil" id="imageCrop" style="max-width: 100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    {% include 'includes/modal_crop.html' %}
 {% endblock content %}
