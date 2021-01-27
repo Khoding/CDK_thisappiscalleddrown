@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(function () {
         let href = location.href
         let url = href.split('#')
-        let tab = url[url.length-1]
+        let tab = url[url.length - 1]
 
         $(`[href="#${tab}"]`).tab('show')
     })
@@ -10,6 +10,12 @@ $(document).ready(function () {
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         let href = e.target.href
 
-        location.assign(href)
+        //location.replace(href)
+    })
+
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+        let href = e.target.href
+
+        //location.replace(href)
     })
 })

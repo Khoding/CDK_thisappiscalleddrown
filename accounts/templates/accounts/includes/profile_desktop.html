@@ -24,7 +24,7 @@
             {% if object.bio %}
                 <div class="profile-info row">
                     <div class="col col-1"><i class="fas fa-book"></i></div>
-                    <div class="col col-11">{{ object.bio }}</div>
+                    <div class="col col-11">{{ object.bio|safe }}</div>
                 </div>
             {% endif %}
             {% if object.tel_m %}
@@ -58,7 +58,7 @@
                     <div class="col"><b><i class="fas fa-user-plus"></i> Compte créé le</b></div>
                 </div>
                 <div class="profile-info row">
-                    <div class="col">{{ object.signup_date }}</div>
+                    <div class="col">{{ object.date_joined }}</div>
                 </div>
 
                 <div class="profile-info-label row">

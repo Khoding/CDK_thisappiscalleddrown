@@ -79,9 +79,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="admissionForm">
+                    <form id="invitationForm">
                         {% csrf_token %}
-                        {% form admission_form %}
+                        {% form invitation_form %}
                         <div id="errors"></div>
                     </form>
                 </div>

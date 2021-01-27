@@ -1,0 +1,20 @@
+<div id="groupInvitationList">
+    {% for invitation in invitations %}
+        {% with bg_image=invitation.group.image.url %}
+            <div class="notification small-padding-container mb-2 notification-unread {% if bg_image %}image-notification{% endif %}" {% if bg_image %}data-bg-image="{{ bg_image }}"{% endif %}>
+                <div class="d-flex flex-row align-items-right">
+                    <div class="d-flex align-items-center" onclick="location.href='{% url 'koolapic:invitation' invitation.slug %}'" style="cursor: pointer;">
+                        <div class="flex-column">
+                            <div class="pl-1"><b>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group.name }}</b></div>
+                            <small class="pl-1 pt-0">{{ invitation.date }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endwith %}
+    {% empty %}
+        <div class="empty text-primary">
+            Vous n'avez pas d'invitation...
+        </div>
+    {% endfor %}
+</div>
