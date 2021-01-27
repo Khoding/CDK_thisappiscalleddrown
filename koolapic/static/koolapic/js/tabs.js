@@ -1,21 +1,26 @@
 $(document).ready(function () {
-    $(function () {
-        let href = location.href
-        let url = href.split('#')
-        let tab = url[url.length - 1]
+    $(function() {
+        openTabHash(); // for the initial page load
+        window.addEventListener("hashchange", openTabHash, false); // for later changes to url
+    });
 
-        $(`[href="#${tab}"]`).tab('show')
-    })
+    function openTabHash()
+    {
+        console.log('openTabHash');
+        // Javascript to enable link to tab
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href="#'+url.split('#')[1]+'"]').tab('show') ;
+        }
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        let href = e.target.href
+        // With HTML5 history API, we can easily prevent scrolling!
+        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+            if(history.pushState) {
+                history.pushState(null, null, e.target.hash);
+            } else {
+                window.location.hash = e.target.hash; //Polyfill for old browsers
+            }
+        })
+    }
 
-        //location.replace(href)
-    })
-
-    $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
-        let href = e.target.href
-
-        //location.replace(href)
-    })
 })
