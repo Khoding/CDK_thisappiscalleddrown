@@ -1,19 +1,22 @@
 import json
 
+from django.conf.urls import url
+from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
-from koolapicAPI.models import Activity, Group, Admission, Notification
+from koolapicAPI.models import Activity, Group, Invitation, Notification
 
-from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, AdmissionCreationForm
-from utils.notifications import send_group_notification, get_unread_notifications_number
+from koolapicAPI.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
+from utils.notifications import send_group_notification, get_all_unread_notifications_number, notifications_to_dictionary
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -40,49 +43,28 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class NotificationsView(ListView):
-    template_name = 'koolapic/notifications.html'
-    model = Notification
-
-    def get_queryset(self):
-        return self.model.objects.all().order_by('-date_sent')
+class NotificationsView(LoginRequiredMixin, TemplateView):
+    template_name = 'koolapic/notifications/notifications.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
+        context['notifications'] = Notification.objects.filter(user=self.request.user).order_by('-date_sent')
+        context['invitations'] = Invitation.objects.filter(user=self.request.user).order_by('-date')
         context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
-        if data['action'] == 'toggleStatus':
+        if data['action'] == 'deleteNotification':
             notification_id = data['notification']
             notification = Notification.objects.get(id=notification_id)
-            if notification.status == 'R':
-                notification.status = 'U'
-                notification.save()
-                unread_notification_number = get_unread_notifications_number(user=self.request.user)
-                response_data = {
-                    'unreadNotificationNumber': unread_notification_number
-                }
-            elif notification.status == 'U':
-                notification.status = 'R'
-                notification.save()
-                unread_notification_number = get_unread_notifications_number(user=self.request.user)
-                response_data = {
-                    'unreadNotificationNumber': unread_notification_number
-                }
-            else:
-                message = {
-                    "text": "La notification n'est plus disponible.",
-                    "severity": "ERROR"
-                }
-                response_data = {
-                    'message': message
-                }
+            notification.delete()
+            response_data = notifications_to_dictionary(user=self.request.user)
             return JsonResponse(response_data)
-        if data['action'] == "markAllAsRead":
-            Notification.objects.filter(status="U").update(status='R')
+
+        if data['action'] == "deleteAllNotifications":
+            Notification.objects.filter(user=self.request.user).delete()
             return HttpResponse(status=200)
 
 
@@ -218,7 +200,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['all_members'] = members | admins
         context['members_count'] = all_members_count
         context['undisplayed_members_count'] = all_members_count - 10
-        context['admission_form'] = AdmissionCreationForm
+        context['invitation_form'] = InvitationCreationForm
         return context
 
     def post(self, *args, **kwargs):
@@ -230,28 +212,38 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             self.get_object().members.remove(self.request.user)
             return HttpResponse(status=200)
         elif data['action'] == 'invite':
-            form = AdmissionCreationForm(data['form'])
+            form = InvitationCreationForm(data['form'])
 
             if form.is_valid():
                 if CustomUser.objects.filter(email=form.cleaned_data.get("email")).count() > 0:
                     user = CustomUser.objects.get(email=form.cleaned_data.get("email"))
                     message = form.cleaned_data.get("message")
                     group = self.get_object()
-                    admission = Admission(user=user, group=group, message=message)
-                    admission.save()
-                    username = f"{self.request.user.first_name} {self.request.user.last_name}"
-                    send_group_notification(
-                        user=user,
-                        title="Invitation à un groupe",
-                        severity="INFO",
-                        description=f"{username} vous a invité à rejoindre {group.name}",
-                        group=group,
-                        link=reverse("koolapic:invitation", kwargs={"slug": admission.slug})
-                    )
-                    message = {
-                        "text": "Invitation envoyée.",
-                        "severity": "SUCCESS"
-                    }
+
+                    if user in group.members.all() or user in group.admins.all():
+                        message = {
+                            "text": "Cet utilisateur appartient déjà ce groupe.",
+                            "severity": "ERROR"
+                        }
+                    elif user in group.banned_users.all():
+                        message = {
+                            "text": "Cet utilisateur est banni de ce groupe.",
+                            "severity": "ERROR"
+                        }
+                    else:
+                        if Invitation.objects.filter(user=user, group=group).count() == 0:
+                            invitation = Invitation(user=user, sender=self.request.user, group=group, message=message)
+                            invitation.save()
+                            message = {
+                                "text": "Invitation envoyée.",
+                                "severity": "SUCCESS"
+                            }
+                        else:
+                            message = {
+                                "text": "Cet utilisateur a déjà été invité à ce groupe.",
+                                "severity": "ERROR"
+                            }
+
                 else:
                     # TODO invitation quand le user n'a pas de compte
                     message = {
@@ -273,8 +265,32 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                 return JsonResponse(response_data)
 
 
-class InvitationView(DetailView):
-    pass
+class InvitationView(LoginRequiredMixin, DetailView):
+    template_name = 'koolapic/groups/invitation.html'
+    model = Invitation
+    context_object_name = 'invitation'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = f'Invitation au groupe {self.object.group}'
+        return context
+
+    def post(self, *args, **kwargs):
+        group = self.get_object().group
+        if self.request.user == self.get_object().user:
+            if self.request.POST.get('accept'):
+                self.get_object().group.members.add(self.get_object().user)
+                self.model.objects.get(id=self.get_object().id).delete()
+                messages.success(request=self.request, message=f"Vous faites désormais partie du groupe {group.name}.")
+                return redirect(reverse('koolapic:group_detail', kwargs={'slug': group.slug}))
+            elif self.request.POST.get('decline'):
+                messages.success(request=self.request, message=f"Vous avez décliné l'invitation au groupe {group.name}.")
+                self.model.objects.get(id=self.get_object().id).delete()
+                return redirect(reverse('koolapic:home'))
+        else:
+            messages.error(request=self.request, message="Cette invitation ne vous est pas destinée.")
+            return redirect(reverse('koolapic:home'))
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):

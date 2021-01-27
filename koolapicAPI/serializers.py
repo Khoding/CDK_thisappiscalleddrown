@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from koolapicAPI.models import Activity, Admission, Group, Inscription, Notification
+from koolapicAPI.models import Activity, Invitation, Group, Inscription, Notification
 from accounts.models import CustomUser
 
 
@@ -9,10 +9,10 @@ class ActivitySerializer(serializers.ModelSerializer):
         model = Activity
 
 
-class AdmissionSerializer(serializers.ModelSerializer):
+class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
-        model = Admission
+        model = Invitation
 
 
 class GroupSerializer(serializers.ModelSerializer):

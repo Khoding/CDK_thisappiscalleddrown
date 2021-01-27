@@ -4,7 +4,7 @@ from django.core.validators import FileExtensionValidator
 from django.forms import TextInput, ImageField
 
 from utils.image_utils import crop_image
-from .models import Activity, Group, Admission
+from .models import Activity, Group, Invitation
 
 from bootstrap_datepicker_plus import DateTimePickerInput
 # TODO pas encore fini
@@ -109,9 +109,9 @@ class CustomGroupChangeForm(forms.ModelForm):
         return custom_group
 
 
-class AdmissionCreationForm(forms.ModelForm):
+class InvitationCreationForm(forms.ModelForm):
     email = forms.EmailField(required=True)
 
     class Meta:
-        model = Admission
+        model = Invitation
         fields = ('email', 'message')

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'koolapic/js/notifications.js' %}" type="module"></script>
+    <script src="{% static 'koolapic/js/tabs.js' %}" type="module"></script>
+{% endblock %}
+
+{% block navbar %}
+    {{ block.super }}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="d-flex">
+        <div class="nav flex-column nav-pills w-25" id="v-pills-tab" aria-orientation="vertical" role="tablist">
+            <a class="nav-link active" id="notificationsTab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">
+                Notifications{% if notifications.count > 0 %} <span class="badge badge-danger">{{ notifications.count }}</span>{% endif %}
+            </a>
+            <a class="nav-link" id="groupInvitationsTab" data-toggle="pill" href="#groupInvitations" role="tab" aria-controls="groupInvitations" aria-selected="true">
+                Invitations{% if invitations.count > 0 %} <span class="badge badge-danger">{{ invitations.count }}</span>{% endif %}
+            </a>
+        </div>
+        <div class="tab-content ml-4 w-100" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="notifications" role="tabpanel" aria-labelledby="notificationsTab">
+                <div class="tab-pane show active" id="notifications">
+                    {% include 'koolapic/notifications/includes/notifications_list.html' %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="groupInvitations" role="tabpanel" aria-labelledby="groupInvitationsTab">
+                {% include 'koolapic/notifications/includes/group_invitations.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    {% comment %}
+    <script src="{% static 'koolapic/js/invitation.js' %}" type="module"></script>
+    {% endcomment %}
+{% endblock %}
+
+{% block content %}
+    <div class="text-white small-padding-container invitation rounded-corner-container gradient-l2">
+        <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
+        <div class="medium-padding-container">
+            <h1>Invitation</h1>
+            <p>{{ invitation.user.first_name }} {{ invitation.user.last_name }} vous a invité à rejoindre le groupe {{ invitation.group }}.</p>
+
+            {% if invitation.message %}
+                <h4>Voici le message qu'il vous a laissé :</h4>
+                <p>{{ invitation.message }}</p>
+            {% endif %}
+
+            <div>
+
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" aria-hidden="true" name="decline" id="decline" value="true">
+                    <button class="btn btn-danger" type="submit" value="decline">Refuser</button>
+                </form>
+                <form method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" aria-hidden="true" name="accept" id="accept" value="true">
+                    <button class="btn btn-d2" type="submit" value="accept">Accepter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
