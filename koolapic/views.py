@@ -417,4 +417,4 @@ class ConfidentialityView(TemplateView):
 
 
 class LicenseView(TemplateView):
-    pass
+    template_name = 'koolapic/licenses.html'

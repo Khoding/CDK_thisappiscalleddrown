@@ -6,7 +6,7 @@ from django.urls import path
 from django.urls import include, path
 
 from koolapic.views import ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, ActivityDeleteView, \
-    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, NotificationsView, InvitationView
+    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, NotificationsView, InvitationView, LicenseView
 from koolapic.views import IndexView, HomeView
 
 app_name = 'koolapic'
@@ -16,7 +16,7 @@ urlpatterns = [
     path('app/', IndexView.as_view(), name='home'),
     path('conditions/', IndexView.as_view(), name='conditions'),
     path('confidentiality/', IndexView.as_view(), name='confidentiality'),
-    path('licenses/', IndexView.as_view(), name='licenses'),
+    path('licenses/', LicenseView.as_view(), name='licenses'),
     path('notifications/', NotificationsView.as_view(), name='notifications'),
     path('invitation/<slug:slug>/', InvitationView.as_view(), name='invitation'),
 
