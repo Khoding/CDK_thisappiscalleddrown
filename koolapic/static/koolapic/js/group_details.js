@@ -4,6 +4,50 @@ import {displayAlert} from './modules/alerts.js'
 window.join = join
 window.leave = leave
 window.sendInvite = sendInvite
+window.copyLink = copyLink
+
+$(document).ready(function () {
+    $(function () {
+        let href = location.href
+        let url = href.split('#')
+        let tab = url[url.length - 1]
+
+        $(`[href="#${tab}"]`).tab('show')
+    })
+
+    $('#invitationModal').on('shown.bs.modal', function (e) {
+        let data = {
+            action: "getInvitationLink"
+        }
+
+        fetch(location.href, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+        )
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                    let url = location.protocol + "//" + location.hostname + ":" + location.port + data.invitationLink
+                    $("#invitationLink")[0].value = url
+                    $('#shareInvitationLink')[0].href = 'mailto:' + $('#id_email').val() + '?subject=Invitation à rejoindre un groupe sur Koolapic&body=Lien : ' + url
+                }
+            )
+            .catch(error => {
+                console.error('Error:', error);
+                displayAlert("ERROR", "Une erreur est survenue.")
+            });
+    }).on('hide.bs.modal', function (e) {
+        $('#invitationForm')[0].reset()
+        $('#shareInvitationLink')[0].href = '#'
+    })
+})
 
 function join() {
     let data = {
@@ -85,4 +129,13 @@ function sendInvite() {
             console.error('Error:', error);
             displayAlert("ERROR", "Erreur.")
         });
+}
+
+function copyLink() {
+    let copyTextFrom = $("#invitationLink");
+
+    copyTextFrom.focus();
+    copyTextFrom.select();
+
+    document.execCommand('copy');
 }

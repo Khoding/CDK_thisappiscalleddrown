@@ -1,5 +1,5 @@
 from django.contrib import admin
-from koolapicAPI.models import Activity, Group, Inscription, Admission, Notification, Donation
+from koolapic.models import Activity, Group, Inscription, Invitation, Notification, Donation
 
 
 @admin.register(Activity)
@@ -22,8 +22,8 @@ class InscriptionAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Admission)
-class AdmissionAdmin(admin.ModelAdmin):
+@admin.register(Invitation)
+class InvitationAdmin(admin.ModelAdmin):
     pass
 
 

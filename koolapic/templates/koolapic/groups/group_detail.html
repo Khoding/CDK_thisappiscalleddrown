@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% load forms_extras %}
 {% load static %}
 
@@ -9,7 +10,7 @@
 
 {% block content %}
     <div class="group-header gradient-l2 small-padding-container rounded-corner-container text-white">
-        <img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">
+        {% if group.image %}<img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">{% endif %}
         <div class="group-panel small-padding-container">
             <h1>{{ group.name }}</h1>
             <div id="groupOverview" class="group-members-overview d-none d-lg-block">
@@ -79,15 +80,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="admissionForm">
+                    <form id="invitationForm">
                         {% csrf_token %}
-                        {% form admission_form %}
-                        <div id="errors"></div>
+                        <h5>Invitation directe</h5>
+                        {{ invitation_form.email.label_tag }}
+                        <div class="input-group">
+                            {{ invitation_form.email|add_class:"form-control" }}
+                            <button class="btn btn-primary input-group-append" type="button" onclick="sendInvite();">Inviter</button>
+                        </div>
+                        <hr>
+                        <h5><label for="invitationLink" class="label">Lien d'invitation</label></h5>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="invitationLink" id="invitationLink">
+                            <div class="input-group-append">
+                                <button id="copyInvitationLinkButton" class="btn btn-primary" type="button" onclick="copyLink();"><i class="far fa-clipboard"></i></button>
+                                <a id="shareInvitationLink" href="#" class="btn btn-primary" type="button" onclick=""><i class="fas fa-share"></i></a>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Annuler</button>
-                    <button type="button" onclick="sendInvite();" class="btn btn-primary" value="Inviter">Inviter</button>
+
                 </div>
             </div>
         </div>

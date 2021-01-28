@@ -5,7 +5,7 @@ from django.core.validators import FileExtensionValidator
 from django.forms import TextInput, ImageField
 
 from utils.image_utils import crop_image
-from .models import Activity, Group, Admission
+from koolapic.models import Activity, Group, Invitation
 
 from bootstrap_datepicker_plus import DateTimePickerInput
 # TODO pas encore fini
@@ -43,6 +43,7 @@ class CustomActivityCreationForm(forms.ModelForm):
 
 class CustomActivityChangeForm(forms.ModelForm):
     remarks = RichTextFormField(config_name="my-custom-toolbar")
+
     class Meta:
         model = Activity
         fields = '__all__'
@@ -113,9 +114,10 @@ class CustomGroupChangeForm(forms.ModelForm):
         return custom_group
 
 
-class AdmissionCreationForm(forms.ModelForm):
+class InvitationCreationForm(forms.ModelForm):
     email = forms.EmailField(required=True)
+    link = forms.CharField(required=False)
 
     class Meta:
-        model = Admission
-        fields = ('email', 'message')
+        model = Invitation
+        fields = ('email', 'link')

@@ -24,17 +24,17 @@ $(document).ready(function () {
         let buttons = $('.toggle-read-btn')
 
         for (let i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener('click', toggleCheckboxListener)
+            buttons[i].addEventListener('click', deleteNotificationListener)
         }
     }
 
-    function toggleCheckboxListener(event) {
+    function deleteNotificationListener(event) {
         let button = $(event.currentTarget)[0]
         let notificationId = button.dataset.notificationId
         let notification = $('[data-notification-id=' + notificationId + ']')[0]
 
         let data = {
-            action: "toggleStatus",
+            action: "deleteNotification",
             notification: notificationId
         }
         fetch(location.href, {
@@ -51,19 +51,11 @@ $(document).ready(function () {
                 return response.json()
             })
             .then(data => {
-                    if (button.classList.contains('checked')) {
-                        button.innerHTML = '<i class="far fa-square"></i>'
-                        button.classList.toggle('checked')
-                        notification.classList.toggle('notification-read')
-                        notification.classList.toggle('notification-unread')
-                    } else {
-                        button.innerHTML = '<i class="far fa-check-square"></i>'
-                        button.classList.toggle('checked')
-                        notification.classList.toggle('notification-read')
-                        notification.classList.toggle('notification-unread')
+                    notification.remove()
+                    if (data.unreadNotificationNumber === 0) {
+                        $("#notificationsList")[0].innerHTML = '<div class="empty text-primary">Vous n\'avez pas de notification...</div>'
                     }
-                    stylizeNotification(notification)
-                    setBadgeNumber(data.unreadNotificationNumber)
+                    setBadgeNumber(data)
                 }
             )
             .catch(error => {
@@ -74,23 +66,25 @@ $(document).ready(function () {
 });
 
 function stylizeNotification(notification) {
-    let bgImage = notification.getAttribute('data-bg-image')
     if (notification.classList.contains('image-notification')) {
-        if (notification.classList.contains('notification-read')) {
-            notification.style = "background-image: linear-gradient(to right, #FFFFFF 70%, transparent 80%, transparent), url('" + bgImage + "');"
-        } else if (notification.classList.contains('notification-unread')) {
-            notification.style = "background-image: linear-gradient(to right, #6358EB 70%, transparent 80%, transparent), url('" + bgImage + "');"
-        }
+        let bgImage = notification.getAttribute('data-bg-image')
+        notification.style = "background-image: linear-gradient(to right, #6358EB 70%, transparent 80%, transparent), url('" + bgImage + "');"
     }
 }
 
-function setBadgeNumber(number) {
+function setBadgeNumber(notifications_counts) {
     let button = $("#notificationBtn")[0]
 
-    if (number !== 0) {
+    if (notifications_counts.all_unread_notifications_number !== 0) {
         button.innerHTML = '<i class="fas fa-bell"></i>' +
             '<span class="badge badge-danger notification-badge">' +
-            number +
+            notifications_counts.all_unread_notifications_number +
+            '</span>'
+        $("#notificationsTab")[0].innerHTML = 'Notifications <span class="badge badge-danger notification-badge">' +
+            notifications_counts.unread_notifications_number +
+            '</span>'
+        $("#groupInvitationsTab")[0].innerHTML = 'Notifications <span class="badge badge-danger notification-badge">' +
+            notifications_counts.group_invitations_number +
             '</span>'
     } else {
         button.innerHTML = '<i class="fas fa-bell"></i>'
@@ -99,7 +93,7 @@ function setBadgeNumber(number) {
 
 function markAllAsRead() {
     let data = {
-        action: "markAllAsRead"
+        action: "deleteAllNotifications"
     }
 
     fetch(location.href, {
@@ -113,24 +107,17 @@ function markAllAsRead() {
         }
     )
         .then(response => {
-            let buttons = $('.toggle-read-btn')
-
-            for (let i = 0; i < buttons.length; i++) {
-                let button = buttons[i]
-                button.innerHTML = '<i class="far fa-check-square"></i>'
-                button.classList.add('checked')
-            }
-
             let notifications = $('.notification')
 
             for (let i = 0; i < notifications.length; i++) {
                 let notification = notifications[i]
-                notification.classList.remove('notification-unread')
-                notification.classList.add('notification-read')
+                notification.remove()
 
                 stylizeNotification(notification)
                 setBadgeNumber(0)
             }
+
+            $("#notificationsList")[0].innerHTML = '<div class="empty text-primary">Vous n\'avez pas de notification...</div>'
         })
         .catch(error => {
             console.error('Error:', error);

@@ -1,17 +1,34 @@
 import itertools
+import secrets
 
 from ckeditor.fields import RichTextField
 from django.db import models
 from django.db.models import Q
-from django.db.models.functions import datetime
 from django.template.defaultfilters import slugify
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
-from accounts import admin
 from accounts.models import CustomUser
 
-import hashlib
 import itertools
+from datetime import datetime
+
+
+def generate_vanity(min_length, max_length):
+    length = secrets.choice(range(min_length, max_length))
+    choices = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ1234567890"
+    vanity = ""
+
+    for i in range(0, length):
+        vanity += choices[secrets.choice(range(0, len(choices)))]
+    return vanity
+
+
+def generate_unique_vanity(min_length, max_length, model):
+    vanity = generate_vanity(min_length, max_length)
+
+    if model.objects.filter(slug=vanity).exists():
+        return generate_unique_vanity(min_length, max_length, model)
+    return vanity
 
 
 class Group(models.Model):
@@ -54,28 +71,7 @@ class Group(models.Model):
         return reverse("koolapic:group_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
-
-
-class Admission(models.Model):
-    ACCEPTATION_CHOICES = [
-        ('ACC', 'Acceptée'),
-        ('NAC', 'Non acceptée')
-    ]
-
-    date = models.DateTimeField(verbose_name="Date d'admission", auto_now=True)
-    message = models.TextField(max_length=100, verbose_name="Message", blank=True, null=True)
-    slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug d'invitation")
-    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, verbose_name="Utilisateur")
-    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
-    accepted = models.CharField(max_length=3, verbose_name="Accepté", blank=True, null=True)
-
-    def __str__(self):
-        return self.slug
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(f"{self.group.slug}-{self.user.slug}")
+        self.slug = generate_unique_vanity(5, 15, Group)
         return super().save(*args, **kwargs)
 
 
@@ -108,6 +104,9 @@ class Activity(models.Model):
 
     def get_confirm_delete_url(self):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
+
+    def is_past(self):
+        return datetime.now() > self.end_date.replace(tzinfo=None)
 
     def save(self, *args, **kwargs):
         max_length = Activity._meta.get_field('slug').max_length
@@ -165,7 +164,6 @@ class Notification(models.Model):
         ("D", "Supprimée"),
     ]
 
-    status = models.CharField(max_length=3, default="U", verbose_name="Lue")
     severity = models.CharField(max_length=10, default="INFO", verbose_name="Sévérité")
     title = models.CharField(max_length=100, verbose_name="Titre")
     description = models.CharField(max_length=250, verbose_name="Description")
@@ -176,3 +174,27 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Invitation(models.Model):
+    ACCEPTATION_CHOICES = [
+        ('ACC', 'Acceptée'),
+        ('NAC', 'Non acceptée')
+    ]
+
+    date = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
+    slug = models.SlugField(max_length=10, null=True, unique=True, verbose_name="Vanité d'invitation")
+    sender = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="sender", verbose_name="Envoyeur")
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="receiver", verbose_name="Utilisateur")
+    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
+
+    def __str__(self):
+        return self.slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = generate_unique_vanity(5, 10, Invitation)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse_lazy("koolapic:invitation", kwargs={'slug': self.slug})

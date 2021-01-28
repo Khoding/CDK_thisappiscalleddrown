@@ -62,8 +62,6 @@ def crop_and_resize_frames(crop_dim, resize_dim, image):
             new_frame.paste(last_frame)
             new_frame.paste(image, (0, 0), image.convert('RGBA'))
 
-            image.convert('RGBA').save(f"C:/TEMP/gif/frame-{image.tell()}.gif")
-
             resized_frame = new_frame.crop(crop_dim)
             resized_frame = resized_frame.resize(resize_dim, Image.ANTIALIAS)
 
