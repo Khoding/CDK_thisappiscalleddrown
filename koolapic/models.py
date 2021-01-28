@@ -6,11 +6,11 @@ from django.db import models
 from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 
 from accounts.models import CustomUser
 
 import itertools
-from datetime import datetime
 
 
 def generate_vanity(min_length, max_length):
@@ -106,7 +106,7 @@ class Activity(models.Model):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
 
     def is_past(self):
-        return datetime.now() > self.end_date.replace(tzinfo=None)
+        return timezone.now() > self.end_date
 
     def save(self, *args, **kwargs):
         max_length = Activity._meta.get_field('slug').max_length
