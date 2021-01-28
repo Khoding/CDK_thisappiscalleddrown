@@ -17,6 +17,6 @@
         </form>
     </div>
     <div class="card-footer">
-        <p class="text-right">Vous avez déjà un compte ? <a href="{% url 'accounts:login' %}" class="btn btn-d2">Connectez-vous</a></p>
+        <p class="text-right">Vous avez déjà un compte ? <a href="{% url 'accounts:login' %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-d2">Connectez-vous</a></p>
     </div>
 </div>

@@ -23,6 +23,12 @@ from utils.notifications import notifications_to_dictionary
 class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'koolapic/index.html'
 
+    def get(self, *args, **kwargs):
+        if 'next' in self.request.GET:
+            next_page = self.request.GET.get('next')
+            return redirect(next_page)
+        return super().get(*args, **kwargs)
+
     def get_activities(self):
         if self.request.user.is_superuser:
             return Activity.objects.all
@@ -31,9 +37,9 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_groups(self):
         if self.request.user.is_superuser:
-            return Group.objects.all().annotate(members_count=Count('members'))
+            return Group.objects.all().annotate(members_count=Count('members') + Count('admins'))
         else:
-            return Group.objects.order_by('name').annotate(members_count=Count('members')).filter(members=self.request.user)
+            return Group.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(members=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -286,7 +292,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                 return JsonResponse(response_data)
 
 
-class InvitationView(LoginRequiredMixin, DetailView):
+class InvitationView(DetailView):
     template_name = 'koolapic/groups/invitation.html'
     model = Invitation
     context_object_name = 'invitation'
@@ -298,12 +304,16 @@ class InvitationView(LoginRequiredMixin, DetailView):
         return context
 
     def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            self.request.session['invitation'] = self.get_object().slug
+            return redirect(f"{reverse('accounts:login')}?next={self.get_object().get_absolute_url()}")
+
         if self.request.user in self.get_object().group.members.filter(member__id=self.request.user.id) != 0:
             messages.error(request=self.request, message="Vous faites déjà partie de ce groupe.")
             return redirect(reverse('koolapic:home'))
 
         if self.request.user in self.get_object().group.banned_users.filter(member__id=self.request.user.id) != 0:
-            messages.error(request=self.request, message="Vous avez été banni de ce groupe.")
+            messages.error(request=self.request, message="Vous avez été banni(e) de ce groupe.")
             return redirect(reverse('koolapic:home'))
 
         if self.get_object().user and self.request.user != self.get_object().user:
