@@ -132,10 +132,13 @@ function sendInvite() {
 }
 
 function copyLink() {
-    let copyTextFrom = $("#invitationLink");
+    let copyTextFrom = $("#invitationLink")[0];
 
+    copyTextFrom.disabled = false;
     copyTextFrom.focus();
     copyTextFrom.select();
-
     document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    copyTextFrom.blur();
+    copyTextFrom.disabled = true;
 }
