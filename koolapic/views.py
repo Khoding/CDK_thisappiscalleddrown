@@ -37,7 +37,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_groups(self):
         if self.request.user.is_superuser:
-            return Group.objects.all().annotate(members_count=Count('members') + Count('admins'))
+            return Group.objects.all().annotate(members_count=Count('members'))
         else:
             return Group.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(members=self.request.user)
 
@@ -175,10 +175,10 @@ class GroupListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.order_by('name').all().annotate(members_count=Count('members') + Count('admins'))
+            return self.model.objects.order_by('name').all().annotate(members_count=Count('members'))
         else:
-            return self.model.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(Q(admins=self.request.user) |
-                                                                                                                         Q(members=self.request.user))
+            return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(Q(admins=self.request.user) |
+                                                                                                       Q(members=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
