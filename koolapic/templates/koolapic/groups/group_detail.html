@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 {% load forms_extras %}
 {% load static %}
 
@@ -81,13 +82,27 @@
                 <div class="modal-body">
                     <form id="invitationForm">
                         {% csrf_token %}
-                        {% form invitation_form %}
-                        <div id="errors"></div>
+                        <h5>Invitation directe</h5>
+                        {{ invitation_form.email.label_tag }}
+                        <div class="input-group">
+                            {{ invitation_form.email|add_class:"form-control" }}
+                            <button class="btn btn-primary input-group-append" type="button" onclick="sendInvite();">Inviter</button>
+                        </div>
+                        <hr>
+                        <h5><label for="invitationLink" class="label">Lien d'invitation</label></h5>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="invitationLink" id="invitationLink">
+                            <div class="input-group-append">
+                                <button id="copyInvitationLinkButton" class="btn btn-primary" type="button" onclick="copyLink();"><i class="far fa-clipboard"></i></button>
+                                <a id="shareInvitationLink" href="#" class="btn btn-primary" type="button" onclick=""><i class="fas fa-share"></i></a>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Annuler</button>
-                    <button type="button" onclick="sendInvite();" class="btn btn-primary" value="Inviter">Inviter</button>
+
                 </div>
             </div>
         </div>

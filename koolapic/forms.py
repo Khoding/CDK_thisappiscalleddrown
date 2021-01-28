@@ -116,7 +116,8 @@ class CustomGroupChangeForm(forms.ModelForm):
 
 class InvitationCreationForm(forms.ModelForm):
     email = forms.EmailField(required=True)
+    link = forms.CharField(required=False)
 
     class Meta:
         model = Invitation
-        fields = ('email', 'message')
+        fields = ('email', 'link')

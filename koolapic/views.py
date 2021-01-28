@@ -12,7 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
-from koolapic.models import Activity, Group, Invitation, Notification
+from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER
+from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
 from koolapic.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
 from utils.notifications import notifications_to_dictionary
@@ -210,13 +211,27 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         elif data['action'] == 'leave':
             self.get_object().members.remove(self.request.user)
             return HttpResponse(status=200)
+        elif data['action'] == 'getInvitationLink':
+            if Invitation.objects.filter(sender=self.request.user).count() <= MAX_INVITATION_NUMBER_BY_USER:
+                invitation = Invitation(sender=self.request.user, group=self.get_object(), slug=generate_unique_vanity(5, 15, Invitation))
+                invitation.save()
+                return JsonResponse({
+                    'invitationLink': invitation.get_absolute_url()
+                })
+            else:
+                response_data = {
+                    'message': {
+                        "text": "Vous avez atteint la limite du nombre d'invitation par utilisateur. Veuillez réessayer plus tard.",
+                        "severity": "ERROR"
+                    },
+                }
+                return JsonResponse(response_data)
         elif data['action'] == 'invite':
             form = InvitationCreationForm(data['form'])
 
             if form.is_valid():
                 if CustomUser.objects.filter(email=form.cleaned_data.get("email")).count() > 0:
                     user = CustomUser.objects.get(email=form.cleaned_data.get("email"))
-                    message = form.cleaned_data.get("message")
                     group = self.get_object()
 
                     if user in group.members.all() or user in group.admins.all():
@@ -230,24 +245,29 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                             "severity": "ERROR"
                         }
                     else:
-                        if Invitation.objects.filter(user=user, group=group).count() == 0:
-                            invitation = Invitation(user=user, sender=self.request.user, group=group, message=message)
-                            invitation.save()
-                            message = {
-                                "text": "Invitation envoyée.",
-                                "severity": "SUCCESS"
-                            }
+                        if Invitation.objects.filter(sender=self.request.user).count() <= MAX_INVITATION_NUMBER_BY_USER:
+                            if Invitation.objects.filter(user=user, group=group).count() == 0:
+                                invitation = Invitation(user=user, sender=self.request.user, group=group)
+                                invitation.save()
+                                message = {
+                                    "text": "Invitation envoyée.",
+                                    "severity": "SUCCESS"
+                                }
+                            else:
+                                message = {
+                                    "text": "Cet utilisateur a déjà été invité à ce groupe.",
+                                    "severity": "ERROR"
+                                }
                         else:
                             message = {
-                                "text": "Cet utilisateur a déjà été invité à ce groupe.",
+                                "text": "Vous avez atteint la limite du nombre d'invitation par utilisateur. Veuillez réessayer plus tard.",
                                 "severity": "ERROR"
                             }
 
                 else:
-                    # TODO invitation quand le user n'a pas de compte
                     message = {
-                        "text": "La personne n'a pas de compte Koolapic.",
-                        "severity": "WARNING"
+                        "text": "La personne n'a pas de compte Koolapic. Vous pouvez lui envoyer un lien d'invitation.",
+                        "severity": "ERROR"
                     }
                 response_data = {
                     'message': message,
@@ -272,12 +292,27 @@ class InvitationView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = f'Invitation au groupe {self.object.group}'
+        context['description'] = f'Invitation au groupe {self.get_object().group}'
         return context
+
+    def get(self, *args, **kwargs):
+        if self.request.user in self.get_object().group.members.filter(member__id=self.request.user.id) != 0:
+            messages.error(request=self.request, message="Vous faites déjà partie de ce groupe.")
+            return redirect(reverse('koolapic:home'))
+
+        if self.request.user in self.get_object().group.banned_users.filter(member__id=self.request.user.id) != 0:
+            messages.error(request=self.request, message="Vous avez été banni de ce groupe.")
+            return redirect(reverse('koolapic:home'))
+
+        if self.get_object().user and self.request.user != self.get_object().user:
+            messages.error(request=self.request, message="Cette invitation ne vous est pas destinée.")
+            return redirect(reverse('koolapic:home'))
+
+        return super().get(*args, **kwargs)
 
     def post(self, *args, **kwargs):
         group = self.get_object().group
-        if self.request.user == self.get_object().user:
+        if not self.get_object().user or self.request.user == self.get_object().user:
             if self.request.POST.get('accept'):
                 self.get_object().group.members.add(self.get_object().user)
                 self.model.objects.get(id=self.get_object().id).delete()

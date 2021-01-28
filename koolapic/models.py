@@ -178,8 +178,7 @@ class Invitation(models.Model):
         ('NAC', 'Non acceptée')
     ]
 
-    date = models.DateTimeField(verbose_name="Date d'admission", auto_now=True)
-    message = models.TextField(max_length=100, verbose_name="Message", blank=True, null=True)
+    date = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
     slug = models.SlugField(max_length=10, null=True, unique=True, verbose_name="Vanité d'invitation")
     sender = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="sender", verbose_name="Envoyeur")
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="receiver", verbose_name="Utilisateur")
@@ -189,7 +188,8 @@ class Invitation(models.Model):
         return self.slug
 
     def save(self, *args, **kwargs):
-        self.slug = generate_unique_vanity(5, 10, Invitation)
+        if not self.slug:
+            self.slug = generate_unique_vanity(5, 10, Invitation)
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
