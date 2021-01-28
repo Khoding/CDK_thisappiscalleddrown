@@ -327,12 +327,14 @@ class InvitationView(DetailView):
         if not self.get_object().user or self.request.user == self.get_object().user:
             if self.request.POST.get('accept'):
                 self.get_object().group.members.add(self.request.user)
-                self.model.objects.get(id=self.get_object().id).delete()
+                if self.get_object().user:
+                    self.model.objects.get(id=self.get_object().id).delete()
                 messages.success(request=self.request, message=f"Vous faites désormais partie du groupe {group.name}.")
                 return redirect(reverse('koolapic:group_detail', kwargs={'slug': group.slug}))
             elif self.request.POST.get('decline'):
                 messages.success(request=self.request, message=f"Vous avez décliné l'invitation au groupe {group.name}.")
-                self.model.objects.get(id=self.request.user.id).delete()
+                if self.get_object().user:
+                    self.model.objects.get(id=self.request.user.id).delete()
                 return redirect(reverse('koolapic:home'))
         else:
             messages.error(request=self.request, message="Cette invitation ne vous est pas destinée.")
