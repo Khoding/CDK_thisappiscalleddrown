@@ -1,4 +1,3 @@
-import itertools
 import secrets
 
 from ckeditor.fields import RichTextField
@@ -6,7 +5,6 @@ from django.db import models
 from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.urls import reverse, reverse_lazy
-from django.utils import timezone
 
 from accounts.models import CustomUser
 
@@ -104,9 +102,6 @@ class Activity(models.Model):
 
     def get_confirm_delete_url(self):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
-
-    def is_past(self):
-        return timezone.now() > self.end_date
 
     def save(self, *args, **kwargs):
         max_length = Activity._meta.get_field('slug').max_length

@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
 
 from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
@@ -29,11 +30,9 @@ class IndexView(LoginRequiredMixin, TemplateView):
             return redirect(next_page)
         return super().get(*args, **kwargs)
 
-    def get_activities(self):
-        if self.request.user.is_superuser:
-            return Activity.objects.all
-        else:
-            return Activity.objects.order_by('start_date').filter(participants=self.request.user)
+    def get_upcoming_activities(self):
+        return Activity.objects.order_by('start_date').all().filter(end_date__gte=timezone.now()) if self.request.user.is_superuser \
+            else Activity.objects.order_by('start_date').filter(participants=self.request.user).filter(end_date__gte=timezone.now())
 
     def get_groups(self):
         if self.request.user.is_superuser:
@@ -45,7 +44,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
-        context['activities'] = self.get_activities()
+        context['upcoming_activities'] = self.get_upcoming_activities()
         context['groups'] = self.get_groups()
         return context
 
@@ -90,16 +89,16 @@ class ActivityListView(LoginRequiredMixin, ListView):
     context_object_name = 'activities'
     model = Activity
 
-    def get_queryset(self):
-        if self.request.user.is_superuser:
-            return self.model.objects.order_by('start_date').all
-        else:
-            return self.model.objects.order_by('start_date').filter(participants=self.request.user)
+    def get_activities(self):
+        return self.model.objects.order_by('start_date').all() if self.request.user.is_superuser \
+            else self.model.objects.order_by('start_date').filter(participants=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'La liste des activités sur Koolapic'
+        context['upcoming_activities'] = self.get_activities().filter(end_date__gte=timezone.now())
+        context['past_activities'] = self.get_activities().filter(end_date__lt=timezone.now())
         return context
 
 
