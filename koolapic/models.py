@@ -1,4 +1,3 @@
-import itertools
 import secrets
 
 from ckeditor.fields import RichTextField
@@ -10,7 +9,6 @@ from django.urls import reverse, reverse_lazy
 from accounts.models import CustomUser
 
 import itertools
-from datetime import datetime
 
 
 def generate_vanity(min_length, max_length):
@@ -104,9 +102,6 @@ class Activity(models.Model):
 
     def get_confirm_delete_url(self):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
-
-    def is_past(self):
-        return datetime.now() > self.end_date.replace(tzinfo=None)
 
     def save(self, *args, **kwargs):
         max_length = Activity._meta.get_field('slug').max_length

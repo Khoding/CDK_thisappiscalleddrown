@@ -22,6 +22,10 @@
   @include word-wrap;
 }
 
+.text-medium {
+  font-size: 1.25rem;
+}
+
 // Texte en blanc
 .text-white {
   color: $white;

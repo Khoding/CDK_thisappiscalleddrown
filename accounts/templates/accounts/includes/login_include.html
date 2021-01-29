@@ -18,6 +18,6 @@
         <hr class="hr-white">
     </div>
     <div class="card-footer">
-        <p class="text-right">Vous n'avez pas encore de compte ? <a href="{% url 'accounts:signup' %}" class="btn btn-d2">Créez-en un</a></p>
+        <p class="text-right">Vous n'avez pas encore de compte ? <a href="{% url 'accounts:signup' %}{% if next %}?next={{ next }}{% endif  %}" class="btn btn-d2">Créez-en un</a></p>
     </div>
 </div>
