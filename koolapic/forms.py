@@ -2,7 +2,7 @@ from ckeditor.fields import RichTextFormField
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
-from django.forms import TextInput, ImageField
+from django.forms import TextInput, ImageField, ModelForm
 
 from utils.image_utils import crop_image
 from koolapic.models import Activity, Group, Invitation
@@ -22,7 +22,7 @@ class ImageCropField(ImageField):
     default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
-class CustomActivityCreationForm(forms.ModelForm):
+class ActivityCreationForm(ModelForm):
     remarks = RichTextFormField(config_name="my-custom-toolbar")
 
     class Meta:
@@ -41,7 +41,7 @@ class CustomActivityCreationForm(forms.ModelForm):
         }
 
 
-class CustomActivityChangeForm(forms.ModelForm):
+class ActivityChangeForm(forms.ModelForm):
     remarks = RichTextFormField(config_name="my-custom-toolbar")
 
     class Meta:

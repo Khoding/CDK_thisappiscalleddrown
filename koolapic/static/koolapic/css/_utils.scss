@@ -267,6 +267,37 @@
   border-radius: 100%;
 }
 
+/* Pills */
+@each $name, $color in $colors {
+  .pill-#{$name} {
+    @include pill();
+    border: 1px solid $color;
+    color: $color;
+    padding: $nav-link-padding-y $nav-link-padding-x;
+    margin-top: 0.15rem;
+    margin-bottom: 0.15rem;
+
+    &:hover {
+      background-color: lighten($color, 40%);
+      color: $color !important;
+    }
+  }
+
+  .pill-#{$name}.active {
+    @include pill();
+    background-color: $color;
+    color: $white !important;
+    border: 1px solid $color;
+    padding: $nav-link-padding-y $nav-link-padding-x;
+    margin-top: 0.15rem;
+    margin-bottom: 0.15rem;
+
+    &:hover {
+      background-color: darken($color, 2.5%);
+      color: $white !important;
+    }
+  }
+}
 
 /* Génération de classes par couleur */
 // Palette

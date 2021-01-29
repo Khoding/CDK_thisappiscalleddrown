@@ -15,9 +15,10 @@ from .models import CustomUser
 
 class EditUserProfileView(UpdateView):
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy('koolapic:home')  # TODO: rediriger vers le profil
+    success_url = reverse_lazy('koolapic:home')
     template_name = 'accounts/edit_profile.html'
     success_message = 'Profil modifié avec succès !'
+    context_object_name = 'profile'
 
     def get_queryset(self):
         return CustomUser.objects.all()
@@ -32,6 +33,7 @@ class UserProfileView(DetailView):
     model = CustomUser
     template_name = 'accounts/profile.html'
     view_as = 'self'
+    context_object_name = 'profile'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

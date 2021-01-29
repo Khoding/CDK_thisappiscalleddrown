@@ -16,7 +16,7 @@ from accounts.models import CustomUser
 from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
-from koolapic.forms import CustomActivityCreationForm, CustomActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
+from koolapic.forms import ActivityCreationForm, ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
 from utils.notifications import notifications_to_dictionary
 
 
@@ -117,7 +117,7 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 class ActivityCreateView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
-    form_class = CustomActivityCreationForm
+    form_class = ActivityCreationForm
     success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
@@ -130,7 +130,7 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
 class ActivityCloneView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
-    form_class = CustomActivityCreationForm
+    form_class = ActivityCreationForm
     success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
@@ -139,14 +139,14 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Créer une activité sur Koolapic'
-        context['form'] = CustomActivityCreationForm(instance=activity)
+        context['form'] = ActivityCreationForm(instance=activity)
         return context
 
 
 class ActivityUpdateView(LoginRequiredMixin, UpdateView):
     model = Activity
     template_name = 'koolapic/activities/update_activity.html'
-    form_class = CustomActivityChangeForm
+    form_class = ActivityChangeForm
     success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
