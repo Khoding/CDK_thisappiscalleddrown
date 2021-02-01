@@ -2,10 +2,10 @@ from ckeditor.fields import RichTextFormField
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
-from django.forms import TextInput, ImageField
+from django.forms import TextInput, ImageField, ModelForm
 
 from utils.image_utils import crop_image
-from .models import Activity, Group, Invitation
+from koolapic.models import Activity, Group, Invitation
 
 from bootstrap_datepicker_plus import DateTimePickerInput
 # TODO pas encore fini
@@ -22,7 +22,7 @@ class ImageCropField(ImageField):
     default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
-class CustomActivityCreationForm(forms.ModelForm):
+class ActivityCreationForm(ModelForm):
     remarks = RichTextFormField(config_name="my-custom-toolbar")
 
     class Meta:
@@ -41,8 +41,9 @@ class CustomActivityCreationForm(forms.ModelForm):
         }
 
 
-class CustomActivityChangeForm(forms.ModelForm):
+class ActivityChangeForm(forms.ModelForm):
     remarks = RichTextFormField(config_name="my-custom-toolbar")
+
     class Meta:
         model = Activity
         fields = '__all__'
@@ -115,7 +116,8 @@ class CustomGroupChangeForm(forms.ModelForm):
 
 class InvitationCreationForm(forms.ModelForm):
     email = forms.EmailField(required=True)
+    link = forms.CharField(required=False)
 
     class Meta:
         model = Invitation
-        fields = ('email', 'message')
+        fields = ('email', 'link')

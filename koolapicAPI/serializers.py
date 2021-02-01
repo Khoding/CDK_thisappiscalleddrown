@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from koolapicAPI.models import Activity, Invitation, Group, Inscription, Notification
+from koolapic.models import Activity, Invitation, Group, Inscription, Notification
 from accounts.models import CustomUser
 
 

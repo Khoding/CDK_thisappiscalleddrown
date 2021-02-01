@@ -2,5 +2,9 @@
 {% load static %}
 
 {% block content %}
-     {% include 'accounts/includes/login_include.html' %}
+    {% if invitation %}
+        {% include 'accounts/includes/login_from_invitation.html' %}
+    {% else %}
+        {% include 'accounts/includes/login_include.html' %}
+    {% endif %}
 {% endblock %}

@@ -1,15 +1,9 @@
 <div class="gradient-l2 text-white small-padding-container rounded-corner-container">
-    <h2>Activités à venir</h2>
-    <div>
-        <a class="btn btn-outline-light" title="Créer une activité" href="{% url 'koolapic:add_activity' %}"
-           role="button">
-            <i class="fas fa-plus"></i> Nouvelle activité
-        </a>
-    </div>
+    <h2>Activités passées</h2>
     <br>
     <div class="horizontal-scroll card-deck horizontal-scroll">
-        {% if upcoming_activities.count %}
-            {% for activity in upcoming_activities %}
+        {% if past_activities.count %}
+            {% for activity in past_activities %}
                 <div class="card infocard bg-wt" data-activity-id="{{ activity.id }}">
                     <div class="card-header">
                         <h4 class="activity-name">{{ activity.name }}</h4>
@@ -29,14 +23,6 @@
                     </div>
                     <div class="card-footer">
                         <div class="activity-actions d-flex flex-row-reverse">
-                            <a class="btn btn-primary align-middle activity-action-btn" title="Dupliquer l'activité"
-                               href="{{ activity.get_clone_url }}" role="button">
-                                <i class="far fa-clone"></i>
-                            </a>
-                            <a class="btn btn-primary align-middle activity-action-btn" title="Modifier l'activité"
-                               href="{{ activity.get_update_url }}" role="button">
-                                <i class="icon fas fa-pen text-center"></i>
-                            </a>
                             <a class="btn btn-primary align-middle activity-action-btn"
                                title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}"
                                role="button">
@@ -53,7 +39,7 @@
                 <br>
             {% endfor %}
         {% else %}
-            <div class="empty">Vous n'avez pas d'activité à venir</div>
+            <div class="empty">Vous n'avez pas d'activité passée</div>
         {% endif %}
     </div>
 </div>

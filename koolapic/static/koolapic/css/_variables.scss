@@ -7,6 +7,8 @@ font-family: 'Overpass Mono', sans-serif;
 font-family: 'Roboto', sans-serif;
  */
 
+@use "sass:map";
+
 $palette-d2: #B54FF6;
 $palette-d1: #7544D4;
 $palette-primary: #6358EB;
@@ -17,6 +19,9 @@ $semantics-danger: #EB4034;
 $semantics-success: #3DD750;
 $semantics-warning: #edc200;
 $semantics-info: #45DEF5;
+
+$white: #FFFFFF;
+$black: #000000;
 
 $palette: (
         "d2": $palette-d2,
@@ -33,8 +38,13 @@ $semantics: (
         "info": $semantics-info
 );
 
-$white: #FFFFFF;
-$black: #000000;
+$black-white: (
+        "white": $white,
+        "black":$black
+);
+
+$colors: map.merge($palette, $semantics);
+
 
 $sans-serif: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $headings: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino, serif;

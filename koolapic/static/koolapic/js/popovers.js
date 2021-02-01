@@ -30,9 +30,15 @@ $(document).ready(function () {
                 const template = document.getElementById(id);
                 return template.innerHTML;
             },
+            onShow(instance) {
+                setTimeout(() => {
+                    instance.hide();
+                }, 2000);
+            },
             allowHTML: true,
             theme: 'koolapic',
             trigger: 'mouseenter focus',
+            hideOnClick: false,
             animation: 'pop'
         });
     }

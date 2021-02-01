@@ -12,15 +12,8 @@
         <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
         <div class="medium-padding-container">
             <h1>Invitation</h1>
-            <p>{{ invitation.user.first_name }} {{ invitation.user.last_name }} vous a invité à rejoindre le groupe {{ invitation.group }}.</p>
-
-            {% if invitation.message %}
-                <h4>Voici le message qu'il vous a laissé :</h4>
-                <p>{{ invitation.message }}</p>
-            {% endif %}
-
+            <p>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group }}.</p>
             <div>
-
                 <form method="post" class="d-inline">
                     {% csrf_token %}
                     <input type="hidden" aria-hidden="true" name="decline" id="decline" value="true">
