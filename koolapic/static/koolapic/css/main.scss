@@ -354,15 +354,6 @@ header {
   margin-top: 1em;
 }
 
-.profile-action-button {
-  margin-left: 1rem;
-  font-size: 16px;
-  text-align: center;
-  @include media-breakpoint-down(md) {
-    width: 100%;
-  }
-}
-
 .profile-info p{
   margin: 0;
 }

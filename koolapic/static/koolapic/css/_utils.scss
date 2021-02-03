@@ -74,7 +74,8 @@
   padding: 2.5rem;
 }
 
-.reponsive-padding-container {
+.responsive-padding-container {
+  padding: 0.75rem;
   @include media-breakpoint-up(sm) {
     padding: 1rem;
   }

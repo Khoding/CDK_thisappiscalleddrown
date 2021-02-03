@@ -91,16 +91,14 @@
         </div>
     </div>
 </div>
-<div class="row profile-action-buttons">
-    <a class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'accounts:edit_profile' slug=profile.slug %}">
+<div class="row profile-action-buttons small-padding-container">
+    <a class="btn w-100 btn-outline-light p-2 mb-2 text-center" href="{% url 'accounts:edit_profile' slug=profile.slug %}">
         <i class="fas fa-edit"></i> Modifier votre profil
     </a>
-</div>
-<div class="row profile-action-buttons">
     <form action="{% url 'accounts:profile' slug=profile.slug %}" method="get" id="profileForm">
         <input type="hidden" name="view_as" value="guest">
     </form>
-    <button type="submit" form="profileForm" class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'accounts:profile' slug=profile.slug %}">
+    <button type="submit" form="profileForm" class="btn w-100 btn-outline-light p-2 text-center" href="{% url 'accounts:profile' slug=profile.slug %}">
         <i class="far fa-eye"></i> Vue invité
     </button>
 </div>
