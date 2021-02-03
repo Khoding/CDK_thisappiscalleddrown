@@ -55,8 +55,7 @@ class Group(models.Model):
     admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
     banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user", verbose_name="Utilisateurs bannis")
 
-    website = models.TextField(max_length=100, verbose_name="Site web")
-
+    website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
 
     def __str__(self):
         return self.name
