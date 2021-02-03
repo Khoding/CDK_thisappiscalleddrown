@@ -243,7 +243,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
 
                     if user in group.members.all() or user in group.admins.all():
                         message = {
-                            "text": "Cet utilisateur appartient déjà ce groupe.",
+                            "text": "Cet utilisateur appartient déjà à ce groupe.",
                             "severity": "ERROR"
                         }
                     elif user in group.banned_users.all():
