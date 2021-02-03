@@ -258,7 +258,7 @@ CUSTOM_TOOLBAR = [
 
 CKEDITOR_CONFIGS = {
     "default": DEFAULT_CONFIG,
-    "koolapic-default": {
+    "my-custom-toolbar": {
         "skin": "moono-lisa",
         "toolbar": CUSTOM_TOOLBAR,
         "toolbarGroups": None,
