@@ -21,8 +21,8 @@ CONTRIBUTORS = [
     },
     {
         'name': 'Adrien Matthieu Rossier',
-        'citation': 'Zzzzzzzz...',
-        'icon': 'fas fa-bed',
+        'citation': 'Toujours avoir le choix LOL',
+        'icon': 'fas fa-torii-gate',
         'email': 'adrienmatthieu.rossier@ceff.ch',
     }
 ]

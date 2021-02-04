@@ -1,5 +1,3 @@
-import form as form
-from ckeditor.fields import RichTextFormField
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
@@ -36,8 +34,6 @@ class ActivityCreationForm(ModelForm):
 
 
 class CustomGroupActivityCreationForm(forms.ModelForm):
-    remarks = RichTextFormField(config_name="my-custom-toolbar")
-
     class Meta:
         model = Activity
         fields = ('name', "end_inscription_date", "start_location", "start_date", "description", "end_location", "end_date", "remarks", "max_participants", "participants",)
