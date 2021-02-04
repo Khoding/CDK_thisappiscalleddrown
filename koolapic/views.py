@@ -198,7 +198,7 @@ class GroupListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return self.model.objects.order_by('name').all().annotate(members_count=Count('members'))
+            return self.model.objects.order_by('name').all().annotate(members_count=Count('members') + Count('admins'))
         else:
             return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(
                 Q(admins=self.request.user) |
