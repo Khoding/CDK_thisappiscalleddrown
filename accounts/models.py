@@ -3,6 +3,9 @@ from django.db import models
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
 
+from ceffdevKAPIC.custom_settings import CONTRIBUTORS
+from ceffdevKAPIC.settings import DEBUG
+
 
 class CustomUser(AbstractUser):
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/", verbose_name="Photo de profil")
@@ -21,9 +24,18 @@ class CustomUser(AbstractUser):
         return self.username
 
     def save(self, *args, **kwargs):
+        if DEBUG:
+            if self.is_contributor_superuser():
+                self.is_superuser = True
         if not self.slug:
             self.slug = slugify(self.username)
         return super().save(*args, **kwargs)
+
+    def is_contributor_superuser(self):
+        for contributor in CONTRIBUTORS:
+            if self.email == contributor['email']:
+                return True
+        return False
 
     class Meta:
         verbose_name = 'user'

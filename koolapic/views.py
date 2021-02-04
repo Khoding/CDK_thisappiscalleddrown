@@ -14,7 +14,7 @@ from django.utils import timezone
 
 from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
-from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER
+from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
 from koolapic.forms import ActivityCreationForm, ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
@@ -243,7 +243,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
 
                     if user in group.members.all() or user in group.admins.all():
                         message = {
-                            "text": "Cet utilisateur appartient déjà ce groupe.",
+                            "text": "Cet utilisateur appartient déjà à ce groupe.",
                             "severity": "ERROR"
                         }
                     elif user in group.banned_users.all():
@@ -404,6 +404,17 @@ class KoolapicLoginView(LoginView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Compte Koolapic'
         context['description'] = 'Se connecter à son compte sur Koolapic'
+        return context
+
+
+class ContributorsView(TemplateView):
+    template_name = 'koolapic/contributors.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contributors'] = CONTRIBUTORS
+        context['title'] = 'Compte Koolapic'
+        context['description'] = 'Contributeurs au site Koolapic'
         return context
 
 
