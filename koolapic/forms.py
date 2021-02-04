@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextFormField
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
@@ -23,12 +22,9 @@ class ImageCropField(ImageField):
 
 
 class ActivityCreationForm(ModelForm):
-    remarks = RichTextFormField(config_name="my-custom-toolbar")
-
     class Meta:
         model = Activity
-        fields = "__all__"
-        exclude = ('slug',)
+        fields = ['name', 'description', 'remarks', 'max_participants', 'start_location', 'start_date', 'end_location', 'end_date']
 
         widgets = {
             'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
@@ -42,12 +38,9 @@ class ActivityCreationForm(ModelForm):
 
 
 class ActivityChangeForm(forms.ModelForm):
-    remarks = RichTextFormField(config_name="my-custom-toolbar")
-
     class Meta:
         model = Activity
-        fields = '__all__'
-        exclude = ('slug',)
+        fields = ['name', 'description', 'remarks', 'max_participants', 'start_location', 'start_date', 'end_location', 'end_date']
 
         widgets = {
             'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),

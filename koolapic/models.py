@@ -1,6 +1,5 @@
 import secrets
 
-from ckeditor.fields import RichTextField
 from django.db import models
 from django.db.models import Q
 from django.template.defaultfilters import slugify
@@ -81,7 +80,7 @@ class Activity(models.Model):
     name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     description = models.TextField(max_length=500, verbose_name="Description")
     end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions", blank=True, null=True)
-    remarks = RichTextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
+    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
     max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Nombre maximum de participants")
 
     start_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de départ")
