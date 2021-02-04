@@ -15,8 +15,8 @@ CONTRIBUTORS = [
     },
     {
         'name': 'Julien Rutscho',
-        'citation': 'Voilàààààààà',
-        'icon': 'fab fa-php',
+        'citation': 'Allez voir https://blog.khodok.xyz',
+        'icon': 'fas fa-jedi',
         'email': 'julien.rutscho@ceff.ch',
     },
     {
