@@ -1,4 +1,3 @@
-from ckeditor.fields import RichTextFormField
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core import validators
@@ -29,7 +28,6 @@ class CustomUserChangeForm(forms.ModelForm):
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
     height = forms.FloatField(widget=forms.HiddenInput(), required=False)
     profile_pic = ImageCropField(required=False, label="Photo de profil")
-    bio = RichTextFormField(config_name="my-custom-toolbar")
 
     class Meta:
         model = CustomUser
