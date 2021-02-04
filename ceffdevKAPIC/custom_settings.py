@@ -9,8 +9,8 @@ CONTRIBUTORS = [
     },
     {
         'name': 'Lorenzo Di Benedetto',
-        'citation': 'Mais pourquoi suis-je si BG !?',
-        'icon': 'fas fa-toilet',
+        'citation': 'Galaxy brain',
+        'icon': 'fas fa-brain',
         'email': 'lorenzo.dibenedetto@ceff.ch',
     },
     {
