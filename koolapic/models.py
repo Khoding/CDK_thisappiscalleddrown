@@ -44,14 +44,18 @@ class Group(models.Model):
 
     name = models.CharField(max_length=50, verbose_name="Nom du groupe")
     description = models.TextField(max_length=200, verbose_name="Description")
-    visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
-    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='AA')
     image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
     banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
+
+    visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
+    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='AA')
+
     members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
     admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
     banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user", verbose_name="Utilisateurs bannis")
+
+    website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
 
     def __str__(self):
         return self.name
@@ -75,18 +79,21 @@ class Group(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
-    end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions", blank=True, null=True)
-    start_location = models.CharField(max_length=100, verbose_name="Lieu de départ")
-    start_date = models.DateTimeField(verbose_name="Date de début")
     description = models.TextField(max_length=500, verbose_name="Description")
-    end_location = models.CharField(max_length=100, verbose_name="Lieu de début")
-    end_date = models.DateTimeField(verbose_name="Date de fin")
-    remarks = RichTextField(max_length=500, null=True, blank=True, verbose_name="Remarques")  # Markdown
-    max_participants = models.PositiveIntegerField(verbose_name="Nombre maximum de participants")
+    end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions", blank=True, null=True)
+    remarks = RichTextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
+    max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Nombre maximum de participants")
+
+    start_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de départ")
+    start_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de début")
+
+    end_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de début")
+    end_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin")
+
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
+    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
-    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
 
     def __str__(self):
         return self.name

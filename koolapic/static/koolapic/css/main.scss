@@ -354,29 +354,14 @@ header {
   margin-top: 1em;
 }
 
-.profile-action-button {
-  margin-left: 1rem;
-  font-size: 16px;
-  text-align: center;
-  @include media-breakpoint-down(md) {
-    width: 100%;
-  }
+.profile-info p{
+  margin: 0;
 }
 
 /* Homepage */
 .homepage-text {
   font-size: 1.25em;
 }
-
-/*
-.dark-muted-txt {
-  color: $palette-d1;
-}
-
-.dark-homepage-footer {
-  font-size: 32px;
-}
-*/
 
 // Bouton call to action
 .cta-button {

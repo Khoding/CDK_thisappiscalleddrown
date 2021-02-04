@@ -1,6 +1,9 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
@@ -15,9 +18,10 @@ from .models import CustomUser
 
 class EditUserProfileView(UpdateView):
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy('koolapic:home')  # TODO: rediriger vers le profil
+    success_url = reverse_lazy('koolapic:home')
     template_name = 'accounts/edit_profile.html'
     success_message = 'Profil modifié avec succès !'
+    context_object_name = 'profile'
 
     def get_queryset(self):
         return CustomUser.objects.all()
@@ -30,14 +34,16 @@ class EditUserProfileView(UpdateView):
 
 class UserProfileView(DetailView):
     model = CustomUser
-    template_name = 'accounts/profile.html'
+    template_name = 'accounts/profile/profile.html'
     view_as = 'self'
+    context_object_name = 'profile'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Profil'
         context['description'] = 'Voir son profil'
         context['view_as'] = self.view_as
+        context['invitations'] = Invitation.objects.filter(sender=self.request.user)
         return context
 
     def get(self, request, *args, **kwargs):
@@ -46,6 +52,18 @@ class UserProfileView(DetailView):
         else:
             self.view_as = 'guest'
         return super(UserProfileView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if 'disconnectUser' in self.request.POST:
+            logout(request)
+            messages.success(request, 'Vous avez été déconnecté avec succès !')
+            return redirect("koolapic:homepage")
+        elif self.request.body:
+            data = json.loads(self.request.body.decode('utf-8'))
+            if data['action'] == 'deleteInvitation':
+                invitation = Invitation.objects.get(slug=data['invitationSlug'])
+                invitation.delete()
+                return HttpResponse(status=200)
 
 
 class PasswordsChangeView(PasswordChangeView):

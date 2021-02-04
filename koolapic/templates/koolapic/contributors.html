@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for contributor in contributors %}
+        <div class="contributor small-padding-container gradient-l2 text-white text-large mb-2 rounded-corner-container">
+            <div>
+                <i class="{{ contributor.icon }}"></i> {{ contributor.name }}
+            </div>
+            <div>
+                <i>{{ contributor.citation }}</i>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
