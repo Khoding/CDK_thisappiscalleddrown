@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load forms_extras %}
+{% block content %}
+    <h1>Ajouter une activité</h1>
+    <form method="POST" enctype="multipart/form-data" id="group">
+        {% form form %}
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+    </form>
+{% endblock content %}

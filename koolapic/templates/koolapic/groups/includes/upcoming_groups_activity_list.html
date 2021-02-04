@@ -1,0 +1,79 @@
+<div class="gradient-l2 text-white small-padding-container rounded-corner-container">
+    <h2>Activités à venir</h2>
+    <div>
+        <a class="btn btn-outline-light" title="Créer une activité" href="{% url 'koolapic:group_activity_add' slug=group.slug %}"
+           role="button" data-bame="{{ group.name }}">
+            <i class="fas fa-plus"></i> Nouvelle activité
+        </a>
+    </div>
+    <br>
+    <div class="horizontal-scroll card-deck horizontal-scroll">
+        {% if upcoming_activities.count %}
+            {% for activity in upcoming_activities %}
+                <div class="card infocard bg-wt" data-activity-id="{{ activity.id }}">
+                    <div class="card-header">
+                        <h4 class="activity-name">{{ activity.name }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-ellipsis">
+                            <i class="fas fa-calendar-alt"></i> Du {{ activity.start_date }}<br>
+                            au {{ activity.end_date }}
+                        </div>
+                        <div class="text-ellipsis">
+                            <i class="fas fa-map-marked"></i> {{ activity.start_location }}
+                            {% if activity.end_location %} → {{ activity.end_location }} {% endif %}
+                        </div>
+                        <div class="text-ellipsis">
+                            <i class="fas fa-users"></i> {{ activity.group }}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="activity-actions d-flex flex-row-reverse">
+                            <a class="btn btn-primary align-middle activity-action-btn" title="Dupliquer l'activité"
+                               href="{{ activity.get_clone_url }}" role="button">
+                                <i class="far fa-clone"></i>
+                            </a>
+                            <a class="btn btn-primary align-middle activity-action-btn" title="Modifier l'activité"
+                               href="{{ activity.get_update_url }}" role="button">
+                                <i class="icon fas fa-pen text-center"></i>
+                            </a>
+                            <a class="btn btn-primary align-middle activity-action-btn"
+                               title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}"
+                               role="button">
+                                <i class="icon fas fa-align-justify text-center"></i>
+                            </a>
+                            <a class="btn btn-danger delete-modal align-top activity-action-btn"
+                               title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}"
+                               role="button">
+                                <i class="icon fas fa-trash-alt text-center"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+        {% else %}
+            <div class="empty">Il n'y a pas d'activité à venir</div>
+        {% endif %}
+    </div>
+</div>
+<div class="modal" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="activityModalTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>

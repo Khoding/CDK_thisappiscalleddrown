@@ -1,12 +1,9 @@
-from django.contrib import admin
-from django.contrib.auth.views import LoginView
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, Http404, HttpResponseServerError
 from django.urls import path
-from django.urls import include, path
 
-from koolapic.views import ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, ActivityDeleteView, \
-    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, NotificationsView, InvitationView, LicenseView, ContributorsView
+from koolapic.views import ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, \
+    ActivityDeleteView, \
+    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, \
+    NotificationsView, InvitationView, LicenseView, GroupActivityCreateView, ContributorsView
 from koolapic.views import IndexView, HomeView
 
 app_name = 'koolapic'
@@ -33,4 +30,5 @@ urlpatterns = [
     path('groups/add', GroupCreateView.as_view(), name="add_group"),
     path('groups/<slug:slug>/update/', GroupUpdateView.as_view(), name="update_group"),
     path('groups/<slug:slug>/confirm_delete/', GroupDeleteView.as_view(), name="group_confirm_delete"),
+    path('groups/<slug:slug>/activities/add', GroupActivityCreateView.as_view(), name="group_activity_add"),
 ]

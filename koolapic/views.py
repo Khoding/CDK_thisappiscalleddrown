@@ -1,11 +1,13 @@
 import json
 
+import form as form
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
+from django.core.mail.backends import console
 from django.db.models import Count
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, request
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -17,7 +19,7 @@ from accounts.models import CustomUser
 from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
-from koolapic.forms import ActivityCreationForm, ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm
+from koolapic.forms import ActivityCreationForm, ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, CustomGroupActivityCreationForm
 from utils.notifications import notifications_to_dictionary
 
 
@@ -38,7 +40,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
         if self.request.user.is_superuser:
             return Group.objects.all().annotate(members_count=Count('members'))
         else:
-            return Group.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(members=self.request.user)
+            return Group.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(
+                members=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -80,7 +83,8 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -126,6 +130,26 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
+class GroupActivityCreateView(LoginRequiredMixin, CreateView):
+    model = Activity
+    template_name = 'koolapic/activities/add_activity.html'
+    form_class = CustomGroupActivityCreationForm
+
+    def form_valid(self, form):
+        group = Group.objects.get(slug=self.kwargs['slug'])
+        form.instance.group = group
+        return super().form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy("koolapic:group_detail", kwargs={'slug': self.kwargs['slug']})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Créer une activité sur Koolapic'
+        return context
+
+
 class ActivityCloneView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
@@ -158,6 +182,7 @@ class ActivityUpdateView(LoginRequiredMixin, UpdateView):
 class ActivityDeleteView(LoginRequiredMixin, DeleteView):
     model = Activity
     template_name = 'koolapic/activities/activity_confirm_delete.html'
+
     success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
@@ -176,8 +201,9 @@ class GroupListView(LoginRequiredMixin, ListView):
         if self.request.user.is_superuser:
             return self.model.objects.order_by('name').all().annotate(members_count=Count('members'))
         else:
-            return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(Q(admins=self.request.user) |
-                                                                                                       Q(members=self.request.user))
+            return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(
+                Q(admins=self.request.user) |
+                Q(members=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -207,8 +233,13 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['all_members'] = members | admins
         context['members_count'] = all_members_count
         context['undisplayed_members_count'] = all_members_count - 10
+        context['upcoming_activities'] = self.get_activities_by_group()
         context['invitation_form'] = InvitationCreationForm
         return context
+
+    def get_activities_by_group(self):
+        return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by(
+            'start_date')
 
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
@@ -220,7 +251,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             return HttpResponse(status=200)
         elif data['action'] == 'getInvitationLink':
             if Invitation.objects.filter(sender=self.request.user).count() <= MAX_INVITATION_NUMBER_BY_USER:
-                invitation = Invitation(sender=self.request.user, group=self.get_object(), slug=generate_unique_vanity(5, 15, Invitation))
+                invitation = Invitation(sender=self.request.user, group=self.get_object(),
+                                        slug=generate_unique_vanity(5, 15, Invitation))
                 invitation.save()
                 return JsonResponse({
                     'invitationLink': invitation.get_absolute_url()
@@ -331,7 +363,8 @@ class InvitationView(DetailView):
                 messages.success(request=self.request, message=f"Vous faites désormais partie du groupe {group.name}.")
                 return redirect(reverse('koolapic:group_detail', kwargs={'slug': group.slug}))
             elif self.request.POST.get('decline'):
-                messages.success(request=self.request, message=f"Vous avez décliné l'invitation au groupe {group.name}.")
+                messages.success(request=self.request,
+                                 message=f"Vous avez décliné l'invitation au groupe {group.name}.")
                 if self.get_object().user:
                     self.model.objects.get(id=self.request.user.id).delete()
                 return redirect(reverse('koolapic:home'))

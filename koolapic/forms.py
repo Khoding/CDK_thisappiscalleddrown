@@ -1,3 +1,4 @@
+import form as form
 from ckeditor.fields import RichTextFormField
 from django import forms
 from django.core import validators
@@ -8,10 +9,8 @@ from utils.image_utils import crop_image
 from koolapic.models import Activity, Group, Invitation
 
 from bootstrap_datepicker_plus import DateTimePickerInput
-# TODO pas encore fini
 from easy_maps.widgets import AddressWithMapWidget
 
-# TODO pas encore fini
 
 VALID_IMAGE_EXTENSIONS = [
     'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
@@ -36,8 +35,22 @@ class ActivityCreationForm(ModelForm):
             'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             # TODO pas encore fini
+        }
+
+
+class CustomGroupActivityCreationForm(forms.ModelForm):
+    remarks = RichTextFormField(config_name="my-custom-toolbar")
+
+    class Meta:
+        model = Activity
+        fields = ('name', "end_inscription_date", "start_location", "start_date", "description", "end_location", "end_date", "remarks", "max_participants", "participants",)
+
+        widgets = {
+            'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'address': AddressWithMapWidget({'class': 'vTextField'})
-            # TODO pas encore fini
         }
 
 
@@ -54,9 +67,7 @@ class ActivityChangeForm(forms.ModelForm):
             'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            # TODO pas encore fini
             'address': AddressWithMapWidget({'class': 'vTextField'})
-            # TODO pas encore fini
         }
 
 

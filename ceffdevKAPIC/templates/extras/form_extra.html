@@ -45,7 +45,11 @@
             <div class="d-none input-group">
                 {{ field|add_class:"form-control" }}
             </div>
-        {% endif %}
+        {% elif field|widget_type == "address" %}
+            <div class="d-none input-group">
+                {{ field|add_class:"form-control" }}
+            </div>
+    {% endif %}
     </div>
 {% endfor %}
-{{ form.media }}
+{{ dia }}
