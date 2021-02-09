@@ -8,8 +8,8 @@
 
 // Texte quand un résultat est vide
 .empty {
+  @include responsive-font-size(1.5rem);
   color: $white;
-  font-size: 1.5em;
 }
 
 // Ellipse
@@ -23,15 +23,15 @@
 }
 
 .text-large {
-  font-size: 1.5rem;
+  @include responsive-font-size(1.25rem);
 }
 
 .text-medium {
-  font-size: 1.25rem;
+  @include responsive-font-size(1rem);
 }
 
 .text-small {
-  font-size: 1rem;
+  @include responsive-font-size(0.75rem);
 }
 
 // Texte en blanc
@@ -170,6 +170,12 @@
 // Arrière-plan transparent et noir
 .bg-bt {
   background-color: rgba(0, 0, 0, 0.25);
+}
+
+@each $name, $color in $palette {
+  .bg-name {
+    background-color: $color;
+  }
 }
 
 /* Formulaires et contrôles */

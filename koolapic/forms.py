@@ -9,7 +9,6 @@ from koolapic.models import Activity, Group, Invitation
 from bootstrap_datepicker_plus import DateTimePickerInput
 from easy_maps.widgets import AddressWithMapWidget
 
-
 VALID_IMAGE_EXTENSIONS = [
     'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
 ]
@@ -19,24 +18,23 @@ class ImageCropField(ImageField):
     default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
-class ActivityCreationForm(ModelForm):
+class ActivityCreationForm(forms.ModelForm):
     class Meta:
         model = Activity
-        fields = ['name', 'description', 'remarks', 'max_participants', 'start_location', 'start_date', 'end_location', 'end_date']
+        fields = [
+            'name',
+            'inscription_policy',
+            'end_inscription_date',
+            'description',
+            'remarks',
+            'max_participants',
 
-        widgets = {
-            'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            # TODO pas encore fini
-        }
+            'start_location',
+            'start_date',
 
-
-class CustomGroupActivityCreationForm(forms.ModelForm):
-    class Meta:
-        model = Activity
-        fields = ('name', "end_inscription_date", "start_location", "start_date", "description", "end_location", "end_date", "remarks", "max_participants", "participants",)
+            'end_location',
+            'end_date',
+        ]
 
         widgets = {
             'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
@@ -50,7 +48,20 @@ class CustomGroupActivityCreationForm(forms.ModelForm):
 class ActivityChangeForm(forms.ModelForm):
     class Meta:
         model = Activity
-        fields = ['name', 'description', 'remarks', 'max_participants', 'start_location', 'start_date', 'end_location', 'end_date']
+        fields = [
+            'name',
+            'inscription_policy',
+            'end_inscription_date',
+            'description',
+            'remarks',
+            'max_participants',
+
+            'start_location',
+            'start_date',
+
+            'end_location',
+            'end_date',
+        ]
 
         widgets = {
             'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),

@@ -1,0 +1,19 @@
+{% spaceless %}
+    {% if date.weekday == 0 %}
+        Lundi
+    {% elif date.weekday == 1 %}
+        Mardi
+    {% elif date.weekday == 2 %}
+        Mercredi
+    {% elif date.weekday == 3 %}
+        Jeudi
+    {% elif date.weekday == 4 %}
+        Vendredi
+    {% elif date.weekday == 5 %}
+        Samedi
+    {% elif date.weekday == 6 %}
+        Dimanche
+    {% else %}
+        ???
+    {% endif %}
+{% endspaceless %}

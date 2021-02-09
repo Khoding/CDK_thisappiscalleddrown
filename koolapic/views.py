@@ -18,7 +18,7 @@ from accounts.models import CustomUser
 from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
-from koolapic.forms import ActivityCreationForm, ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, CustomGroupActivityCreationForm
+from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, ActivityCreationForm
 from utils.notifications import notifications_to_dictionary
 
 
@@ -122,6 +122,10 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
     form_class = ActivityCreationForm
     success_url = reverse_lazy("koolapic:activity_list")
 
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
@@ -132,10 +136,11 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
 class GroupActivityCreateView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
-    form_class = CustomGroupActivityCreationForm
+    form_class = ActivityCreationForm
 
     def form_valid(self, form):
         group = Group.objects.get(slug=self.kwargs['slug'])
+        form.instance.creator = self.request.user
         form.instance.group = group
         return super().form_valid(form)
 

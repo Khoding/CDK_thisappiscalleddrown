@@ -31,7 +31,6 @@ def generate_unique_vanity(min_length, max_length, model):
 class Group(models.Model):
     INVITATION_POLICY_CHOICES = [
         ('PU', 'Public'),  # Tout le monde peut rejoindre
-        ('AA', 'Privé'),  # Les administrateurs doivent accepter les demandes
         ('OI', 'Sur invitation'),  # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
         ('OAI', 'Sur invitation par un admin'),  # Seuls les administrateurs peuvent inviter des personnes
     ]
@@ -77,16 +76,25 @@ class Group(models.Model):
 
 
 class Activity(models.Model):
+    INVITATION_POLICY_CHOICES = [
+        ('PU', 'Publique'),  # Tout le monde peut s'inscrire
+        ('OI', 'Sur invitation'),  # Tout le monde peuvt inviter des personnes à s'inscrire
+        ('OAI', 'Sur invitation par un admin'),  # Seuls les administrateurs peuvent inviter des personnes à s'inscrire
+    ]
+
     name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     description = models.TextField(max_length=500, verbose_name="Description")
-    end_inscription_date = models.DateTimeField(verbose_name="Date de fin des inscriptions", blank=True, null=True)
+    creator = models.ForeignKey(CustomUser, null=True, blank=True, verbose_name="Créateur", on_delete=models.CASCADE)
+    inscription_policy = models.CharField(max_length=5, default='OI', choices=INVITATION_POLICY_CHOICES, verbose_name='Stratégies d\'invitation')
+
+    end_inscription_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin des inscriptions")
     remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
     max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Nombre maximum de participants")
 
     start_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de départ")
-    start_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de début")
+    start_date = models.DateTimeField(verbose_name="Date de début")
 
-    end_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de début")
+    end_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de fin")
     end_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin")
 
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)

@@ -1,70 +1,167 @@
 {% extends 'base.html' %}
+{% load extras %}
 
 {% block content %}
-{#    {% for activity_user in activity.user.all %}#}
-        {% if user.pk == activity_user.pk or user.is_superuser %}
-            <h1>Détails de l'activité</h1>
-            <br>
-            <h3>{{ activity.description }}</h3>
-            <table class="table-bordered">
-                <tr>
-                    <td><b>ID</b></td>
-                    <td>{{ activity.id }}</td>
-                </tr>
-                <tr>
-                    <td><b>Coordonnées</b></td>
-                    <td>{{ activity.coordinates }}</td>
-                </tr>
-                <tr>
-                    <td><b>Date de la dernière inscription</b></td>
-                    <td>{{ activity.end_inscription_date }}</td>
-                </tr>
-                <tr>
-                    <td><b>Date de départ</b></td>
-                    <td>{{ activity.start_date }}</td>
-                </tr>
-                <tr>
-                    <td><b>Lieu de départ</b></td>
-                    <td>{{ activity.start_location }}</td>
-                </tr>
-                <tr>
-                    <td><b>Date de fin</b></td>
-                    <td>{{ activity.end_date }}</td>
-                </tr>
-                <tr>
-                    <td><b>Lieu de fin</b></td>
-                    <td> {{ activity.end_location }}</td>
-                </tr>
-                <tr>
-                    <td><b>Nombre maximum de participants</b></td>
-                    <td> {{ activity.end_location }}</td>
-                </tr>
-                <tr>
-                    <td><b>Dernière mise à jour</b></td>
-                    <td> {{ activity.last_update }}</td>
-                </tr>
-                <tr>
-                    <td><b>Remarques</b></td>
-                    <td> {{ activity.remarks|safe }}</td>
-                </tr>
+    <div class="activity-header gradient-l2 small-padding-container rounded-corner-container text-white">
+        <div class="activity-panel small-padding-container">
+            <h1>{{ activity.name }}</h1>
+            <h2>Créée par {{ activity.creator }}</h2>
+            {% if activity.max_participants %}
+                {% if activity.participants.count > 0 %}
+                    <div class="progress bg-wt">
+                        <div class="progress-bar bg-primary" role="progressbar" aria-valuemin="0" aria-valuemax="{{ activity.max_participants }}" aria-valuenow="{{ activity.participants.count }}">
+                            {{ activity.participants.count }}/{{ activity.max_participants }}
+                        </div>
+                    </div>
+                {% else %}
+                    Aucun participant
+                {% endif %}
+            {% else %}
+                {{ activity.participants.count }} participants
+            {% endif %}
 
-                <tr>
-                    <td><b>Groupe</b></td>
-                    <td> {{ activity.groups }}</td>
-                </tr>
+            {% if activity.inscription_policy == 'PU' and user not in participants and user != activity.creator %}
+                <button id="inscriptionButton" type="button" class="btn btn-secondary" onclick="inscription();">S'inscrire</button>
+            {% endif %}
 
-                <tr>
-                    <td><b>ID User</b></td>
-                    <td>
-                        {% for activity_user in activity.user.all %}
-                            {{ activity_user }}{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-            </table>
-        {% else %}
-            Vous n'avez pas accès à cette page
-        {% endif %}
-{#    {% endfor %}#}
+            {% if user in participants %}
+                <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">Quitter</button>
+            {% endif %}
+        </div>
+        <ul class="nav nav-tabs group-nav">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" id="aboutTab" href="#about" role="tab" data-controls="about" aria-controls="about">Infos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab" data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
+            </li>
+        </ul>
+        <div class="tab-content medium-padding-container">
+            <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
+                <div class="text-large">
+                    <h2 class="mt-4">Informations</h2>
+                    {% if activity.end_inscription_date %}
+                        <div class="row mt-2">
+                            <div class="col"><b>Fin des inscriptions</b></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ activity.end_inscription_date }}</div>
+                        </div>
+                    {% endif %}
 
+                    {% if activity.description %}
+                        <div class="row mt-2">
+                            <div class="col"><b>Description</b></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ activity.description }}</div>
+                        </div>
+                    {% endif %}
+
+                    {% if activity.remarks %}
+                        <div class="row mt-2">
+                            <div class="col"><b>Remarques</b></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ activity.remarks }}</div>
+                        </div>
+                    {% endif %}
+
+                    {% if activity.inscription_policy %}
+                        <div class="row">
+                            <div class="col mt-2"><b>Politique d'inscription</b></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {% if activity.inscription_policy == 'PU' %}
+                                    Public
+                                {% elif activity.inscription_policy == 'OI' %}
+                                    Sur invitation
+                                {% elif activity.inscription_policy == 'OAI' %}
+                                    Sur invitation par un administrateur
+                                {% else %}
+                                    Inconnue
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <hr class="hr-white">
+
+                    <h2 class="mt-4">Début</h2>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="far fa-calendar-alt"></i>
+                        </div>
+                        <div class="col">
+                            {% weekday activity.start_date.date %} {{ activity.start_date.date }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="far fa-clock"></i>
+                        </div>
+                        <div class="col">
+                            {% hour activity.start_date.time %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <div class="col">
+                            {{ activity.start_location }}
+                        </div>
+                    </div>
+                    <hr class="hr-white">
+
+                    {% if activity.end_date or activity.start_date %}
+                        <h2 class="mt-4">Fin</h2>
+                        {% if activity.end_date %}
+                            <div class="row">
+                                <div class="col-1">
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                                <div class="col">
+                                    {% weekday activity.end_date.date %} {{ activity.end_date.date }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1">
+                                    <i class="far fa-clock"></i>
+                                </div>
+                                <div class="col">
+                                    {% hour activity.end_date.time %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if activity.end_location %}
+                            <div class="row">
+                                <div class="col-1">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <div class="col">
+                                    {{ activity.end_location }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    <hr class="hr-white">
+
+                    <h2>Dernière mise à jour</h2>
+                    <div class="row">
+                        <div class="col">{% weekday activity.last_update %} {{ activity.last_update.date }} à {% hour activity.last_update %}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
+                Inscriptions
+            </div>
+            <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                Options
+            </div>
+        </div>
+    </div>
 {% endblock content %}

@@ -22,6 +22,8 @@ $alert-color-level: -11 !default;
 $font-family-sans-serif: $sans-serif;
 $font-family-monospace: $monospace;
 
+$enable-responsive-font-sizes: true;
+
 /* Importation de Bootstrap */
 @import "../../vendor/node_modules/bootstrap/scss/bootstrap";
 
