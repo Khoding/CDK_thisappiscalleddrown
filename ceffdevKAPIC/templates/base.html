@@ -80,16 +80,13 @@
 <body class="d-flex flex-column h-100">
 {% block navbar %}
     {% if user.is_authenticated %}
-        <nav class="navbar navbar-expand-md flex-column d-flex nav-toggleable" id="mainNavbar"
-             data-overlay="#mainNavbarOverlay">
-            <div class="d-md-none mb-5 nav-toggler text-white toggler-mobile" data-target="#mainNavbar">
+        <nav class="navbar navbar-expand-md flex-column justify-content-center d-flex nav-toggleable" id="mainNavbar" data-overlay="#mainNavbarOverlay">
+            <div class="d-md-none nav-toggler mb-6 text-white toggler-mobile" data-target="#mainNavbar">
                 <i class="fas fa-times"></i>
             </div>
-            <a class="navbar-brand" href="{% url 'koolapic:homepage' %}">
-                <img id="mainNavbarLogo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
-                     alt="Logo de Koolapic">
+            <a class="navbar-brand pt-5 pb-5" href="{% url 'koolapic:homepage' %}">
+                <img id="mainNavbarLogo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}" alt="Logo de Koolapic">
             </a>
-            <br>
             <ul class="navbar-nav flex-column d-flex">
                 <li class="nav-item p-2 {% if request.resolver_match.view_name == "koolapic:home" %}active{% endif %}">
                     <a class="nav-link" href="{% url 'koolapic:home' %}">Accueil</a>

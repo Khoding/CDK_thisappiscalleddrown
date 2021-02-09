@@ -145,6 +145,10 @@ input[type='file'] {
   height: 10vh;
 }
 
+#mainNavbar .navbar-brand {
+  margin: 0 !important;
+}
+
 #mainNavbarOverlay {
   cursor: pointer;
   background: radial-gradient(circle at top right, $palette-l2, $palette-primary);
@@ -162,10 +166,6 @@ input[type='file'] {
 #mainNavbarOverlay.toggled {
   left: 0;
   opacity: 0.75;
-}
-
-#mainNavbar .navbar-brand {
-  margin-top: 10vh;
 }
 
 .nav-toggler {
