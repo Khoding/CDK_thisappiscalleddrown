@@ -1,7 +1,7 @@
 <h1 id="adminsList" class="mt-4">Administrateurs</h1>
 <div class="admin-list">
     {% for user_p in admins %}
-        <div class="group-member-row rounded-corner-container bg-wt" onclick="location.href='{% url 'accounts:profile' slug=user_p.slug %}'">
+        <div class="group-member-row rounded-corner-container bg-wt">
             <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
             <div class="flex-column group-member-name-col">
                 <div class="pl-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
@@ -14,7 +14,7 @@
 <h1 id="membersList" class="mt-4">Membres</h1>
 <div class="group-member-list">
     {% for user_p in members %}
-        <div class="group-member-row rounded-corner-container bg-wt" onclick="location.href='{% url 'accounts:profile' slug=user.slug %}'">
+        <div class="group-member-row rounded-corner-container bg-wt">
             <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
             <div class="flex-column group-member-name-col">
                 <div class="pl-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
@@ -52,7 +52,7 @@
     <h1 id="membersList" class="mt-4">Utilisateurs bannis</h1>
     <div class="group-member-list">
         {% for user_p in banned_users %}
-            <div class="group-member-row rounded-corner-container bg-wt" onclick="location.href='{% url 'accounts:profile' slug=user_p.slug %}'">
+            <div class="group-member-row rounded-corner-container bg-wt">
                 <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
                 <div class="flex-column group-member-name-col">
                     <div class="pl-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
