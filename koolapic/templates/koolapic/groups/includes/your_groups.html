@@ -10,7 +10,7 @@
     <div class="card-deck horizontal-scroll">
         {% if groups.count %}
             {% for group in groups %}
-                <div class="card infocard bg-wt" data-group-id="{{ group.id }}" onclick="window.location='{% url 'koolapic:group_detail' slug=group.slug %}'">
+                <div class="card infocard bg-wt" data-group-id="{{ group.id }}">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}">
                     {% else %}
@@ -23,8 +23,8 @@
                     <div class="card-body">
                         <div>{{ group.description }}</div>
                     </div>
+                    <a href="{% url 'koolapic:group_detail' slug=group.slug %}" class="stretched-link"></a>
                 </div>
-                <br>
             {% endfor %}
         {% else %}
             <div class="empty">Vous n'appartenez à aucun groupe.</div>
