@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>404 Not Found</h1>
-    <h2>POL!!!</h2>
+    <div class="gradient-l2 rounded-corner-container medium-padding-container text-white">
+        <h1><b>404 Not Found</b></h1>
+        <h2>La page est introuvable.</h2>
+        <hr class="hr-white">
+        <p class="text-large">Cette page n'a pas été trouvée sur le serveur. Essayez une autre <abbr title="Uniform Resource Locator">URL</abbr>.</p>
+        <a class="btn btn-primary w-25" href="{% url 'koolapic:home' %}">Retourner à l'accueil</a>
+    </div>
 {% endblock %}
