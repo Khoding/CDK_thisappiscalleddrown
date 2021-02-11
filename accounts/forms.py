@@ -6,6 +6,7 @@ from django.forms import ImageField
 
 from utils.image_utils import crop_image
 from .models import CustomUser
+from .validators import validate_user_email
 
 VALID_IMAGE_EXTENSIONS = [
     'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
@@ -17,24 +18,41 @@ class ImageCropField(ImageField):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(validators=[validate_user_email])
+
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'first_name', 'last_name')
+        fields = ('email', 'first_name', 'last_name')
 
 
-class CustomUserChangeForm(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
     x = forms.FloatField(widget=forms.HiddenInput(), required=False)
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
     height = forms.FloatField(widget=forms.HiddenInput(), required=False)
-    profile_pic = ImageCropField(required=False, label="Photo de profil")
+    profile_pic = ImageCropField(required=False, label="Image de profil")
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'tel_m', 'tel_p', 'npa', 'locality', 'address', 'bio', 'profile_pic', 'x', 'y', 'width', 'height')
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'tel_m',
+            'tel_p',
+            'npa',
+            'locality',
+            'address',
+            'bio',
+            'profile_pic',
+            'x',
+            'y',
+            'width',
+            'height',
+        )
 
     def save(self, *args, **kwargs):
-        custom_user = super(CustomUserChangeForm, self).save()
+        custom_user = super(EditProfileForm, self).save()
         if self.cleaned_data.get('width'):
             x = self.cleaned_data.get('x')
             y = self.cleaned_data.get('y')

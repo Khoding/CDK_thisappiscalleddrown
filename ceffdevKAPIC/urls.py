@@ -29,5 +29,5 @@ urlpatterns = [
     path('', include(koolapic.urls)),
     path('admin/', admin.site.urls),
     path('api/', include(koolapicAPI.urls, namespace='api')),
-    path('accounts/', include(accounts.urls, namespace='accounts'))
+    path('account/', include(accounts.urls, namespace='account'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

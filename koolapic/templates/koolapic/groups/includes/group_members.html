@@ -5,7 +5,6 @@
             <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
             <div class="flex-column group-member-name-col">
                 <div class="pl-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
-                <div class="pl-1 pt-0">{{ user_p.username }}</div>
             </div>
         </div>
     {% endfor %}
@@ -18,7 +17,6 @@
             <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
             <div class="flex-column group-member-name-col">
                 <div class="pl-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
-                <div class="pl-1 pt-0">{{ user_p.username }}</div>
             </div>
             {% comment %}
             <div class="d-flex justify-content-end">
@@ -56,7 +54,6 @@
                 <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
                 <div class="flex-column group-member-name-col">
                     <div class="pl-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
-                    <div class="pl-1 pt-0">{{ user_p.username }}</div>
                 </div>
             </div>
         {% empty %}

@@ -1,31 +1,10 @@
-import secrets
-
 from django.db import models
-from django.db.models import Q
-from django.template.defaultfilters import slugify
 from django.urls import reverse, reverse_lazy
 
 from accounts.models import CustomUser
 
-import itertools
 
-
-def generate_vanity(min_length, max_length):
-    length = secrets.choice(range(min_length, max_length))
-    choices = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ1234567890"
-    vanity = ""
-
-    for i in range(0, length):
-        vanity += choices[secrets.choice(range(0, len(choices)))]
-    return vanity
-
-
-def generate_unique_vanity(min_length, max_length, model):
-    vanity = generate_vanity(min_length, max_length)
-
-    if model.objects.filter(slug=vanity).exists():
-        return generate_unique_vanity(min_length, max_length, model)
-    return vanity
+from utils.db_utils import generate_unique_vanity
 
 
 class Group(models.Model):
@@ -78,7 +57,7 @@ class Group(models.Model):
 class Activity(models.Model):
     INVITATION_POLICY_CHOICES = [
         ('PU', 'Publique'),  # Tout le monde peut s'inscrire
-        ('OI', 'Sur invitation'),  # Tout le monde peuvt inviter des personnes à s'inscrire
+        ('OI', 'Sur invitation'),  # Tout le monde peuvent inviter des personnes à s'inscrire
         ('OAI', 'Sur invitation par un admin'),  # Seuls les administrateurs peuvent inviter des personnes à s'inscrire
     ]
 
@@ -118,19 +97,7 @@ class Activity(models.Model):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        max_length = Activity._meta.get_field('slug').max_length
-        self.slug = orig = slugify(self)[:max_length]
-        for x in itertools.count(10):
-            if self.id:
-                if Activity.objects.filter(Q(slug=self.slug),
-                                           Q(id=self.id),
-                                           ).exists():
-                    break
-            if not Activity.objects.filter(slug=self.slug).exists():
-                break
-
-            # Truncate & Minus 1 for the hyphen.
-            self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+        self.slug = generate_unique_vanity(5, 10, Activity)
         return super().save(*args, **kwargs)
 
     class Meta:

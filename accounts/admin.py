@@ -4,9 +4,7 @@ from .models import CustomUser
 
 
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['email', 'username', 'slug']
-
-    prepopulated_fields = {'slug': ('username',)}
+    list_display = ['email', 'slug']
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

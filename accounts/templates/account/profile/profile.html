@@ -37,20 +37,20 @@
             <div class="gradient-l2 responsive-padding-container rounded-corner-container w-100 text-white">
                 <div class="tab-content w-100 justify-content-center" id="tabContent">
                     <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profileTab">
-                        {% include 'accounts/profile/includes/profile_private_view.html' %}
+                        {% include 'account/profile/includes/profile_private_view.html' %}
                     </div>
                     <div class="tab-pane fade show" id="disconnect" role="tabpanel" aria-labelledby="disconnectTab">
-                        {% include 'accounts/includes/logout_include.html' %}
+                        {% include 'account/includes/logout_include.html' %}
                     </div>
                     <div class="tab-pane fade show" id="invitations" role="tabpanel" aria-labelledby="disconnectTab">
-                        {% include 'accounts/profile/includes/invitations_include.html' %}
+                        {% include 'account/profile/includes/invitations_include.html' %}
                     </div>
                 </div>
             </div>
         </div>
     {% elif profile.id != user.id or view_as == "guest" %}
         <div class="gradient-l2 responsive-padding-container rounded-corner-container w-100 text-white">
-            {% include 'accounts/profile/includes/profile_public_view.html' %}
+            {% include 'account/profile/includes/profile_public_view.html' %}
         </div>
     {% endif %}
 {% endblock content %}

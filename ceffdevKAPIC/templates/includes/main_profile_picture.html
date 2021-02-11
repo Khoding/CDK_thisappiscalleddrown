@@ -1,11 +1,11 @@
 {% load static %}
 
 {% if user.profile_pic %}
-    <a href="{% url 'accounts:profile' slug=user.slug %}" title="Profil">
+    <a href="{% url 'account:profile' slug=user.slug %}" title="Profil">
         <img id="profilePicture" src="{{ user.profile_pic.url }}" alt="Votre photo de profil">
     </a>
 {% else %}
-    <a href="{% url 'accounts:profile' slug=user.slug %}" title="Profil">
+    <a href="{% url 'account:profile' slug=user.slug %}" title="Profil">
         <img id="profilePicture" src="{% static 'koolapic/images/user_no_pp.png' %}" alt="Votre photo de profil">
     </a>
 {% endif %}

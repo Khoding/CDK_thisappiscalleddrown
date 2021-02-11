@@ -1,25 +1,27 @@
 import json
 
+from allauth.account.forms import SignupForm
+from allauth.account.views import SignupView
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView, DetailView, TemplateView, CreateView
 from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.views import PasswordChangeView, LoginView
 
 from koolapic.models import Invitation
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import EditProfileForm, CustomUserCreationForm
 
 from .models import CustomUser
 
 
 class EditUserProfileView(UpdateView):
-    form_class = CustomUserChangeForm
+    form_class = EditProfileForm
     success_url = reverse_lazy('koolapic:home')
-    template_name = 'accounts/edit_profile.html'
+    template_name = 'account/edit_profile.html'
     success_message = 'Profil modifié avec succès !'
     context_object_name = 'profile'
 
@@ -28,13 +30,13 @@ class EditUserProfileView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = self.object.username
+        context['title'] = f"{self.object.first_name} {self.object.last_name}"
         return context
 
 
 class UserProfileView(DetailView):
     model = CustomUser
-    template_name = 'accounts/profile/profile.html'
+    template_name = 'account/profile/profile.html'
     view_as = 'self'
     context_object_name = 'profile'
 
@@ -68,7 +70,7 @@ class UserProfileView(DetailView):
 
 class PasswordsChangeView(PasswordChangeView):
     form_class = PasswordChangeForm
-    template_name = 'accounts/change_password.html'
+    template_name = 'account/change_password.html'
     success_url = reverse_lazy('accounts:profile')
     success_message = 'Mot de passe changé avec succès !'
 
@@ -79,10 +81,10 @@ class PasswordsChangeView(PasswordChangeView):
         return context
 
 
-class SignUpView(CreateView):
+class CustomSignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('koolapic:home')
-    template_name = 'accounts/signup.html'
+    template_name = 'account/signup.html'
     success_message = 'Compte créé avec succès !'
 
     def get_context_data(self, **kwargs):
@@ -96,7 +98,7 @@ class SignUpView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         user = authenticate(
-            username=form.cleaned_data["username"],
+            email=form.cleaned_data["email"],
             password=form.cleaned_data["password1"],
         )
         login(self.request, user)
@@ -107,7 +109,7 @@ class SignUpView(CreateView):
 
 class UserLoginView(SuccessMessageMixin, LoginView):
     authentication_form = AuthenticationForm
-    template_name = 'accounts/login.html'
+    template_name = 'account/login.html'
     success_message = "Vous avez été connecté avec succès !"
     success_url = reverse_lazy('koolapic:index')
 
@@ -134,7 +136,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
 
 
 class UserLogoutView(TemplateView):
-    template_name = 'accounts/logout.html'
+    template_name = 'account/logout.html'
 
     def post(self, request):
         logout(request)

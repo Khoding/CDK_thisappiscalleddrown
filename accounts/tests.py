@@ -7,7 +7,8 @@ class UserTestCase(TestCase):
     def setup(self):
         CustomUser.objects.create(
             email="rosier@test.com",
-            username="rosier",
+            first_name="Adrien Matthieu",
+            last_name="Rossier",
             password="Pa$$w0rd",
             bio="Zzzzzzzzzzz...",
             locality="Bienne",
@@ -19,7 +20,8 @@ class UserTestCase(TestCase):
 
         CustomUser.objects.create(
             email="monke@test.com",
-            username="monke",
+            first_name="Monkey",
+            last_name="Boi",
             password="Pa$$w0rd",
             bio="Ouh ouh ouh ! Ah ah !",
             locality="Les Breuleux",
