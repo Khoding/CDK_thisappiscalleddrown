@@ -14,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 
 from accounts.models import CustomUser
-from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
+from ceffdevKAPIC.koolapic_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
 from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, ActivityCreationForm

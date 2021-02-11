@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+# Import des autres settings
+from .koolapic_settings import *
+from .third_party_settings import *
 
 # Loads .env file
 load_dotenv()
@@ -30,10 +33,6 @@ DEBUG = os.getenv("DEBUG")
 
 # ALLOWED HOSTS
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
-
-# Google key
-EASY_MAPS_GOOGLE_KEY = 'AIzaSyBNZaJXJIQ6TRuwdYndsh_VtJrlc_K0wgM'
-EASY_MAPS_CENTER = (47.15031219558188, 6.992616014219671)
 
 # Application definition
 INSTALLED_APPS = [
@@ -67,17 +66,6 @@ INSTALLED_APPS = [
     # Django REST Framework
     'rest_framework',
 ]
-
-BOOTSTRAP4 = {
-    'include_jquery': True,
-}
-
-# REST Framework
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -188,14 +176,3 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 2
-
-# Configuration de django-all-auth
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 3600
