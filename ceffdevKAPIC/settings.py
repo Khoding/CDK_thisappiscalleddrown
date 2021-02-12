@@ -65,8 +65,6 @@ INSTALLED_APPS = [
 
     # Django REST Framework
     'rest_framework',
-
-    'crispy_forms',
 ]
 
 MIDDLEWARE = [
