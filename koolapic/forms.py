@@ -1,8 +1,9 @@
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
-from django.forms import TextInput, ImageField, ModelForm
+from django.forms import TextInput, ImageField, CharField
 
+# from ceffdevKAPIC.widgets import SpoilerWidget
 from utils.image_utils import crop_image
 from koolapic.models import Activity, Group, Invitation
 
@@ -17,21 +18,31 @@ VALID_IMAGE_EXTENSIONS = [
 class ImageCropField(ImageField):
     default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
-
 class ActivityCreationForm(forms.ModelForm):
+    end_location = CharField()
+    max_participants = CharField()
+    end_inscription_date = CharField()
+    end_date = CharField()
+
+    end_location.is_spoiler = True
+    max_participants.is_spoiler = True
+    end_inscription_date.is_spoiler = True
+    end_date.is_spoiler = True
+
     class Meta:
         model = Activity
         fields = [
             'name',
-            'inscription_policy',
-            'end_inscription_date',
+
             'description',
             'remarks',
-            'max_participants',
 
             'start_location',
             'start_date',
+            'inscription_policy',
 
+            'end_inscription_date',
+            'max_participants',
             'end_location',
             'end_date',
         ]
@@ -41,7 +52,7 @@ class ActivityCreationForm(forms.ModelForm):
             'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'address': AddressWithMapWidget({'class': 'vTextField'})
+            'address': AddressWithMapWidget({'class': 'vTextField'}),
         }
 
 

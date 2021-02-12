@@ -1,0 +1,5 @@
+{% load widget_tweaks %}
+
+{% if field|widget_type != "hiddeninput" %}
+    {{ field.label_tag }}
+{% endif %}

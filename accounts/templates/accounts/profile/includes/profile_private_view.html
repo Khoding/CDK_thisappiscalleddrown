@@ -5,9 +5,7 @@
     <h1 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h1>
     <h2 class="profile-username">{{ profile.username }}</h2>
     <h3 class="profile-role">
-        {% if profile.email == "adrienmatthieu.rossier@ceff.ch" %}
-            <i class="fas fa-bed"></i> Dormeur
-        {% elif profile.email == "jacques@hirtzel.ch" or profile.email == "jacques.hirtzel@ceff.ch" %}
+        {% if profile.email == "jacques@hirtzel.ch" or profile.email == "jacques.hirtzel@ceff.ch" %}
             <i class="fas fa-coffee"></i> Administrateur
         {% elif profile.is_superuser %}
             <i class="fas fa-desktop"></i> Administrateur

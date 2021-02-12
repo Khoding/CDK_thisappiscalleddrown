@@ -4,7 +4,7 @@
     Dépendances : django-widget-tweaks
     Nécessite les scripts : password_visibility.js et popovers.js
 {% endcomment %}
-
+{% load extras %}
 {% load widget_tweaks %}
 
 {% csrf_token %}
@@ -15,41 +15,13 @@
         </div>
     {% endif %}
     <div class="field {{ field|widget_type }}">
-        {% if field|widget_type != "hiddeninput" %}
-            {{ field.label_tag }}
-            {% if field|widget_type != "clearablefileinput" %}
-                <div class="input-group">
-            {% endif %}
-        {{ field|add_class:"form-control" }}
-        {% if field.help_text and field|widget_type != "textarea" %}
-            <div class="input-group-append">
-                {% if field|widget_type == "passwordinput" %}
-                    <button type="button" class="btn btn-primary show-passwd-btn" title="Voir le mot de passe"
-                            data-for-field="{{ field.auto_id }}" id="{{ field.auto_id }}showbtn">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                {% else %}
-                    <button type="button" class="btn btn-primary popover-btn" id="{{ field.auto_id }}btn"
-                            data-template="{{ field.auto_id }}tooltip">?
-                    </button>
-                {% endif %}
-            </div>
+        {% if field.field.is_spoiler %}
+            {% spoiler field %}
+        {% else %}
+            {% field_label field %}
+            {% form_field field %}
         {% endif %}
-        {% if field|widget_type != "clearablefileinput" %}
-            </div>
-        {% endif %}
-            {% for error in field.errors %}
-                <small class="form-text form-error">{{ error }}</small>
-            {% endfor %}
-        {% elif field|widget_type == "hiddeninput" %}
-            <div class="d-none input-group">
-                {{ field|add_class:"form-control" }}
-            </div>
-        {% elif field|widget_type == "address" %}
-            <div class="d-none input-group">
-                {{ field|add_class:"form-control" }}
-            </div>
-    {% endif %}
+
     </div>
 {% endfor %}
 {{ dia }}

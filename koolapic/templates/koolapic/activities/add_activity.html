@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% load extras %}
+{% load static %}
 {% block content %}
     <h1>Ajouter une activité</h1>
     <form method="post">
+
         {% form form %}
         <br>
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
+
+    <script async src="{% static "koolapic/js/spoilers.js" %}" type="module"></script>
+    {{ form.media }}
 {% endblock content %}

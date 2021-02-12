@@ -9,7 +9,7 @@ class UserTestCase(TestCase):
             email="rosier@test.com",
             username="rosier",
             password="Pa$$w0rd",
-            bio="Zzzzzzzzzzz...",
+            bio="...",
             locality="Bienne",
             npa=2134,
             address="Rue du sommeil 12",
