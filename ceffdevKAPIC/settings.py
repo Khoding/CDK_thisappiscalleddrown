@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+# Import des autres settings
+from .koolapic_settings import *
+from .third_party_settings import *
 
 # Loads .env file
 load_dotenv()
@@ -26,14 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
+DEBUG = True if os.getenv("DEBUG") == "True" else False
 
 # ALLOWED HOSTS
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
-
-# Google key
-EASY_MAPS_GOOGLE_KEY = 'AIzaSyBNZaJXJIQ6TRuwdYndsh_VtJrlc_K0wgM'
-EASY_MAPS_CENTER = (47.15031219558188, 6.992616014219671)
 
 # Application definition
 INSTALLED_APPS = [
@@ -54,8 +53,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.discord',
 
     # Apps
     'ceffdevKAPIC',
@@ -71,17 +68,6 @@ INSTALLED_APPS = [
 
     'crispy_forms',
 ]
-
-BOOTSTRAP4 = {
-    'include_jquery': True,
-}
-
-# REST Framework
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -186,14 +172,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
-    'impostor.backend.AuthBackend',
+    "impostor.backend.AuthBackend",
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 SITE_ID = 2
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'

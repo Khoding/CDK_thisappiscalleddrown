@@ -1,9 +1,9 @@
 import json
 
+from allauth.account.forms import SignupForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
-from django.core.mail.backends import console
 from django.db.models import Count
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse, request
@@ -13,9 +13,8 @@ from django.views.generic import TemplateView, ListView, CreateView, DetailView,
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 
-from accounts.forms import CustomUserCreationForm
 from accounts.models import CustomUser
-from ceffdevKAPIC.custom_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
+from ceffdevKAPIC.koolapic_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
 from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, ActivityCreationForm
@@ -341,7 +340,7 @@ class InvitationView(DetailView):
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
             self.request.session['invitation'] = self.get_object().slug
-            return redirect(f"{reverse('accounts:login')}?next={self.get_object().get_absolute_url()}")
+            return redirect(f"{reverse('account:login')}?next={self.get_object().get_absolute_url()}")
 
         if self.request.user in self.get_object().group.members.filter(member__id=self.request.user.id) != 0:
             messages.error(request=self.request, message="Vous faites déjà partie de ce groupe.")
@@ -403,7 +402,7 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Modifie un groupe sur Koolapic'
+        context['description'] = 'Modifier un groupe sur Koolapic'
         return context
 
 
@@ -415,12 +414,12 @@ class GroupDeleteView(LoginRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Supprime un groupe sur Koolapic'
+        context['description'] = 'Supprimer un groupe sur Koolapic'
         return context
 
 
 class SignUpView(CreateView):
-    form_class = CustomUserCreationForm
+    form_class = SignupForm
     success_url = reverse_lazy('login')
     template_name = 'account/signup.html'
     success_message = 'Compte créé avec succès'

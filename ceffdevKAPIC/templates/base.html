@@ -121,17 +121,18 @@
                 </button>
             </div>
             <div class="d-flex justify-content-end align-items-center">
-                {% if request.resolver_match.view_name != "accounts:profile" and request.resolver_match.view_name != "accounts:edit_profile" %}
-                    <div class="d-flex align-items-center">
-                        <a href="{% url "koolapic:notifications" %}" id="notificationBtn" class="text-white icon-btn"
-                           type="button">
-                            <i class="fas fa-bell"></i>
-                            {% if unread_notifications_number > 0 %}
-                                <span class="badge badge-danger notification-badge">{{ unread_notifications_number }}</span>
-                            {% endif %}
-                        </a>
-                    </div>
 
+                <div class="d-flex align-items-center">
+                    <a href="{% url "koolapic:notifications" %}" id="notificationBtn" class="text-white icon-btn"
+                       type="button">
+                        <i class="fas fa-bell"></i>
+                        {% if unread_notifications_number > 0 %}
+                            <span class="badge badge-danger notification-badge">{{ unread_notifications_number }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+
+                {% if request.resolver_match.view_name != "account:profile" and request.resolver_match.view_name != "account:edit_profile" %}
                     <div class="d-flex align-items-center">
                         {% include 'includes/main_profile_picture.html' %}
                     </div>

@@ -3,7 +3,6 @@
         <img src="{{ profile.profile_pic.url }}" class="profile-pp" alt="Photo de profil" width="100"/>
     {% endif %}
     <h1 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h1>
-    <h2 class="profile-username">{{ profile.username }}</h2>
     <h3 class="profile-role">
         {% if profile.email == "jacques@hirtzel.ch" or profile.email == "jacques.hirtzel@ceff.ch" %}
             <i class="fas fa-coffee"></i> Administrateur
@@ -26,7 +25,7 @@
 </div>
 {% if profile.id == user.id %}
     <div class="row profile-action-buttons">
-        <a class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'accounts:profile' slug=profile.slug %}">
+        <a class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'account:profile' slug=profile.slug %}">
             <i class="fas fa-chevron-left"></i> Quitter la vue invité
         </a>
     </div>

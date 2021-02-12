@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>400 Bad Request</h1>
-    <h2>Docchi docchi</h2>
+    <div class="gradient-l2 rounded-corner-container medium-padding-container text-white">
+        <h1><b>400 Bad Request</b></h1>
+        <h2>La requête n'a pas pu aboutir.</h2>
+        <hr class="hr-white">
+        <p class="text-large">Essayez de rafraîchir la page. Si le problème persiste, essayez de supprimer les cookies de votre navigateur.</p>
+        <button class="btn btn-primary w-25" onclick="location.reload()">Rafraîchir</button>
+    </div>
 {% endblock %}

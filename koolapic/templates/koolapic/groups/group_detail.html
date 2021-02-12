@@ -38,6 +38,8 @@
                 {% if user in all_members %}
                     {% if group.invitation_policy == "PU" or group.invitation_policy == "OI" %}
                         <button id="inviteButton" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#invitationModal">Inviter quelqu'un</button>
+                    {% elif user in admins and group.invitation_policy == "OAI" %}
+                        <button id="inviteButton" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#invitationModal">Inviter quelqu'un</button>
                     {% endif %}
                 {% endif %}
             </div>
