@@ -6,9 +6,9 @@ from utils.db_utils import generate_unique_vanity
 
 
 def give_default_username(sender, instance, *args, **kwargs):
-    """Ajoute un nom d'utilisateur unique par défauten récupérant son slug."""
+    """Ajoute un nom d'utilisateur unique par défaut en récupérant son slug."""
 
-    instance.username = 'slug'
+    instance.username = instance.slug
 
 
 class CustomUser(AbstractUser):
