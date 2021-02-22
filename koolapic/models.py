@@ -37,7 +37,7 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
-    def get_detail_url(self):
+    def get_absolute_url(self):
         return reverse("koolapic:group_detail", kwargs={'slug': self.slug})
 
     def get_add_url(self):
@@ -84,7 +84,7 @@ class Activity(models.Model):
     def __str__(self):
         return self.name
 
-    def get_detail_url(self):
+    def get_absolute_url(self):
         return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
 
     def get_clone_url(self):
