@@ -34,6 +34,7 @@ admin.site.index_title = 'Administration de Koolapic'
 urlpatterns = [
     path('', include(koolapic.urls)),
     path('admin/', admin.site.urls),
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('api/', include(koolapicAPI.urls, namespace='api')),
     path('account/', include(accounts.urls, namespace='account')),
     path('dev/', include(dev_urls, namespace='dev')),
