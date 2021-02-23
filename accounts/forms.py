@@ -30,6 +30,7 @@ class EditProfileForm(forms.ModelForm):
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
     height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    username = forms.HiddenInput()
     profile_pic = ImageCropField(required=False, label="Image de profil")
 
     class Meta:

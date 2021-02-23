@@ -435,3 +435,28 @@ header {
   }
   margin-top: 0.75em;
 }
+
+
+.spoiler {
+  border: 1px solid #999;
+  padding: 2px;
+}
+
+.spoiler-btn:hover {
+  cursor: pointer;
+}
+.spoiler-btn-bottom {
+  width: 100%;
+  text-align: right;
+}
+
+.spoiler-body {
+  display: none;
+}
+
+#content {
+  max-height: 640px;
+  width: 100%;
+  max-width: 570px;
+  margin: 0 auto;
+}

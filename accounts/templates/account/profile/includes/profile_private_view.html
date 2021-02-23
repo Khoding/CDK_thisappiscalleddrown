@@ -4,9 +4,7 @@
     {% endif %}
     <h1 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h1>
     <h3 class="profile-role">
-        {% if profile.email == "adrienmatthieu.rossier@ceff.ch" %}
-            <i class="fas fa-bed"></i> Dormeur
-        {% elif profile.email == "jacques@hirtzel.ch" or profile.email == "jacques.hirtzel@ceff.ch" %}
+        {% if profile.email == "jacques@hirtzel.ch" or profile.email == "jacques.hirtzel@ceff.ch" %}
             <i class="fas fa-coffee"></i> Administrateur
         {% elif profile.is_superuser %}
             <i class="fas fa-desktop"></i> Administrateur
@@ -94,10 +92,7 @@
     <a class="btn w-100 btn-outline-light p-2 mb-2 text-center" href="{% url 'account:edit_profile' slug=profile.slug %}">
         <i class="fas fa-edit"></i> Modifier votre profil
     </a>
-    <form action="{% url 'account:profile' slug=profile.slug %}" method="get" id="profileForm">
-        <input type="hidden" name="view_as" value="guest">
-    </form>
-    <button type="submit" form="profileForm" class="btn w-100 btn-outline-light p-2 text-center" href="{% url 'account:profile' slug=profile.slug %}">
+    <a class="btn w-100 btn-outline-light p-2 text-center" href="?view_as=guest">
         <i class="far fa-eye"></i> Vue invité
-    </button>
+    </a>
 </div>

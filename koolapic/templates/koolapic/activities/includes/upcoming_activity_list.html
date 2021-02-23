@@ -34,7 +34,7 @@
                             <a class="btn btn-primary align-middle activity-action-btn" title="Modifier l'activité" href="{{ activity.get_update_url }}" role="button">
                                 <i class="icon fas fa-pen text-center"></i>
                             </a>
-                            <a class="btn btn-primary align-middle activity-action-btn" title="Afficher les détails de l'activité" href="{{ activity.get_detail_url }}" role="button">
+                            <a class="btn btn-primary align-middle activity-action-btn" title="Afficher les détails de l'activité" href="{{ activity.get_absolute_url }}" role="button">
                                 <i class="icon fas fa-align-justify text-center"></i>
                             </a>
                             <a class="btn btn-danger delete-modal align-top activity-action-btn" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}" role="button">

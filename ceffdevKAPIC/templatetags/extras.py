@@ -18,6 +18,25 @@ def hour(date):
     return {'date': date}
 
 
+@register.inclusion_tag('extras/spoiler_extra.html')
+def spoiler(field):
+    return {
+        'field': field,
+    }
+
+
+@register.inclusion_tag('extras/form_field_extra.html')
+def form_field(field):
+    return {
+        'field': field,
+    }
+
+@register.inclusion_tag('extras/field_label_extra.html')
+def field_label(field):
+    return {
+        'field': field,
+    }
+
 @register.inclusion_tag('extras/map_input_extra.html')
 def map_input(address, width, height, zoom):
     return {

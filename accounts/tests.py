@@ -10,7 +10,7 @@ class UserTestCase(TestCase):
             first_name="Adrien Matthieu",
             last_name="Rossier",
             password="Pa$$w0rd",
-            bio="Zzzzzzzzzzz...",
+            bio="...",
             locality="Bienne",
             npa=2134,
             address="Rue du sommeil 12",
