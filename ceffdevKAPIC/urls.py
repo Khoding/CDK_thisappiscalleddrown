@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path, include
 
 from django.conf import settings
@@ -22,9 +21,15 @@ from django.conf.urls.static import static
 import accounts.urls
 import koolapic.urls
 import koolapicAPI.urls
+import koolapic.admin
 from ceffdevKAPIC import dev_urls
+from django.contrib import admin
 
 app_name = 'admin'
+
+admin.site.site_header = 'Koolapic Admin'
+admin.site.site_title = 'Koolapic'
+admin.site.index_title = 'Administration de Koolapic'
 
 urlpatterns = [
     path('', include(koolapic.urls)),

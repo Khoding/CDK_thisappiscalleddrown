@@ -39,8 +39,8 @@ class CustomUser(AbstractUser):
         return super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = 'utilisateur'
+        verbose_name_plural = 'utilisateurs'
 
 
 pre_save.connect(give_default_username, sender=CustomUser)  # Signal se déclanchant avant l'enregistrement dans la base de donnée

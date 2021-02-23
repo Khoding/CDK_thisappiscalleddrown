@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.contrib.admin import AdminSite
+from django.contrib.admin.apps import AdminConfig
+
 from koolapic.models import Activity, Group, Inscription, Invitation, Notification, Donation
 
 

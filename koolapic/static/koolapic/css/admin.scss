@@ -1,0 +1,176 @@
+/*
+ Feuille de style servant à override celle de base pour l'administration de Django.
+*/
+
+@use 'sass:color';
+
+/* Variables */
+@import "variables";
+
+/* Mixins SCSS */
+@import 'mixins';
+
+/* Bootstrap configuré */
+@import "custom";
+
+/* Importe les classes utilitaires */
+@import "utils";
+
+/* Importation de FontAwesome */
+@import "../../vendor/node_modules/@fortawesome/fontawesome-free/css/all.css";
+
+h1, h2, h3, h4, h5, h6 {
+  color: $palette-primary;
+}
+
+a, a:link, a:visited {
+  color: $palette-l2;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+  color: white;
+}
+
+#header {
+  @include koolapic-gradient($palette-primary, $palette-l2);
+  background-color: transparent;
+  border-bottom: 2px solid $white;
+}
+
+.module caption {
+  @include koolapic-gradient($palette-primary, $palette-l2);
+  background-color: transparent;
+  caption-side: top !important;
+  border-radius: $border-radius;
+}
+
+#content-related {
+  @include koolapic-gradient($palette-primary, $palette-l2);
+  color: $white;
+  border-radius: $border-radius;
+}
+
+#content-related h2, #content-related h3, #content-related .quiet {
+  color: $white !important;
+}
+
+#content-related a {
+  text-decoration: underline;
+  color: $white !important;
+}
+
+ul.messagelist li {
+  background-color: $semantics-success;
+  background-image: none;
+  color: $white !important;
+}
+
+ul.messagelist li.warning {
+  background-color: $semantics-warning;
+  background-image: none;
+  color: $white !important;
+}
+
+ul.messagelist li.error {
+  background-color: $semantics-danger;
+  background-image: none;
+  color: $white !important;
+}
+
+div.breadcrumbs {
+  background-color: $palette-l2;
+  color: lighten($palette-l2, 30%);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+  background-color: $palette-d2;
+}
+
+.button.default:hover, input[type=submit].default:hover, .submit-row input.default:hover {
+  background-color: darken($palette-d2, 30%);
+}
+
+.toggle-nav-sidebar, .toggle-nav-sidebar:hover, .toggle-nav-sidebar:focus {
+  color: $white !important;
+  border: 0;
+  inset: 0;
+  border-right: 1px solid $white !important;
+  background-color: $palette-l2 !important;
+}
+
+.main.shifted > #nav-sidebar {
+  margin: 0.5em !important;
+  border-right: 0;
+}
+
+.current-model {
+  background-color: color.scale($palette-l1, $lightness: 80%) !important;
+  border-radius: $border-radius;
+  color: $white;
+}
+
+.model-group {
+  border-radius: $border-radius;
+}
+
+.object-tools a:link, .object-tools a:visited {
+  background-color: $palette-d2;
+}
+
+#toolbar form input[type=submit] {
+  box-shadow: none !important;
+  background-color: $palette-primary !important;
+  color: $white !important;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  box-shadow: none !important;
+  background-color: $palette-primary !important;
+  color: $white !important;
+}
+
+.module h2, .module caption, .inline-group h2 {
+  background-color: $palette-l1;
+}
+
+tr:nth-child(odd), .row-form-errors {
+  background: $white;
+}
+
+tr:nth-child(even),
+tr:nth-child(even) .errorlist,
+tr:nth-child(odd) + .row-form-errors,
+tr:nth-child(odd) + .row-form-errors .errorlist {
+  background: color.adjust($palette-primary, $lightness: 32.5%);
+}
+
+thead th {
+  background-color: $palette-primary;
+  color: $white;
+}
+
+thead th.sorted {
+  background-color: color.adjust($palette-primary, $lightness: 5%) !important;
+  color: $white;
+}
+
+thead th a:link, thead th a:visited, thead th a:hover {
+  color: $white !important;
+  background-color: transparent !important;
+}
+
+table thead th .text a:focus, table thead th .text a:hover {
+  background-color: transparent;
+}
+
+#action-toggle {
+  border: none;
+}
+
+.sortoptions {
+  color: $white !important;
+}
+
+.submit-row a.deletelink {
+  height: 100% !important;
+}

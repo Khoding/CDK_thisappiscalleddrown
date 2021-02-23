@@ -84,7 +84,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'ceffdevKAPIC/templates',
-            BASE_DIR / 'koolapic/templates'
+            BASE_DIR / 'koolapic/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

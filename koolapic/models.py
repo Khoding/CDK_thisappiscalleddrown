@@ -3,7 +3,6 @@ from django.urls import reverse, reverse_lazy
 
 from accounts.models import CustomUser
 
-
 from utils.db_utils import generate_unique_vanity
 
 
@@ -53,6 +52,10 @@ class Group(models.Model):
         self.slug = generate_unique_vanity(5, 15, Group)
         return super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = 'groupe'
+        verbose_name_plural = 'groupes'
+
 
 class Activity(models.Model):
     INVITATION_POLICY_CHOICES = [
@@ -101,7 +104,8 @@ class Activity(models.Model):
         return super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name_plural = "Activities"
+        verbose_name = 'activité'
+        verbose_name_plural = 'activités'
 
 
 class Inscription(models.Model):
@@ -113,6 +117,10 @@ class Inscription(models.Model):
 
     def __str__(self):
         return self.remarks
+
+    class Meta:
+        verbose_name = 'inscription'
+        verbose_name_plural = 'inscriptions'
 
 
 class Donation(models.Model):
@@ -151,6 +159,10 @@ class Notification(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'notification'
+        verbose_name_plural = 'notifications'
+
 
 class Invitation(models.Model):
     ACCEPTATION_CHOICES = [
@@ -174,3 +186,7 @@ class Invitation(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy("koolapic:invitation", kwargs={'slug': self.slug})
+
+    class Meta:
+        verbose_name = 'invitation'
+        verbose_name_plural = 'invitations'
