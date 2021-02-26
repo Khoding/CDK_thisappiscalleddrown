@@ -1,5 +1,11 @@
+"""
+Paramètres de configuration exclusifs à l'application Koolapic.
+"""
+
+# Nombre maximum d'invitations par utilisateur.
 MAX_INVITATION_NUMBER_BY_USER = 25
 
+# Contributeurs au projet
 CONTRIBUTORS = [
     {
         'name': 'Nicolas Schwab',

@@ -6,13 +6,18 @@ from utils.db_utils import generate_unique_vanity
 
 
 def give_default_username(sender, instance, *args, **kwargs):
-    """Ajoute un nom d'utilisateur unique par défaut en récupérant son slug."""
+    """
+    Fonction ajoutant un nom d'utilisateur unique par défaut en récupérant son slug.
+
+    """
 
     instance.username = instance.slug
 
 
 class CustomUser(AbstractUser):
-    """Classe représentant le modèle des utilisateurs, ainsi que du profil."""
+    """
+    Classe représentant le modèle des utilisateurs, ainsi que du profil.
+    """
 
     REQUIRED_FIELDS = ['first_name', 'last_name']
     USERNAME_FIELD = 'email'

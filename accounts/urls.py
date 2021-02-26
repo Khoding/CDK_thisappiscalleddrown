@@ -1,13 +1,16 @@
-from django.conf.urls import url
-from django.contrib.auth.views import PasswordChangeView
-from django.urls import path, include
+"""
+URLs de l'application Accounts.
+"""
 
-from accounts.views import CustomSignUpView, EditUserProfileView, UserProfileView, UserLoginView, UserLogoutView
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import path
+
+from accounts.views import SignupView, EditUserProfileView, UserProfileView, UserLoginView, UserLogoutView
 
 app_name = 'account'
 
 urlpatterns = [
-    path('signup/', CustomSignUpView.as_view(), name='signup'),
+    path('signup/', SignupView.as_view(), name='signup'),
     path('edit_profile/<slug:slug>/', EditUserProfileView.as_view(), name='edit_profile'),
     path('profile/<slug:slug>/', UserProfileView.as_view(), name='profile'),
     path('password/', PasswordChangeView.as_view()),

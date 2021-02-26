@@ -1,3 +1,7 @@
+"""
+URLs de l'application Koolapic.
+"""
+
 from django.urls import path
 
 from koolapic.views import ActivityListView, ActivityCreateView, ActivityDetailView, ActivityUpdateView, \

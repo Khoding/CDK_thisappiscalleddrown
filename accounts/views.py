@@ -1,7 +1,9 @@
+"""
+Vues de l'application Accounts.
+"""
+
 import json
 
-from allauth.account.forms import SignupForm
-from allauth.account.views import SignupView
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.messages.views import SuccessMessageMixin
@@ -19,6 +21,10 @@ from .models import CustomUser
 
 
 class EditUserProfileView(UpdateView):
+    """
+    Vue d'édition du profil d'utilisateur.
+    """
+
     form_class = EditProfileForm
     success_url = reverse_lazy('koolapic:home')
     template_name = 'account/edit_profile.html'
@@ -35,6 +41,10 @@ class EditUserProfileView(UpdateView):
 
 
 class UserProfileView(DetailView):
+    """
+    Vue de détail du profil d'utilisateur.
+    """
+
     model = CustomUser
     template_name = 'account/profile/profile.html'
     view_as = 'self'
@@ -69,6 +79,10 @@ class UserProfileView(DetailView):
 
 
 class PasswordsChangeView(PasswordChangeView):
+    """
+    Vue de changement de mot de passe utilisateur.
+    """
+
     form_class = PasswordChangeForm
     template_name = 'account/change_password.html'
     success_url = reverse_lazy('accounts:profile')
@@ -81,7 +95,11 @@ class PasswordsChangeView(PasswordChangeView):
         return context
 
 
-class CustomSignUpView(CreateView):
+class SignupView(CreateView):
+    """
+    Vue de création de compte utilisateur.
+    """
+
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('koolapic:home')
     template_name = 'account/signup.html'
@@ -108,6 +126,10 @@ class CustomSignUpView(CreateView):
 
 
 class UserLoginView(SuccessMessageMixin, LoginView):
+    """
+    Vue de connexion à un utilisateur.
+    """
+
     authentication_form = AuthenticationForm
     template_name = 'account/login.html'
     success_message = "Vous avez été connecté avec succès !"

@@ -7,6 +7,10 @@ from utils.db_utils import generate_unique_vanity
 
 
 class Group(models.Model):
+    """
+    Modèle représentant un groupe Koolapic.
+    """
+
     INVITATION_POLICY_CHOICES = [
         ('PU', 'Public'),  # Tout le monde peut rejoindre
         ('OI', 'Sur invitation'),  # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
@@ -49,6 +53,9 @@ class Group(models.Model):
         return reverse("koolapic:group_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
+        """
+        Fonction apelée à la sauvegarde du groupe.
+        """
         self.slug = generate_unique_vanity(5, 15, Group)
         return super().save(*args, **kwargs)
 
@@ -58,6 +65,10 @@ class Group(models.Model):
 
 
 class Activity(models.Model):
+    """
+    Modèle représentant une activité.
+    """
+
     INVITATION_POLICY_CHOICES = [
         ('PU', 'Publique'),  # Tout le monde peut s'inscrire
         ('OI', 'Sur invitation'),  # Tout le monde peuvent inviter des personnes à s'inscrire
@@ -100,6 +111,9 @@ class Activity(models.Model):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
+        """
+        Fonction apelée à la sauvegarde de l'activité.
+        """
         self.slug = generate_unique_vanity(5, 10, Activity)
         return super().save(*args, **kwargs)
 
@@ -109,6 +123,10 @@ class Activity(models.Model):
 
 
 class Inscription(models.Model):
+    """
+    Modèle représentant une inscription à une activité.
+    """
+
     date = models.DateTimeField(verbose_name="Date de l'inscription")
     remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
     presence = models.IntegerField(verbose_name="Présence")
@@ -124,6 +142,10 @@ class Inscription(models.Model):
 
 
 class Donation(models.Model):
+    """
+    Modèle représentant un don.
+    """
+
     amount = models.FloatField(verbose_name="Montant")
     date = models.DateTimeField(verbose_name="Date de la donation")
     description = models.TextField(max_length=500, null=True, blank=True, verbose_name="Description")
@@ -135,6 +157,10 @@ class Donation(models.Model):
 
 
 class Notification(models.Model):
+    """
+    Modèle représentant une notification.
+    """
+
     SEVERITY_CHOICES = [
         ('DEBUG', 'Débogage'),
         ('INFO', 'Information'),
@@ -165,6 +191,10 @@ class Notification(models.Model):
 
 
 class Invitation(models.Model):
+    """
+    Modèle représentant une invitation à un groupe.
+    """
+
     ACCEPTATION_CHOICES = [
         ('ACC', 'Acceptée'),
         ('NAC', 'Non acceptée')
@@ -180,6 +210,9 @@ class Invitation(models.Model):
         return self.slug
 
     def save(self, *args, **kwargs):
+        """
+        Fonction apelée à la sauvegarde de l'invitation.
+        """
         if not self.slug:
             self.slug = generate_unique_vanity(5, 10, Invitation)
         return super().save(*args, **kwargs)

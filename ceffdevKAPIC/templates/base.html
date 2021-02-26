@@ -143,8 +143,7 @@
 <main role="main" class="flex-shrink-0">
     {% include "includes/message_snippet.html" %}
     <div class="{% if request.resolver_match.view_name != "koolapic:homepage" %}container{% endif %}">
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </div>
 </main>
 <footer class="footer mt-5 py-3 medium-padding-container gradient-l2 text-white">

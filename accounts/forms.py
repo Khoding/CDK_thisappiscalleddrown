@@ -4,7 +4,7 @@ from django.core import validators
 from django.core.validators import FileExtensionValidator
 from django.forms import ImageField
 
-from utils.image_utils import crop_image
+from utils.image_utils import crop_redim_image
 from .models import CustomUser
 from .validators import validate_user_email
 
@@ -14,10 +14,17 @@ VALID_IMAGE_EXTENSIONS = [
 
 
 class ImageCropField(ImageField):
+    """
+    Champ de formulaire permettant de rogner les images avant leur import.
+    """
     default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
 class CustomUserCreationForm(UserCreationForm):
+    """
+    Formulaire de création d'utilisateur Koolapic.
+    """
+
     email = forms.EmailField(validators=[validate_user_email])
 
     class Meta:
@@ -26,6 +33,10 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class EditProfileForm(forms.ModelForm):
+    """
+    Formulaire d'édition de profil.
+    """
+
     x = forms.FloatField(widget=forms.HiddenInput(), required=False)
     y = forms.FloatField(widget=forms.HiddenInput(), required=False)
     width = forms.FloatField(widget=forms.HiddenInput(), required=False)
@@ -53,6 +64,11 @@ class EditProfileForm(forms.ModelForm):
         )
 
     def save(self, *args, **kwargs):
+        """
+        Fonction appelée à la sauvegarde du formulaire.
+        Récupère les données du rognage et rogne l'image.
+        """
+
         custom_user = super(EditProfileForm, self).save()
         if self.cleaned_data.get('width'):
             x = self.cleaned_data.get('x')
@@ -60,6 +76,6 @@ class EditProfileForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_image((x, y, w, h), (500, 500), custom_user.profile_pic.path)
+            crop_redim_image((x, y, w, h), (500, 500), custom_user.profile_pic.path)
 
         return custom_user

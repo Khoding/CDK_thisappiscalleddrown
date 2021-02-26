@@ -1,3 +1,8 @@
+"""
+URLs de développements. Dans ce fichier se trouve les URL qui ne sont utilisées typiquement qu'à des fins de développements.
+DOC : https://docs.djangoproject.com/en/3.1/topics/http/urls/
+"""
+
 from django.urls import path
 
 from ceffdevKAPIC.dev_views import Error404View, Error400View, Error403View, Error500View
@@ -5,7 +10,6 @@ from ceffdevKAPIC.settings import DEBUG
 
 app_name = 'dev'
 
-print(DEBUG)
 if DEBUG:
     urlpatterns = [
         path('400', Error400View.as_view(), name='400'),

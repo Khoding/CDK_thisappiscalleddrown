@@ -18,7 +18,7 @@ from ceffdevKAPIC.koolapic_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRI
 from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
 
 from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, ActivityCreationForm
-from utils.notifications import notifications_to_dictionary
+from utils.notifications import unread_notifications_number_to_dictionary
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -67,7 +67,7 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
             notification_id = data['notification']
             notification = Notification.objects.get(id=notification_id)
             notification.delete()
-            response_data = notifications_to_dictionary(user=self.request.user)
+            response_data = unread_notifications_number_to_dictionary(user=self.request.user)
             return JsonResponse(response_data)
 
         if data['action'] == "deleteAllNotifications":

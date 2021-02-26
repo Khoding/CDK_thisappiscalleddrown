@@ -1,3 +1,7 @@
+"""
+Fichier contenant des fonctions utilitaires pour la gestion des images.
+"""
+
 from PIL import Image
 
 STILL_IMAGE_FORMATS = [
@@ -13,11 +17,19 @@ ANIMATED_IMAGE_FORMATS = [
 ]
 
 
-def crop_image(crop_dim, resize_dim, path):
+def crop_redim_image(crop_dim, resize_dim, path):
+    """
+    Rogne et redimensionne une image aux dimensions données.
+
+    Arguments nommés :
+    crop_dim -- dimensions de rognage de l'image
+    resize_dim -- dimensions de redimensionnement de l'image
+    path -- chemin du fichier image
+    """
     image = Image.open(path)
 
     if image.get_format_mimetype() in ANIMATED_IMAGE_FORMATS:
-        crop_animated_image(crop_dim, resize_dim, path, image)
+        crop_and_resize_animated_image(crop_dim, resize_dim, path, image)
     elif image.get_format_mimetype() in STILL_IMAGE_FORMATS:
         crop_still_image(crop_dim, resize_dim, path, image)
     else:
@@ -27,19 +39,39 @@ def crop_image(crop_dim, resize_dim, path):
 
 
 def crop_still_image(crop_dim, resize_dim, path, image):
+    """
+    Rogne une image statique.
+
+    Arguments nommés :
+    crop_dim -- dimensions de rognage de l'image
+    resize_dim -- dimensions de redimensionnement de l'image
+    path -- chemin du fichier image
+    image -- image
+    """
     crop_dim = (crop_dim[0], crop_dim[1], crop_dim[2] + crop_dim[0], crop_dim[3] + crop_dim[1])
     image = image.crop(crop_dim)
     image = image.resize(resize_dim, Image.ANTIALIAS)
     image.save(path, optimize=True)
 
 
-def crop_animated_image(crop_dim, resize_dim, path, image):
-    # (x, y, width, height)
+def crop_and_resize_animated_image(crop_dim, resize_dim, path, image):
+    """
+    Rogne une image animée.
+
+    Arguments nommés :
+    crop_dim -- dimensions de rognage de l'image
+    resize_dim -- dimensions de redimensionnement de l'image
+    path -- chemin du fichier image
+    image -- image
+
+    NOTE : des bugs avec la bibliothèque PIL sont fréquents.
+    """
+
+    # Format : (x, y, width, height)
     crop_dim = (crop_dim[0], crop_dim[1], crop_dim[2] + crop_dim[0], crop_dim[3] + crop_dim[1])
 
     frames = crop_and_resize_frames(crop_dim, resize_dim, image)
 
-    # frames[0].info = image.info
     if image.get_format_mimetype() == "image/webp":
         frames[0].save(path, save_all=True, append_images=frames[1:], loop=0)
     elif image.get_format_mimetype() == "image/gif" or image.get_format_mimetype() == "image/apng":
@@ -50,6 +82,17 @@ def crop_animated_image(crop_dim, resize_dim, path, image):
 
 
 def crop_and_resize_frames(crop_dim, resize_dim, image):
+    """
+    Rogneet redimensionne les frames des images animées.
+
+    Arguments nommés :
+    crop_dim -- dimensions de rognage de l'image
+    resize_dim -- dimensions de redimensionnement de l'image
+    image -- image
+
+    NOTE : des bugs avec la bibliothèque PIL sont fréquents.
+    """
+
     frames = []
     last_frame = image.convert('RGBA')
     palette = image.getpalette()

@@ -4,7 +4,15 @@ from accounts.models import CustomUser
 
 
 class UserTestCase(TestCase):
+    """
+    Classe de test des utilisateurs.
+    """
+
     def setup(self):
+        """
+        Fonction de setup.
+        """
+
         CustomUser.objects.create(
             email="rosier@test.com",
             first_name="Adrien Matthieu",

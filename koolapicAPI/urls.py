@@ -1,5 +1,6 @@
-from django.contrib import admin
-from django.urls import path
+"""
+URLs de l'application Koolapic API.
+"""
 
 from .views import InvitationCreationForm, ActivityViewSet, GroupViewSet, InscriptionViewSet, UserViewSet, NotificationViewSet
 from rest_framework.routers import DefaultRouter
