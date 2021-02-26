@@ -333,14 +333,14 @@
 .special-gradient {
   background: linear-gradient(
                   125deg,
-                  $palette-d1 0%,
-                  $palette-d1 40%,
+                  #634BEB 0%,
+                  #634BEB 40%,
                   $palette-primary calc(40% + 1px),
                   $palette-primary 60%,
-                  $palette-l1 calc(60% + 1px),
-                  $palette-l1 72%,
-                  $palette-l2 calc(72% + 1px),
-                  $palette-l2 100%);
+                  #6362EB calc(60% + 1px),
+                  #6362EB 72%,
+                  #636CEB calc(72% + 1px),
+                  #636CEB 100%);
 }
 
 /* Génération de classes par couleur */

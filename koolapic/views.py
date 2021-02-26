@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse, request
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -22,6 +22,23 @@ from utils.notifications import unread_notifications_number_to_dictionary
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
+    """
+    Vue de l'index.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``upcoming_activities``
+        Activités futures. Liste de :model:`koolapic.Activity`
+
+    **Template**
+
+    :template:'koolapic/index.html'
+    """
+
     template_name = 'koolapic/index.html'
 
     def get(self, *args, **kwargs):
@@ -51,6 +68,25 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
 
 class NotificationsView(LoginRequiredMixin, TemplateView):
+    """
+    Vue des notifications.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``notifications``
+        Notifications. Liste de :model:`koolapic.Notification`
+    ``invitations``
+        Invitations aux groupes. Liste de :model:`koolapic.Invitation`
+
+    **Template**
+
+    :template:'koolapic/notifications/notifications.html'
+    """
+
     template_name = 'koolapic/notifications/notifications.html'
 
     def get_context_data(self, **kwargs):
@@ -76,17 +112,50 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
 
 
 class HomeView(TemplateView):
+    """
+    Vue de la landing page.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/homepage.html'
+    """
+
     template_name = 'koolapic/homepage.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context[
-            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
 class ActivityListView(LoginRequiredMixin, ListView):
+    """
+    Vue de la liste des activités.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``upcoming_activities``
+        Activités futures. Liste de :model:`koolapic.Activity`
+    ``past_activities``
+        Activités passées. Liste de :model:`koolapic.Activity`
+
+    **Template**
+
+    :template:'koolapic/activities/activity_list.html'
+    """
+
     template_name = 'koolapic/activities/activity_list.html'
     context_object_name = 'activities'
     model = Activity
@@ -98,13 +167,28 @@ class ActivityListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'La liste des activités sur Koolapic'
+        context['description'] = 'Liste de vos activités sur Koolapic'
         context['upcoming_activities'] = self.get_activities().filter(end_date__gte=timezone.now())
         context['past_activities'] = self.get_activities().filter(end_date__lt=timezone.now())
         return context
 
 
 class ActivityDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vue du détail d'une activité.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/activity_detail.html'
+    """
+
     model = Activity
     template_name = "koolapic/activities/activity_detail.html"
 
@@ -116,6 +200,21 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
 
 class ActivityCreateView(LoginRequiredMixin, CreateView):
+    """
+    Vue de création d'une activité.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/add_activity.html'
+    """
+
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
@@ -133,6 +232,21 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
 
 
 class GroupActivityCreateView(LoginRequiredMixin, CreateView):
+    """
+    Vue de création d'une activité de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/add_activity.html'
+    """
+
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
@@ -154,6 +268,23 @@ class GroupActivityCreateView(LoginRequiredMixin, CreateView):
 
 
 class ActivityCloneView(LoginRequiredMixin, CreateView):
+    """
+    Vue de clonage d'une activité.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``form``
+        Formulaire de création d'activité.
+
+    **Template**
+
+    :template:'koolapic/activities/add_activity.html'
+    """
+
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
@@ -170,6 +301,21 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
 
 
 class ActivityUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Vue de mise à jour d'une activité.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/update_activity.html'
+    """
+
     model = Activity
     template_name = 'koolapic/activities/update_activity.html'
     form_class = ActivityChangeForm
@@ -183,6 +329,21 @@ class ActivityUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ActivityDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    Vue de confirmation de suppression d'une activité.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/activity_confirm_delete.html'
+    """
+
     model = Activity
     template_name = 'koolapic/activities/activity_confirm_delete.html'
 
@@ -196,6 +357,21 @@ class ActivityDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class GroupListView(LoginRequiredMixin, ListView):
+    """
+    Vue de liste des groupes.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/groups/group_list.html'
+    """
+
     template_name = 'koolapic/groups/group_list.html'
     model = Group
     context_object_name = 'groups'
@@ -216,6 +392,37 @@ class GroupListView(LoginRequiredMixin, ListView):
 
 
 class GroupDetailView(LoginRequiredMixin, DetailView):
+    """
+    Vue de liste des groupes.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``members``
+        Membres du groupe. Liste de :model:``accounts.CustomUser``
+    ``admins``
+        Administrateurs du groupe. Liste de :model:``accounts.CustomUser``
+    ``banned_users``
+        Utilisateurs bannis du groupe. Liste de :model:``accounts.CustomUser``
+    ``all_members``
+        Tous les membres, incluant les administrateurs. Liste de :model:``accounts.CustomUser``
+    ``members_count``
+        Nombre de membres.
+    ``undisplayed_members_count``
+        Nombre de membres non affichés.
+    ``upcoming_activities``
+        Activités de groupes futures. Liste de :model:`koolapic.Activity`
+    ``invitation_form``
+        Formulaire d'invitation.
+
+    **Template**
+
+    :template:'koolapic/groups/group_detail.html'
+    """
+
     model = Group
     template_name = 'koolapic/groups/group_detail.html'
     context_object_name = 'group'
@@ -241,8 +448,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         return context
 
     def get_activities_by_group(self):
-        return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by(
-            'start_date')
+        return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by('start_date')
 
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
@@ -327,6 +533,21 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
 
 
 class InvitationView(DetailView):
+    """
+    Vue d'invitation à un groupe'.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/groups/invitation.html'
+    """
+
     template_name = 'koolapic/groups/invitation.html'
     model = Invitation
     context_object_name = 'invitation'
@@ -377,6 +598,21 @@ class InvitationView(DetailView):
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):
+    """
+    Vue de création de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/groups/add_group.html'
+    """
+
     template_name = 'koolapic/groups/add_group.html'
     form_class = CustomGroupCreationForm
     success_url = reverse_lazy("koolapic:group_list")
@@ -394,6 +630,21 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
 
 
 class GroupUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Vue de mise à jour de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/groups/update_group.html'
+    """
+
     model = Group
     template_name = 'koolapic/groups/update_group.html'
     form_class = CustomGroupChangeForm
@@ -407,6 +658,21 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class GroupDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    Vue de suppression de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/groups/group_confirm_delete.html'
+    """
+
     model = Group
     template_name = 'koolapic/groups/group_confirm_delete.html'
     success_url = reverse_lazy("koolapic:group_list")
@@ -418,49 +684,108 @@ class GroupDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-class SignUpView(CreateView):
-    form_class = SignupForm
-    success_url = reverse_lazy('login')
-    template_name = 'account/signup.html'
-    success_message = 'Compte créé avec succès'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Compte Koolapic'
-        context['description'] = 'Créer un compte sur Koolapic'
-        return context
-
-
-class KoolapicLoginView(LoginView):
-    authentication_form = AuthenticationForm
-    redirect_field_name = reverse_lazy('koolapic:index')
-    template_name = 'account/login.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Compte Koolapic'
-        context['description'] = 'Se connecter à son compte sur Koolapic'
-        return context
-
-
 class ContributorsView(TemplateView):
+    """
+    Vue de suppression de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``contributors``
+        Contributeurs à Koolapic.
+
+    **Template**
+
+    :template:'koolapic/contributors.html'
+    """
+
     template_name = 'koolapic/contributors.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['contributors'] = CONTRIBUTORS
         context['title'] = 'Compte Koolapic'
-        context['description'] = 'Contributeurs au site Koolapic'
+        context['description'] = 'Contributeurs du site Koolapic'
         return context
 
 
 class ConditionsView(TemplateView):
-    pass
+    """
+    Vue de suppression de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``contributors``
+        Contributeurs à Koolapic.
+
+    **Template**
+
+    :template:'koolapic/contributors.html'
+    """
+
+    template_name = 'koolapic/conditions.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Conditions générales d\'utilisation de Koolapic.'
+        return context
 
 
 class ConfidentialityView(TemplateView):
-    pass
+    """
+    Vue de confidentialité.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+    ``contributors``
+        Contributeurs à Koolapic.
+
+    **Template**
+
+    :template:'koolapic/confidentiality.html'
+    """
+
+    template_name = 'koolapic/confidentiality.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Confidentialité de Koolapic'
+        return context
 
 
 class LicenseView(TemplateView):
+    """
+    Vue des licences.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/licenses.html'
+    """
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Licenses'
+        return context
+
     template_name = 'koolapic/licenses.html'
