@@ -9,9 +9,15 @@
             {% if activity.max_participants %}
                 {% if activity.participants.count > 0 %}
                     <div class="progress bg-wt">
-                        <div class="progress-bar bg-primary" role="progressbar" aria-valuemin="0" aria-valuemax="{{ activity.max_participants }}" aria-valuenow="{{ activity.participants.count }}">
-                            {{ activity.participants.count }}/{{ activity.max_participants }}
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ activity.get_only_participants }}" aria-valuenow="{{ activity.get_only_participants }}" aria-valuemin="0" aria-valuemax="{{ activity.max_participants }}">
+                            {{ activity.participants.count }}/{{ activity.max_participants }} Participants
                         </div>
+
+                        {% if activity.accompagnants > 0 %}
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{ activity.get_only_accompagnants }}" aria-valuenow="{{ activity.get_only_accompagnants }}" aria-valuemin="{{ activity.get_total_participants }}" aria-valuemax="{{ activity.max_participants }}">
+                                {{ activity.accompagnants }}/{{ activity.max_participants }} Accompagnants
+                            </div>
+                        {% endif %}
                     </div>
                 {% else %}
                     Aucun participant

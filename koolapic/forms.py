@@ -58,6 +58,7 @@ class ActivityCreationForm(forms.ModelForm):
 
             'end_inscription_date',
             'max_participants',
+            'accompagnants',
             'end_location',
             'end_date',
         ]
@@ -84,6 +85,7 @@ class ActivityChangeForm(forms.ModelForm):
             'end_inscription_date',
             'description',
             'remarks',
+            'accompagnants',
             'max_participants',
 
             'start_location',

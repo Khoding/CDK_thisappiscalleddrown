@@ -92,6 +92,7 @@ class Activity(models.Model):
 
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
+    accompagnants = models.PositiveSmallIntegerField(verbose_name="Accompagnants", blank=True, default=0)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
@@ -109,6 +110,21 @@ class Activity(models.Model):
 
     def get_confirm_delete_url(self):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
+
+    def get_only_participants(self):
+        percent = self.participants.count() / self.max_participants * 100
+        percentage = str(percent) + "%"
+        return percentage
+
+    def get_only_accompagnants(self):
+        percent = self.accompagnants / self.max_participants * 100
+        percentage = str(percent) + "%"
+        return percentage
+
+    def get_total_participants(self):
+        percent = (self.accompagnants + self.participants.count()) / self.max_participants * 100
+        percentage = str(percent) + "%"
+        return percentage
 
     def save(self, *args, **kwargs):
         """
