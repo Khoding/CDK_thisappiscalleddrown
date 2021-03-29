@@ -109,6 +109,21 @@ input[type='file'] {
   }
 }
 
+.contributor .contrib-icon {
+  --minFontSize: 1rem;
+  --maxFontSize: 9rem;
+  --scaler: 9vw;
+  font-size: clamp( var(--minFontSize), var(--scaler), var(--maxFontSize));
+  line-height: 1;
+
+  & svg {
+    --minWidth: 2rem;
+    --maxWidth: 10rem;
+    --scaler: 9vw;
+    width: clamp(var(--minWidth), var(--scaler), var(--maxWidth));
+  }
+}
+
 #mainNavbar {
   z-index: 1000;
   font-size: 1.25rem;
