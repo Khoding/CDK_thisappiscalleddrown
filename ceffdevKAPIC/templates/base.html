@@ -111,14 +111,22 @@
 
 {% block topbar %}
     {% if user.is_authenticated %}
-        <header class="d-flex flex-row justify-content-between align-items-center gradient-l2 mb-5" id="mainHeader">
-            <div class="d-flex align-items-center">
+        <header class="container-fluid row flex-row justify-content-between align-items-center gradient-l2 mb-5" id="mainHeader">
+            <div class="col-auto align-items-center">
                 <button class="nav-toggler text-white" type="button" data-target="#mainNavbar"
                         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
-            <div class="d-flex justify-content-end align-items-center">
+
+            <div class="col-auto">
+                <a class="btn btn-outline-light" title="Créer une activité" href="{% url 'koolapic:add_activity' %}"
+                   role="button">
+                    <i class="fas fa-plus"></i> Nouvelle activité
+                </a>
+            </div>
+
+            <div class="col d-flex justify-content-end align-items-center">
 
                 <div class="d-flex align-items-center">
                     <a href="{% url "koolapic:notifications" %}" id="notificationBtn" class="text-white icon-btn"

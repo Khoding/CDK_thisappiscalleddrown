@@ -96,6 +96,7 @@ class Activity(models.Model):
     accompagnants = models.PositiveSmallIntegerField(verbose_name="Accompagnants", blank=True, default=0)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
+    has_no_group = models.BooleanField(default=False, verbose_name="Activité sans groupe")
 
     class Meta:
         verbose_name = 'activité'

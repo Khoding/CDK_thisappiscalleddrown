@@ -48,6 +48,8 @@ class ActivityCreationForm(forms.ModelForm):
         model = Activity
         fields = [
             'name',
+            'has_no_group',
+            'group',
 
             'description',
             'remarks',
@@ -64,6 +66,7 @@ class ActivityCreationForm(forms.ModelForm):
         ]
 
         widgets = {
+            'group': forms.Select(attrs={'class': 'col-8'}),
             'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
             'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
