@@ -8,6 +8,11 @@ MAX_INVITATION_NUMBER_BY_USER = 25
 # Contributeurs au projet
 CONTRIBUTORS = [
     {
+        'name': 'Julien Rutscho',
+        'citation': 'I am Vengeance ! I am the Night ! I am Batman !!!',
+        'email': 'julien.rutscho@ceff.ch',
+    },
+    {
         'name': 'Nicolas Schwab',
         'citation': '3 glocks 20 blocks',
         'icon': 'fas fa-leaf',
@@ -18,12 +23,6 @@ CONTRIBUTORS = [
         'citation': 'Galaxy brain',
         'icon': 'fas fa-brain',
         'email': 'lorenzo.dibenedetto@ceff.ch',
-    },
-    {
-        'name': 'Julien Rutscho',
-        'citation': 'Allez voir https://blog.khodok.xyz',
-        'icon': 'fas fa-jedi',
-        'email': 'julien.rutscho@ceff.ch',
     },
     {
         'name': 'Adrien Matthieu Rossier',
