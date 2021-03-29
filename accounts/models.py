@@ -35,6 +35,10 @@ class CustomUser(AbstractUser):
     tel_m = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone personnel", help_text="Téléphone personnel")
     slug = models.SlugField(null=True, verbose_name="Slug")
 
+    class Meta:
+        verbose_name = 'utilisateur'
+        verbose_name_plural = 'utilisateurs'
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -42,10 +46,6 @@ class CustomUser(AbstractUser):
         if not self.slug:
             self.slug = generate_unique_vanity(5, 10, CustomUser)
         return super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = 'utilisateur'
-        verbose_name_plural = 'utilisateurs'
 
 
 pre_save.connect(give_default_username, sender=CustomUser)  # Signal se déclanchant avant l'enregistrement dans la base de donnée

@@ -37,8 +37,20 @@ class Group(models.Model):
 
     website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
 
+    class Meta:
+        verbose_name = 'groupe'
+        verbose_name_plural = 'groupes'
+
     def __str__(self):
         return self.name
+
+
+    def save(self, *args, **kwargs):
+        """
+        Fonction apelée à la sauvegarde du groupe.
+        """
+        self.slug = generate_unique_vanity(5, 15, Group)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("koolapic:group_detail", kwargs={'slug': self.slug})
@@ -51,17 +63,6 @@ class Group(models.Model):
 
     def get_confirm_delete_url(self):
         return reverse("koolapic:group_confirm_delete", kwargs={'slug': self.slug})
-
-    def save(self, *args, **kwargs):
-        """
-        Fonction apelée à la sauvegarde du groupe.
-        """
-        self.slug = generate_unique_vanity(5, 15, Group)
-        return super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = 'groupe'
-        verbose_name_plural = 'groupes'
 
 
 class Activity(models.Model):
@@ -96,8 +97,19 @@ class Activity(models.Model):
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
+    class Meta:
+        verbose_name = 'activité'
+        verbose_name_plural = 'activités'
+
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        """
+        Fonction apelée à la sauvegarde de l'activité.
+        """
+        self.slug = generate_unique_vanity(5, 10, Activity)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
@@ -126,17 +138,6 @@ class Activity(models.Model):
         percentage = str(percent) + "%"
         return percentage
 
-    def save(self, *args, **kwargs):
-        """
-        Fonction apelée à la sauvegarde de l'activité.
-        """
-        self.slug = generate_unique_vanity(5, 10, Activity)
-        return super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = 'activité'
-        verbose_name_plural = 'activités'
-
 
 class Inscription(models.Model):
     """
@@ -149,12 +150,13 @@ class Inscription(models.Model):
     guests_number = models.IntegerField(verbose_name="Nombre de participants")
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=True, verbose_name="Activité")
 
-    def __str__(self):
-        return self.remarks
-
     class Meta:
         verbose_name = 'inscription'
         verbose_name_plural = 'inscriptions'
+
+    def __str__(self):
+        return self.remarks
+
 
 
 class Donation(models.Model):
@@ -198,12 +200,12 @@ class Notification(models.Model):
     date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Date d'envoi")
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Groupe")
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name = 'notification'
         verbose_name_plural = 'notifications'
+
+    def __str__(self):
+        return self.title
 
 
 class Invitation(models.Model):
@@ -222,6 +224,10 @@ class Invitation(models.Model):
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="receiver", verbose_name="Utilisateur")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
+    class Meta:
+        verbose_name = 'invitation'
+        verbose_name_plural = 'invitations'
+
     def __str__(self):
         return self.slug
 
@@ -235,7 +241,3 @@ class Invitation(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy("koolapic:invitation", kwargs={'slug': self.slug})
-
-    class Meta:
-        verbose_name = 'invitation'
-        verbose_name_plural = 'invitations'
