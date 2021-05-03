@@ -109,7 +109,8 @@ class Activity(models.Model):
         """
         Fonction apelée à la sauvegarde de l'activité.
         """
-        self.slug = generate_unique_vanity(5, 10, Activity)
+        if not self.slug:
+            self.slug = generate_unique_vanity(5, 10, Activity)
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
