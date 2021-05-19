@@ -13,7 +13,7 @@ CONTRIBUTORS = [
         'email': 'julien.rutscho@ceff.ch',
         'year_when_contr': 3,
         'contribs': [{'name': '"Chef" du projet refonte', 'desc': 'A proposé Django, ce qui a mené à la refonte', 'credits': 75}, {'name': 'Développeur', 'desc': 'A contribué au code', 'credits': 200}, {'name': 'Designer', 'desc': 'A contribué au design', 'credits': 75}, {'name': 'Maniac', 'desc': 'Se plaignait de tout ce qui n\'était pas parfait', 'credits': 100}],
-        'aka': 'Le parfois très efficace... seulement parfois'
+        'aka': 'Le parfois très efficace... seulement parfois... vraiment parfois...'
     },
     {
         'name': 'Nicolas Schwab',
@@ -30,7 +30,7 @@ CONTRIBUTORS = [
         'icon': 'fas fa-brain',
         'email': 'lorenzo.dibenedetto@ceff.ch',
         'year_when_contr': 4,
-        'contribs': [{'name': 'Développeur', 'desc': 'A contribué au code', 'credits': 200}, {'name': 'Créateur des APIs', 'desc': 'A créé les APIs', 'credits': 250}, {'name': 'Designer', 'desc': 'A contribué au Design', 'credits': 50}],
+        'contribs': [{'name': 'Développeur', 'desc': 'A contribué au code', 'credits': 200}, {'name': 'Créateur des APIs', 'desc': 'A créé les APIs', 'credits': 250}, {'name': 'Designer', 'desc': 'A contribué au design', 'credits': 50}],
         'aka': 'L\'Orakle du Python'
     },
     {
@@ -40,6 +40,6 @@ CONTRIBUTORS = [
         'email': 'adrienmatthieu.rossier@ceff.ch',
         'year_when_contr': 4,
         'contribs': [{'name': 'Migrations des données depuis l\'ancien site', 'desc': 'A créé le script de migration (2x)', 'credits': 250}, {'name': 'Développeur', 'desc': 'A contribué au code', 'credits': 100}],
-        'aka': 'La belle aux bois dormant'
+        'aka': 'La belle au bois dormant'
     }
 ]
