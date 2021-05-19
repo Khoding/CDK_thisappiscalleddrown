@@ -18,8 +18,16 @@
         {% if field.field.is_spoiler %}
             {% spoiler field %}
         {% else %}
-            {% field_label field %}
-            {% form_field field %}
+            {% if field|widget_type == "checkboxinput" %}
+                <div class="form-check">
+                    {% field_label field %}
+                    {% form_field field %}
+                </div>
+            {% else %}
+                {% field_label field %}
+                {% form_field field %}
+            {% endif %}
+
         {% endif %}
 
     </div>
