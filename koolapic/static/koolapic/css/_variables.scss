@@ -45,7 +45,6 @@ $black-white: (
 
 $colors: map.merge($palette, $semantics);
 
-
 $sans-serif: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $headings: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino, serif;
 $body: 'Roboto', 'Helvetica', "Lucida Sans Unicode", "Lucida Grande", sans-serif;

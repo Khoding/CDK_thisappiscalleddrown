@@ -30,13 +30,13 @@ body {
 }
 
 body {
-  padding-top: 56px;
+  padding-top: 100px;
 }
 
 @media (max-width: 991.98px) {
   .offcanvas-collapse {
     position: fixed;
-    top: 56px; /* Height of navbar */
+    top: 100px; /* Height of navbar */
     bottom: 0;
     left: 100%;
     width: 100%;
@@ -252,7 +252,6 @@ input[type='file'] {
   }
 }
 
-
 #mainNavbar.toggled {
   left: 0;
   opacity: 1;
@@ -302,21 +301,6 @@ input[type='file'] {
 
 .nav-toggler:focus {
   outline: 0;
-}
-
-/* Header */
-header {
-  margin-bottom: 2em;
-  padding: 1vw;
-}
-
-#mainHeader {
-  padding-left: 3vw;
-  padding-right: 3vw;
-}
-
-#mainHeader .p-2 {
-  padding: 0 !important;
 }
 
 #profilePicture, #noProfilePicture {

@@ -93,40 +93,19 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" title="Créer une activité" href="{% url 'koolapic:add_activity' %}">
-                                <i class="fas fa-plus"></i> Nouvelle activité
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" title="Créer une activité" href="{% url 'koolapic:add_group' %}">
-                                <i class="fas fa-plus"></i> Nouveau groupe
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" title="Activités" href="{% url 'koolapic:activity_list' %}">
-                                Mes Activités
+                                Mes activités
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" title="Groupes" href="{% url 'koolapic:group_list' %}">
-                                Mes Groupes
+                                Mes groupes
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "koolapic:notifications" %}">
-                                Notifications
-                                {% if unread_notifications_number > 0 %}
-                                    <span class="badge badge-danger notification-badge">{{ unread_notifications_number }}</span>
-                                {% endif %}
-                            </a>
-                        </li>
-                        {% if request.resolver_match.view_name != "account:profile" and request.resolver_match.view_name != "account:edit_profile" %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'account:profile' slug=user.slug %}" title="Profil">Mon profil</a></li>
-                        {% endif %}
                         {% if user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "admin:index" %}">
-                                    Admin
+                                    Administration
                                 </a>
                             </li>
                         {% endif %}
@@ -138,8 +117,37 @@
                             <a class="nav-link" href="{% url 'account:signup' %}">S'enregistrer</a>
                         </li>
                     {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" title="Créer une activité" href="{% url 'koolapic:add_activity' %}">
+                            <i class="fas fa-plus"></i> Nouvelle activité
+                        </a>
+                    </li>
                 </ul>
             </div>
+            {% if user.is_authenticated %}
+                <div class="d-flex align-items-center">
+                    <a class="navbar-text nav-link text-white" href="{% url "koolapic:notifications" %}" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        {% if unread_notifications_number > 0 %}
+                            <span class="badge badge-danger notification-badge">{{ unread_notifications_number }}</span>
+                        {% endif %}
+                    </a>
+                    {% if user.profile_pic %}
+                        <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
+                            <img id="profilePicture" src="{{ user.profile_pic.url }}" alt="{{ user.first_name }} {{ user.last_name }}'s profile picture">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
+                            <img id="profilePicture" src="{% static 'koolapic/images/default_profile_picture.png' %}" alt="Default user profile picture">
+                        </a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="p-2 no-padding-container">
+                    <a class="btn btn-sm btn-secondary" href="{% url 'account:login' %}">Log in</a>
+                    <a class="btn btn-sm btn-primary m-2" href="{% url 'account:signup' %}">Sign up</a>
+                </div>
+            {% endif %}
         </div>
     </nav>
 {% endblock navbar %}
