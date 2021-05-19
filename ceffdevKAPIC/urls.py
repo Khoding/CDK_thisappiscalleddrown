@@ -36,6 +36,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('api/', include(koolapicAPI.urls, namespace='api')),
-    path('account/', include(accounts.urls, namespace='account')),
+    path('accounts/', include(accounts.urls, namespace='account')),
     path('dev/', include(dev_urls, namespace='dev')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

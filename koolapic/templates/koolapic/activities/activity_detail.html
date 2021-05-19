@@ -41,9 +41,11 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab" data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
-            </li>
+            {% if user.id == activity.creator_id %}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
+                </li>
+            {% endif %}
         </ul>
         <div class="tab-content medium-padding-container">
             <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
@@ -165,9 +167,31 @@
             <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
                 Inscriptions
             </div>
-            <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
-                Options
-            </div>
+
+            {% if user.id == activity.creator_id %}
+                <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                    Options
+
+                    <div class="mt-2">
+                        <p class="mb-0">
+                            <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
+                                <i class="icon fas fa-pen text-center"></i> Modifier l'activité
+                            </a>
+                        </p>
+                        <p class="mb-0">
+                            <a class="text-light" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
+                                <i class="far fa-clone"></i> Dupliquer l'activité
+                            </a>
+                        </p>
+                        <p class="mb-0">
+                            <a class="text-light" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}">
+                                <i class="icon fas fa-trash-alt text-center"></i> Supprimer l'activité
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+
         </div>
     </div>
 {% endblock content %}
