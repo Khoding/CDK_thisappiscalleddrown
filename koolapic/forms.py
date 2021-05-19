@@ -48,7 +48,6 @@ class ActivityCreationForm(forms.ModelForm):
         model = Activity
         fields = [
             'name',
-            'has_no_group',
             'group',
 
             'description',

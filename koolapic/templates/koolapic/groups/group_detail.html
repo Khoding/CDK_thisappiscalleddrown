@@ -68,8 +68,22 @@
             <div class="tab-pane" id="activities" role="tabpanel" aria-labelledby="activitiesTab">
                 {% include 'koolapic/groups/includes/group_activities.html' %}
             </div>
-            <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="optionsTab">
+            {# TODO: permissions de voir ça #}
+            <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
                 <h1>Options</h1>
+
+                <div class="mt-2">
+                    <p class="mb-0">
+                        <a class="text-light" title="Modifier le groupe" href="{{ group.get_update_url }}">
+                            <i class="icon fas fa-pen text-center"></i> Modifier le groupe
+                        </a>
+                    </p>
+                    <p class="mb-0">
+                        <a class="text-light" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}">
+                            <i class="icon fas fa-trash-alt text-center"></i> Supprimer le groupe
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

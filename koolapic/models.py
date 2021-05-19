@@ -33,7 +33,7 @@ class Group(models.Model):
 
     members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
     admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
-    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user", verbose_name="Utilisateurs bannis")
+    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user", blank=True, verbose_name="Utilisateurs bannis")
 
     website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
 
@@ -49,7 +49,8 @@ class Group(models.Model):
         """
         Fonction apelée à la sauvegarde du groupe.
         """
-        self.slug = generate_unique_vanity(5, 15, Group)
+        if not self.slug:
+            self.slug = generate_unique_vanity(5, 15, Group)
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -96,7 +97,6 @@ class Activity(models.Model):
     accompagnants = models.PositiveSmallIntegerField(verbose_name="Accompagnants", blank=True, default=0)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
-    has_no_group = models.BooleanField(default=False, verbose_name="Activité sans groupe")
 
     class Meta:
         verbose_name = 'activité'

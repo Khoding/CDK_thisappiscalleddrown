@@ -3,6 +3,8 @@
 
 {% block navbar %}
     {{ block.super }}
+
+
 {% endblock navbar %}
 
 {% block topbar %}
@@ -17,8 +19,7 @@
                     </a>
                 </div>
                 <div class="p-2 no-padding-container">
-                    <a class="btn btn-outline-light" href="{% url 'account:login' %}">Se connecter</a>
-                    <a class="btn btn-outline-light m-2" href="{% url 'account:signup' %}">S'enregistrer</a>
+
                 </div>
             </div>
         </header>

@@ -9,7 +9,9 @@
 
 {% block content %}
     <div class="text-white small-padding-container invitation rounded-corner-container gradient-l2">
-        <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
+        {% if invitation.group.image %}
+            <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
+        {% endif %}
         <div class="medium-padding-container">
             <h1>Invitation</h1>
             <p>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group }}.</p>
