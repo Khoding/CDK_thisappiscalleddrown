@@ -27,9 +27,10 @@
                 {% field_label field %}
                 {% form_field field %}
             {% endif %}
-
         {% endif %}
-
     </div>
+    {% for error in field.errors %}
+        <small class="form-text form-error">{{ error }}</small>
+    {% endfor %}
 {% endfor %}
 {{ dia }}

@@ -1,6 +1,5 @@
 {% load widget_tweaks %}
 
-
 {% if field|widget_type == "clearablefileinput" %}
     {{ field|add_class:"form-control" }}
 {% elif field|widget_type == "hiddeninput" %}
@@ -22,7 +21,3 @@
         {% endif %}
     </div>
 {% endif %}
-
-{% for error in field.errors %}
-    <small class="form-text form-error">{{ error }}</small>
-{% endfor %}
