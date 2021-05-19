@@ -70,6 +70,7 @@ def form_field(field):
         'field': field,
     }
 
+
 @register.inclusion_tag('extras/field_label_extra.html')
 def field_label(field):
     """
