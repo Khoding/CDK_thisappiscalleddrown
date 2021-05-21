@@ -44,7 +44,6 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
-
     def save(self, *args, **kwargs):
         """
         Fonction apelée à la sauvegarde du groupe.
@@ -158,7 +157,6 @@ class Inscription(models.Model):
 
     def __str__(self):
         return self.remarks
-
 
 
 class Donation(models.Model):

@@ -122,9 +122,13 @@ body {
   background-size: 100%;
 }
 
-.text-white-50 { color: rgba(255, 255, 255, .5); }
+.text-white-50 {
+  color: rgba(255, 255, 255, .5);
+}
 
-.bg-purple { background-color: #6f42c1; }
+.bg-purple {
+  background-color: #6f42c1;
+}
 
 
 /* Police */
@@ -221,7 +225,7 @@ input[type='file'] {
   --minFontSize: 1rem;
   --maxFontSize: 9rem;
   --scaler: 9vw;
-  font-size: clamp( var(--minFontSize), var(--scaler), var(--maxFontSize));
+  font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
   line-height: 1;
 
   & svg {
@@ -454,7 +458,7 @@ input[type='file'] {
   margin-top: 1em;
 }
 
-.profile-info p{
+.profile-info p {
   margin: 0;
 }
 
@@ -551,6 +555,7 @@ input[type='file'] {
 .spoiler-btn:hover {
   cursor: pointer;
 }
+
 .spoiler-btn-bottom {
   width: 100%;
   text-align: right;
