@@ -12,13 +12,25 @@ window.displayAlert = displayAlert
 
 export {displayAlert}
 
+/* Animation */
+var animation = anime({
+    targets: '#messages',
+    easing: 'easeOutElastic(1, .5)',
+    translateY: '-10vh',
+    duration: 1250,
+    opacity: [0, 1],
+    direction: 'alternate',
+    complete: function (anim) {
+        $('#messages').find('.displayAlert').remove()
+    }
+})
+
 /**
  * Ajoute une alerte avec un message sur la page
  * @param severity string : severité du message
  * @param message string : message
  */
 function displayAlert(severity, message) {
-
     severity = severity.toUpperCase()
     let bootstrapColor = 'light'
     let srOnly = 'Message de sévérité inconnue : '
@@ -57,17 +69,6 @@ function displayAlert(severity, message) {
             </div>
         </div>`
 
-    /* Animation */
-    anime({
-        targets: '#messages',
-        easing: 'easeOutElastic(1, .5)',
-        translateY: '-10vh',
-        duration: 1250,
-        opacity: [0, 1],
-        direction: 'alternate',
-        complete: function (anim) {
-            $('#messages').find('.displayAlert').remove()
-        }
-    })
+    animation.restart()
 }
 
