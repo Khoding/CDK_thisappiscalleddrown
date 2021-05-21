@@ -450,6 +450,14 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     def get_activities_by_group(self):
         return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by('start_date')
 
+    def get_global_invitation_or_create(self):
+        if Invitation.objects.filter(slug=self.get_object().slug).exists():
+            return Invitation.objects.get(slug=self.get_object().slug)
+        else:
+            invitation = Invitation.objects.create(sender=None, group=self.get_object(), slug=self.get_object().slug)
+            invitation.save()
+            return invitation
+
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
         if data['action'] == 'join':
@@ -459,21 +467,10 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             self.get_object().members.remove(self.request.user)
             return HttpResponse(status=200)
         elif data['action'] == 'getInvitationLink':
-            if Invitation.objects.filter(sender=self.request.user).count() <= MAX_INVITATION_NUMBER_BY_USER:
-                invitation = Invitation(sender=self.request.user, group=self.get_object(),
-                                        slug=generate_unique_vanity(5, 15, Invitation))
-                invitation.save()
-                return JsonResponse({
-                    'invitationLink': invitation.get_absolute_url()
-                })
-            else:
-                response_data = {
-                    'message': {
-                        "text": "Vous avez atteint la limite du nombre d'invitation par utilisateur. Veuillez réessayer plus tard.",
-                        "severity": "ERROR"
-                    },
-                }
-                return JsonResponse(response_data)
+            invitation = self.get_global_invitation_or_create()
+            return JsonResponse({
+                'invitationLink': invitation.get_absolute_url()
+            })
         elif data['action'] == 'invite':
             form = InvitationCreationForm(data['form'])
 
