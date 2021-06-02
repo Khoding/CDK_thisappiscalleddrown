@@ -33,12 +33,12 @@ class ActivityCreationForm(forms.ModelForm):
     """
     Formulaire de création des activités.
     """
-    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
-    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}))
-    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
-    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
-    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
-    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
+    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="Date de début")
+    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="Heure de début")
+    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Date de fin")
+    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Heure de fin")
+    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Inscriptions jusqu'au")
+    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Inscriptions jusqu'à")
 
     class Meta:
         model = Activity
@@ -71,12 +71,12 @@ class ActivityChangeForm(forms.ModelForm):
     """
     Formulaire de modification des activités.
     """
-    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
-    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}))
-    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
-    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
-    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
-    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
+    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="Date de début")
+    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="Heure de début")
+    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Date de fin")
+    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Heure de fin")
+    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Inscription jusqu'à")
+    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Inscription jusqu'à")
 
     class Meta:
         model = Activity

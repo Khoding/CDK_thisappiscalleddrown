@@ -17,7 +17,9 @@
                     <div class="card-body">
                         <div class="text-ellipsis">
                             <i class="fas fa-calendar-alt"></i> Du {{ activity.start_date }}<br>
-                            au {{ activity.end_date }}
+                            {% if activity.end_date %}
+                                au {{ activity.end_date }}
+                            {% endif %}
                         </div>
                         <div class="text-ellipsis">
                             <i class="fas fa-map-marked"></i> {{ activity.start_location }}

@@ -14,7 +14,7 @@
             <strong>{{ field.help_text }}</strong>
         </div>
     {% endif %}
-    <div class={{ field|widget_type }}">
+    <div class="{{ field|widget_type }}">
         {% if field|widget_type == "checkboxinput" %}
             <div class="form-check">
                 {% field_label field %}

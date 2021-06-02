@@ -168,8 +168,8 @@ class ActivityListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Liste de vos activités sur Koolapic'
-        context['upcoming_activities'] = self.get_activities().filter(end_date__gte=timezone.now())
-        context['past_activities'] = self.get_activities().filter(end_date__lt=timezone.now())
+        context['upcoming_activities'] = self.get_activities().filter(Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
+        context['past_activities'] = self.get_activities().filter(Q(end_date__lt=timezone.now()) | Q(end_date__isnull=True, start_date__lt=timezone.now()))
         return context
 
 
