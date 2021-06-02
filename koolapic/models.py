@@ -14,7 +14,6 @@ class Group(models.Model):
     INVITATION_POLICY_CHOICES = [
         ('PU', 'Public'),  # Tout le monde peut rejoindre
         ('OI', 'Sur invitation'),  # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
-        ('OAI', 'Sur invitation par un admin'),  # Seuls les administrateurs peuvent inviter des personnes
     ]
 
     VISIBILITY_CHOICES = [
@@ -29,7 +28,7 @@ class Group(models.Model):
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
 
     visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
-    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='AA')
+    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='PU')
 
     members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
     admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
@@ -70,30 +69,25 @@ class Activity(models.Model):
     Modèle représentant une activité.
     """
 
-    INVITATION_POLICY_CHOICES = [
-        ('PU', 'Publique'),  # Tout le monde peut s'inscrire
-        ('OI', 'Sur invitation'),  # Tout le monde peuvent inviter des personnes à s'inscrire
-        ('OAI', 'Sur invitation par un admin'),  # Seuls les administrateurs peuvent inviter des personnes à s'inscrire
-    ]
-
     name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     description = models.TextField(max_length=500, verbose_name="Description")
     creator = models.ForeignKey(CustomUser, null=True, blank=True, verbose_name="Créateur", on_delete=models.CASCADE)
-    inscription_policy = models.CharField(max_length=5, default='OI', choices=INVITATION_POLICY_CHOICES, verbose_name='Stratégies d\'invitation')
 
     end_inscription_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin des inscriptions")
+    end_inscription_time = models.TimeField(null=True, blank=True, verbose_name="Heure de fin des inscriptions")
     remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
-    max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Nombre maximum de participants")
+    max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Max de participants")
 
-    start_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de départ")
-    start_date = models.DateTimeField(verbose_name="Date de début")
+    start_location = models.CharField(max_length=100, null=True, verbose_name="Lieu de départ")
+    start_date = models.DateField(verbose_name="Date de début")
+    start_time = models.TimeField(verbose_name="Heure de début")
 
     end_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de fin")
-    end_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin")
+    end_date = models.DateField(null=True, blank=True, verbose_name="Date de fin")
+    end_time = models.TimeField(null=True, blank=True, verbose_name="Heure de fin")
 
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
-    accompagnants = models.PositiveSmallIntegerField(verbose_name="Accompagnants", blank=True, default=0)
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
@@ -123,21 +117,6 @@ class Activity(models.Model):
 
     def get_confirm_delete_url(self):
         return reverse("koolapic:activity_confirm_delete", kwargs={'slug': self.slug})
-
-    def get_only_participants(self):
-        percent = self.participants.count() / self.max_participants * 100
-        percentage = str(percent) + "%"
-        return percentage
-
-    def get_only_accompagnants(self):
-        percent = self.accompagnants / self.max_participants * 100
-        percentage = str(percent) + "%"
-        return percentage
-
-    def get_total_participants(self):
-        percent = (self.accompagnants + self.participants.count()) / self.max_participants * 100
-        percentage = str(percent) + "%"
-        return percentage
 
 
 class Inscription(models.Model):

@@ -33,16 +33,12 @@ class ActivityCreationForm(forms.ModelForm):
     """
     Formulaire de création des activités.
     """
-
-    end_location = CharField()
-    max_participants = CharField()
-    end_inscription_date = CharField()
-    end_date = CharField()
-
-    end_location.is_spoiler = True
-    max_participants.is_spoiler = True
-    end_inscription_date.is_spoiler = True
-    end_date.is_spoiler = True
+    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}))
+    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
+    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
+    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
+    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
 
     class Meta:
         model = Activity
@@ -55,21 +51,18 @@ class ActivityCreationForm(forms.ModelForm):
 
             'start_location',
             'start_date',
-            'inscription_policy',
+            'start_time',
 
             'end_inscription_date',
+            'end_inscription_time',
             'max_participants',
-            'accompagnants',
             'end_location',
             'end_date',
+            'end_time',
         ]
 
         widgets = {
-            'group': forms.Select(attrs={'class': 'col-8'}),
-            'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
+            'group': forms.Select(),
             'address': AddressWithMapWidget({'class': 'vTextField'}),
         }
 
@@ -78,31 +71,35 @@ class ActivityChangeForm(forms.ModelForm):
     """
     Formulaire de modification des activités.
     """
+    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}))
+    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
+    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
+    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
+    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False)
 
     class Meta:
         model = Activity
         fields = [
             'name',
-            'inscription_policy',
-            'end_inscription_date',
+
             'description',
             'remarks',
-            'accompagnants',
-            'max_participants',
 
             'start_location',
             'start_date',
+            'start_time',
 
+            'end_inscription_date',
+            'end_inscription_time',
+            'max_participants',
             'end_location',
             'end_date',
+            'end_time',
         ]
 
         widgets = {
-            'end_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'start_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'last_update': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'end_inscription_date': DateTimePickerInput(format='%d/%m/%Y %H:%M'),
-            'address': AddressWithMapWidget({'class': 'vTextField'})
+            'address': AddressWithMapWidget({'class': 'vTextField'}),
         }
 
 

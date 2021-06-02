@@ -14,23 +14,19 @@
             <strong>{{ field.help_text }}</strong>
         </div>
     {% endif %}
-    <div class="field {{ field|widget_type }}">
-        {% if field.field.is_spoiler %}
-            {% spoiler field %}
-        {% else %}
-            {% if field|widget_type == "checkboxinput" %}
-                <div class="form-check">
-                    {% field_label field %}
-                    {% form_field field %}
-                </div>
-            {% else %}
+    <div class={{ field|widget_type }}">
+        {% if field|widget_type == "checkboxinput" %}
+            <div class="form-check">
                 {% field_label field %}
                 {% form_field field %}
-            {% endif %}
+            </div>
+        {% else %}
+            {% field_label field %}
+            {% form_field field %}
         {% endif %}
     </div>
     {% for error in field.errors %}
-        <small class="form-text form-error">{{ error }}</small>
+        <small class="form-error">{{ error }}</small>
     {% endfor %}
 {% endfor %}
 {{ dia }}

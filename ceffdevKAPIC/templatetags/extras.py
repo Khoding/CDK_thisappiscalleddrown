@@ -43,19 +43,6 @@ def hour(date):
     return {'date': date}
 
 
-@register.inclusion_tag('extras/spoiler_extra.html')
-def spoiler(field):
-    """
-    Crée un champ spoiler.
-
-    Arguments nommés :
-    field -- champ de formulaire
-    """
-
-    return {
-        'field': field,
-    }
-
 
 @register.inclusion_tag('extras/form_field_extra.html')
 def form_field(field):

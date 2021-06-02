@@ -13,14 +13,14 @@
 {% block content %}
     <div class="d-flex">
         <div class="nav flex-column nav-pills w-25" id="v-pills-tab" aria-orientation="vertical" role="tablist">
-            <a class="nav-link pill-p active" id="notificationsTab" data-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">
+            <a class="nav-link pill-p active" id="notificationsTab" data-bs-toggle="pill" href="#notifications" role="tab" aria-controls="notifications" aria-selected="true">
                 Notifications{% if notifications.count > 0 %} <span class="badge badge-danger">{{ notifications.count }}</span>{% endif %}
             </a>
-            <a class="nav-link pill-p" id="groupInvitationsTab" data-toggle="pill" href="#groupInvitations" role="tab" aria-controls="groupInvitations" aria-selected="true">
+            <a class="nav-link pill-p" id="groupInvitationsTab" data-bs-toggle="pill" href="#groupInvitations" role="tab" aria-controls="groupInvitations" aria-selected="true">
                 Invitations{% if invitations.count > 0 %} <span class="badge badge-danger">{{ invitations.count }}</span>{% endif %}
             </a>
         </div>
-        <div class="tab-content ml-4 w-100" id="v-pills-tabContent">
+        <div class="tab-content ms-4 w-100" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="notifications" role="tabpanel" aria-labelledby="notificationsTab">
                 {% include 'koolapic/notifications/includes/notifications_list.html' %}
             </div>

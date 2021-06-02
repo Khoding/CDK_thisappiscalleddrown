@@ -4,8 +4,8 @@
             {% with bg_image=invitation.group.image.url %}
                 <div class="row d-block no-gutters bg-light position-relative  mb-2">
                   <div class="notification notification-unread {% if bg_image %}image-notification{% endif %}" {% if bg_image %}data-bg-image="{{ bg_image }}"{% endif %}>
-                    <div class="pl-1"><b>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group.name }}</b></div>
-                      <small class="pl-1 pt-0">{{ invitation.date }}</small>
+                    <div class="ps-1"><b>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group.name }}</b></div>
+                      <small class="ps-1 pt-0">{{ invitation.date }}</small>
                   </div>
                     <a href="{% url 'koolapic:invitation' slug=invitation.slug %}" class="stretched-link"></a>
                 </div>
@@ -13,8 +13,8 @@
         {% else %}
             <div class="row d-block no-gutters bg-light position-relative mb-2">
                 <div class="notification notification-unread">
-                    <div class="pl-1"><b>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group.name }}</b></div>
-                    <small class="pl-1 pt-0">{{ invitation.date }}</small>
+                    <div class="ps-1"><b>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group.name }}</b></div>
+                    <small class="ps-1 pt-0">{{ invitation.date }}</small>
                 </div>
                 <a href="{% url 'koolapic:invitation' slug=invitation.slug %}" class="stretched-link"></a>
             </div>

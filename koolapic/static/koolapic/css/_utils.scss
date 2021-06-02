@@ -8,7 +8,7 @@
 
 // Texte quand un résultat est vide
 .empty {
-  @include responsive-font-size(1.5rem);
+  @include rfs(1.5rem);
   color: $white;
 }
 
@@ -23,15 +23,15 @@
 }
 
 .text-large {
-  @include responsive-font-size(1.25rem);
+  @include rfs(1.25rem);
 }
 
 .text-medium {
-  @include responsive-font-size(1rem);
+  @include rfs(1rem);
 }
 
 .text-small {
-  @include responsive-font-size(0.75rem);
+  @include rfs(0.75rem);
 }
 
 // Texte en blanc
@@ -208,7 +208,7 @@
 }
 
 .formcard .card-header, .formcard .card-footer {
-  background-color: transparent;
+  background-color: transparent !important;
   border: none;
 }
 
@@ -231,7 +231,6 @@
   border: none !important;
   border-radius: 5px;
   margin-left: 0;
-  cursor: pointer;
   min-width: 100%;
   width: 100%;
   @include media-breakpoint-up(sm) {
@@ -272,6 +271,7 @@
 }
 
 .infocard .card-header, .infocard .card-footer {
+  background: transparent !important;
   padding-left: 10px;
   padding-right: 10px;
   border: none;

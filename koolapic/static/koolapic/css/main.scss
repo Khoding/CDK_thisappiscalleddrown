@@ -156,10 +156,6 @@ b {
   font-size: 16px;
 }
 
-label {
-  margin-top: 1em;
-}
-
 input[type='file'] {
   border: none;
 }
@@ -168,6 +164,10 @@ input[type='file'] {
 .navbar-brand {
   font-family: 'Pattaya', sans-serif;
   font-size: 1.75rem;
+}
+
+textarea {
+  min-height: 250px !important;
 }
 
 .nav-item {

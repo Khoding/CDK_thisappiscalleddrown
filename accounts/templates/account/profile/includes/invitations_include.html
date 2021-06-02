@@ -11,15 +11,15 @@
                     <div class="d-flex flex-row align-items-right">
                         <div class="flex-column w-100">
                             {% if invitation.user %}
-                                <div class="pl-1"><b>Invitation à {{ invitation.user.first_name }} {{ invitation.user.last_name }} pour rejoindre le groupe {{ invitation.group.name }}</b></div>
+                                <div class="ps-1"><b>Invitation à {{ invitation.user.first_name }} {{ invitation.user.last_name }} pour rejoindre le groupe {{ invitation.group.name }}</b></div>
                             {% else %}
-                                <div class="pl-1"><b>Invitation générale pour rejoindre le groupe {{ invitation.group.name }}</b></div>
+                                <div class="ps-1"><b>Invitation générale pour rejoindre le groupe {{ invitation.group.name }}</b></div>
                             {% endif %}
-                            <span class="pl-1 pt-0 text-left">{{ invitation.slug }}</span>
+                            <span class="ps-1 pt-0 text-left">{{ invitation.slug }}</span>
 
                             <div class="d-flex">
-                                <small class="pl-1 pt-0">{{ invitation.date }}</small>
-                                <button class="ml-auto icon-btn text-danger d-inline del-invitation-btn" type="button" data-invitation-slug="{{ invitation.slug }}"><i class="fas fa-trash-alt text-medium"></i></button>
+                                <small class="ps-1 pt-0">{{ invitation.date }}</small>
+                                <button class="ms-auto icon-btn text-danger d-inline del-invitation-btn" type="button" data-invitation-slug="{{ invitation.slug }}"><i class="fas fa-trash-alt text-medium"></i></button>
                             </div>
                         </div>
                     </div>

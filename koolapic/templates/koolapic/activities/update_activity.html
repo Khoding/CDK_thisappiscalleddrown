@@ -1,16 +1,199 @@
 {% extends 'base.html' %}
-
-{% load bootstrap4 %}
+{% load static %}
+{% load widget_tweaks %}
+{% load extras %}
 
 {% block content %}
-    <h1>Modifier une activité</h1>
-    <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-            <button type="submit" class="btn btn-dark">Modifier</button>
-        {% endbuttons %}
-    </form>
+    <div class="card formcard">
+        <div class="card-body">
+            <form enctype="multipart/form-data" method="post" novalidate>
+                {% csrf_token %}
+                <div class="non-field-errors">
+                    {{ form.non_field_errors }}
+                </div>
+
+                <div class="hidden-fields-errors">
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field.errors }}
+                        {{ hidden_field }}
+                    {% endfor %}
+                </div>
+
+                <div class="text-danger">
+                    {{ form.non_field_errors }}
+                </div>
+
+                <div class="row g-2">
+                    <div class="col col-md-5">
+                        <div class="form-floating">
+                            {{ form.name|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.name.label_tag }}
+                        </div>
+                        {% if form.name.help_text %}
+                            <span class="text-small text-muted">{{ form.name.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.name.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            {{ form.description|add_class:"form-control"|attr:"placeholder:" }}
+                            {{ form.description.label_tag }}
+                        </div>
+                        {% if form.description.help_text %}
+                            <span class="text-small text-muted">{{ form.description.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.description.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col col-xl-auto">
+                        <div class="form-floating">
+                            {{ form.start_date|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.start_date.label_tag }}
+                        </div>
+                        {% if form.start_date.help_text %}
+                            <span class="text-small text-muted">{{ form.start_date.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.start_date.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col col-md-3">
+                        <div class="form-floating">
+                            {{ form.start_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.start_time.label_tag }}
+                        </div>
+                        {% if form.start_time.help_text %}
+                            <span class="text-small text-muted">{{ form.start_time.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.start_time.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12"></div>
+
+                    <div class="col col-md-auto">
+                        <div class="form-floating">
+                            {{ form.start_location|add_class:"form-control"|attr:"placeholder:Activity start_location" }}
+                            {{ form.start_location.label_tag }}
+                        </div>
+                        {% if form.start_location.help_text %}
+                            <span class="text-small text-muted">{{ form.start_location.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.start_location.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12"></div>
+
+                    <div class="col col-xl-auto">
+                        <div class="form-floating">
+                            {{ form.end_date|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.end_date.label_tag }}
+                        </div>
+                        {% if form.end_date.help_text %}
+                            <span class="text-small text-muted">{{ form.end_date.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.end_date.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col col-md-3">
+                        <div class="form-floating">
+                            {{ form.end_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.end_time.label_tag }}
+                        </div>
+                        {% if form.end_time.help_text %}
+                            <span class="text-small text-muted">{{ form.end_time.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.end_time.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            {{ form.remarks|add_class:"form-control"|attr:"placeholder:Activity remarks" }}
+                            {{ form.remarks.label_tag }}
+                        </div>
+                        {% if form.remarks.help_text %}
+                            <span class="text-small text-muted">{{ form.remarks.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.remarks.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col col-md-5">
+                        <div class="form-floating">
+                            {{ form.end_inscription_date|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.end_inscription_date.label_tag }}
+                        </div>
+                        {% if form.end_inscription_date.help_text %}
+                            <span class="text-small text-muted">{{ form.end_inscription_date.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.end_inscription_date.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col col-md-4">
+                        <div class="form-floating">
+                            {{ form.end_inscription_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.end_inscription_time.label_tag }}
+                        </div>
+                        {% if form.end_inscription_time.help_text %}
+                            <span class="text-small text-muted">{{ form.end_inscription_time.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.end_inscription_time.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12"></div>
+
+                    <div class="col col-lg-4 col-xxl-3">
+                        <div class="form-floating">
+                            {{ form.max_participants|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.max_participants.label_tag }}
+                        </div>
+                        {% if form.max_participants.help_text %}
+                            <span class="text-small text-muted">{{ form.max_participants.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.max_participants.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-5">
+                        <div class="form-floating">
+                            {{ form.end_location|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                            {{ form.end_location.label_tag }}
+                        </div>
+                        {% if form.end_location.help_text %}
+                            <span class="text-small text-muted">{{ form.end_location.help_text }}</span>
+                        {% endif %}
+                        {% for error in form.end_location.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary col-auto mt-2">Mettre à jour l'activité</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     {{ form.media }}
 
 {% endblock content %}

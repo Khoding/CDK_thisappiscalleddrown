@@ -13,11 +13,6 @@
                             {{ activity.participants.count }}/{{ activity.max_participants }} Participants
                         </div>
 
-                        {% if activity.accompagnants > 0 %}
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{ activity.get_only_accompagnants }}" aria-valuenow="{{ activity.get_only_accompagnants }}" aria-valuemin="{{ activity.get_total_participants }}" aria-valuemax="{{ activity.max_participants }}">
-                                {{ activity.accompagnants }}/{{ activity.max_participants }} Accompagnants
-                            </div>
-                        {% endif %}
                     </div>
                 {% else %}
                     Aucun participant
@@ -26,24 +21,20 @@
                 {{ activity.participants.count }} participants
             {% endif %}
 
-            {% if activity.inscription_policy == 'PU' and user not in participants and user != activity.creator %}
-                <button id="inscriptionButton" type="button" class="btn btn-secondary" onclick="inscription();">S'inscrire</button>
-            {% endif %}
-
             {% if user in participants %}
                 <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">Quitter</button>
             {% endif %}
         </div>
         <ul class="nav nav-tabs group-nav">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" id="aboutTab" href="#about" role="tab" data-controls="about" aria-controls="about">Infos</a>
+                <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab" data-controls="about" aria-controls="about">Infos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab" data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
+                <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab" data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
             </li>
             {% if user.id == activity.creator_id %}
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
+                    <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
                 </li>
             {% endif %}
         </ul>
@@ -78,24 +69,6 @@
                         </div>
                     {% endif %}
 
-                    {% if activity.inscription_policy %}
-                        <div class="row">
-                            <div class="col mt-2"><b>Politique d'inscription</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                {% if activity.inscription_policy == 'PU' %}
-                                    Public
-                                {% elif activity.inscription_policy == 'OI' %}
-                                    Sur invitation
-                                {% elif activity.inscription_policy == 'OAI' %}
-                                    Sur invitation par un administrateur
-                                {% else %}
-                                    Inconnue
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
                     <hr class="hr-white">
 
                     <h2 class="mt-4">Début</h2>
