@@ -6,7 +6,7 @@ cffi==1.14.5
 chardet==4.0.0
 cryptography==3.4.7
 defusedxml==0.7.1
-Django==3.2.3
+Django==3.2.4
 django-allauth==0.44.0
 django-appconf==1.0.4
 django-bootstrap-datepicker-plus==3.0.5
@@ -21,7 +21,7 @@ djangorestframework==3.12.4
 docutils==0.17.1
 geographiclib==1.50
 geopy==2.1.0
-idna==3.2
+idna==2.10
 Impostor==2.0.5
 mysqlclient==2.0.3
 oauthlib==3.1.0

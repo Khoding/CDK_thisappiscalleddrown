@@ -45,15 +45,15 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.admindocs',
 
-    # Applications Packages / Modification de defaults
-    'accounts',  # Pour changer le model User
-    'bootstrap4',
-    'easy_maps',
-    'impostor',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    # Applications Packages / Modification de defaults
+    'impostor',
+    'accounts',  # Pour changer le model User
+    'bootstrap4',
+    'easy_maps',
 
     # Apps
     'ceffdevKAPIC',
@@ -172,8 +172,8 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
-    "impostor.backend.AuthBackend",
     "django.contrib.auth.backends.ModelBackend",
+    "impostor.backend.AuthBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
