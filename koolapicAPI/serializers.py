@@ -3,8 +3,9 @@ Sérialiseurs de l'API.
 """
 
 from rest_framework import serializers
-from koolapic.models import Activity, Invitation, Group, Inscription, Notification
+
 from accounts.models import CustomUser
+from koolapic.models import Activity, Invitation, Group, Inscription, Notification
 
 
 class ActivitySerializer(serializers.ModelSerializer):

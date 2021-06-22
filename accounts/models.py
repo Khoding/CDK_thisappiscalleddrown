@@ -26,13 +26,18 @@ class CustomUser(AbstractUser):
 
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/", verbose_name="Photo de profil")
     bio = models.TextField(null=True, blank=True, verbose_name="Bio", help_text="A propos de vous", max_length=256)
-    donation_date = models.DateTimeField(null=True, blank=True, verbose_name="Date du dernier don", help_text="Date du dernier don")
-    last_login = models.DateTimeField(auto_now_add=True, verbose_name="Dernier login", help_text="Date et heure du dernier login")
+    donation_date = models.DateTimeField(null=True, blank=True, verbose_name="Date du dernier don",
+                                         help_text="Date du dernier don")
+    last_login = models.DateTimeField(auto_now_add=True, verbose_name="Dernier login",
+                                      help_text="Date et heure du dernier login")
     locality = models.CharField(max_length=50, null=True, blank=True, verbose_name="Localité", help_text="Localité")
     npa = models.IntegerField(null=True, blank=True, verbose_name="NPA", help_text="NPA")
-    address = models.CharField(max_length=50, null=True, blank=True, verbose_name="Adresse", help_text="Adresse du domicile")
-    tel_p = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone professionnel", help_text="Téléphone professionnel")
-    tel_m = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone personnel", help_text="Téléphone personnel")
+    address = models.CharField(max_length=50, null=True, blank=True, verbose_name="Adresse",
+                               help_text="Adresse du domicile")
+    tel_p = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone professionnel",
+                             help_text="Téléphone professionnel")
+    tel_m = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone personnel",
+                             help_text="Téléphone personnel")
     slug = models.SlugField(null=True, verbose_name="Slug")
 
     class Meta:
@@ -48,4 +53,5 @@ class CustomUser(AbstractUser):
         return super().save(*args, **kwargs)
 
 
-pre_save.connect(give_default_username, sender=CustomUser)  # Signal se déclanchant avant l'enregistrement dans la base de donnée
+pre_save.connect(give_default_username,
+                 sender=CustomUser)  # Signal se déclanchant avant l'enregistrement dans la base de donnée

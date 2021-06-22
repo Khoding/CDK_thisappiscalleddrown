@@ -30,7 +30,6 @@ urlpatterns = [
     path('activities/<slug:slug>/update/', ActivityUpdateView.as_view(), name="update_activity"),
     path('activities/<slug:slug>/confirm_delete/', ActivityDeleteView.as_view(), name="activity_confirm_delete"),
 
-
     path('groups/', GroupListView.as_view(), name="group_list"),
     path('groups/add/', GroupCreateView.as_view(), name="add_group"),
     path('groups/<slug:slug>/', GroupDetailView.as_view(), name="group_detail"),

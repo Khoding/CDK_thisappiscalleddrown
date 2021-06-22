@@ -15,7 +15,8 @@
         <div class="medium-padding-container">
             <h1>Invitation</h1>
             {% if invitation.sender %}
-                <p>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le groupe {{ invitation.group }}.</p>
+                <p>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a invité à rejoindre le
+                    groupe {{ invitation.group }}.</p>
             {% else %}
                 <p>Vous avez été invité à rejoindre le groupe {{ invitation.group }}.</p>
             {% endif %}

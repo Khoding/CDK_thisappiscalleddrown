@@ -47,7 +47,8 @@ def send_group_notification(user, title, severity, description, group, **kwargs)
 
     link = kwargs.get("link", "")
 
-    notification = Notification(user=user, title=title, severity=severity, description=description, group=group, link=link)
+    notification = Notification(user=user, title=title, severity=severity, description=description, group=group,
+                                link=link)
     notification.save()
 
 

@@ -41,7 +41,6 @@ $(document).ready(function () {
                 modalHeader.innerHTML = data.name
 
 
-
                 modal.modal('show')
             } else {
                 alert('ERROR', "Une erreur s'est produite lors de la réception des données.")

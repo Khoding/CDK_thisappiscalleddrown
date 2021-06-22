@@ -9,7 +9,10 @@
             {% if activity.max_participants %}
                 {% if activity.participants.count > 0 %}
                     <div class="progress bg-wt">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ activity.get_only_participants }}" aria-valuenow="{{ activity.get_only_participants }}" aria-valuemin="0" aria-valuemax="{{ activity.max_participants }}">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                             style="width: {{ activity.get_only_participants }}"
+                             aria-valuenow="{{ activity.get_only_participants }}" aria-valuemin="0"
+                             aria-valuemax="{{ activity.max_participants }}">
                             {{ activity.participants.count }}/{{ activity.max_participants }} Participants
                         </div>
 
@@ -22,19 +25,24 @@
             {% endif %}
 
             {% if user in participants %}
-                <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">Quitter</button>
+                <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">
+                    Quitter
+                </button>
             {% endif %}
         </div>
         <ul class="nav nav-tabs group-nav">
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab" data-controls="about" aria-controls="about">Infos</a>
+                <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab"
+                   data-controls="about" aria-controls="about">Infos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab" data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
+                <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab"
+                   data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
             </li>
             {% if user.id == activity.creator_id %}
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab" data-controls="management" aria-controls="management">Gestion</a>
+                    <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
+                       data-controls="management" aria-controls="management">Gestion</a>
                 </li>
             {% endif %}
         </ul>
@@ -133,7 +141,8 @@
 
                     <h2>Dernière mise à jour</h2>
                     <div class="row">
-                        <div class="col">{% weekday activity.last_update %} {{ activity.last_update.date }} à {% hour activity.last_update %}</div>
+                        <div class="col">{% weekday activity.last_update %} {{ activity.last_update.date }}
+                            à {% hour activity.last_update %}</div>
                     </div>
                 </div>
             </div>
@@ -157,7 +166,8 @@
                             </a>
                         </p>
                         <p class="mb-0">
-                            <a class="text-light" title="Supprimer l'activité" href="{{ activity.get_confirm_delete_url }}">
+                            <a class="text-light" title="Supprimer l'activité"
+                               href="{{ activity.get_confirm_delete_url }}">
                                 <i class="icon fas fa-trash-alt text-center"></i> Supprimer l'activité
                             </a>
                         </p>

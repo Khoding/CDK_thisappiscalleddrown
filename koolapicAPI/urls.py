@@ -2,8 +2,10 @@
 URLs de l'application Koolapic API.
 """
 
-from .views import InvitationViewSet, ActivityViewSet, GroupViewSet, InscriptionViewSet, UserViewSet, NotificationViewSet
 from rest_framework.routers import DefaultRouter
+
+from .views import InvitationViewSet, ActivityViewSet, GroupViewSet, InscriptionViewSet, UserViewSet, \
+    NotificationViewSet
 
 app_name = 'api'
 
@@ -15,4 +17,3 @@ router.register('inscription', InscriptionViewSet, basename='inscription')
 router.register('user', UserViewSet, basename='user')
 router.register('notification', NotificationViewSet, basename='notification')
 urlpatterns = router.urls
-

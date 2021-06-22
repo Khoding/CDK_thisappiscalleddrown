@@ -12,7 +12,7 @@ CONTRIBUTORS = [
         'citation': 'I am Vengeance ! I am the Night ! I am Batman !!!',
         'email': 'julien.rutscho@ceff.ch',
         'year_when_contr': 3,
-        'contribs': [{'name': '"Chef" du projet refonte', 'desc': 'A proposé Django, ce qui a mené à la refonte', 'credits': 75}, {'name': 'Développeur', 'desc': 'A contribué au code', 'credits': 200}, {'name': 'Designer', 'desc': 'A contribué au design', 'credits': 75}, {'name': 'Maniac', 'desc': 'Se plaignait de tout ce qui n\'était pas parfait', 'credits': 100}],
+        'contribs': [{'name': '"Initiateur" du projet refonte', 'desc': 'A proposé Django, ce qui a mené à la refonte', 'credits': 75}, {'name': 'Développeur', 'desc': 'A contribué au code', 'credits': 200}, {'name': 'Designer', 'desc': 'A contribué au design', 'credits': 75}, {'name': 'Maniac', 'desc': 'Se plaignait de tout ce qui n\'était pas parfait', 'credits': 100}],
         'aka': 'Le parfois très efficace... seulement parfois... vraiment parfois...'
     },
     {

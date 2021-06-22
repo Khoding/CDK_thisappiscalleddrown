@@ -17,7 +17,8 @@ class ImageCropField(ImageField):
     """
     Champ de formulaire permettant de rogner les images avant leur import.
     """
-    default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
+    default_validators = [validators.validate_image_file_extension,
+                          FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
 class CustomUserCreationForm(UserCreationForm):

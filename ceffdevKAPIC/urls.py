@@ -13,17 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
-
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
 
 import accounts.urls
+import koolapic.admin
 import koolapic.urls
 import koolapicAPI.urls
-import koolapic.admin
 from ceffdevKAPIC import dev_urls
-from django.contrib import admin
 
 app_name = 'admin'
 
@@ -32,10 +31,10 @@ admin.site.site_title = 'Koolapic'
 admin.site.index_title = 'Administration de Koolapic'
 
 urlpatterns = [
-    path('', include(koolapic.urls)),
-    path('admin/', admin.site.urls),
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
-    path('api/', include(koolapicAPI.urls, namespace='api')),
-    path('accounts/', include(accounts.urls, namespace='account')),
-    path('dev/', include(dev_urls, namespace='dev')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', include(koolapic.urls)),
+                  path('admin/', admin.site.urls),
+                  path('admin/doc/', include('django.contrib.admindocs.urls')),
+                  path('api/', include(koolapicAPI.urls, namespace='api')),
+                  path('accounts/', include(accounts.urls, namespace='account')),
+                  path('dev/', include(dev_urls, namespace='dev')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,9 +4,10 @@ Vues de l'application Koolapic API.
 
 from rest_framework import viewsets
 
-from koolapic.models import Activity, Invitation, Group, Inscription, Notification
 from accounts.models import CustomUser
-from .serializers import InvitationSerializer, ActivitySerializer, GroupSerializer, InscriptionSerializer, UserSerializer, NotificationSerializer
+from koolapic.models import Activity, Invitation, Group, Inscription, Notification
+from .serializers import InvitationSerializer, ActivitySerializer, GroupSerializer, InscriptionSerializer, \
+    UserSerializer, NotificationSerializer
 
 
 class InvitationViewSet(viewsets.ModelViewSet):

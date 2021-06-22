@@ -6,17 +6,16 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
+from django.contrib.auth.views import PasswordChangeView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DetailView, TemplateView, CreateView
-from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
-from django.contrib.auth.views import PasswordChangeView, LoginView
 
 from koolapic.models import Invitation
 from .forms import EditProfileForm, CustomUserCreationForm
-
 from .models import CustomUser
 
 
@@ -59,7 +58,8 @@ class UserProfileView(DetailView):
         return context
 
     def get(self, request, *args, **kwargs):
-        if request.GET.get("view_as") is None or request.GET.get("view_as") == "" or request.GET.get("view_as") == "self":
+        if request.GET.get("view_as") is None or request.GET.get("view_as") == "" or request.GET.get(
+                "view_as") == "self":
             self.view_as = 'self'
         else:
             self.view_as = 'guest'

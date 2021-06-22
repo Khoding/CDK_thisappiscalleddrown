@@ -1,23 +1,20 @@
 import json
 
-from allauth.account.forms import SignupForm
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from accounts.models import CustomUser
 from ceffdevKAPIC.koolapic_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
-from koolapic.models import Activity, Group, Invitation, Notification, generate_unique_vanity
-
-from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, ActivityCreationForm
+from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, \
+    ActivityCreationForm
+from koolapic.models import Activity, Group, Invitation, Notification
 from utils.notifications import unread_notifications_number_to_dictionary
 
 
@@ -48,8 +45,10 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return super().get(*args, **kwargs)
 
     def get_upcoming_activities(self):
-        return Activity.objects.order_by('start_date').all().filter(end_date__gte=timezone.now()) if self.request.user.is_superuser \
-            else Activity.objects.order_by('start_date').filter(participants=self.request.user).filter(end_date__gte=timezone.now())
+        return Activity.objects.order_by('start_date').all().filter(
+            end_date__gte=timezone.now()) if self.request.user.is_superuser \
+            else Activity.objects.order_by('start_date').filter(participants=self.request.user).filter(
+            end_date__gte=timezone.now())
 
     def get_groups(self):
         if self.request.user.is_superuser:
@@ -61,7 +60,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         context['upcoming_activities'] = self.get_upcoming_activities()
         context['groups'] = self.get_groups()
         return context
@@ -94,7 +94,8 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Koolapic'
         context['notifications'] = Notification.objects.filter(user=self.request.user).order_by('-date_sent')
         context['invitations'] = Invitation.objects.filter(user=self.request.user).order_by('-date')
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
     def post(self, *args, **kwargs):
@@ -132,7 +133,8 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
+        context[
+            'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
 
 
@@ -168,8 +170,10 @@ class ActivityListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Liste de vos activités sur Koolapic'
-        context['upcoming_activities'] = self.get_activities().filter(Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
-        context['past_activities'] = self.get_activities().filter(Q(end_date__lt=timezone.now()) | Q(end_date__isnull=True, start_date__lt=timezone.now()))
+        context['upcoming_activities'] = self.get_activities().filter(
+            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
+        context['past_activities'] = self.get_activities().filter(
+            Q(end_date__lt=timezone.now()) | Q(end_date__isnull=True, start_date__lt=timezone.now()))
         return context
 
 
@@ -292,6 +296,7 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         activity = self.get_object()
+        user = self.request.user
 
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
@@ -428,15 +433,15 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'group'
 
     def get_context_data(self, **kwargs):
-        admins = self.object.admins.all()
+        admins = self.object.admins.distinct()
         admin_ids = admins.values_list('id', flat=True)
-        members = self.object.members.all().exclude(id__in=admin_ids)
+        members = self.object.members.distinct().exclude(id__in=admin_ids)
         banned_users = self.object.banned_users.all()
-        all_members_count = len(members) + len(admins)
+        all_members_count = Count(members) + Count(admins)
 
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = 'La page détail d\'un groupe sur Koolapic'
+        context['description'] = self.object.description
         context['members'] = members
         context['admins'] = admins
         context['banned_users'] = banned_users
@@ -448,7 +453,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         return context
 
     def get_activities_by_group(self):
-        return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by('start_date')
+        return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by(
+            'start_date')
 
     def get_global_invitation_or_create(self):
         if Invitation.objects.filter(slug=self.get_object().slug).exists():

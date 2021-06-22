@@ -8,13 +8,11 @@ Fichier des formulaires de Koolapic. Contient tout ce qui est en rapport aux for
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
-from django.forms import TextInput, ImageField, CharField
-
-from utils.image_utils import crop_redim_image
-from koolapic.models import Activity, Group, Invitation
-
-from bootstrap_datepicker_plus import DateTimePickerInput
+from django.forms import TextInput, ImageField
 from easy_maps.widgets import AddressWithMapWidget
+
+from koolapic.models import Activity, Group, Invitation
+from utils.image_utils import crop_redim_image
 
 VALID_IMAGE_EXTENSIONS = [
     'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
@@ -26,19 +24,26 @@ class ImageCropField(ImageField):
     Champ de formulaire permettant de rogner les images avant leur import.
     """
 
-    default_validators = [validators.validate_image_file_extension, FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
+    default_validators = [validators.validate_image_file_extension,
+                          FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
 
 
 class ActivityCreationForm(forms.ModelForm):
     """
     Formulaire de création des activités.
     """
-    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="Date de début")
-    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="Heure de début")
-    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Date de fin")
-    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Heure de fin")
-    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Inscriptions jusqu'au")
-    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Inscriptions jusqu'à")
+    start_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date'}), label="Date de début")
+    start_time = forms.TimeField(widget=forms.widgets.TimeInput(
+        attrs={'type': 'time'}), label="Heure de début")
+    end_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date'}), required=False, label="Date de fin")
+    end_time = forms.TimeField(widget=forms.widgets.TimeInput(
+        attrs={'type': 'time'}), required=False, label="Heure de fin")
+    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date'}), required=False, label="Inscriptions jusqu'au")
+    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(
+        attrs={'type': 'time'}), required=False, label="Inscriptions jusqu'à")
 
     class Meta:
         model = Activity
@@ -62,7 +67,6 @@ class ActivityCreationForm(forms.ModelForm):
         ]
 
         widgets = {
-            'group': forms.Select(),
             'address': AddressWithMapWidget({'class': 'vTextField'}),
         }
 
@@ -71,12 +75,18 @@ class ActivityChangeForm(forms.ModelForm):
     """
     Formulaire de modification des activités.
     """
-    start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="Date de début")
-    start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="Heure de début")
-    end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Date de fin")
-    end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Heure de fin")
-    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False, label="Inscription jusqu'à")
-    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), required=False, label="Inscription jusqu'à")
+    start_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date'}), label="Date de début")
+    start_time = forms.TimeField(widget=forms.widgets.TimeInput(
+        attrs={'type': 'time'}), label="Heure de début")
+    end_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date'}), required=False, label="Date de fin")
+    end_time = forms.TimeField(widget=forms.widgets.TimeInput(
+        attrs={'type': 'time'}), required=False, label="Heure de fin")
+    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(
+        attrs={'type': 'date'}), required=False, label="Inscription jusqu'à")
+    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(
+        attrs={'type': 'time'}), required=False, label="Inscription jusqu'à")
 
     class Meta:
         model = Activity
@@ -116,7 +126,8 @@ class CustomGroupCreationForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description', 'visibility', 'invitation_policy', 'banner_color', 'image', 'x', 'y', 'width', 'height')
+        fields = ('name', 'description', 'visibility', 'invitation_policy',
+                  'banner_color', 'image', 'x', 'y', 'width', 'height')
 
         widgets = {
             'banner_color': TextInput(attrs={'type': 'color'}),
@@ -130,7 +141,8 @@ class CustomGroupCreationForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_redim_image((x, y, w, h), (1072, 272), custom_group.image.path)
+            crop_redim_image((x, y, w, h), (1072, 272),
+                             custom_group.image.path)
         return custom_group
 
 
@@ -147,7 +159,8 @@ class CustomGroupChangeForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description', 'visibility', 'invitation_policy', 'banner_color', 'admins', 'members', 'banned_users', 'image', 'x', 'y', 'width', 'height')
+        fields = ('name', 'description', 'visibility', 'invitation_policy', 'banner_color',
+                  'admins', 'members', 'banned_users', 'image', 'x', 'y', 'width', 'height')
 
         widgets = {
             'banner_color': TextInput(attrs={'type': 'color'}),
@@ -166,7 +179,8 @@ class CustomGroupChangeForm(forms.ModelForm):
             w = self.cleaned_data.get('width')
             h = self.cleaned_data.get('height')
 
-            crop_redim_image((x, y, w, h), (1072, 272), custom_group.image.path)
+            crop_redim_image((x, y, w, h), (1072, 272),
+                             custom_group.image.path)
         return custom_group
 
 

@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse, reverse_lazy
 
 from accounts.models import CustomUser
-
 from utils.db_utils import generate_unique_vanity
 
 
@@ -28,11 +27,15 @@ class Group(models.Model):
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
 
     visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
-    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations", choices=INVITATION_POLICY_CHOICES, default='PU')
+    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations",
+                                         choices=INVITATION_POLICY_CHOICES, default='PU')
 
-    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member", verbose_name="Utilisateurs")
-    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin", verbose_name="Administrateurs du groupe")
-    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user", blank=True, verbose_name="Utilisateurs bannis")
+    members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member",
+                                     verbose_name="Utilisateurs")
+    admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin",
+                                    verbose_name="Administrateurs du groupe")
+    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user",
+                                          blank=True, verbose_name="Utilisateurs bannis")
 
     website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
 
@@ -87,7 +90,8 @@ class Activity(models.Model):
     end_time = models.TimeField(null=True, blank=True, verbose_name="Heure de fin")
 
     last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
-    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant", verbose_name="Participants")
+    participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant",
+                                          verbose_name="Participants")
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
@@ -199,8 +203,10 @@ class Invitation(models.Model):
 
     date = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
     slug = models.SlugField(max_length=10, null=True, unique=True, verbose_name="Vanité d'invitation")
-    sender = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="sender", verbose_name="Envoyeur")
-    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="receiver", verbose_name="Utilisateur")
+    sender = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="sender",
+                               verbose_name="Envoyeur")
+    user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="receiver",
+                             verbose_name="Utilisateur")
     group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
     class Meta:
