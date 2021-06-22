@@ -6,9 +6,11 @@
         Créer un compte sur Koolapic
         <hr class="hr-white">
     </div>
-    <img class="card-img form-logo mx-auto" alt="Logo" src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}">
+    <img class="card-img form-logo mx-auto" alt="Logo"
+         src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}">
     <div class="card-body">
-        <form action="{{ form_action }}" method="post" novalidate class="medium-padding-container bg-wt rounded-corner-container">
+        <form action="{{ form_action }}" method="post" novalidate
+              class="medium-padding-container bg-wt rounded-corner-container">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% form form %}
@@ -17,6 +19,8 @@
         </form>
     </div>
     <div class="card-footer">
-        <p class="text-right">Vous avez déjà un compte ? <a href="{% url 'account:login' %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-d2">Connectez-vous</a></p>
+        <p class="text-right">Vous avez déjà un compte ? <a
+                href="{% url 'account:login' %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-d2">Connectez-vous</a>
+        </p>
     </div>
 </div>

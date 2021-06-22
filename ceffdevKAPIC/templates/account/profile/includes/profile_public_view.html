@@ -25,7 +25,8 @@
 </div>
 {% if profile.id == user.id %}
     <div class="row profile-action-buttons">
-        <a class="btn btn-lg btn-outline-light p-2 profile-action-button" href="{% url 'account:profile' slug=profile.slug %}">
+        <a class="btn btn-lg btn-outline-light p-2 profile-action-button"
+           href="{% url 'account:profile' slug=profile.slug %}">
             <i class="fas fa-chevron-left"></i> Quitter la vue invité
         </a>
     </div>

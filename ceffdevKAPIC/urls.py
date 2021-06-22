@@ -19,7 +19,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 import accounts.urls
-import koolapic.admin
 import koolapic.urls
 import koolapicAPI.urls
 from ceffdevKAPIC import dev_urls

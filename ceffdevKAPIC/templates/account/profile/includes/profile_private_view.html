@@ -49,7 +49,8 @@
                 <div class="col"><b><i class="fas fa-map-marker-alt"></i> Adresse</b></div>
             </div>
             <div class="profile-info row">
-                <div class="col">{% if profile.npa %}{{ profile.npa }}{% endif %} {% if profile.locality %}{{ profile.locality }}{% endif %}</div>
+                <div class="col">{% if profile.npa %}{{ profile.npa }}{% endif %}
+                    {% if profile.locality %}{{ profile.locality }}{% endif %}</div>
             </div>
             {% if profile.address %}
                 <div class="profile-info row">
@@ -89,7 +90,8 @@
     </div>
 </div>
 <div class="row profile-action-buttons small-padding-container">
-    <a class="btn w-100 btn-outline-light p-2 mb-2 text-center" href="{% url 'account:edit_profile' slug=profile.slug %}">
+    <a class="btn w-100 btn-outline-light p-2 mb-2 text-center"
+       href="{% url 'account:edit_profile' slug=profile.slug %}">
         <i class="fas fa-edit"></i> Modifier votre profil
     </a>
     <a class="btn w-100 btn-outline-light p-2 text-center" href="?view_as=guest">

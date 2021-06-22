@@ -12,14 +12,16 @@
         {% with invitation.sender as user_p %}
             <div class="d-flex justify-content-center mb-4">
                 <div class="rounded-corner-container small-padding-container bg-wt formcard w-50">
-                    <p class="text-medium text-center">{{ user_p.first_name }} {{ user_p.last_name }} vous a invité à rejoindre le groupe :</p>
+                    <p class="text-medium text-center">{{ user_p.first_name }} {{ user_p.last_name }} vous a invité à
+                        rejoindre le groupe :</p>
                     <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
                     <h3 class="text-center mt-2">{{ invitation.group.name }}</h3>
                     <p class="text-medium text-center">{{ members_count }} membres</p>
                 </div>
             </div>
         {% endwith %}
-        <form action="{{ form_action }}" method="post" novalidate class="medium-padding-container bg-wt rounded-corner-container">
+        <form action="{{ form_action }}" method="post" novalidate
+              class="medium-padding-container bg-wt rounded-corner-container">
             <h4>Se connecter</h4>
             {% csrf_token %}
             {{ form.non_field_errors }}
@@ -30,6 +32,8 @@
         <hr class="hr-white">
     </div>
     <div class="card-footer">
-        <p class="text-right">Vous n'avez pas encore de compte ? <a href="{% url 'account:signup' %}{% if next %}?next={{ next }}{% endif  %}" class="btn btn-d2">Créez-en un</a></p>
+        <p class="text-right">Vous n'avez pas encore de compte ? <a
+                href="{% url 'account:signup' %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-d2">Créez-en
+            un</a></p>
     </div>
 </div>

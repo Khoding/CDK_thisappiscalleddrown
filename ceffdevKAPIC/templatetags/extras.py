@@ -43,7 +43,6 @@ def hour(date):
     return {'date': date}
 
 
-
 @register.inclusion_tag('extras/form_field_extra.html')
 def form_field(field):
     """

@@ -35,7 +35,8 @@
             crossorigin="anonymous"></script>
 
     <!-- Tippy.js -->
-    <script src="{% static "vendor/node_modules/tippy.js/dist/tippy.umd.js" %}" type="module" crossorigin="anonymous"></script>
+    <script src="{% static "vendor/node_modules/tippy.js/dist/tippy.umd.js" %}" type="module"
+            crossorigin="anonymous"></script>
 
     <!-- JavaScript de Bootstrap -->
     <script src="{% static "vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
@@ -67,14 +68,15 @@
     <link rel="mask-icon" href="{% static 'koolapic/meta/safari-pinned-tab.svg' %}" color="#6358EB">
     <!-- Polices d'écriture -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
     <!-- CSS custom -->
     <link href="{% static "koolapic/css/main.css" %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static "koolapic/css/tippy.css" %}"/>
     <!-- Cropper -->
     <link href="{% static 'vendor/node_modules/cropperjs/dist/cropper.css' %}" rel="stylesheet">
 
-<!-- Ajout d'infos supplémentaires dans le head en fonction de la page -->
+    <!-- Ajout d'infos supplémentaires dans le head en fonction de la page -->
     {% block head %} {% endblock head %}
 </head>
 <body class="d-flex flex-column h-100">
@@ -83,14 +85,17 @@
         <div class="container-fluid">
             {% if user.is_authenticated %}
                 <a class="navbar-brand text-white" href="{% url 'koolapic:home' %}">
-                    <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}" alt="Très beau logo de Koolapic"> Koolapic
+                    <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
+                         alt="Très beau logo de Koolapic"> Koolapic
                 </a>
             {% else %}
                 <a class="navbar-brand text-white" href="{% url 'koolapic:homepage' %}">
-                    <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}" alt="Très beau logo de Koolapic"> Koolapic
+                    <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
+                         alt="Très beau logo de Koolapic"> Koolapic
                 </a>
             {% endif %}
-            <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
+            <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -103,7 +108,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" title="Créer une activité" href="{% url 'koolapic:add_activity' %}">
+                            <a class="nav-link text-light" title="Créer une activité"
+                               href="{% url 'koolapic:add_activity' %}">
                                 <i class="fas fa-plus"></i> Nouvelle activité
                             </a>
                         </li>
@@ -131,7 +137,8 @@
             </div>
             {% if user.is_authenticated %}
                 <div class="d-flex align-items-center">
-                    <a class="navbar-text nav-link text-white" href="{% url "koolapic:notifications" %}" id="notificationBtn">
+                    <a class="navbar-text nav-link text-white" href="{% url "koolapic:notifications" %}"
+                       id="notificationBtn">
                         <i class="fas fa-bell"></i>
                         {% if unread_notifications_number > 0 %}
                             <span class="badge badge-danger notification-badge">{{ unread_notifications_number }}</span>
@@ -139,11 +146,13 @@
                     </a>
                     {% if user.profile_pic %}
                         <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
-                            <img id="profilePicture" src="{{ user.profile_pic.url }}" alt="{{ user.first_name }} {{ user.last_name }}'s profile picture">
+                            <img id="profilePicture" src="{{ user.profile_pic.url }}"
+                                 alt="{{ user.first_name }} {{ user.last_name }}'s profile picture">
                         </a>
                     {% else %}
                         <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
-                            <img id="profilePicture" src="{% static 'koolapic/images/default_profile_picture.png' %}" alt="Default user profile picture">
+                            <img id="profilePicture" src="{% static 'koolapic/images/default_profile_picture.png' %}"
+                                 alt="Default user profile picture">
                         </a>
                     {% endif %}
                 </div>
@@ -195,7 +204,8 @@
                 <a href="https://www.instagram.com/ceff.ch/" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
             <div class="p-2 col-auto">
-                <a href="https://www.youtube.com/channel/UCAkHuchjf7itOixiFYO2TEw" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.youtube.com/channel/UCAkHuchjf7itOixiFYO2TEw" title="YouTube"><i
+                        class="fab fa-youtube"></i></a>
             </div>
             <div class="p-2 col-auto">
                 <a href="https://github.com/ceffDptInfo" title="GitHub"><i class="fab fa-github"></i></a>
@@ -204,7 +214,8 @@
         <hr class="hr-white">
         <div class="row justify-content-center">
             <div class="p-2 footer-text">
-                &#169; 2020 &ndash; {{ current_year }} Koolapic &ndash; ceff<span class="d-none d-md-inline"> INDUSTRIE</span> &ndash; tous droits réservés
+                &#169; 2020 &ndash; {{ current_year }} Koolapic &ndash; ceff<span
+                    class="d-none d-md-inline"> INDUSTRIE</span> &ndash; tous droits réservés
             </div>
         </div>
     </div>

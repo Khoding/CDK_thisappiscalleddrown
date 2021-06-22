@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
+
 # Import des autres settings
 from .koolapic_settings import *
 from .third_party_settings import *
