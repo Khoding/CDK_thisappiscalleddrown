@@ -83,19 +83,6 @@
                         {% endfor %}
                     </div>
 
-                    <div class="col col-md-3">
-                        <div class="form-floating">
-                            {{ form.start_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.start_time.label_tag }}
-                        </div>
-                        {% if form.start_time.help_text %}
-                            <span class="text-small text-muted">{{ form.start_time.help_text }}</span>
-                        {% endif %}
-                        {% for error in form.start_time.errors %}
-                            <small class="text-danger">{{ error }}</small>
-                        {% endfor %}
-                    </div>
-
                     <div class="col-12"></div>
 
                     <div class="col col-md-auto">
@@ -130,19 +117,6 @@
                         {% endfor %}
                     </div>
 
-                    <div class="col col-md-3">
-                        <div class="form-floating">
-                            {{ form.end_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.end_time.label_tag }}
-                        </div>
-                        {% if form.end_time.help_text %}
-                            <span class="text-small text-muted">{{ form.end_time.help_text }}</span>
-                        {% endif %}
-                        {% for error in form.end_time.errors %}
-                            <small class="text-danger">{{ error }}</small>
-                        {% endfor %}
-                    </div>
-
                     <div class="col-12">
                         <div class="form-floating">
                             {{ form.remarks|add_class:"form-control"|attr:"placeholder:Activity remarks" }}
@@ -165,19 +139,6 @@
                             <span class="text-small text-muted">{{ form.end_inscription_date.help_text }}</span>
                         {% endif %}
                         {% for error in form.end_inscription_date.errors %}
-                            <small class="text-danger">{{ error }}</small>
-                        {% endfor %}
-                    </div>
-
-                    <div class="col col-md-4">
-                        <div class="form-floating">
-                            {{ form.end_inscription_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.end_inscription_time.label_tag }}
-                        </div>
-                        {% if form.end_inscription_time.help_text %}
-                            <span class="text-small text-muted">{{ form.end_inscription_time.help_text }}</span>
-                        {% endif %}
-                        {% for error in form.end_inscription_time.errors %}
                             <small class="text-danger">{{ error }}</small>
                         {% endfor %}
                     </div>

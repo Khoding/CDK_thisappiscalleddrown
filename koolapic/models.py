@@ -12,7 +12,8 @@ class Group(models.Model):
 
     INVITATION_POLICY_CHOICES = [
         ('PU', 'Public'),  # Tout le monde peut rejoindre
-        ('OI', 'Sur invitation'),  # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
+        # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
+        ('OI', 'Sur invitation'),
     ]
 
     VISIBILITY_CHOICES = [
@@ -22,11 +23,14 @@ class Group(models.Model):
 
     name = models.CharField(max_length=50, verbose_name="Nom du groupe")
     description = models.TextField(max_length=200, verbose_name="Description")
-    image = models.ImageField(null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
-    banner_color = models.CharField(max_length=8, verbose_name="Couleur de la bannière")
+    image = models.ImageField(
+        null=True, blank=True, upload_to="images/groups/", verbose_name="Image du groupe")
+    banner_color = models.CharField(
+        max_length=8, verbose_name="Couleur de la bannière")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
 
-    visibility = models.CharField(max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
+    visibility = models.CharField(
+        max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
     invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations",
                                          choices=INVITATION_POLICY_CHOICES, default='PU')
 
@@ -37,7 +41,8 @@ class Group(models.Model):
     banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user",
                                           blank=True, verbose_name="Utilisateurs bannis")
 
-    website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
+    website = models.TextField(
+        max_length=100, null=True, blank=True, verbose_name="Site web")
 
     class Meta:
         verbose_name = 'groupe'
@@ -72,28 +77,36 @@ class Activity(models.Model):
     Modèle représentant une activité.
     """
 
-    name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
+    name = models.CharField(
+        max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     description = models.TextField(max_length=500, verbose_name="Description")
-    creator = models.ForeignKey(CustomUser, null=True, blank=True, verbose_name="Créateur", on_delete=models.CASCADE)
+    creator = models.ForeignKey(
+        CustomUser, null=True, blank=True, verbose_name="Créateur", on_delete=models.CASCADE)
 
-    end_inscription_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin des inscriptions")
-    end_inscription_time = models.TimeField(null=True, blank=True, verbose_name="Heure de fin des inscriptions")
-    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
-    max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Max de participants")
+    end_inscription_date = models.DateTimeField(
+        null=True, blank=True, verbose_name="Date de fin des inscriptions")
+    remarks = models.TextField(
+        max_length=500, null=True, blank=True, verbose_name="Remarques")
+    max_participants = models.PositiveIntegerField(
+        null=True, blank=True, verbose_name="Max de participants")
 
-    start_location = models.CharField(max_length=100, null=True, verbose_name="Lieu de départ")
-    start_date = models.DateField(verbose_name="Date de début")
-    start_time = models.TimeField(verbose_name="Heure de début")
+    start_location = models.CharField(
+        max_length=100, null=True, verbose_name="Lieu de départ")
+    start_date = models.DateTimeField(verbose_name="Date de début")
 
-    end_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de fin")
-    end_date = models.DateField(null=True, blank=True, verbose_name="Date de fin")
-    end_time = models.TimeField(null=True, blank=True, verbose_name="Heure de fin")
+    end_location = models.CharField(
+        max_length=100, null=True, blank=True, verbose_name="Lieu de fin")
+    end_date = models.DateTimeField(
+        null=True, blank=True, verbose_name="Date de fin")
 
-    last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
+    last_update = models.DateTimeField(
+        verbose_name="Dernière mise à jour", auto_now=True)
     participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant",
                                           verbose_name="Participants")
-    slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
-    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
+    slug = models.SlugField(max_length=255, null=True,
+                            unique=True, verbose_name="Slug")
+    group = models.ForeignKey(
+        Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
     class Meta:
         verbose_name = 'activité'
@@ -129,10 +142,12 @@ class Inscription(models.Model):
     """
 
     date = models.DateTimeField(verbose_name="Date de l'inscription")
-    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
+    remarks = models.TextField(
+        max_length=500, null=True, blank=True, verbose_name="Remarques")
     presence = models.IntegerField(verbose_name="Présence")
     guests_number = models.IntegerField(verbose_name="Nombre de participants")
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, null=True, verbose_name="Activité")
+    activity = models.ForeignKey(
+        Activity, on_delete=models.CASCADE, null=True, verbose_name="Activité")
 
     class Meta:
         verbose_name = 'inscription'
@@ -149,9 +164,12 @@ class Donation(models.Model):
 
     amount = models.FloatField(verbose_name="Montant")
     date = models.DateTimeField(verbose_name="Date de la donation")
-    description = models.TextField(max_length=500, null=True, blank=True, verbose_name="Description")
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, verbose_name="Utilisateur")
-    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=True, verbose_name="Groupe")
+    description = models.TextField(
+        max_length=500, null=True, blank=True, verbose_name="Description")
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, null=True, verbose_name="Utilisateur")
+    group = models.ForeignKey(
+        Group, on_delete=models.DO_NOTHING, null=True, verbose_name="Groupe")
 
     def __str__(self):
         return self.description
@@ -175,13 +193,18 @@ class Notification(models.Model):
         ("D", "Supprimée"),
     ]
 
-    severity = models.CharField(max_length=10, default="INFO", verbose_name="Sévérité")
+    severity = models.CharField(
+        max_length=10, default="INFO", verbose_name="Sévérité")
     title = models.CharField(max_length=100, verbose_name="Titre")
     description = models.CharField(max_length=250, verbose_name="Description")
-    link = models.CharField(max_length=250, null=True, blank=True, verbose_name="Lien")
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Utilisateur')
-    date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Date d'envoi")
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Groupe")
+    link = models.CharField(max_length=250, null=True,
+                            blank=True, verbose_name="Lien")
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name='Utilisateur')
+    date_sent = models.DateTimeField(
+        auto_now_add=True, verbose_name="Date d'envoi")
+    group = models.ForeignKey(
+        Group, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Groupe")
 
     class Meta:
         verbose_name = 'notification'
@@ -202,12 +225,14 @@ class Invitation(models.Model):
     ]
 
     date = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
-    slug = models.SlugField(max_length=10, null=True, unique=True, verbose_name="Vanité d'invitation")
+    slug = models.SlugField(max_length=10, null=True,
+                            unique=True, verbose_name="Vanité d'invitation")
     sender = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="sender",
                                verbose_name="Envoyeur")
     user = models.ForeignKey(CustomUser, null=True, on_delete=models.CASCADE, related_name="receiver",
                              verbose_name="Utilisateur")
-    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
+    group = models.ForeignKey(
+        Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
     class Meta:
         verbose_name = 'invitation'

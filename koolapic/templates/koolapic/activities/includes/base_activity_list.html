@@ -1,0 +1,65 @@
+<div class="container d-grid gap-2 gradient-l2 text-white small-padding-container rounded-corner-container">
+    <div class="row">
+        <h2 class="mb-0">
+            {% block title_name %}
+            {% endblock title_name %}
+        </h2>
+    </div>
+    <div class="row horizontal-scroll">
+        {% block activity_list %}
+            {% if upcoming_activities.count %}
+                {% for activity in upcoming_activities %}
+                    <div class="card infocard{% if not forloop.last %} me-2{% endif %} col bg-wt" data-activity-id="{{ activity.id }}">
+                        <div class="card-header">
+                            <h4 class="activity-name">{{ activity.name }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-ellipsis">
+                                <i class="fas fa-calendar-alt"></i>
+                                {% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
+                                <br />
+                                {% if activity.end_date %} au {{ activity.end_date }} {% endif %}
+                            </div>
+                            <div class="text-ellcaipsis">
+                                <i class="fas fa-map-marked"></i>
+                                {{ activity.start_location }} {% if activity.end_location %} → {{ activity.end_location }} {% endif %}
+                            </div>
+                            <div class="text-ellipsis">
+                                <i class="fas fa-users"></i>
+                                {{ activity.group }}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="activity-actions d-flex">
+                                <a
+                                    class="btn btn-primary align-middle me-2"
+                                    title="Afficher les détails de l'activité"
+                                    href="{{ activity.get_absolute_url }}"
+                                    role="button"
+                                >
+                                    <i class="icon fas fa-align-justify text-center"></i>
+                                </a>
+                                <a class="btn btn-primary align-middle me-2" title="Modifier l'activité" href="{{ activity.get_update_url }}" role="button">
+                                    <i class="icon fas fa-pen text-center"></i>
+                                </a>
+                                <a class="btn btn-primary align-middle me-2" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}" role="button">
+                                    <i class="far fa-clone"></i>
+                                </a>
+                                <a
+                                    class="btn btn-danger delete-modal align-top me-2"
+                                    title="Supprimer l'activité"
+                                    href="{{ activity.get_confirm_delete_url }}"
+                                    role="button"
+                                >
+                                    <i class="icon fas fa-trash-alt text-center"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty">Vous n'avez pas d'activité à venir</div>
+            {% endif %}
+        {% endblock activity_list %}
+    </div>
+</div>

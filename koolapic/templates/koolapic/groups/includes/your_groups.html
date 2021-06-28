@@ -1,21 +1,24 @@
-<div class="gradient-l2 text-white small-padding-container rounded-corner-container">
-    <h2>Groupes auxquels vous appartenez</h2>
-    <!-- TODO: place temporaire pour le bouton -->
-    <div>
-        <a class="btn btn-outline-light" title="Créer un nouveau groupe" href="{% url 'koolapic:add_group' %}"
-           role="button">
-            <i class="fas fa-plus"></i> Créer un groupe
-        </a>
+<div class="container d-grid gap-2 gradient-l2 text-white small-padding-container rounded-corner-container">
+    <div class="row">
+        <h2 class="mb-0">Groupes auxquels vous appartenez</h2>
     </div>
-    <br>
-    <div class="row horizontal-scroll">
+    <!-- TODO: place temporaire pour le bouton -->
+    <div class="row">
+        <p class="mb-0">
+            <a class="btn btn-outline-light" title="Créer un nouveau groupe" href="{% url 'koolapic:add_group' %}"
+            role="button">
+                <i class="fas fa-plus"></i> Créer un groupe
+            </a>
+        </p>
+    </div>
+    <div class="row gx-2 horizontal-scroll">
         {% if groups.count %}
             {% for group in groups %}
-                <div class="card infocard me-2 col bg-wt" data-group-id="{{ group.id }}">
+                <div class="card infocard{% if not forloop.last %} me-2{% endif %} col bg-wt" data-group-id="{{ group.id }}">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}" alt="{{ group.image.url }}">
                     {% else %}
-                        <div class="card-img blank-img"></div>
+                        <div class="card-img blank-img" style="background-color: {{ group.banner_color }}"></div>
                     {% endif %}
                     <div class="card-header">
                         <h4>{{ group.name }}</h4>
@@ -30,25 +33,5 @@
         {% else %}
             <div class="empty">Vous n'appartenez à aucun groupe.</div>
         {% endif %}
-    </div>
-</div>
-<div class="modal" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="activityModalTitle"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary">Modifier</button>
-            </div>
-        </div>
     </div>
 </div>

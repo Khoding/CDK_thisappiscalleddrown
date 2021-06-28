@@ -44,11 +44,9 @@ class IndexView(LoginRequiredMixin, TemplateView):
             return redirect(next_page)
         return super().get(*args, **kwargs)
 
-    def get_upcoming_activities(self):
-        return Activity.objects.order_by('start_date').all().filter(
-            end_date__gte=timezone.now()) if self.request.user.is_superuser \
-            else Activity.objects.order_by('start_date').filter(participants=self.request.user).filter(
-            end_date__gte=timezone.now())
+    def get_activities(self):
+        return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
+            else Activity.objects.order_by('start_date').filter(participants=self.request.user)
 
     def get_groups(self):
         if self.request.user.is_superuser:
@@ -62,7 +60,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Koolapic'
         context[
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
-        context['upcoming_activities'] = self.get_upcoming_activities()
+        context['upcoming_activities'] = self.get_activities().filter(
+            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
         context['groups'] = self.get_groups()
         return context
 
@@ -92,8 +91,10 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['notifications'] = Notification.objects.filter(user=self.request.user).order_by('-date_sent')
-        context['invitations'] = Invitation.objects.filter(user=self.request.user).order_by('-date')
+        context['notifications'] = Notification.objects.filter(
+            user=self.request.user).order_by('-date_sent')
+        context['invitations'] = Invitation.objects.filter(
+            user=self.request.user).order_by('-date')
         context[
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         return context
@@ -104,7 +105,8 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
             notification_id = data['notification']
             notification = Notification.objects.get(id=notification_id)
             notification.delete()
-            response_data = unread_notifications_number_to_dictionary(user=self.request.user)
+            response_data = unread_notifications_number_to_dictionary(
+                user=self.request.user)
             return JsonResponse(response_data)
 
         if data['action'] == "deleteAllNotifications":
@@ -460,7 +462,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         if Invitation.objects.filter(slug=self.get_object().slug).exists():
             return Invitation.objects.get(slug=self.get_object().slug)
         else:
-            invitation = Invitation.objects.create(sender=None, group=self.get_object(), slug=self.get_object().slug)
+            invitation = Invitation.objects.create(
+                sender=None, group=self.get_object(), slug=self.get_object().slug)
             invitation.save()
             return invitation
 
@@ -482,7 +485,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
 
             if form.is_valid():
                 if CustomUser.objects.filter(email=form.cleaned_data.get("email")).count() > 0:
-                    user = CustomUser.objects.get(email=form.cleaned_data.get("email"))
+                    user = CustomUser.objects.get(
+                        email=form.cleaned_data.get("email"))
                     group = self.get_object()
 
                     if user in group.members.all() or user in group.admins.all():
@@ -498,7 +502,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                     else:
                         if Invitation.objects.filter(sender=self.request.user).count() <= MAX_INVITATION_NUMBER_BY_USER:
                             if Invitation.objects.filter(user=user, group=group).count() == 0:
-                                invitation = Invitation(user=user, sender=self.request.user, group=group)
+                                invitation = Invitation(
+                                    user=user, sender=self.request.user, group=group)
                                 invitation.save()
                                 message = {
                                     "text": "Invitation envoyée.",
@@ -567,15 +572,18 @@ class InvitationView(DetailView):
             return redirect(f"{reverse('account:login')}?next={self.get_object().get_absolute_url()}")
 
         if self.request.user in self.get_object().group.members.filter(member__id=self.request.user.id) != 0:
-            messages.error(request=self.request, message="Vous faites déjà partie de ce groupe.")
+            messages.error(request=self.request,
+                           message="Vous faites déjà partie de ce groupe.")
             return redirect(reverse('koolapic:home'))
 
         if self.request.user in self.get_object().group.banned_users.filter(member__id=self.request.user.id) != 0:
-            messages.error(request=self.request, message="Vous avez été banni(e) de ce groupe.")
+            messages.error(request=self.request,
+                           message="Vous avez été banni(e) de ce groupe.")
             return redirect(reverse('koolapic:home'))
 
         if self.get_object().user and self.request.user != self.get_object().user:
-            messages.error(request=self.request, message="Cette invitation ne vous est pas destinée.")
+            messages.error(request=self.request,
+                           message="Cette invitation ne vous est pas destinée.")
             return redirect(reverse('koolapic:home'))
 
         return super().get(*args, **kwargs)
@@ -587,7 +595,8 @@ class InvitationView(DetailView):
                 self.get_object().group.members.add(self.request.user)
                 if self.get_object().user:
                     self.model.objects.get(id=self.get_object().id).delete()
-                messages.success(request=self.request, message=f"Vous faites désormais partie du groupe {group.name}.")
+                messages.success(
+                    request=self.request, message=f"Vous faites désormais partie du groupe {group.name}.")
                 return redirect(reverse('koolapic:group_detail', kwargs={'slug': group.slug}))
             elif self.request.POST.get('decline'):
                 messages.success(request=self.request,
@@ -596,7 +605,8 @@ class InvitationView(DetailView):
                     self.model.objects.get(id=self.request.user.id).delete()
                 return redirect(reverse('koolapic:home'))
         else:
-            messages.error(request=self.request, message="Cette invitation ne vous est pas destinée.")
+            messages.error(request=self.request,
+                           message="Cette invitation ne vous est pas destinée.")
             return redirect(reverse('koolapic:home'))
 
 

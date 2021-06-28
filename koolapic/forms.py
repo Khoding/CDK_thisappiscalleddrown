@@ -32,18 +32,12 @@ class ActivityCreationForm(forms.ModelForm):
     """
     Formulaire de création des activités.
     """
-    start_date = forms.DateField(widget=forms.widgets.DateInput(
-        attrs={'type': 'date'}), label="Date de début")
-    start_time = forms.TimeField(widget=forms.widgets.TimeInput(
-        attrs={'type': 'time'}), label="Heure de début")
-    end_date = forms.DateField(widget=forms.widgets.DateInput(
-        attrs={'type': 'date'}), required=False, label="Date de fin")
-    end_time = forms.TimeField(widget=forms.widgets.TimeInput(
-        attrs={'type': 'time'}), required=False, label="Heure de fin")
-    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(
-        attrs={'type': 'date'}), required=False, label="Inscriptions jusqu'au")
-    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(
-        attrs={'type': 'time'}), required=False, label="Inscriptions jusqu'à")
+    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de début")
+    end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de fin")
+    end_inscription_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Inscription jusqu'à")
 
     class Meta:
         model = Activity
@@ -56,14 +50,11 @@ class ActivityCreationForm(forms.ModelForm):
 
             'start_location',
             'start_date',
-            'start_time',
 
             'end_inscription_date',
-            'end_inscription_time',
             'max_participants',
             'end_location',
             'end_date',
-            'end_time',
         ]
 
         widgets = {
@@ -75,18 +66,12 @@ class ActivityChangeForm(forms.ModelForm):
     """
     Formulaire de modification des activités.
     """
-    start_date = forms.DateField(widget=forms.widgets.DateInput(
-        attrs={'type': 'date'}), label="Date de début")
-    start_time = forms.TimeField(widget=forms.widgets.TimeInput(
-        attrs={'type': 'time'}), label="Heure de début")
-    end_date = forms.DateField(widget=forms.widgets.DateInput(
-        attrs={'type': 'date'}), required=False, label="Date de fin")
-    end_time = forms.TimeField(widget=forms.widgets.TimeInput(
-        attrs={'type': 'time'}), required=False, label="Heure de fin")
-    end_inscription_date = forms.DateField(widget=forms.widgets.DateInput(
-        attrs={'type': 'date'}), required=False, label="Inscription jusqu'à")
-    end_inscription_time = forms.TimeField(widget=forms.widgets.TimeInput(
-        attrs={'type': 'time'}), required=False, label="Inscription jusqu'à")
+    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de début")
+    end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de fin")
+    end_inscription_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Inscription jusqu'à")
 
     class Meta:
         model = Activity
@@ -98,14 +83,11 @@ class ActivityChangeForm(forms.ModelForm):
 
             'start_location',
             'start_date',
-            'start_time',
 
             'end_inscription_date',
-            'end_inscription_time',
             'max_participants',
             'end_location',
             'end_date',
-            'end_time',
         ]
 
         widgets = {

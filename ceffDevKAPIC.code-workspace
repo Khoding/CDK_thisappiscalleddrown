@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "editor.autoIndent": "full",
+        "editor.codeActionsOnSave": {"source.fixAll": false},
+        "[django-html]": {
+            "editor.defaultFormatter": "batisteo.vscode-django"
+        },
+        "python.pythonPath": "venv\\Scripts\\python.exe",
+        "git.ignoreLimitWarning": true
+    }
+}
