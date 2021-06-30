@@ -70,11 +70,9 @@
                         {% endfor %}
                     </div>
 
-                    <div class="col col-xl-auto">
-                        <div class="form-floating">
-                            {{ form.start_date|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.start_date.label_tag }}
-                        </div>
+                    <div class="col col-md-auto">
+                        {{ form.start_date.label_tag }}
+                        {{ form.start_date|add_class:"form-control" }}
                         {% if form.start_date.help_text %}
                             <span class="text-small text-muted">{{ form.start_date.help_text }}</span>
                         {% endif %}
@@ -85,9 +83,9 @@
 
                     <div class="col-12"></div>
 
-                    <div class="col col-md-auto">
+                    <div class="col col-md-7">
                         <div class="form-floating">
-                            {{ form.start_location|add_class:"form-control"|attr:"placeholder:Activity start_location" }}
+                            {{ form.start_location|add_class:"form-control"|attr:"placeholder:Activity start location" }}
                             {{ form.start_location.label_tag }}
                         </div>
                         {% if form.start_location.help_text %}
@@ -104,11 +102,9 @@
                         <hr/>
                     </div>
 
-                    <div class="col col-xl-auto">
-                        <div class="form-floating">
-                            {{ form.end_date|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.end_date.label_tag }}
-                        </div>
+                    <div class="col col-md-auto">
+                        {{ form.end_date.label_tag }}
+                        {{ form.end_date|add_class:"form-control" }}
                         {% if form.end_date.help_text %}
                             <span class="text-small text-muted">{{ form.end_date.help_text }}</span>
                         {% endif %}
@@ -130,11 +126,9 @@
                         {% endfor %}
                     </div>
 
-                    <div class="col col-md-5">
-                        <div class="form-floating">
-                            {{ form.end_inscription_date|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.end_inscription_date.label_tag }}
-                        </div>
+                    <div class="col col-md-auto">
+                        {{ form.end_inscription_date.label_tag }}
+                        {{ form.end_inscription_date|add_class:"form-control" }}
                         {% if form.end_inscription_date.help_text %}
                             <span class="text-small text-muted">{{ form.end_inscription_date.help_text }}</span>
                         {% endif %}
@@ -158,7 +152,7 @@
                         {% endfor %}
                     </div>
 
-                    <div class="col-5">
+                    <div class="col-7">
                         <div class="form-floating">
                             {{ form.end_location|add_class:"form-control"|attr:"placeholder:Activity name" }}
                             {{ form.end_location.label_tag }}
