@@ -48,13 +48,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
             else Activity.objects.order_by('start_date').filter(participants=self.request.user)
 
-    def get_groups(self):
-        if self.request.user.is_superuser:
-            return Group.objects.all().annotate(members_count=Count('members'))
-        else:
-            return Group.objects.order_by('name').annotate(members_count=Count('members') + Count('admins')).filter(
-                members=self.request.user)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
@@ -62,7 +55,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         context['upcoming_activities'] = self.get_activities().filter(
             Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
-        context['groups'] = self.get_groups()
         return context
 
 
@@ -384,12 +376,7 @@ class GroupListView(LoginRequiredMixin, ListView):
     context_object_name = 'groups'
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return self.model.objects.order_by('name').all().annotate(members_count=Count('members') + Count('admins'))
-        else:
-            return self.model.objects.order_by('name').annotate(members_count=Count('members')).filter(
-                Q(admins=self.request.user) |
-                Q(members=self.request.user))
+        return self.model.objects.order_by('name').annotate(members_count=Count('members', distinct=True))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
