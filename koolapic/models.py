@@ -10,17 +10,6 @@ class Group(models.Model):
     Modèle représentant un groupe Koolapic.
     """
 
-    INVITATION_POLICY_CHOICES = [
-        ('PU', 'Public'),  # Tout le monde peut rejoindre
-        # Un membre du groupe doit inviter la personne pour qu'elle puisse rejoindre
-        ('OI', 'Sur invitation'),
-    ]
-
-    VISIBILITY_CHOICES = [
-        ('IN', 'Invisible'),
-        ('VI', 'Visible'),
-    ]
-
     name = models.CharField(max_length=50, verbose_name="Nom du groupe")
     description = models.TextField(max_length=200, verbose_name="Description")
     image = models.ImageField(
@@ -28,11 +17,6 @@ class Group(models.Model):
     banner_color = models.CharField(
         max_length=8, verbose_name="Couleur de la bannière")
     slug = models.SlugField(null=True, unique=True, verbose_name="Slug")
-
-    visibility = models.CharField(
-        max_length=25, verbose_name="Visibilité", choices=VISIBILITY_CHOICES, default='IN')
-    invitation_policy = models.CharField(max_length=25, verbose_name="Politique des invitations",
-                                         choices=INVITATION_POLICY_CHOICES, default='PU')
 
     members = models.ManyToManyField(CustomUser, related_name="members", related_query_name="member",
                                      verbose_name="Utilisateurs")

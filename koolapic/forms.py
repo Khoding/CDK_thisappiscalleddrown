@@ -108,7 +108,7 @@ class CustomGroupCreationForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description', 'visibility', 'invitation_policy',
+        fields = ('name', 'description',
                   'banner_color', 'image', 'x', 'y', 'width', 'height')
 
         widgets = {
@@ -141,7 +141,7 @@ class CustomGroupChangeForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description', 'visibility', 'invitation_policy', 'banner_color',
+        fields = ('name', 'description', 'banner_color',
                   'admins', 'members', 'image', 'x', 'y', 'width', 'height')
 
         widgets = {
