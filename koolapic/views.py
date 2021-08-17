@@ -412,8 +412,6 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         Membres du groupe. Liste de :model:``accounts.CustomUser``
     ``admins``
         Administrateurs du groupe. Liste de :model:``accounts.CustomUser``
-    ``banned_users``
-        Utilisateurs bannis du groupe. Liste de :model:``accounts.CustomUser``
     ``all_members``
         Tous les membres, incluant les administrateurs. Liste de :model:``accounts.CustomUser``
     ``members_count``
@@ -438,7 +436,6 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         admins = self.object.admins.distinct()
         admin_ids = admins.values_list('id', flat=True)
         members = self.object.members.distinct().exclude(id__in=admin_ids)
-        banned_users = self.object.banned_users.all()
         all_members_count = Count(members) + Count(admins)
 
         context = super().get_context_data(**kwargs)
@@ -446,7 +443,6 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['description'] = self.object.description
         context['members'] = members
         context['admins'] = admins
-        context['banned_users'] = banned_users
         context['all_members'] = members | admins
         context['members_count'] = all_members_count
         context['undisplayed_members_count'] = all_members_count - 10
@@ -492,11 +488,6 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                     if user in group.members.all() or user in group.admins.all():
                         message = {
                             "text": "Cet utilisateur appartient déjà à ce groupe.",
-                            "severity": "ERROR"
-                        }
-                    elif user in group.banned_users.all():
-                        message = {
-                            "text": "Cet utilisateur est banni de ce groupe.",
                             "severity": "ERROR"
                         }
                     else:
@@ -576,11 +567,6 @@ class InvitationView(DetailView):
                            message="Vous faites déjà partie de ce groupe.")
             return redirect(reverse('koolapic:home'))
 
-        if self.request.user in self.get_object().group.banned_users.filter(member__id=self.request.user.id) != 0:
-            messages.error(request=self.request,
-                           message="Vous avez été banni(e) de ce groupe.")
-            return redirect(reverse('koolapic:home'))
-
         if self.get_object().user and self.request.user != self.get_object().user:
             messages.error(request=self.request,
                            message="Cette invitation ne vous est pas destinée.")
@@ -639,6 +625,7 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save()
         self.object.admins.add(self.request.user)
+        self.object.members.add(self.request.user)
         return redirect(self.get_success_url())
 
 

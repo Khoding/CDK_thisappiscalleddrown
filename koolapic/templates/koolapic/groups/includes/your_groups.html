@@ -14,7 +14,7 @@
     <div class="row gx-2 horizontal-scroll">
         {% if groups.count %}
             {% for group in groups %}
-                <div class="card infocard{% if not forloop.last %} me-2{% endif %} col bg-wt" data-group-id="{{ group.id }}">
+                <div class="card infocard{% if not forloop.last %} me-2{% endif %} col bg-wt px-0" data-group-id="{{ group.id }}">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}" alt="{{ group.image.url }}">
                     {% else %}

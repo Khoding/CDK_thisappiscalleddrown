@@ -38,8 +38,6 @@ class Group(models.Model):
                                      verbose_name="Utilisateurs")
     admins = models.ManyToManyField(CustomUser, related_name="admins", related_query_name="admin",
                                     verbose_name="Administrateurs du groupe")
-    banned_users = models.ManyToManyField(CustomUser, related_name="banned_users", related_query_name="banned_user",
-                                          blank=True, verbose_name="Utilisateurs bannis")
 
     website = models.TextField(
         max_length=100, null=True, blank=True, verbose_name="Site web")

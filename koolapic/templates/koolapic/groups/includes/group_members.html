@@ -18,46 +18,6 @@
             <div class="flex-column group-member-name-col">
                 <div class="ps-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
             </div>
-            {% comment %}
-            <div class="d-flex justify-content-end">
-                {% if user in admins %}
-                    <div class="user-interaction-btn">
-                        <button class="tooltip-btn btn text-white" type="button" id="banButton" data-template="banButtonTooltip">
-                            <i class="fas fa-gavel"></i>
-                        </button>
-                        <div class="tooltip" id="banButtonTooltip" title="Ban">
-                            Bannir le membre
-                        </div>
-                    </div>
-                    <div class="user-interaction-btn">
-                        <button class="tooltip-btn btn text-white" type="button" id="kickButton" data-template="banButtonTooltip">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                        <div class="tooltip" id="kickButtonTooltip" title="Ban">
-                            Exclure le membre
-                        </div>
-                    </div>
-
-                {% endif %}
-            </div>
-            {% endcomment %}
         </div>
-
     {% endfor %}
 </div>
-
-{% if user in admins %}
-    <h1 id="membersList" class="mt-4">Utilisateurs bannis</h1>
-    <div class="group-member-list">
-        {% for user_p in banned_users %}
-            <div class="group-member-row rounded-corner-container bg-wt">
-                <div class="p-2">{% include 'includes/profile_picture.html' %}</div>
-                <div class="flex-column group-member-name-col">
-                    <div class="ps-1"><b>{{ user_p.first_name }} {{ user_p.last_name }}</b></div>
-                </div>
-            </div>
-        {% empty %}
-            <div class="empty">Aucun utilisateur n'a été banni du groupe.</div>
-        {% endfor %}
-    </div>
-{% endif %}
