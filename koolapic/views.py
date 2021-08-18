@@ -46,7 +46,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_activities(self):
         return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
-            else Activity.objects.order_by('start_date').filter(participants=self.request.user)
+            else Activity.objects.order_by('start_date').filter(Q(creator=self.request.user) | Q(participants=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -158,7 +158,7 @@ class ActivityListView(LoginRequiredMixin, ListView):
 
     def get_activities(self):
         return self.model.objects.order_by('start_date').all() if self.request.user.is_superuser \
-            else self.model.objects.order_by('start_date').filter(participants=self.request.user)
+            else self.model.objects.order_by('start_date').filter(Q(creator=self.request.user) | Q(participants=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -216,7 +216,6 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
-    success_url = reverse_lazy("koolapic:activity_list")
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -286,7 +285,6 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
-    success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
         activity = self.get_object()
@@ -318,7 +316,6 @@ class ActivityUpdateView(LoginRequiredMixin, UpdateView):
     model = Activity
     template_name = 'koolapic/activities/update_activity.html'
     form_class = ActivityChangeForm
-    success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -345,7 +342,6 @@ class ActivityDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Activity
     template_name = 'koolapic/activities/activity_confirm_delete.html'
-
     success_url = reverse_lazy("koolapic:activity_list")
 
     def get_context_data(self, **kwargs):
@@ -373,15 +369,18 @@ class GroupListView(LoginRequiredMixin, ListView):
 
     template_name = 'koolapic/groups/group_list.html'
     model = Group
-    context_object_name = 'groups'
 
     def get_queryset(self):
-        return self.model.objects.order_by('name').annotate(members_count=Count('members', distinct=True))
+        if not self.request.user.is_superuser:
+            self.groups = self.model.objects.filter(members=self.request.user)
+        else:
+            self.groups = self.model.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'La liste des groupes sur Koolapic'
+        context['groups'] = self.groups
         return context
 
 
@@ -419,26 +418,12 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     template_name = 'koolapic/groups/group_detail.html'
     context_object_name = 'group'
 
-    def get_context_data(self, **kwargs):
-        admins = self.object.admins.distinct()
-        admin_ids = admins.values_list('id', flat=True)
-        members = self.object.members.distinct().exclude(id__in=admin_ids)
-        all_members_count = Count(members) + Count(admins)
-
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Koolapic'
-        context['description'] = self.object.description
-        context['members'] = members
-        context['admins'] = admins
-        context['all_members'] = members | admins
-        context['members_count'] = all_members_count
-        context['undisplayed_members_count'] = all_members_count - 10
-        context['upcoming_activities'] = self.get_activities_by_group()
-        context['invitation_form'] = InvitationCreationForm
-        return context
-
     def get_activities_by_group(self):
-        return Activity.objects.filter(group=self.get_object()).filter(end_date__gte=timezone.now()).order_by(
+        return Activity.objects.filter(group=self.get_object()).filter(start_date__gte=timezone.now()).order_by(
+            'start_date')
+
+    def get_past_activities_by_group(self):
+        return Activity.objects.filter(group=self.get_object()).filter(start_date__lt=timezone.now()).order_by(
             'start_date')
 
     def get_global_invitation_or_create(self):
@@ -517,6 +502,24 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                 }
                 return JsonResponse(response_data)
 
+    def get_context_data(self, **kwargs):
+        admins = self.object.admins.distinct()
+        admin_ids = admins.values_list('id', flat=True)
+        members = self.object.members.distinct().exclude(id__in=admin_ids)
+        all_members_count = Count(members) + Count(admins)
+
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = self.object.description
+        context['members'] = members
+        context['admins'] = admins
+        context['all_members'] = members | admins
+        context['members_count'] = all_members_count
+        context['undisplayed_members_count'] = all_members_count - 10
+        context['upcoming_activities'] = self.get_activities_by_group()
+        context['past_activities'] = self.get_past_activities_by_group()
+        context['invitation_form'] = InvitationCreationForm
+        return context
 
 class InvitationView(DetailView):
     """
@@ -601,7 +604,6 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
 
     template_name = 'koolapic/groups/add_group.html'
     form_class = CustomGroupCreationForm
-    success_url = reverse_lazy("koolapic:group_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -635,7 +637,6 @@ class GroupUpdateView(LoginRequiredMixin, UpdateView):
     model = Group
     template_name = 'koolapic/groups/update_group.html'
     form_class = CustomGroupChangeForm
-    success_url = reverse_lazy("koolapic:group_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

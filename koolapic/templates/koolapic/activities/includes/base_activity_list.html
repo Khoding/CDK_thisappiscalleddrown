@@ -1,12 +1,4 @@
 <div class="container d-grid gap-2 gradient-l2 text-white small-padding-container rounded-corner-container">
-    <div class="row">
-        <h6 class="mb-0">
-            <b>
-                {% block title_name %}
-                {% endblock title_name %}
-            </b>
-        </h6>
-    </div>
     <div class="row m-0">
         {% block activity_list %}
             {% if upcoming_activities.count %}

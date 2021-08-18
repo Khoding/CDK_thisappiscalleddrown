@@ -14,7 +14,7 @@
     <div class="bg-wt medium-padding-container rounded-corner-container">
         <h2>Informations</h2>
         <div class="profile-info-label row">
-            <div class="col"><b><i class="fas fa-envelope"></i> Adresse e-mail</b></div>
+            <div class="col"><strong><i class="fas fa-envelope"></i> Adresse e-mail</strong></div>
         </div>
         <div class="profile-info row">
             <div class="col">{{ profile.email }}</div>
@@ -22,7 +22,7 @@
 
         {% if profile.bio %}
             <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-book"></i> Bio</b></div>
+                <div class="col"><strong><i class="fas fa-book"></i> Bio</strong></div>
             </div>
             <div class="profile-info row">
                 <div class="col">{{ profile.bio|safe }}</div>
@@ -30,7 +30,7 @@
         {% endif %}
         {% if profile.tel_mobile %}
             <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-user"></i> Téléphone personnel</b></div>
+                <div class="col"><strong><i class="fas fa-user"></i> Téléphone personnel</strong></div>
             </div>
             <div class="profile-info row">
                 <div class="col">{{ profile.tel_mobile }}</div>
@@ -38,7 +38,7 @@
         {% endif %}
         {% if profile.tel_home %}
             <div class="profile-info-label row">
-                <div class="col"><i class="fas fa-home"></i> E.T. Téléphone maison</b></div>
+                <div class="col"><i class="fas fa-home"></i> E.T. Téléphone maison</strong></div>
             </div>
             <div class="profile-info row">
                 <div class="col">{{ profile.tel_home }}</div>
@@ -46,7 +46,7 @@
         {% endif %}
         {% if profile.tel_pro %}
             <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-user-tie"></i> Téléphone professionnel</b></div>
+                <div class="col"><strong><i class="fas fa-user-tie"></i> Téléphone professionnel</strong></div>
             </div>
             <div class="profile-info row">
                 <div class="col">{{ profile.tel_pro }}</div>
@@ -54,7 +54,7 @@
         {% endif %}
         {% if profile.locality or profile.address or profile.npa %}
             <div class="profile-info-label row">
-                <div class="col"><b><i class="fas fa-map-marker-alt"></i> Adresse</b></div>
+                <div class="col"><strong><i class="fas fa-map-marker-alt"></i> Adresse</strong></div>
             </div>
             <div class="profile-info row">
                 <div class="col">{% if profile.npa %}{{ profile.npa }}{% endif %}

@@ -1,7 +1,4 @@
 <div class="container d-grid gap-2 gradient-l2 text-white small-padding-container rounded-corner-container">
-    <div class="row">
-        <h2 class="mb-0">Groupes auxquels vous appartenez</h2>
-    </div>
     <!-- TODO: place temporaire pour le bouton -->
     <div class="row">
         <p class="mb-0">
@@ -22,7 +19,7 @@
                     {% endif %}
                     <div class="card-header">
                         <h4>{{ group.name }}</h4>
-                        <h5>{{ group.members_count }} membre{% if group.members_count > 1 %}s{% endif %}</h5>
+                        <h5>{{ group.members.count }} membre{% if group.members_count|length_is:'>1' %}s{% endif %}</h5>
                     </div>
                     <div class="card-body">
                         <div>{{ group.description }}</div>

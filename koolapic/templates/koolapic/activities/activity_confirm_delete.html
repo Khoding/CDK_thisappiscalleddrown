@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Suppression de l'activité</h1>
     <form method="post">{% csrf_token %}
-        <p>Êtes-vous sûr de vouloir supprimer <b>"{{ object }}"</b>?</p>
+        <p>Êtes-vous sûr de vouloir supprimer <strong>"{{ object }}"</strong>?</p>
         <input type="submit" value="Supprimer">
     </form>
 {% endblock content %}

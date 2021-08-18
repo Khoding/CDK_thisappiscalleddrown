@@ -53,13 +53,13 @@
                 </li>
             {% endif %}
         </ul>
-        <div class="tab-content medium-padding-container">
+        <div class="tab-content pt-2">
             <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
                 <div class="text-large">
-                    <h2 class="mt-4">Informations</h2>
+                    <h5>Informations</h5>
                     {% if activity.description %}
                         <div class="row mt-2">
-                            <div class="col"><b>Description</b></div>
+                            <div class="col"><strong>Description</strong></div>
                         </div>
                         <div class="row">
                             <div class="col">{{ activity.description }}</div>
@@ -68,7 +68,7 @@
 
                     {% if activity.remarks %}
                         <div class="row mt-2">
-                            <div class="col"><b>Remarques</b></div>
+                            <div class="col"><strong>Remarques</strong></div>
                         </div>
                         <div class="row">
                             <div class="col">{{ activity.remarks }}</div>
@@ -77,7 +77,7 @@
 
                     <hr class="hr-white">
 
-                    <h2 class="mt-4">Début</h2>
+                    <h5>Début</h5>
                     <div class="row">
                         <div class="col-1">
                             <i class="far fa-calendar-alt"></i>
@@ -102,10 +102,11 @@
                             {{ activity.start_location }}
                         </div>
                     </div>
-                    <hr class="hr-white">
 
-                    {% if activity.end_date or activity.start_date %}
-                        <h2 class="mt-4">Fin</h2>
+                    {% if activity.end_date %}
+                        <hr class="hr-white">
+
+                        <h5>Fin</h5>
                         {% if activity.end_date %}
                             <div class="row">
                                 <div class="col-1">
@@ -137,11 +138,9 @@
                     {% endif %}
                     <hr class="hr-white">
 
-                    <h2>Dernière mise à jour</h2>
-                    <div class="row">
-                        <div class="col">{% weekday activity.last_update %} {{ activity.last_update.date }}
-                            à {% hour activity.last_update %}</div>
-                    </div>
+                    <p class="text-small mb-0">Dernière mise à jour</p>
+                    <div class="text-small">{% weekday activity.last_update %} {{ activity.last_update.date }}
+                        à {% hour activity.last_update %}</div>
                 </div>
             </div>
             <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">

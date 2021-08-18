@@ -12,12 +12,12 @@
                     <div class="d-flex flex-row align-items-right">
                         <div class="flex-column w-100">
                             {% if invitation.user %}
-                                <div class="ps-1"><b>Invitation
+                                <div class="ps-1"><strong>Invitation
                                     à {{ invitation.user.first_name }} {{ invitation.user.last_name }} pour rejoindre le
-                                    groupe {{ invitation.group.name }}</b></div>
+                                    groupe {{ invitation.group.name }}</strong></div>
                             {% else %}
-                                <div class="ps-1"><b>Invitation générale pour rejoindre le
-                                    groupe {{ invitation.group.name }}</b></div>
+                                <div class="ps-1"><strong>Invitation générale pour rejoindre le
+                                    groupe {{ invitation.group.name }}</strong></div>
                             {% endif %}
                             <span class="ps-1 pt-0 text-left">{{ invitation.slug }}</span>
 
