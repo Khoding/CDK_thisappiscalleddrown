@@ -3,7 +3,7 @@ from django.contrib.syndication.views import Feed
 from .models import Activity
 
 
-class GroupActivitiesFeed(Feed):
+class GroupActivityFeed(Feed):
     """
     Flux RSS des activités de groupe.
     """

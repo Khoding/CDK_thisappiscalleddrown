@@ -3,8 +3,6 @@
 
 {% block navbar %}
     {{ block.super }}
-
-
 {% endblock navbar %}
 
 {% block topbar %}
@@ -14,7 +12,7 @@
         <header class="container-fluid w-75 gradient-l2 medium-padding-container">
             <div class="d-flex justify-content-between">
                 <div class="p-2 no-padding-container">
-                    <a class="navbar-brand" href="{% url 'koolapic:home' %}">
+                    <a class="navbar-brand" href="{% url 'koolapic:activity_list' %}">
                         <img id="main-navbar-logo"
                              src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
                              alt="Logo de Koolapic">

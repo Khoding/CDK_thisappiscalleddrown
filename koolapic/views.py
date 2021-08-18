@@ -552,12 +552,12 @@ class InvitationView(DetailView):
         if self.request.user in self.get_object().group.members.filter(member__id=self.request.user.id) != 0:
             messages.error(request=self.request,
                            message="Vous faites déjà partie de ce groupe.")
-            return redirect(reverse('koolapic:home'))
+            return redirect(reverse('koolapic:activity_list'))
 
         if self.get_object().user and self.request.user != self.get_object().user:
             messages.error(request=self.request,
                            message="Cette invitation ne vous est pas destinée.")
-            return redirect(reverse('koolapic:home'))
+            return redirect(reverse('koolapic:activity_list'))
 
         return super().get(*args, **kwargs)
 
@@ -576,11 +576,11 @@ class InvitationView(DetailView):
                                  message=f"Vous avez décliné l'invitation au groupe {group.name}.")
                 if self.get_object().user:
                     self.model.objects.get(id=self.request.user.id).delete()
-                return redirect(reverse('koolapic:home'))
+                return redirect(reverse('koolapic:activity_list'))
         else:
             messages.error(request=self.request,
                            message="Cette invitation ne vous est pas destinée.")
-            return redirect(reverse('koolapic:home'))
+            return redirect(reverse('koolapic:activity_list'))
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):

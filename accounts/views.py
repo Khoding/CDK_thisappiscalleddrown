@@ -25,7 +25,7 @@ class EditUserProfileView(UpdateView):
     """
 
     form_class = EditProfileForm
-    success_url = reverse_lazy('koolapic:home')
+    success_url = reverse_lazy('koolapic:activity_list')
     template_name = 'account/edit_profile.html'
     success_message = 'Profil modifié avec succès !'
     context_object_name = 'profile'
@@ -101,7 +101,7 @@ class SignupView(CreateView):
     """
 
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy('koolapic:home')
+    success_url = reverse_lazy('koolapic:activity_list')
     template_name = 'account/signup.html'
     success_message = 'Compte créé avec succès !'
 
