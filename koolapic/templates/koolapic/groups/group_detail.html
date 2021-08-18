@@ -23,29 +23,23 @@
                     {% endfor %}
 
                     {% if members.count > 10 %}
-                        <a href="#membersList" data-bs-toggle="tab" role="link" aria-controls="link"
+                        <a href="#members" data-bs-toggle="tab" role="link" aria-controls="link"
                            class="undisplayed-elements-badge">+ {{ undisplayed_members_count }}</a>
                     {% endif %}
                 </div>
 
-                {% if group.invitation_policy == "PU" and user not in members and user not in admins %}
-                    <button id="joinButton" type="button" class="btn btn-secondary" onclick="join();">Rejoindre</button>
+                {% if user not in members and user not in admins %}
+                    <button id="all_members" type="button" class="btn btn-secondary" onclick="join();">Rejoindre</button>
                 {% endif %}
 
-                {% if user in members %}
+                {% if user in all_members and user not in admins %}
                     <button id="leaveButton" type="button" class="btn btn-secondary" onclick="leave();">Quitter</button>
                 {% endif %}
 
                 {% if user in all_members %}
-                    {% if group.invitation_policy == "PU" or group.invitation_policy == "OI" %}
-                        <button id="inviteButton" type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                data-target="#invitationModal">Inviter quelqu'un
-                        </button>
-                    {% elif user in admins and group.invitation_policy == "OAI" %}
-                        <button id="inviteButton" type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                data-target="#invitationModal">Inviter quelqu'un
-                        </button>
-                    {% endif %}
+                    <button id="inviteButton" type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-target="#invitationModal">Inviter quelqu'un
+                    </button>
                 {% endif %}
             </div>
         </div>
