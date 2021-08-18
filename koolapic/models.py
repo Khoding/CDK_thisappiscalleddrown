@@ -65,8 +65,6 @@ class Activity(models.Model):
     creator = models.ForeignKey(
         CustomUser, null=True, blank=True, verbose_name="Créateur", on_delete=models.CASCADE)
 
-    end_inscription_date = models.DateTimeField(
-        null=True, blank=True, verbose_name="Date de fin des inscriptions")
     remarks = models.TextField(
         max_length=500, null=True, blank=True, verbose_name="Remarques")
     max_participants = models.PositiveIntegerField(

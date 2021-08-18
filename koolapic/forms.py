@@ -36,8 +36,6 @@ class ActivityCreationForm(forms.ModelForm):
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de début")
     end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de fin")
-    end_inscription_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Inscription jusqu'à")
 
     class Meta:
         model = Activity
@@ -51,7 +49,6 @@ class ActivityCreationForm(forms.ModelForm):
             'start_location',
             'start_date',
 
-            'end_inscription_date',
             'max_participants',
             'end_location',
             'end_date',
@@ -70,8 +67,6 @@ class ActivityChangeForm(forms.ModelForm):
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de début")
     end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de fin")
-    end_inscription_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Inscription jusqu'à")
 
     class Meta:
         model = Activity
@@ -84,7 +79,6 @@ class ActivityChangeForm(forms.ModelForm):
             'start_location',
             'start_date',
 
-            'end_inscription_date',
             'max_participants',
             'end_location',
             'end_date',

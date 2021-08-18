@@ -137,30 +137,6 @@
                         {% endfor %}
                     </div>
 
-                    <div class="col col-md-auto">
-                        {{ form.end_inscription_date.label_tag }}
-                        {{ form.end_inscription_date|add_class:"form-control" }}
-                        {% if form.end_inscription_date.help_text %}
-                            <span class="text-small text-muted">{{ form.end_inscription_date.help_text }}</span>
-                        {% endif %}
-                        {% for error in form.end_inscription_date.errors %}
-                            <small class="text-danger">{{ error }}</small>
-                        {% endfor %}
-                    </div>
-
-                    <div class="col col-md-4">
-                        <div class="form-floating">
-                            {{ form.end_inscription_time|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                            {{ form.end_inscription_time.label_tag }}
-                        </div>
-                        {% if form.end_inscription_time.help_text %}
-                            <span class="text-small text-muted">{{ form.end_inscription_time.help_text }}</span>
-                        {% endif %}
-                        {% for error in form.end_inscription_time.errors %}
-                            <small class="text-danger">{{ error }}</small>
-                        {% endfor %}
-                    </div>
-
                     <div class="col-12"></div>
 
                     <div class="col col-lg-4 col-xxl-3">

@@ -4,7 +4,14 @@
 {% block content %}
     <div class="activity-header gradient-l2 small-padding-container rounded-corner-container text-white">
         <div class="activity-panel small-padding-container">
-            <h1>{{ activity.name }}</h1>
+            <div class="clearfix">
+                <h1 class="d-inline-block">{{ activity.name }}</h1>
+                <div class="float-end">
+                    <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
+                        <i class="far fa-clone"></i> Dupliquer l'activité
+                    </a>
+                </div>
+            </div>
             <h2>Créée par {{ activity.creator }}</h2>
             {% if activity.max_participants %}
                 {% if activity.participants.count > 0 %}
@@ -50,15 +57,6 @@
             <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
                 <div class="text-large">
                     <h2 class="mt-4">Informations</h2>
-                    {% if activity.end_inscription_date %}
-                        <div class="row mt-2">
-                            <div class="col"><b>Fin des inscriptions</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col">{{ activity.end_inscription_date }}</div>
-                        </div>
-                    {% endif %}
-
                     {% if activity.description %}
                         <div class="row mt-2">
                             <div class="col"><b>Description</b></div>
@@ -152,17 +150,10 @@
 
             {% if user.id == activity.creator_id %}
                 <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
-                    Options
-
                     <div class="mt-2">
                         <p class="mb-0">
                             <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
                                 <i class="icon fas fa-pen text-center"></i> Modifier l'activité
-                            </a>
-                        </p>
-                        <p class="mb-0">
-                            <a class="text-light" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
-                                <i class="far fa-clone"></i> Dupliquer l'activité
                             </a>
                         </p>
                         <p class="mb-0">
