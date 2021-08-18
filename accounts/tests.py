@@ -22,8 +22,8 @@ class UserTestCase(TestCase):
             locality="Bienne",
             npa=2134,
             address="Rue du sommeil 12",
-            tel_m="+41 077 123 32 12",
-            tel_p="+41 069 696 96 96"
+            tel_mobile="+41 077 123 32 12",
+            tel_pro="+41 069 696 96 96"
         )
 
         CustomUser.objects.create(
@@ -35,6 +35,6 @@ class UserTestCase(TestCase):
             locality="Les Breuleux",
             npa=2143,
             address="Rue de la banane 20",
-            tel_p="+41 078 982 12 32",
-            tel_m="+41 076 213 32 41"
+            tel_pro="+41 078 982 12 32",
+            tel_mobile="+41 076 213 32 41"
         )
