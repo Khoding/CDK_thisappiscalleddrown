@@ -12,22 +12,9 @@
 {% block content %}
     <div class="group-header gradient-l2 small-padding-container rounded-corner-container text-white">
         {% if group.image %}<img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">{% endif %}
-        <div class="group-panel small-padding-container">
-            <h1>{{ group.name }}</h1>
-            <div id="groupOverview" class="group-members-overview d-none d-lg-block">
-                <div class="members-overview mb-2">
-                    {% for user_p in all_members|slice:"10" %}
-                        {% include 'includes/profile_picture.html' %}
-                    {% empty %}
-                        <h1 class="empty">Aucun membre n'est présent dans ce groupe.</h1>
-                    {% endfor %}
-
-                    {% if members.count > 10 %}
-                        <a href="#members" data-bs-toggle="tab" role="link" aria-controls="link"
-                           class="undisplayed-elements-badge">+ {{ undisplayed_members_count }}</a>
-                    {% endif %}
-                </div>
-
+        <div class="group-panel small-padding-container clearfix">
+            <h2 class="d-inline-block mb-0">{{ group.name }}</h2>
+            <div id="groupOverview" class="group-members-overview d-none d-lg-inline-block float-end">
                 {% if user not in members and user not in admins %}
                     <button id="all_members" type="button" class="btn btn-secondary" onclick="join();">Rejoindre</button>
                 {% endif %}
@@ -73,6 +60,7 @@
             </div>
             {# TODO: permissions de voir ça #}
             <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                <h6><strong>Gérer le groupe</strong></h6>
                 <div class="mt-2">
                     <p class="mb-0">
                         <a class="text-light" title="Modifier le groupe" href="{{ group.get_update_url }}">

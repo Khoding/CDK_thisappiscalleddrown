@@ -249,9 +249,7 @@ class GroupActivityCreateView(LoginRequiredMixin, CreateView):
     form_class = ActivityCreationForm
 
     def form_valid(self, form):
-        group = Group.objects.get(slug=self.kwargs['slug'])
         form.instance.creator = self.request.user
-        form.instance.group = group
         return super().form_valid(form)
 
     def get_success_url(self, *args, **kwargs):

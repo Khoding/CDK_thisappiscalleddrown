@@ -149,6 +149,7 @@
 
             {% if user.id == activity.creator_id %}
                 <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                    <h6><strong>Gérer l'activité</strong></h6>
                     <div class="mt-2">
                         <p class="mb-0">
                             <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
