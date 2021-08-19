@@ -85,7 +85,7 @@
     </head>
     <body class="d-flex flex-column h-100">
         {% block navbar %}
-            <nav class="navbar navbar-expand-lg fixed-top gradient-l2" aria-label="Main navigation">
+            <nav class="navbar navbar-expand-lg fixed-top gradient-l2 col" aria-label="Main navigation">
                 <div class="container-fluid">
                     {% if user.is_authenticated %}
                         <div class="d-none d-lg-block">
@@ -126,20 +126,13 @@
                                         Se déconnecter
                                     </a>
                                 </li>
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" href="{% url 'account:login' %}">Se connecter</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" href="{% url 'account:signup' %}">S'enregistrer</a>
-                                </li>
-                            {% endif %}
-                            {% if user.is_superuser %}
-                                <li class="nav-item">
-                                    <a class="nav-link text-danger" href="{% url "admin:index" %}">
-                                        Administration
-                                    </a>
-                                </li>
+                                {% if user.is_superuser %}
+                                    <li class="nav-item">
+                                        <a class="nav-link text-danger" href="{% url "admin:index" %}">
+                                            Administration
+                                        </a>
+                                    </li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                     </div>
@@ -165,9 +158,9 @@
                             {% endif %}
                         </div>
                     {% else %}
-                        <div class="d-flex no-padding-container w-25 justify-content-end">
-                            <a class="btn btn-sm btn-d2 w-25" href="{% url 'account:login' %}">Log in</a>
-                            <a class="btn btn-sm btn-outline-light ms-2 w-25" href="{% url 'account:signup' %}">Sign up</a>
+                        <div class="no-padding-container col-auto me-2">
+                            <a class="btn btn-sm btn-d2" href="{% url 'account:login' %}">Log in</a>
+                            <a class="btn btn-sm btn-outline-light ms-2" href="{% url 'account:signup' %}">Sign up</a>
                         </div>
                     {% endif %}
                 </div>
