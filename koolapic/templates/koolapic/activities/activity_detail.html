@@ -76,26 +76,20 @@
 
                     <h5>Début</h5>
                     <div class="row">
-                        <div class="col-1">
-                            <i class="far fa-calendar-alt"></i>
-                        </div>
                         <div class="col">
+                            <i class="far fa-calendar-alt"></i>
                             {% weekday activity.start_date.date %} {{ activity.start_date.date }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-1">
-                            <i class="far fa-clock"></i>
-                        </div>
                         <div class="col">
-                            {% hour activity.start_date.time %}
+                            <i class="far fa-clock"></i>
+                            {{ activity.start_date.time|date:'H:i' }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-1">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
                         <div class="col">
+                            <i class="fas fa-map-marked-alt"></i>
                             {{ activity.start_location }}
                         </div>
                     </div>
@@ -136,8 +130,8 @@
                     <hr class="hr-white">
 
                     <p class="text-small mb-0">Dernière mise à jour</p>
-                    <div class="text-small">{% weekday activity.last_update %} {{ activity.last_update.date }}
-                        à {% hour activity.last_update %}</div>
+                    <div class="text-small"><strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
+                        à {% hour activity.last_update %}</strong></div>
                 </div>
             </div>
             <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
