@@ -121,6 +121,11 @@
                                         Mes groupes
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" title="Se déconnecter" href="{% url 'account:logout' %}">
+                                        Se déconnecter
+                                    </a>
+                                </li>
                             {% else %}
                                 <li class="nav-item">
                                     <a class="nav-link text-light" href="{% url 'account:login' %}">Se connecter</a>
