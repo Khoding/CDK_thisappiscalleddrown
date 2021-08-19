@@ -1,7 +1,7 @@
 {% load static %}
 {% load extras %}
 
-<div class="card gradient-l2 formcard text-white rounded-corner-container">
+<div class="card gradient-l2 formcard text-white rounded">
     <div class="card-header">
         Créer un compte sur Koolapic
         <hr class="hr-white">
@@ -10,7 +10,7 @@
          src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}">
     <div class="card-body">
         <form action="{{ form_action }}" method="post" novalidate
-              class="medium-padding-container bg-wt rounded-corner-container">
+              class="medium-padding-container bg-wt rounded">
             {% csrf_token %}
             {{ form.non_field_errors }}
             {% form form %}

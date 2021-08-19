@@ -11,7 +11,7 @@
     <div class="card-body">
         {% with invitation.sender as user_p %}
             <div class="d-flex justify-content-center mb-4">
-                <div class="rounded-corner-container small-padding-container bg-wt formcard w-50">
+                <div class="rounded small-padding-container bg-wt formcard w-50">
                     <p class="text-medium text-center">{{ user_p.first_name }} {{ user_p.last_name }} vous a invité à
                         rejoindre le groupe :</p>
                     <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
@@ -21,7 +21,7 @@
             </div>
         {% endwith %}
         <form action="{{ form_action }}" method="post" novalidate
-              class="medium-padding-container bg-wt rounded-corner-container">
+              class="medium-padding-container bg-wt rounded">
             <h4>Se connecter</h4>
             {% csrf_token %}
             {{ form.non_field_errors }}

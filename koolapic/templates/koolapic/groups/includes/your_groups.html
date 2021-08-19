@@ -1,4 +1,4 @@
-<div class="container d-grid gap-2 gradient-l2 text-white small-padding-container rounded-corner-container">
+<div class="container d-grid gap-2 gradient-l2 text-white small-padding-container rounded">
     <!-- TODO: place temporaire pour le bouton -->
     <div class="row">
         <p class="mb-0">
@@ -8,10 +8,10 @@
             </a>
         </p>
     </div>
-    <div class="row gx-2 horizontal-scroll">
+    <div class="row gx-2">
         {% if groups.count %}
             {% for group in groups %}
-                <div class="card infocard{% if not forloop.last %} me-2{% endif %} col bg-wt px-0" data-group-id="{{ group.id }}">
+                <div class="card {% if not forloop.last %} mb-2{% endif %} bg-wt px-0 rounded" data-group-id="{{ group.id }}">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}" alt="{{ group.image.url }}">
                     {% else %}
