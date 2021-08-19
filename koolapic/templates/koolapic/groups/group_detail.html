@@ -12,7 +12,7 @@
 {% block content %}
     <div class="group-header gradient-l2 small-padding-container rounded-corner-container text-white">
         {% if group.image %}<img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner">{% endif %}
-        <div class="group-panel small-padding-container clearfix">
+        <div class="group-panel clearfix mb-2">
             <h2 class="d-inline-block mb-0">{{ group.name }}</h2>
             <div id="groupOverview" class="group-members-overview d-none d-lg-inline-block float-end">
                 {% if user not in members and user not in admins %}

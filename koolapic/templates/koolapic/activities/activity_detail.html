@@ -3,14 +3,12 @@
 
 {% block content %}
     <div class="activity-header gradient-l2 small-padding-container rounded-corner-container text-white">
-        <div class="activity-panel small-padding-container">
-            <div class="clearfix">
-                <h1 class="d-inline-block">{{ activity.name }}</h1>
-                <div class="float-end">
-                    <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
-                        <i class="far fa-clone"></i> Dupliquer l'activité
-                    </a>
-                </div>
+        <div class="activity-panel clearfix mb-2">
+            <h1 class="d-inline-block">{{ activity.name }}</h1>
+            <div class="float-end">
+                <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
+                    <i class="far fa-clone"></i> Dupliquer l'activité
+                </a>
             </div>
             <h2>Créée par {{ activity.creator }}</h2>
             {% if activity.max_participants %}
@@ -53,13 +51,12 @@
                 </li>
             {% endif %}
         </ul>
-        <div class="tab-content pt-2">
+        <div class="tab-content">
             <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
                 <div class="text-large">
-                    <h5>Informations</h5>
                     {% if activity.description %}
                         <div class="row mt-2">
-                            <div class="col"><strong>Description</strong></div>
+                            <h6><strong>Description</strong></h6>
                         </div>
                         <div class="row">
                             <div class="col">{{ activity.description }}</div>
@@ -144,13 +141,15 @@
                 </div>
             </div>
             <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
-                Inscriptions
+                <div class="mt-2">
+                    <h6><strong>Inscriptions</strong></h6>
+                </div>
             </div>
 
             {% if user.id == activity.creator_id %}
                 <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
-                    <h6><strong>Gérer l'activité</strong></h6>
                     <div class="mt-2">
+                        <h6><strong>Gérer l'activité</strong></h6>
                         <p class="mb-0">
                             <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
                                 <i class="icon fas fa-pen text-center"></i> Modifier l'activité
