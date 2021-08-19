@@ -88,13 +88,15 @@
             <nav class="navbar navbar-expand-lg fixed-top gradient-l2" aria-label="Main navigation">
                 <div class="container-fluid">
                     {% if user.is_authenticated %}
-                        <a class="navbar-brand text-white" href="{% url 'koolapic:activity_list' %}">
-                    {% else %}
-                        <a class="navbar-brand text-white" href="{% url 'koolapic:homepage' %}">
-                    {% endif %}
-                        <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
-                             alt="Très beau logo de Koolapic"> Koolapic
-                    </a>
+                        <div class="d-none d-lg-block">
+                            <a class="navbar-brand text-white" href="{% url 'koolapic:activity_list' %}">
+                        {% else %}
+                            <a class="navbar-brand text-white" href="{% url 'koolapic:homepage' %}">
+                        {% endif %}
+                            <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
+                                 alt="Très beau logo de Koolapic"> Koolapic
+                        </a>
+                    </div>
                     <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
                             aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
