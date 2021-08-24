@@ -63,9 +63,7 @@ function displayAlert(severity, message) {
         `<div class="alert alert-dismissable alert-${bootstrapColor} show" role="alert">
             <div class="sr-only">${srOnly}</div>
                 ${message}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
             </div>
         </div>`
 

@@ -32,6 +32,16 @@ body {
     padding-top: 80px;
 }
 
+.link-mid-text {
+    color: white;
+    text-decoration: underline;
+
+    &:hover {
+        color: white;
+        text-decoration: none;
+    }
+}
+
 @media (max-width: 991.98px) {
     .offcanvas-collapse {
         position: fixed;

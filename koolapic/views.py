@@ -519,6 +519,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         context['invitation_form'] = InvitationCreationForm
         return context
 
+
 class InvitationView(DetailView):
     """
     Vue d'invitation à un groupe'.
