@@ -39,7 +39,7 @@ class Group(models.Model):
         Fonction apelée à la sauvegarde du groupe.
         """
         if not self.slug:
-            self.slug = generate_unique_vanity(5, 15, Group)
+            self.slug = generate_unique_vanity(5, 10, Group)
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
