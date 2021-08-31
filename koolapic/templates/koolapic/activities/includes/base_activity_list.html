@@ -21,7 +21,7 @@
                                                     {% if inscription.presence %}
                                                         <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
                                                     {% else %}
-                                                        <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Ne participe pas</a>
+                                                        <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
                                                     {% endif %}
                                                 {% endif %}
                                             {% endfor %}
