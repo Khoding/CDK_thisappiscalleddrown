@@ -43,9 +43,13 @@ body {
 }
 
 @media (max-width: 991.98px) {
+    body {
+        padding-top: 54px;
+    }
+
     .offcanvas-collapse {
         position: fixed;
-        top: 80px; /* Height of navbar */
+        top: 54px; /* Height of navbar */
         bottom: 0;
         left: 100%;
         width: 100%;

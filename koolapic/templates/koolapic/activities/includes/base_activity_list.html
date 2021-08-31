@@ -42,7 +42,7 @@
                             <div class="text-ellipsis">
                                 Dans groupe: <strong>{{ activity.group }}</strong>
                             </div>
-                            <div class="text-ellipsis">
+                            <div class="text-ellipsis{% if user == activity.creator %} text-primary{% endif %}">
                                 Organisateur: <strong>{{ activity.creator }}</strong>
                             </div>
                         </div>
