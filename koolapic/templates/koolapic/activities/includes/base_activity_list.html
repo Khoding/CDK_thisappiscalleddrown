@@ -1,11 +1,11 @@
-<div class="container gradient-l2 text-white small-padding-container rounded">
+<div class="container gradient-l2 text-white small-padding-container rounded pb-2">
     <div class="row m-0">
         {% block activity_list %}
             {{ activities|length }} Activité{{ activities|pluralize:"s" }}
             {% if activities|length %}
                 {% for activity in activities %}
                     {% if user in activity.group.members.all %}
-                        <div class="card{% if not forloop.last %} mb-2{% endif %} bg-wt rounded" data-activity-id="{{ activity.id }}">
+                        <div class="card mb-2 bg-wt rounded" data-activity-id="{{ activity.id }}">
                             <div class="card-header px-0 bg-transparent">
                                 <h4 class="d-flex">
                                     <span class="col">
