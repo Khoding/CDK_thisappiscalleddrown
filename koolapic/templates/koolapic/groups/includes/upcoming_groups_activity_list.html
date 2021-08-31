@@ -3,7 +3,7 @@
     <div class="mb-2">
         <a class="btn btn-outline-light" title="Créer une activité"
            href="{% url 'koolapic:group_activity_add' slug=group.slug %}"
-           role="button" data-bame="{{ group.name }}">
+           role="button" data-bs-name="{{ group.name }}">
             <i class="fas fa-plus"></i> Nouvelle activité
         </a>
     </div>
@@ -12,13 +12,34 @@
             {% block activity_list %}
                 {% if upcoming_activities.count %}
                     {% for activity in upcoming_activities %}
-                        <div class="card{% if not forloop.last %} mb-2{% endif %} bg-wt rounded" data-activity-id="{{ activity.id }}">
+                        <div class="card{% if not forloop.last %} mb-2{% endif %} bg-wt rounded" data-bs-activity-id="{{ activity.id }}">
                             <div class="card-header px-0 bg-transparent">
-                                <h4 class="text-ellipsis">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    {% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
-                                    <br />
-                                    {% if activity.end_date %} au {{ activity.end_date }} {% endif %}
+                                <h4 class="d-flex">
+                                    <span class="col">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
+                                        {% if activity.end_date %} au {{ activity.end_date }} {% endif %}
+                                    </span>
+
+                                    <span class="col-auto" style="z-index: 50;">
+                                        {% if user in activity.participants.all or user == activity.creator %}
+                                            {% for inscription in activity.inscriptions.all %}
+                                                {% if user == inscription.user %}
+                                                    {% if inscription.presence %}
+                                                        <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
+                                                    {% else %}
+                                                        <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if user == activity.creator %}
+                                                <a class="btn btn-warning" href="{% url 'koolapic:activity_detail' slug=activity.slug %}#inscriptions">Inscrit{{ activity.participants|pluralize:"s" }} - {{ activity.participants.count }}</a>
+                                            {% endif %}
+                                        {% else %}
+                                            <a class="btn btn-primary" href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">S'inscrire</a>
+                                        {% endif %}
+                                    </span>
                                 </h4>
                             </div>
                             <div class="card-body px-0 pb-2">

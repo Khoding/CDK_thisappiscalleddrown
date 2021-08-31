@@ -1,5 +1,5 @@
+from datetime import datetime
 from django.db import models
-from django.db.models import Count
 from django.urls import reverse, reverse_lazy
 
 from accounts.models import CustomUser
@@ -83,7 +83,7 @@ class Activity(models.Model):
     last_update = models.DateTimeField(
         verbose_name="Dernière mise à jour", auto_now=True)
     participants = models.ManyToManyField(CustomUser, related_name="participants", related_query_name="participant",
-                                          verbose_name="Participants")
+                                          verbose_name="Participants", blank=True)
     slug = models.SlugField(max_length=255, null=True,
                             unique=True, verbose_name="Slug")
     group = models.ForeignKey(
@@ -122,13 +122,19 @@ class Inscription(models.Model):
     Modèle représentant une inscription à une activité.
     """
 
-    date = models.DateTimeField(verbose_name="Date de l'inscription")
+    date = models.DateTimeField(
+        verbose_name="Date de l'inscription", default=datetime.now)
     remarks = models.TextField(
         max_length=500, null=True, blank=True, verbose_name="Remarques")
-    presence = models.IntegerField(verbose_name="Présence")
-    guests_number = models.IntegerField(verbose_name="Nombre de participants")
+    presence = models.BooleanField(verbose_name="Présence", default=True)
+    guests_number = models.PositiveIntegerField(
+        verbose_name="Nombre de participants", default=0)
+    user = models.ForeignKey(CustomUser, null=True, blank=True,
+                             verbose_name="Gars qui s'inscrit", on_delete=models.CASCADE)
     activity = models.ForeignKey(
-        Activity, on_delete=models.CASCADE, null=True, verbose_name="Activité")
+        Activity, on_delete=models.CASCADE, null=True, verbose_name="Activité", related_name="inscriptions")
+    slug = models.SlugField(max_length=255, null=True,
+                            unique=True, verbose_name="Slug")
 
     class Meta:
         verbose_name = 'inscription'
@@ -136,6 +142,17 @@ class Inscription(models.Model):
 
     def __str__(self):
         return self.remarks
+
+    def save(self, *args, **kwargs):
+        """
+        Fonction apelée à la sauvegarde de l'inscription.
+        """
+        if not self.slug:
+            self.slug = generate_unique_vanity(5, 10, Inscription)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse_lazy("koolapic:inscription", kwargs={'slug': self.slug})
 
 
 class Donation(models.Model):

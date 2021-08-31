@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Inscrit: {{ inscription.user }}</p>
+    <p>Présence: {% if inscription.presence %}Présent{% else %}Ne vient pas{% endif %}</p>
+    <p>Invité{{ inscription.guests_number|pluralize:"s" }}: {{ inscription.guests_number }}</p>
+    <p>Activité: {{ inscription.activity }}</p>
+    <p>Date d'inscription: {{ inscription.date }}</p>
+    <p>Remarques: {{ inscription.remarks }}</p>
+
+    <p><a href="{% url 'koolapic:update_inscription' slug=inscription.slug %}">Editer l'inscription</a></p>
+{% endblock content %}

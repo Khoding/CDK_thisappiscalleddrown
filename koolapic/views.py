@@ -1,21 +1,31 @@
+from datetime import datetime
 import json
 
+from accounts.models import CustomUser
+from ceffdevKAPIC.koolapic_settings import (CONTRIBUTORS,
+                                            MAX_INVITATION_NUMBER_BY_USER)
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
-
-from accounts.models import CustomUser
-from ceffdevKAPIC.koolapic_settings import MAX_INVITATION_NUMBER_BY_USER, CONTRIBUTORS
-from koolapic.forms import ActivityChangeForm, CustomGroupCreationForm, CustomGroupChangeForm, InvitationCreationForm, \
-    ActivityCreationForm
-from koolapic.models import Activity, Group, Invitation, Notification
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 from utils.notifications import unread_notifications_number_to_dictionary
+
+from koolapic.forms import (ActivityChangeForm, ActivityCloneForm,
+                            ActivityCreationForm, CustomGroupChangeForm,
+                            CustomGroupCreationForm, InscriptionCreationForm,
+                            InvitationCreationForm)
+from koolapic.models import Activity, Group, Inscription, Invitation, Notification
+
+# def activity_join_view(request, slug):
+#     activity = get_object_or_404(
+#         Activity, slug=request.POST.get('activity_slug'))
+#     activity.participants.add(request.user)
+#     return HttpResponseRedirect(reverse('koolapic:activity_detail', args=[str(slug)]))
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -48,12 +58,17 @@ class IndexView(LoginRequiredMixin, TemplateView):
         return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
             else Activity.objects.order_by('start_date').filter(Q(creator=self.request.user) | Q(participants=self.request.user))
 
+    def get_all_activities(self):
+        return Activity.objects.order_by('start_date').all()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context[
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         context['upcoming_activities'] = self.get_activities().filter(
+            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
+        context['activities'] = self.get_all_activities().filter(
             Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
         return context
 
@@ -228,6 +243,28 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
+class InscriptionCreateView(LoginRequiredMixin, CreateView):
+    model = Inscription
+    template_name = 'koolapic/activities/subscribe.html'
+    form_class = InscriptionCreationForm
+
+    def form_valid(self, form):
+        activity = Activity.objects.get(slug=self.kwargs['slug'])
+        form.instance.activity = activity
+        activity.participants.add(self.request.user)
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse_lazy("koolapic:activity_detail", kwargs={'slug': self.kwargs['slug']})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Créer une activité sur Koolapic'
+        return context
+
+
 class GroupActivityCreateView(LoginRequiredMixin, CreateView):
     """
     Vue de création d'une activité de groupe.
@@ -282,7 +319,11 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
 
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
-    form_class = ActivityCreationForm
+    form_class = ActivityCloneForm
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         activity = self.get_object()
@@ -291,7 +332,7 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Créer une activité sur Koolapic'
-        context['form'] = ActivityCreationForm(instance=activity)
+        context['form'] = ActivityCloneForm(instance=activity)
         return context
 
 
@@ -583,6 +624,59 @@ class InvitationView(DetailView):
             messages.error(request=self.request,
                            message="Cette invitation ne vous est pas destinée.")
             return redirect(reverse('koolapic:activity_list'))
+
+
+class InscriptionView(DetailView):
+    """
+    Vue d'invitation à un groupe'.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/inscription.html'
+    """
+
+    template_name = 'koolapic/activities/inscription.html'
+    model = Inscription
+    context_object_name = 'inscription'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        return context
+
+
+class InscriptionUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Vue de mise à jour de groupe.
+
+    **Contexte**
+
+    ``title``
+        Titre de la page.
+    ``description``
+        Description de la page.
+
+    **Template**
+
+    :template:'koolapic/activities/update_inscription.html'
+    """
+
+    model = Inscription
+    template_name = 'koolapic/activities/update_inscription.html'
+    form_class = InscriptionCreationForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Koolapic'
+        context['description'] = 'Editer une inscription sur Koolapic'
+        return context
 
 
 class GroupCreateView(LoginRequiredMixin, CreateView):

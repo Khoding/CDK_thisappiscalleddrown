@@ -31,13 +31,15 @@
                        data-controls="members" aria-controls="members">Membres</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
-                       data-controls="management" aria-controls="management">Gestion</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" id="activitiesTab" href="#activities" role="tab"
                        data-controls="activities" aria-controls="activities">Activités</a>
                 </li>
+                {% if user in group.admins.all %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
+                        data-controls="management" aria-controls="management">Gestion</a>
+                    </li>
+                {% endif %}
             </ul>
             <div class="tab-content pt-2">
                 <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
@@ -49,22 +51,23 @@
                 <div class="tab-pane" id="activities" role="tabpanel" aria-labelledby="activitiesTab">
                     {% include 'koolapic/groups/includes/group_activities.html' %}
                 </div>
-                {# TODO: permissions de voir ça #}
-                <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
-                    <h6><strong>Gérer le groupe</strong></h6>
-                    <div class="mt-2">
-                        <p class="mb-0">
-                            <a class="text-light" title="Modifier le groupe" href="{{ group.get_update_url }}">
-                                <i class="icon fas fa-pen text-center"></i> Modifier le groupe
-                            </a>
-                        </p>
-                        <p class="mb-0">
-                            <a class="text-light" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}">
-                                <i class="icon fas fa-trash-alt text-center"></i> Supprimer le groupe
-                            </a>
-                        </p>
+                {% if user in group.admins.all %}
+                    <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                        <h6><strong>Gérer le groupe</strong></h6>
+                        <div class="mt-2">
+                            <p class="mb-0">
+                                <a class="text-light" title="Modifier le groupe" href="{{ group.get_update_url }}">
+                                    <i class="icon fas fa-pen text-center"></i> Modifier le groupe
+                                </a>
+                            </p>
+                            <p class="mb-0">
+                                <a class="text-light" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}">
+                                    <i class="icon fas fa-trash-alt text-center"></i> Supprimer le groupe
+                                </a>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
         <div id="invitationModal" class="modal" tabindex="-1" role="dialog">

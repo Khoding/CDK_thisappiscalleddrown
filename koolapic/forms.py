@@ -11,7 +11,7 @@ from django.core.validators import FileExtensionValidator
 from django.forms import TextInput, ImageField
 from easy_maps.widgets import AddressWithMapWidget
 
-from koolapic.models import Activity, Group, Invitation
+from koolapic.models import Activity, Group, Inscription, Invitation
 from utils.image_utils import crop_redim_image
 
 VALID_IMAGE_EXTENSIONS = [
@@ -36,6 +36,39 @@ class ActivityCreationForm(forms.ModelForm):
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de début")
     end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de fin")
+
+    class Meta:
+        model = Activity
+        fields = [
+            'name',
+            'group',
+
+            'description',
+            'remarks',
+
+            'start_location',
+            'start_date',
+
+            'max_participants',
+            'end_location',
+            'end_date',
+        ]
+
+        widgets = {
+            'address': AddressWithMapWidget({'class': 'vTextField'}),
+        }
+
+
+class ActivityCloneForm(forms.ModelForm):
+    """
+    Formulaire de clonage des activités.
+    """
+    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de début")
+    end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'), label="Date de fin")
+
+    exclude = ['participants', ]
 
     class Meta:
         model = Activity
@@ -171,3 +204,13 @@ class InvitationCreationForm(forms.ModelForm):
     class Meta:
         model = Invitation
         fields = ('email', 'link')
+
+
+class InscriptionCreationForm(forms.ModelForm):
+    """
+    Formulaire de création d'inscriptions.
+    """
+
+    class Meta:
+        model = Inscription
+        fields = ('remarks', 'presence', 'guests_number',)
