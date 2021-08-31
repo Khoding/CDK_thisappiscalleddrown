@@ -2,163 +2,167 @@
 {% load extras %}
 
 {% block content %}
-    <div class="activity-header gradient-l2 small-padding-container rounded text-white">
-        <div class="activity-panel clearfix mb-2">
-            <h1 class="d-inline-block">{{ activity.name }}</h1>
-            <div class="float-end">
-                <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
-                    <i class="far fa-clone"></i> Dupliquer l'activité
-                </a>
-            </div>
-            <h2>Créée par {{ activity.creator }}</h2>
-            {% if activity.max_participants %}
-                {% if activity.participants.count > 0 %}
-                    <div class="progress bg-wt">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                             style="width: {{ activity.get_only_participants }}"
-                             aria-valuenow="{{ activity.get_only_participants }}" aria-valuemin="0"
-                             aria-valuemax="{{ activity.max_participants }}">
-                            {{ activity.participants.count }}/{{ activity.max_participants }} Participants
-                        </div>
+    {% if user in activity.group.members.all %}
+        <div class="activity-header gradient-l2 small-padding-container rounded text-white">
+            <div class="activity-panel clearfix mb-2">
+                <h1 class="d-inline-block">{{ activity.name }}</h1>
+                <div class="float-end">
+                    <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
+                        <i class="far fa-clone"></i> Dupliquer l'activité
+                    </a>
+                </div>
+                <h2>Créée par {{ activity.creator }}</h2>
+                {% if activity.max_participants %}
+                    {% if activity.participants.count > 0 %}
+                        <div class="progress bg-wt">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                style="width: {{ activity.get_only_participants }}"
+                                aria-valuenow="{{ activity.get_only_participants }}" aria-valuemin="0"
+                                aria-valuemax="{{ activity.max_participants }}">
+                                {{ activity.participants.count }}/{{ activity.max_participants }} Participants
+                            </div>
 
-                    </div>
+                        </div>
+                    {% else %}
+                        Aucun participant
+                    {% endif %}
                 {% else %}
-                    Aucun participant
+                    {{ activity.participants.count }} participants
                 {% endif %}
-            {% else %}
-                {{ activity.participants.count }} participants
-            {% endif %}
 
-            {% if user in participants %}
-                <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">
-                    Quitter
-                </button>
-            {% endif %}
-        </div>
-        <ul class="nav nav-tabs group-nav">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab"
-                   data-controls="about" aria-controls="about">Infos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab"
-                   data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
-            </li>
-            {% if user.id == activity.creator_id %}
+                {% if user in participants %}
+                    <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">
+                        Quitter
+                    </button>
+                {% endif %}
+            </div>
+            <ul class="nav nav-tabs group-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
-                       data-controls="management" aria-controls="management">Gestion</a>
+                    <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab"
+                    data-controls="about" aria-controls="about">Infos</a>
                 </li>
-            {% endif %}
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
-                <div class="text-large">
-                    {% if activity.description %}
-                        <div class="row mt-2">
-                            <h6><strong>Description</strong></h6>
-                        </div>
-                        <div class="row">
-                            <div class="col">{{ activity.description }}</div>
-                        </div>
-                    {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab"
+                    data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
+                </li>
+                {% if user.id == activity.creator_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
+                        data-controls="management" aria-controls="management">Gestion</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
+                    <div class="text-large">
+                        {% if activity.description %}
+                            <div class="row mt-2">
+                                <h6><strong>Description</strong></h6>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ activity.description }}</div>
+                            </div>
+                        {% endif %}
 
-                    {% if activity.remarks %}
-                        <div class="row mt-2">
-                            <div class="col"><strong>Remarques</strong></div>
-                        </div>
-                        <div class="row">
-                            <div class="col">{{ activity.remarks }}</div>
-                        </div>
-                    {% endif %}
+                        {% if activity.remarks %}
+                            <div class="row mt-2">
+                                <div class="col"><strong>Remarques</strong></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ activity.remarks }}</div>
+                            </div>
+                        {% endif %}
 
-                    <hr class="hr-white">
-
-                    <h6><strong>Début de l'activité</strong></h6>
-                    <div class="row">
-                        <div class="col">
-                            <i class="far fa-calendar-alt"></i>
-                            {% weekday activity.start_date.date %} {{ activity.start_date.date }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <i class="far fa-clock"></i>
-                            {{ activity.start_date.time|date:'H:i' }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <i class="fas fa-map-marked-alt"></i>
-                            {{ activity.start_location }}
-                        </div>
-                    </div>
-
-                    {% if activity.end_date %}
                         <hr class="hr-white">
 
-                        <h5>Fin</h5>
+                        <h6><strong>Début de l'activité</strong></h6>
+                        <div class="row">
+                            <div class="col">
+                                <i class="far fa-calendar-alt"></i>
+                                {% weekday activity.start_date.date %} {{ activity.start_date.date }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <i class="far fa-clock"></i>
+                                {{ activity.start_date.time|date:'H:i' }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <i class="fas fa-map-marked-alt"></i>
+                                {{ activity.start_location }}
+                            </div>
+                        </div>
+
                         {% if activity.end_date %}
-                            <div class="row">
-                                <div class="col-1">
-                                    <i class="far fa-calendar-alt"></i>
-                                </div>
-                                <div class="col">
-                                    {% weekday activity.end_date.date %} {{ activity.end_date.date }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-1">
-                                    <i class="far fa-clock"></i>
-                                </div>
-                                <div class="col">
-                                    {% hour activity.end_date.time %}
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if activity.end_location %}
-                            <div class="row">
-                                <div class="col-1">
-                                    <i class="fas fa-map-marked-alt"></i>
-                                </div>
-                                <div class="col">
-                                    {{ activity.end_location }}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                    <hr class="hr-white">
+                            <hr class="hr-white">
 
-                    <p class="text-small mb-0">Dernière mise à jour</p>
-                    <div class="text-small"><strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
-                        à {% hour activity.last_update %}</strong></div>
-                </div>
-            </div>
-            <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
-                <div class="mt-2">
-                    <h6><strong>Inscriptions</strong></h6>
-                </div>
-            </div>
+                            <h5>Fin</h5>
+                            {% if activity.end_date %}
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="col">
+                                        {% weekday activity.end_date.date %} {{ activity.end_date.date }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="far fa-clock"></i>
+                                    </div>
+                                    <div class="col">
+                                        {% hour activity.end_date.time %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if activity.end_location %}
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="col">
+                                        {{ activity.end_location }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <hr class="hr-white">
 
-            {% if user.id == activity.creator_id %}
-                <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
-                    <div class="mt-2">
-                        <h6><strong>Gérer l'activité</strong></h6>
-                        <p class="mb-0">
-                            <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
-                                <i class="icon fas fa-pen text-center"></i> Modifier l'activité
-                            </a>
-                        </p>
-                        <p class="mb-0">
-                            <a class="text-light" title="Supprimer l'activité"
-                               href="{{ activity.get_confirm_delete_url }}">
-                                <i class="icon fas fa-trash-alt text-center"></i> Supprimer l'activité
-                            </a>
-                        </p>
+                        <p class="text-small mb-0">Dernière mise à jour</p>
+                        <div class="text-small"><strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
+                            à {% hour activity.last_update %}</strong></div>
                     </div>
                 </div>
-            {% endif %}
+                <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
+                    <div class="mt-2">
+                        <h6><strong>Inscriptions</strong></h6>
+                    </div>
+                </div>
 
+                {% if user.id == activity.creator_id %}
+                    <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                        <div class="mt-2">
+                            <h6><strong>Gérer l'activité</strong></h6>
+                            <p class="mb-0">
+                                <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
+                                    <i class="icon fas fa-pen text-center"></i> Modifier l'activité
+                                </a>
+                            </p>
+                            <p class="mb-0">
+                                <a class="text-light" title="Supprimer l'activité"
+                                href="{{ activity.get_confirm_delete_url }}">
+                                    <i class="icon fas fa-trash-alt text-center"></i> Supprimer l'activité
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
         </div>
-    </div>
+    {% else %}
+        <p>Vous n'êtes pas dans le groupe.</p>
+    {% endif %}
 {% endblock content %}
