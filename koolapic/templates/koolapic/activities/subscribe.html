@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>S'inscrire à l'activité</h1>
+    <h1>Répondre à l'activité</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
 
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
+        <button type="submit" class="btn btn-primary">Répondre</button>
     </form>
 {% endblock content %}
