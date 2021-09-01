@@ -23,12 +23,11 @@
                     {% if activity.participants.count > 0 %}
                         <div class="progress bg-wt">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                style="width: {{ activity.get_only_participants }}"
-                                aria-valuenow="{{ activity.get_only_participants }}" aria-valuemin="0"
-                                aria-valuemax="{{ activity.max_participants }}">
-                                {{ activity.participants.count }}/{{ activity.max_participants }} Participants
+                                 style="width: {{ activity.participants.count }}%;"
+                                 aria-valuenow="{{ activity.participants.count }}" aria-valuemin="0"
+                                 aria-valuemax="{{ activity.max_participants }}">
                             </div>
-
+                            {{ activity.participants.count }}/{{ activity.max_participants }} Participants
                         </div>
                     {% else %}
                         Aucun participant
@@ -42,7 +41,8 @@
                 {% endif %}
 
                 {% if user in participants %}
-                    <button id="desinscriptionButton" type="button" class="btn btn-secondary" onclick="desinscription();">
+                    <button id="desinscriptionButton" type="button" class="btn btn-secondary"
+                            onclick="desinscription();">
                         Quitter
                     </button>
                 {% endif %}
@@ -50,16 +50,16 @@
             <ul class="nav nav-tabs group-nav">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab"
-                    data-controls="about" aria-controls="about">Infos</a>
+                       data-controls="about" aria-controls="about">Infos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab"
-                    data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
+                       data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
                 </li>
                 {% if user.id == activity.creator_id %}
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
-                        data-controls="management" aria-controls="management">Gestion</a>
+                           data-controls="management" aria-controls="management">Gestion</a>
                     </li>
                 {% endif %}
             </ul>
@@ -142,8 +142,9 @@
                         <hr class="hr-white">
 
                         <p class="text-small mb-0">Dernière mise à jour</p>
-                        <div class="text-small"><strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
-                            à {% hour activity.last_update %}</strong></div>
+                        <div class="text-small">
+                            <strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
+                                à {% hour activity.last_update %}</strong></div>
                     </div>
                 </div>
                 <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
@@ -155,9 +156,11 @@
                                 {% for inscription in activity.inscriptions.all %}
                                     {% if user == inscription.user %}
                                         {% if inscription.presence %}
-                                            <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
+                                            <a class="btn btn-success"
+                                               href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
                                         {% else %}
-                                            <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
+                                            <a class="btn btn-danger"
+                                               href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
@@ -166,9 +169,11 @@
                                     {% for inscription in activity.inscriptions.all %}
                                         {% if user != inscription.user %}
                                             {% if inscription.presence %}
-                                                <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit - {{ inscription.user }}</a>
+                                                <a class="btn btn-success"
+                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit - {{ inscription.user }}</a>
                                             {% else %}
-                                                <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé - {{ inscription.user }}</a>
+                                                <a class="btn btn-danger"
+                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé - {{ inscription.user }}</a>
                                             {% endif %}
                                         {% endif %}
                                     {% empty %}
@@ -176,7 +181,8 @@
                                     {% endfor %}
                                 {% endif %}
                             {% else %}
-                                <a class="btn btn-primary" href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
+                                <a class="btn btn-primary"
+                                   href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
                             {% endif %}
                         </span>
 
@@ -194,7 +200,7 @@
                             </p>
                             <p class="mb-0">
                                 <a class="text-light" title="Supprimer l'activité"
-                                href="{{ activity.get_confirm_delete_url }}">
+                                   href="{{ activity.get_confirm_delete_url }}">
                                     <i class="icon fas fa-trash-alt text-center"></i> Supprimer l'activité
                                 </a>
                             </p>

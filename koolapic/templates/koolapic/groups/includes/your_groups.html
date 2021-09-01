@@ -3,7 +3,7 @@
     <div class="row">
         <p class="mb-0">
             <a class="btn btn-outline-light" title="Créer un nouveau groupe" href="{% url 'koolapic:add_group' %}"
-            role="button">
+               role="button">
                 <i class="fas fa-plus"></i> Créer un groupe
             </a>
         </p>
@@ -11,7 +11,8 @@
     <div class="row gx-2">
         {% if groups.count %}
             {% for group in groups %}
-                <div class="card {% if not forloop.last %} mb-2{% endif %} bg-wt px-0 rounded" data-group-id="{{ group.id }}">
+                <div class="card {% if not forloop.last %} mb-2{% endif %} bg-wt px-0 rounded"
+                     data-group-id="{{ group.id }}">
                     {% if group.image %}
                         <img class="card-img" src="{{ group.image.url }}" alt="{{ group.image.url }}">
                     {% else %}

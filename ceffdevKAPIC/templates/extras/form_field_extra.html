@@ -8,19 +8,19 @@
     </div>
 {% else %}
     <div class="input-group">
-        {{ field|add_class:"form-control" }}
+    {{ field|add_class:"form-control" }}
 
-        <div class="input-group-append">
-            {% if field|widget_type == "passwordinput" %}
-                <button type="button" class="btn btn-primary show-passwd-btn" title="Voir le mot de passe"
-                        data-for-field="{{ field.auto_id }}" id="{{ field.auto_id }}showbtn">
-                    <i class="fas fa-eye"></i>
-                </button>
-            {% endif %}
-            {% if field.help_text and field|widget_type != "textarea" %}
-                <button type="button" class="btn btn-primary popover-btn" id="{{ field.auto_id }}btn"
-                        data-template="{{ field.auto_id }}tooltip">?
-                </button>
-            {% endif %}
-        </div>
+    <div class="input-group-append">
+        {% if field|widget_type == "passwordinput" %}
+            <button type="button" class="btn btn-primary show-passwd-btn" title="Voir le mot de passe"
+                    data-for-field="{{ field.auto_id }}" id="{{ field.auto_id }}showbtn">
+                <i class="fas fa-eye"></i>
+            </button>
+        {% endif %}
+        {% if field.help_text and field|widget_type != "textarea" %}
+            <button type="button" class="btn btn-primary popover-btn" id="{{ field.auto_id }}btn"
+                    data-template="{{ field.auto_id }}tooltip">?
+            </button>
+        {% endif %}
+    </div>
 {% endif %}

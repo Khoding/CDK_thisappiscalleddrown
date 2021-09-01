@@ -6,7 +6,8 @@ from django.urls import path
 
 from koolapic.views import ActivityCreateView, ActivityDetailView, InscriptionCreateView, ActivityUpdateView, \
     ActivityDeleteView, \
-    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, InscriptionUpdateView, InscriptionView, \
+    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, \
+    InscriptionUpdateView, InscriptionView, \
     NotificationsView, InvitationView, LicenseView, GroupActivityCreateView, ContributorsView
 from koolapic.views import IndexView, HomeView
 from .feeds import GroupActivityFeed

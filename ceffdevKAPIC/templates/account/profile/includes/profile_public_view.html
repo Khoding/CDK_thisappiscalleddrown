@@ -2,9 +2,10 @@
 
 <div class="profile-infos">
     {% if profile.profile_pic %}
-        <img src="{{ profile.profile_pic.url }}" class="profile-pp" alt="Photo de profil" width="100" />
+        <img src="{{ profile.profile_pic.url }}" class="profile-pp" alt="Photo de profil" width="100"/>
     {% else %}
-        <img class="profile-pp" src="{% static 'koolapic/images/default_profile_picture.png' %}" alt="Votre photo de profil" width="100" />
+        <img class="profile-pp" src="{% static 'koolapic/images/default_profile_picture.png' %}"
+             alt="Votre photo de profil" width="100"/>
     {% endif %}
     <h1 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h1>
     <h3 class="profile-role">

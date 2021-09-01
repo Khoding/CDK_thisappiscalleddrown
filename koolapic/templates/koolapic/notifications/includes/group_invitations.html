@@ -5,7 +5,8 @@
                 <div class="row d-block no-gutters bg-light position-relative  mb-2">
                     <div class="notification notification-unread {% if bg_image %}image-notification{% endif %}"
                          {% if bg_image %}data-bg-image="{{ bg_image }}"{% endif %}>
-                        <div class="ps-1"><strong>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a
+                        <div class="ps-1"><strong>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }}
+                            vous a
                             invité à rejoindre le groupe {{ invitation.group.name }}</strong></div>
                         <small class="ps-1 pt-0">{{ invitation.date }}</small>
                     </div>
@@ -15,7 +16,8 @@
         {% else %}
             <div class="row d-block no-gutters bg-light position-relative mb-2">
                 <div class="notification notification-unread">
-                    <div class="ps-1"><strong>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous a
+                    <div class="ps-1"><strong>{{ invitation.sender.first_name }} {{ invitation.sender.last_name }} vous
+                        a
                         invité à rejoindre le groupe {{ invitation.group.name }}</strong></div>
                     <small class="ps-1 pt-0">{{ invitation.date }}</small>
                 </div>

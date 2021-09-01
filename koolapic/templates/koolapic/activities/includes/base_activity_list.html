@@ -8,7 +8,7 @@
                         <h4 class="d-flex mb-0">
                             <span class="col">
                                 <strong>{% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
-                                {% if activity.end_date %} au {{ activity.end_date }} {% endif %}</strong>
+                                    {% if activity.end_date %} au {{ activity.end_date }} {% endif %}</strong>
                             </span>
 
                             <span class="col-auto" style="z-index: 50;">
@@ -16,21 +16,25 @@
                                     {% for inscription in activity.inscriptions.all %}
                                         {% if user == inscription.user %}
                                             {% if inscription.presence %}
-                                                <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
+                                                <a class="btn btn-success"
+                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
                                             {% else %}
-                                                <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
+                                                <a class="btn btn-danger"
+                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
                                             {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    <a class="btn btn-primary" href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
+                                    <a class="btn btn-primary"
+                                       href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
                                 {% endif %}
                             </span>
                         </h4>
                     </div>
                     <div class="card-body px-0 pb-2 pt-0">
                         <h5 class="text-ellipsis">
-                            Emplacement: <strong>{{ activity.start_location }} {% if activity.end_location %} → {{ activity.end_location }} {% endif %}</strong>
+                            Emplacement: <strong>{{ activity.start_location }} {% if activity.end_location %} →
+                            {{ activity.end_location }} {% endif %}</strong>
                         </h5>
                         <div class="text-ellipsis">
                             Nom de l'activité: <strong>{{ activity.name }}</strong>

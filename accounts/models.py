@@ -35,11 +35,11 @@ class CustomUser(AbstractUser):
     address = models.CharField(max_length=50, null=True, blank=True, verbose_name="Adresse",
                                help_text="Adresse du domicile")
     tel_pro = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone professionnel",
-                             help_text="Téléphone professionnel")
+                               help_text="Téléphone professionnel")
     tel_mobile = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone personnel",
-                             help_text="Téléphone personnel")
+                                  help_text="Téléphone personnel")
     tel_home = models.CharField(max_length=17, null=True, blank=True, verbose_name="E.T. Téléphone maison",
-                             help_text="E.T. Téléphone maison")
+                                help_text="E.T. Téléphone maison")
     slug = models.SlugField(null=True, verbose_name="Slug")
 
     class Meta:

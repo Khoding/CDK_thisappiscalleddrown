@@ -2,208 +2,208 @@
 
 <!DOCTYPE html>
 <html lang="fr" class="h-100">
-    <head>
-        <!-- Metadonnées de base -->
-        <meta charset="UTF-8"/>
-        <meta name="application-name" content="Koolapic"/>
-        <meta name="description" content="{{ description }}"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no"/>
-        <meta name="theme-color" content="#6358EB"/>
+<head>
+    <!-- Metadonnées de base -->
+    <meta charset="UTF-8"/>
+    <meta name="application-name" content="Koolapic"/>
+    <meta name="description" content="{{ description }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no"/>
+    <meta name="theme-color" content="#6358EB"/>
 
-        <!-- Metadonnées OpenGraph -->
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="{{ description }}"/>
-        <meta property="og:description" content="{{ description }}"/>
-        <meta property="og:twitter" content="{{ description }}"/>
+    <!-- Metadonnées OpenGraph -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{ description }}"/>
+    <meta property="og:description" content="{{ description }}"/>
+    <meta property="og:twitter" content="{{ description }}"/>
 
-        <!-- Metadonnées Twitter -->
-        <meta property="twitter:title" content="{{ description }}"/>
-        <meta property="twitter:description" content="{{ description }}"/>
+    <!-- Metadonnées Twitter -->
+    <meta property="twitter:title" content="{{ description }}"/>
+    <meta property="twitter:description" content="{{ description }}"/>
 
-        <!-- Métadonnées Microsoft -->
-        <meta name="msapplication-square70x70logo" content="{% static 'koolapic/meta/mslogo-70x70.png' %}">
-        <meta name="msapplication-square150x150logo" content="{% static 'koolapic/meta/mslogo-150x150.png' %}">
-        <meta name="msapplication-square310x50logo" content="{% static 'koolapic/meta/mslogo-310x150.png' %}">
-        <meta name="msapplication-square310x310logo" content="{% static 'koolapic/meta/mslogo-310x310.png' %}">
-        <meta name="msapplication-TileColor" content="#6358EB">
+    <!-- Métadonnées Microsoft -->
+    <meta name="msapplication-square70x70logo" content="{% static 'koolapic/meta/mslogo-70x70.png' %}">
+    <meta name="msapplication-square150x150logo" content="{% static 'koolapic/meta/mslogo-150x150.png' %}">
+    <meta name="msapplication-square310x50logo" content="{% static 'koolapic/meta/mslogo-310x150.png' %}">
+    <meta name="msapplication-square310x310logo" content="{% static 'koolapic/meta/mslogo-310x310.png' %}">
+    <meta name="msapplication-TileColor" content="#6358EB">
 
-        <!-- Titre de la page -->
-        <title>{{ title }}</title>
+    <!-- Titre de la page -->
+    <title>{{ title }}</title>
 
-        <!-- JQuery Slim -->
-        <script src="{% static "vendor/node_modules/jquery/dist/jquery.slim.min.js" %}"></script>
+    <!-- JQuery Slim -->
+    <script src="{% static "vendor/node_modules/jquery/dist/jquery.slim.min.js" %}"></script>
 
-        <!-- Popper.js -->
-        <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
-                crossorigin="anonymous"></script>
+    <!-- Popper.js -->
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
+            crossorigin="anonymous"></script>
 
-        <!-- Tippy.js -->
-        <script src="{% static "vendor/node_modules/tippy.js/dist/tippy.umd.js" %}" type="module"
-                crossorigin="anonymous"></script>
+    <!-- Tippy.js -->
+    <script src="{% static "vendor/node_modules/tippy.js/dist/tippy.umd.js" %}" type="module"
+            crossorigin="anonymous"></script>
 
-        <!-- JavaScript de Bootstrap -->
-        <script src="{% static "vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+    <!-- JavaScript de Bootstrap -->
+    <script src="{% static "vendor/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
 
-        <!-- JavaScript Custom -->
-        <script src="{% static 'koolapic/js/main.js' %}" crossorigin="anonymous"></script>
-        <script src="{% static 'koolapic/js/password_visibility.js' %}" crossorigin="anonymous"></script>
-        <script src="{% static 'koolapic/js/popovers.js' %}" crossorigin="anonymous" type="module"></script>
-        <script src="{% static 'koolapic/js/modals.js' %}" crossorigin="anonymous" type="module"></script>
-        <script src="{% static 'koolapic/js/nav.js' %}" crossorigin="anonymous" type="module"></script>
-        <script src="{% static 'koolapic/js/animations.js' %}" crossorigin="anonymous" type="module"></script>
-        <script src="{% static 'koolapic/js/crop.js' %}" crossorigin="anonymous" type="module"></script>
-        <script src="{% static 'koolapic/js/offcanvas.js' %}" crossorigin="anonymous" type="module"></script>
+    <!-- JavaScript Custom -->
+    <script src="{% static 'koolapic/js/main.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'koolapic/js/password_visibility.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'koolapic/js/popovers.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/modals.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/nav.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/animations.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/crop.js' %}" crossorigin="anonymous" type="module"></script>
+    <script src="{% static 'koolapic/js/offcanvas.js' %}" crossorigin="anonymous" type="module"></script>
 
-        <script async src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNZaJXJIQ6TRuwdYndsh_VtJrlc_K0wgM&libraries=&v=weekly&callback=startMaps"></script>
-        <!-- JavaScript Cropper -->
-        <script src="{% static 'vendor/node_modules/cropperjs/dist/cropper.esm.js' %}" crossorigin="anonymous"
-                type="module"></script>
+    <script async src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNZaJXJIQ6TRuwdYndsh_VtJrlc_K0wgM&libraries=&v=weekly&callback=startMaps"></script>
+    <!-- JavaScript Cropper -->
+    <script src="{% static 'vendor/node_modules/cropperjs/dist/cropper.esm.js' %}" crossorigin="anonymous"
+            type="module"></script>
 
-        <!-- Favicon -->
-        <link rel="shortcut icon" type="image/png" href="{% static 'koolapic/meta/favicon.ico' %}"/>
-        <!-- Icône Apple -->
-        <link rel="apple-touch-icon" sizes="180x180" href="{% static "koolapic/meta/applelogo-180x180.png" %}"/>
-        <!-- Manifeste d'application web -->
-        <link rel="manifest" href="{% static "koolapic/meta/site.webmanifest" %}">
-        <!-- Icône d'onglet Safari -->
-        <link rel="mask-icon" href="{% static 'koolapic/meta/safari-pinned-tab.svg' %}" color="#6358EB">
-        <!-- Polices d'écriture -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-              rel="stylesheet">
-        <!-- CSS custom -->
-        <link href="{% static "koolapic/css/main.css" %}" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{% static "koolapic/css/tippy.css" %}"/>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'koolapic/meta/favicon.ico' %}"/>
+    <!-- Icône Apple -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "koolapic/meta/applelogo-180x180.png" %}"/>
+    <!-- Manifeste d'application web -->
+    <link rel="manifest" href="{% static "koolapic/meta/site.webmanifest" %}">
+    <!-- Icône d'onglet Safari -->
+    <link rel="mask-icon" href="{% static 'koolapic/meta/safari-pinned-tab.svg' %}" color="#6358EB">
+    <!-- Polices d'écriture -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Pattaya&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
+    <!-- CSS custom -->
+    <link href="{% static "koolapic/css/main.css" %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "koolapic/css/tippy.css" %}"/>
 
-        <!-- Cropper -->
-        <link href="{% static 'vendor/node_modules/cropperjs/dist/cropper.css' %}" rel="stylesheet">
+    <!-- Cropper -->
+    <link href="{% static 'vendor/node_modules/cropperjs/dist/cropper.css' %}" rel="stylesheet">
 
-        <!-- Ajout d'infos supplémentaires dans le head en fonction de la page -->
-        {% block head %} {% endblock head %}
-    </head>
-    <body class="d-flex flex-column h-100">
-        {% block navbar %}
-            <nav class="navbar navbar-expand-lg fixed-top gradient-l2 col" aria-label="Main navigation">
-                <div class="container-fluid">
-                    <div class="d-none d-lg-block">
-                        {% if user.is_authenticated %}
-                            <a class="navbar-brand text-white" href="{% url 'koolapic:activity_list' %}">
-                        {% else %}
-                            <a class="navbar-brand text-white" href="{% url 'koolapic:homepage' %}">
-                        {% endif %}
-                            <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
-                                 alt="Très beau logo de Koolapic"> Koolapic
-                        </a>
-                    </div>
-                    <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+    <!-- Ajout d'infos supplémentaires dans le head en fonction de la page -->
+    {% block head %} {% endblock head %}
+</head>
+<body class="d-flex flex-column h-100">
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg fixed-top gradient-l2 col" aria-label="Main navigation">
+        <div class="container-fluid">
+            <div class="d-none d-lg-block">
+                {% if user.is_authenticated %}
+                    <a class="navbar-brand text-white" href="{% url 'koolapic:activity_list' %}">
+                {% else %}
+                    <a class="navbar-brand text-white" href="{% url 'koolapic:homepage' %}">
+                {% endif %}
+                <img src="{% static 'koolapic/images/logo/svg/logo-koolapic-fill-white.svg' %}"
+                     alt="Très beau logo de Koolapic"> Koolapic
+                </a>
+            </div>
+            <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            {% if user.is_authenticated %}
-                                <li class="navbar-item">
-                                    <a class="nav-link text-light" title="Activités" href="{% url 'koolapic:activity_list' %}">
-                                        Mes activités
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" title="Créer une activité"
-                                       href="{% url 'koolapic:add_activity' %}">
-                                        <i class="fas fa-plus"></i> Nouvelle activité
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" title="Groupes" href="{% url 'koolapic:group_list' %}">
-                                        Mes groupes
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" title="Se déconnecter" href="{% url 'account:logout' %}">
-                                        Se déconnecter
-                                    </a>
-                                </li>
-                                {% if user.is_superuser %}
-                                    <li class="nav-item">
-                                        <a class="nav-link text-danger" href="{% url "admin:index" %}">
-                                            Administration
-                                        </a>
-                                    </li>
-                                {% endif %}
-                            {% endif %}
-                        </ul>
-                    </div>
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if user.is_authenticated %}
-                        <div class="d-flex align-items-center">
-                            <div class="me-3">
-                                <a class="btn btn-primary position-relative" href="{% url "koolapic:notifications" %}">
-                                    Notifications
-                                    {% if unread_notifications_number > 0 %}
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        <li class="navbar-item">
+                            <a class="nav-link text-light" title="Activités" href="{% url 'koolapic:activity_list' %}">
+                                Mes activités
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" title="Créer une activité"
+                               href="{% url 'koolapic:add_activity' %}">
+                                <i class="fas fa-plus"></i> Nouvelle activité
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" title="Groupes" href="{% url 'koolapic:group_list' %}">
+                                Mes groupes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" title="Se déconnecter" href="{% url 'account:logout' %}">
+                                Se déconnecter
+                            </a>
+                        </li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="{% url "admin:index" %}">
+                                    Administration
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        <a class="btn btn-primary position-relative" href="{% url "koolapic:notifications" %}">
+                            Notifications
+                            {% if unread_notifications_number > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                             <span>{{ unread_notifications_number }}</span>
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
-                                    {% endif %}
-                                </a>
-                            </div>
-                            {% if user.profile_pic %}
-                                <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
-                                    <img id="profilePicture" src="{{ user.profile_pic.url }}"
-                                         alt="{{ user.first_name }} {{ user.last_name }}'s profile picture">
-                                </a>
-                            {% else %}
-                                <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
-                                    <img id="profilePicture" src="{% static 'koolapic/images/default_profile_picture.png' %}"
-                                         alt="Default user profile picture">
-                                </a>
                             {% endif %}
-                        </div>
+                        </a>
+                    </div>
+                    {% if user.profile_pic %}
+                        <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
+                            <img id="profilePicture" src="{{ user.profile_pic.url }}"
+                                 alt="{{ user.first_name }} {{ user.last_name }}'s profile picture">
+                        </a>
                     {% else %}
-                        <div class="no-padding-container col-auto me-2">
-                            <a class="btn btn-sm btn-d2" href="{% url 'account:login' %}">Log in</a>
-                            <a class="btn btn-sm btn-outline-light ms-2" href="{% url 'account:signup' %}">Sign up</a>
-                        </div>
+                        <a href="{% url 'account:profile' slug=request.user.slug %}" title="Profile" rel="nofollow">
+                            <img id="profilePicture" src="{% static 'koolapic/images/default_profile_picture.png' %}"
+                                 alt="Default user profile picture">
+                        </a>
                     {% endif %}
                 </div>
-            </nav>
-        {% endblock navbar %}
+            {% else %}
+                <div class="no-padding-container col-auto me-2">
+                    <a class="btn btn-sm btn-d2" href="{% url 'account:login' %}">Log in</a>
+                    <a class="btn btn-sm btn-outline-light ms-2" href="{% url 'account:signup' %}">Sign up</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock navbar %}
 
-        <main role="main" class="flex-shrink-0 mt-2">
-            {% include "includes/message_snippet.html" %}
-            <div class="{% if request.resolver_match.view_name != "koolapic:homepage" %}container{% endif %}">
-                {% block content %}
-                {% endblock content %}
+<main role="main" class="flex-shrink-0 mt-2">
+    {% include "includes/message_snippet.html" %}
+    <div class="{% if request.resolver_match.view_name != "koolapic:homepage" %}container{% endif %}">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</main>
+<footer class="footer mt-2 py-2 medium-padding-container gradient-l2 text-white">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col">
+                <a href="{% url 'koolapic:conditions' %}">Conditions</a>
             </div>
-        </main>
-        <footer class="footer mt-2 py-2 medium-padding-container gradient-l2 text-white">
-            <div class="container text-center">
-                <div class="row justify-content-center">
-                    <div class="col">
-                        <a href="{% url 'koolapic:conditions' %}">Conditions</a>
-                    </div>
-                    <div class="col">
-                        <a href="{% url 'koolapic:confidentiality' %}">Confidentialité</a>
-                    </div>
-                    <div class="col">
-                        <a href="{% url 'koolapic:licenses' %}">Licences</a>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col">
-                        <a href="{% url 'koolapic:contributors' %}">Contributeurs</a>
-                    </div>
-                </div>
-                <hr class="hr-white">
-                <div class="row justify-content-center">
-                    <div class="p-2 footer-text">
-                        &#169; 2020 &ndash; {{ current_year }} Koolapic &ndash;
-                        tous droits réservés
-                    </div>
-                </div>
+            <div class="col">
+                <a href="{% url 'koolapic:confidentiality' %}">Confidentialité</a>
             </div>
-        </footer>
-    </body>
+            <div class="col">
+                <a href="{% url 'koolapic:licenses' %}">Licences</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <a href="{% url 'koolapic:contributors' %}">Contributeurs</a>
+            </div>
+        </div>
+        <hr class="hr-white">
+        <div class="row justify-content-center">
+            <div class="p-2 footer-text">
+                &#169; 2020 &ndash; {{ current_year }} Koolapic &ndash;
+                tous droits réservés
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
 </html>

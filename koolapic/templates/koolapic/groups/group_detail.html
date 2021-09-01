@@ -12,7 +12,8 @@
 {% block content %}
     <div class="group-header gradient-l2 small-padding-container rounded text-white">
         {% if user in all_members or user.is_superuser %}
-            {% if group.image %}<img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner mb-2">{% endif %}
+            {% if group.image %}<img src="{{ group.image.url }}" alt="Bannière du groupe" class="group-banner mb-2">
+            {% endif %}
             <div class="group-panel clearfix mb-2">
                 <h2 class="d-inline-block mb-0">{{ group.name }}</h2>
                 <div id="groupOverview" class="group-members-overview d-none d-lg-inline-block float-end">
@@ -37,7 +38,7 @@
                 {% if user in group.admins.all %}
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
-                        data-controls="management" aria-controls="management">Gestion</a>
+                           data-controls="management" aria-controls="management">Gestion</a>
                     </li>
                 {% endif %}
             </ul>
@@ -61,7 +62,8 @@
                                 </a>
                             </p>
                             <p class="mb-0">
-                                <a class="text-light" title="Supprimer le groupe" href="{{ group.get_confirm_delete_url }}">
+                                <a class="text-light" title="Supprimer le groupe"
+                                   href="{{ group.get_confirm_delete_url }}">
                                     <i class="icon fas fa-trash-alt text-center"></i> Supprimer le groupe
                                 </a>
                             </p>
@@ -69,8 +71,8 @@
                     </div>
                 {% endif %}
             </div>
-        </div>
-        <div id="invitationModal" class="modal" tabindex="-1" role="dialog">
+            </div>
+            <div id="invitationModal" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -84,7 +86,8 @@
                             {{ invitation_form.email.label_tag }}
                             <div class="input-group">
                                 {{ invitation_form.email|add_class:"form-control" }}
-                                <button class="btn btn-primary input-group-append" type="button" onclick="sendInvite();">
+                                <button class="btn btn-primary input-group-append" type="button"
+                                        onclick="sendInvite();">
                                     Inviter
                                 </button>
                             </div>
@@ -92,13 +95,16 @@
                             <h5><label for="invitationLink" class="label">Lien d'invitation</label></h5>
 
                             <div class="input-group">
-                                <input type="text" class="form-control disabled" name="invitationLink" id="invitationLink"
+                                <input type="text" class="form-control disabled" name="invitationLink"
+                                       id="invitationLink"
                                        disabled aria-disabled="true">
                                 <div class="input-group-append">
-                                    <button id="copyInvitationLinkButton" class="popover-btn btn btn-primary" type="button"
+                                    <button id="copyInvitationLinkButton" class="popover-btn btn btn-primary"
+                                            type="button"
                                             onclick="copyLink();" data-template="copyInvitationLinkTooltip"><i
                                             class="far fa-clipboard"></i></button>
-                                    <a id="shareInvitationLink" href="#" class="btn btn-primary" type="button" onclick=""><i
+                                    <a id="shareInvitationLink" href="#" class="btn btn-primary" type="button"
+                                       onclick=""><i
                                             class="fas fa-share"></i></a>
                                 </div>
                             </div>
@@ -117,9 +123,11 @@
             <h1>Vous n'êtes pas membre de ce groupe.</h1>
             <dl class="mb-0">
                 <dt>Si vous pensez que c'est une erreur:</dt>
-                <dd>Allez voir vos <a class="link-mid-text" href="{% url 'koolapic:notifications' %}">notifications</a>, peut-être que vous avez déjà été invité.</dd>
+                <dd>Allez voir vos <a class="link-mid-text" href="{% url 'koolapic:notifications' %}">notifications</a>,
+                    peut-être que vous avez déjà été invité.
+                </dd>
                 <dd>Si ce n'est pas le cas, demandez à l'un des membres de vous inviter.</dd>
             </dl>
         {% endif %}
-    </div>
+        </div>
 {% endblock content %}
