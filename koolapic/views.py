@@ -56,10 +56,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
 
     def get_activities(self):
         return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
-            else Activity.objects.order_by('start_date').filter(Q(creator=self.request.user) | Q(participants=self.request.user))
-
-    def get_all_activities(self):
-        return Activity.objects.order_by('start_date').all()
+            else Activity.objects.order_by('start_date').filter(Q(group__members=self.request.user))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,8 +64,6 @@ class IndexView(LoginRequiredMixin, TemplateView):
         context[
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         context['upcoming_activities'] = self.get_activities().filter(
-            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
-        context['activities'] = self.get_all_activities().filter(
             Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
         return context
 
@@ -147,45 +142,6 @@ class HomeView(TemplateView):
         return context
 
 
-class ActivityListView(LoginRequiredMixin, ListView):
-    """
-    Vue de la liste des activités.
-
-    **Contexte**
-
-    ``title``
-        Titre de la page.
-    ``description``
-        Description de la page.
-    ``upcoming_activities``
-        Activités futures. Liste de :model:`koolapic.Activity`
-    ``past_activities``
-        Activités passées. Liste de :model:`koolapic.Activity`
-
-    **Template**
-
-    :template:'koolapic/activities/activity_list.html'
-    """
-
-    template_name = 'koolapic/activities/activity_list.html'
-    context_object_name = 'activities'
-    model = Activity
-
-    def get_activities(self):
-        return self.model.objects.order_by('start_date').all() if self.request.user.is_superuser \
-            else self.model.objects.order_by('start_date').filter(Q(creator=self.request.user) | Q(participants=self.request.user))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Koolapic'
-        context['description'] = 'Liste de vos activités sur Koolapic'
-        context['upcoming_activities'] = self.get_activities().filter(
-            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
-        context['past_activities'] = self.get_activities().filter(
-            Q(end_date__lt=timezone.now()) | Q(end_date__isnull=True, start_date__lt=timezone.now()))
-        return context
-
-
 class ActivityDetailView(LoginRequiredMixin, DetailView):
     """
     Vue du détail d'une activité.
@@ -234,6 +190,10 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        form.instance.save()
+        form.instance.participants.add(self.request.user)
+        form.instance.inscriptions.create(
+            guests_number=0, user=self.request.user)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

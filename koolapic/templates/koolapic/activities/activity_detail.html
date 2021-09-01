@@ -164,10 +164,12 @@
 
                                 {% if user == activity.creator %}
                                     {% for inscription in activity.inscriptions.all %}
-                                        {% if inscription.presence %}
-                                            <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit - {{ inscription.user }}</a>
-                                        {% else %}
-                                            <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé - {{ inscription.user }}</a>
+                                        {% if user != inscription.user %}
+                                            {% if inscription.presence %}
+                                                <a class="btn btn-success" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit - {{ inscription.user }}</a>
+                                            {% else %}
+                                                <a class="btn btn-danger" href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé - {{ inscription.user }}</a>
+                                            {% endif %}
                                         {% endif %}
                                     {% empty %}
                                         Pas d'inscrits
