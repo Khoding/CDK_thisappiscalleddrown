@@ -1,3 +1,5 @@
+{% load static widget_tweaks extras %}
+
 <div class="container gradient-l2 text-white small-padding-container rounded pb-2">
     <div class="row m-0">
         {% block activity_list %}
@@ -16,17 +18,20 @@
                                     {% for inscription in activity.inscriptions.all %}
                                         {% if user == inscription.user %}
                                             {% if inscription.presence %}
-                                                <a class="btn btn-success"
-                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}">Inscrit</button>
                                             {% else %}
-                                                <a class="btn btn-danger"
-                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}">
+                                                    Excusé
+                                                </button>
                                             {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}">
+                                        Excusé
+                                    </button>
                                     <a class="btn btn-primary"
-                                       href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
+                                        href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
                                 {% endif %}
                             </span>
                         </h4>
@@ -52,51 +57,103 @@
                 <div class="empty">Vous n'avez pas d'activités à venir</div>
             {% endfor %}
 
-            {% comment %} <h1>FJUHIDHSFIUHBNHIUKFJ</h1>
-            {% if upcoming_activities.count %}
-                {% for activity in upcoming_activities %}
-                    <div class="card{% if not forloop.last %} mb-2{% endif %} bg-wt rounded" data-activity-id="{{ activity.id }}">
-                        <div class="card-header px-0 bg-transparent">
-                            <h4 class="d-flex">
-                                <span class="col">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    {% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
-                                    {% if activity.end_date %} au {{ activity.end_date }} {% endif %}
-                                </span>
+            <div class="modal text-black" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="inscriptionModalLabel">Répondre</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form enctype="multipart/form-data" method="POST" novalidate>
+                                {% csrf_token %}
 
-                                <span class="col-auto" style="z-index: 50;">
-                                    <form action="{% url 'koolapic:activity_join' slug=activity.slug %}" method="POST">
-                                        {% csrf_token %}
-                                        {% if user in activity.participants.all or user == activity.creator %}
-                                            <button class="btn btn-success" type="submit" name="activity_slug" value="{{ activity.slug }}">Participant</button>
-                                        {% else %}
-                                            <button class="btn btn-primary" type="submit" name="activity_slug" value="{{ activity.slug }}">Rejoindre</button>
+                                <div class="non-field-errors">
+                                    {{ form.non_field_errors }}
+                                </div>
+
+                                <div class="hidden-fields-errors">
+                                    {% for hidden_field in form.hidden_fields %}
+                                        {{ hidden_field.errors }}
+                                        {{ hidden_field }}
+                                    {% endfor %}
+                                </div>
+
+                                <div class="text-danger">
+                                    {{ form.non_field_errors }}
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-auto">
+                                        <div class="form-check ps-0">
+                                            {{ form.presence.label_tag }}
+                                            {{ form.presence|add_class:"d-inline-block" }}
+                                        </div>
+                                        {% if form.presence.help_text %}
+                                            <span class="text-small text-muted">{{ form.presence.help_text }}</span>
                                         {% endif %}
-                                    </form>
-                                </span>
-                            </h4>
+                                        {% for error in form.presence.errors %}
+                                            <small class="form-text text-danger">{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="col col-md-4">
+                                        <div class="form-floating">
+                                            {{ form.guests_number|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                                            {{ form.guests_number.label_tag }}
+                                        </div>
+                                        {% if form.guests_number.help_text %}
+                                            <span class="text-small text-muted">{{ form.guests_number.help_text }}</span>
+                                        {% endif %}
+                                        {% for error in form.guests_number.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            {{ form.remarks|add_class:"form-control"|attr:"placeholder:Activity remarks" }}
+                                            {{ form.remarks.label_tag }}
+                                        </div>
+                                        {% if form.remarks.help_text %}
+                                            <span class="text-small text-muted">{{ form.remarks.help_text }}</span>
+                                        {% endif %}
+                                        {% for error in form.remarks.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary col-auto mt-2">Répondre</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="card-body px-0 pb-2">
-                            <h5 class="text-ellipsis">
-                                <i class="fas fa-map-marked"></i>
-                                {{ activity.start_location }} {% if activity.end_location %} → {{ activity.end_location }} {% endif %}
-                            </h5>
-                            <div class="text-ellipsis">
-                                <i class="fas fa-heading"></i>
-                                {{ activity.name }}
-                            </div>
-                            <div class="text-ellipsis">
-                                <i class="fas fa-users"></i>
-                                {{ activity.group }}
-                            </div>
-                            <div class="text-ellipsis">
-                                <i class="fas fa-user"></i>
-                                {{ activity.creator }}
-                            </div>
-                        </div>
-                        <a href="{% url 'koolapic:activity_detail' slug=activity.slug %}" class="stretched-link"></a>
                     </div>
-                {% endfor %} {% endcomment %}
+                </div>
+            </div>
+            <script>
+                var inscriptionModal = document.getElementById('inscriptionModal')
+                inscriptionModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget
+
+                    var presence = button.getAttribute('data-bs-presence')
+                    var accompagnants = button.getAttribute('data-bs-accompagnants')
+                    var remarks = button.getAttribute('data-bs-remarks')
+
+                    var modalTitle = inscriptionModal.querySelector('.modal-title')
+                    var modalPresence = inscriptionModal.querySelector('#id_presence')
+                    var modalAccompagnants = inscriptionModal.querySelector('#id_guests_number')
+                    var modalRemarks = inscriptionModal.querySelector('#id_remarks')
+
+                    presence.toString() === 'True' ? modalPresence.checked = true : modalPresence.checked = false
+
+                    modalAccompagnants.value = accompagnants
+                    remarks === 'None' ? modalRemarks.value = "ool" : modalRemarks.value = remarks
+                });
+            </script>
 
         {% endblock activity_list %}
     </div>

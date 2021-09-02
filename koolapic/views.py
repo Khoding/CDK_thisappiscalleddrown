@@ -66,6 +66,19 @@ class IndexView(LoginRequiredMixin, TemplateView):
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
         context['upcoming_activities'] = self.get_activities().filter(
             Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
+        context['form'] = InscriptionCreationForm
+        return context
+
+
+class InscriptionsTemplateView(TemplateView):
+    template_name = 'koolapic/inscription_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Inscriptions'
+        context['desc'] = 'Disclaimer: Ceci est une demo d\'implémentation différente, plus propre et plus DRY d\'affichage \
+            de listes d\'éléments, et peut en soit s\'utiliser pour d\'autre chose que des listes. \
+            le design n\'est pas à prendre en compte et n\'est pas définitif, il vient du copy paste.'
         return context
 
 

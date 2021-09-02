@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load inscriptions %}
+
+{% block content %}
+    <h1>{{ desc }}</h1>
+    {% render_latest_blog_entries 250 hide_readmore=False hide_header=False summary_first=False header_tag='h3' %}
+{% endblock content %}

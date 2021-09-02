@@ -8,7 +8,7 @@ from koolapic.views import ActivityCreateView, ActivityDetailView, InscriptionCr
     ActivityDeleteView, \
     GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, \
     InscriptionUpdateView, InscriptionView, \
-    NotificationsView, InvitationView, LicenseView, GroupActivityCreateView, ContributorsView
+    NotificationsView, InvitationView, LicenseView, GroupActivityCreateView, ContributorsView, InscriptionsTemplateView
 from koolapic.views import IndexView, HomeView
 from .feeds import GroupActivityFeed
 
@@ -23,6 +23,8 @@ urlpatterns = [
     path('notifications/', NotificationsView.as_view(), name='notifications'),
     path('contributors/', ContributorsView.as_view(), name='contributors'),
     path('invitation/<slug:slug>/', InvitationView.as_view(), name='invitation'),
+    path('inscription/', InscriptionsTemplateView.as_view(),
+         name='inscription_list'),
     path('inscription/<slug:slug>/', InscriptionView.as_view(), name='inscription'),
     path('inscription/<slug:slug>/update/',
          InscriptionUpdateView.as_view(), name='update_inscription'),
