@@ -129,7 +129,7 @@ class Inscription(models.Model):
         max_length=500, null=True, blank=True, verbose_name="Remarques")
     presence = models.BooleanField(verbose_name="Présence", default=True)
     guests_number = models.PositiveIntegerField(
-        verbose_name="Nombre de participants", default=0)
+        verbose_name="Accompagnants", default=0)
     user = models.ForeignKey(CustomUser, null=True, blank=True,
                              verbose_name="Gars qui s'inscrit", on_delete=models.CASCADE)
     activity = models.ForeignKey(

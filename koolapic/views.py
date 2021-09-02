@@ -206,7 +206,7 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
 
 class InscriptionCreateView(LoginRequiredMixin, CreateView):
     model = Inscription
-    template_name = 'koolapic/activities/subscribe.html'
+    template_name = 'koolapic/activities/create_inscription.html'
     form_class = InscriptionCreationForm
 
     def form_valid(self, form):
