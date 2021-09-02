@@ -177,7 +177,8 @@
                                             {% endif %}
                                         {% endif %}
                                     {% empty %}
-                                        Pas d'inscrits
+                                        <a class="btn btn-primary"
+                                            href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
                                     {% endfor %}
                                 {% endif %}
                             {% else %}

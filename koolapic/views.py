@@ -248,6 +248,10 @@ class GroupActivityCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        form.instance.save()
+        form.instance.participants.add(self.request.user)
+        form.instance.inscriptions.create(
+            guests_number=0, user=self.request.user)
         return super().form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
@@ -284,11 +288,14 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        form.instance.save()
+        form.instance.participants.add(self.request.user)
+        form.instance.inscriptions.create(
+            guests_number=0, user=self.request.user)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         activity = self.get_object()
-        user = self.request.user
 
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
