@@ -1,5 +1,8 @@
 import json
 
+from accounts.models import CustomUser
+from ceffdevKAPIC.koolapic_settings import (CONTRIBUTORS,
+                                            MAX_INVITATION_NUMBER_BY_USER)
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
@@ -9,17 +12,14 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
+from utils.notifications import unread_notifications_number_to_dictionary
 
-from accounts.models import CustomUser
-from ceffdevKAPIC.koolapic_settings import (CONTRIBUTORS,
-                                            MAX_INVITATION_NUMBER_BY_USER)
 from koolapic.forms import (ActivityChangeForm, ActivityCloneForm,
                             ActivityCreationForm, CustomGroupChangeForm,
                             CustomGroupCreationForm, InscriptionCreationForm,
                             InvitationCreationForm)
 from koolapic.models import (Activity, Group, Inscription, Invitation,
                              Notification)
-from utils.notifications import unread_notifications_number_to_dictionary
 
 
 # def activity_join_view(request, slug):
@@ -48,6 +48,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
     """
 
     template_name = 'koolapic/index.html'
+    form_class = InscriptionCreationForm
+    success_url = reverse_lazy('koolapic:activity_list')
 
     def get(self, *args, **kwargs):
         if 'next' in self.request.GET:
