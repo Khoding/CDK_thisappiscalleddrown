@@ -39,8 +39,8 @@ class ActivityCreationForm(forms.ModelForm):
                                           label="Date de début")
     end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'],
                                         input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-            date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                        label="Date de fin")
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
+        label="Date de fin")
 
     class Meta:
         model = Activity
@@ -75,8 +75,8 @@ class ActivityCloneForm(forms.ModelForm):
                                           label="Date de début")
     end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'],
                                         input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-            date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                        label="Date de fin")
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
+        label="Date de fin")
 
     exclude = ['participants', ]
 
@@ -113,8 +113,8 @@ class ActivityChangeForm(forms.ModelForm):
                                           label="Date de début")
     end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'],
                                         input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-            date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                        label="Date de fin")
+        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
+        label="Date de fin")
 
     class Meta:
         model = Activity
@@ -228,4 +228,4 @@ class InscriptionCreationForm(forms.ModelForm):
 
     class Meta:
         model = Inscription
-        fields = ('remarks', 'presence', 'guests_number',)
+        fields = ('remarks', 'presence', 'guests_number', 'activity',)

@@ -142,7 +142,7 @@ class Inscription(models.Model):
         verbose_name_plural = 'inscriptions'
 
     def __str__(self):
-        return f'{self.activity.name} - {self.user}'
+        return f'{self.activity} - {self.user}'
 
     def save(self, *args, **kwargs):
         """

@@ -27,11 +27,9 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}">
-                                        Excusé
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}" data-bs-id="{{ inscription.pk }}" data-bs-user="{{ inscription.user }}" data-bs-activity="{{ activity.pk }}">
+                                        Répondre
                                     </button>
-                                    <a class="btn btn-primary"
-                                        href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
                                 {% endif %}
                             </span>
                         </h4>
@@ -84,6 +82,21 @@
                                 </div>
 
                                 <div class="row mb-2">
+                                    <div class="col select_activity_inscription">
+                                        <div class="input-group">
+                                            <div class="form-floating">
+                                                {{ form.activity|add_class:"form-select"|attr:"placeholder:Activity" }}
+                                                {{ form.activity.label_tag }}
+                                            </div>
+                                        </div>
+                                        {% if form.activity.help_text %}
+                                            <span class="text-small text-muted">{{ form.activity.help_text }}</span>
+                                        {% endif %}
+                                        {% for error in form.activity.errors %}
+                                            <small class="form-text text-danger">{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+
                                     <div class="col-auto">
                                         <div class="form-check ps-0">
                                             {{ form.presence.label_tag }}
@@ -142,17 +155,38 @@
                     var presence = button.getAttribute('data-bs-presence')
                     var accompagnants = button.getAttribute('data-bs-accompagnants')
                     var remarks = button.getAttribute('data-bs-remarks')
+                    var id = button.getAttribute('data-bs-id')
+                    var user = button.getAttribute('data-bs-user')
+                    var activity = button.getAttribute('data-bs-activity')
 
                     var modalTitle = inscriptionModal.querySelector('.modal-title')
                     var modalPresence = inscriptionModal.querySelector('#id_presence')
                     var modalAccompagnants = inscriptionModal.querySelector('#id_guests_number')
                     var modalRemarks = inscriptionModal.querySelector('#id_remarks')
+                    var modalActivity = inscriptionModal.querySelector('#id_activity')
 
                     presence.toString() === 'True' ? modalPresence.checked = true : modalPresence.checked = false
 
                     modalAccompagnants.value = accompagnants
                     remarks === 'None' ? modalRemarks.value = "" : modalRemarks.value = remarks
+                    modalActivity.value = activity
                 });
+            </script>
+            <script>
+
+                // Update Django Ajax Call
+                function editUser(id) {
+                if (id) {
+                    tr_id = "#user-" + id;
+                    name = $(tr_id).find(".userName").text();
+                    address = $(tr_id).find(".userAddress").text();
+                    age = $(tr_id).find(".userAge").text();
+                    $('#form-id').val(id);
+                    $('#form-name').val(name);
+                    $('#form-address').val(address);
+                    $('#form-age').val(age);
+                }
+                }
             </script>
 
         {% endblock activity_list %}
