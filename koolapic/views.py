@@ -190,6 +190,14 @@ class ActivityCreateView(LoginRequiredMixin, CreateView):
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
 
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class.
+         This is necessary to only display members that belong to a given user"""
+
+        kwargs = super(ActivityCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         form.instance.save()
@@ -246,6 +254,14 @@ class GroupActivityCreateView(LoginRequiredMixin, CreateView):
     model = Activity
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCreationForm
+
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class.
+         This is necessary to only display members that belong to a given user"""
+
+        kwargs = super(GroupActivityCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def form_valid(self, form):
         form.instance.creator = self.request.user

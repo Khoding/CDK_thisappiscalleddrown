@@ -2,7 +2,6 @@
 {% load extras %}
 {% load static %}
 
-
 {% block head %}
     <script src="{% static 'koolapic/js/tabs.js' %}"></script>
     <script src="{% static 'koolapic/js/activities.js' %}" crossorigin="anonymous" type="module"></script>
@@ -12,13 +11,13 @@
     {% if user in activity.group.members.all %}
         <div class="activity-header gradient-l2 small-padding-container rounded text-white">
             <div class="activity-panel clearfix mb-2">
-                <h1 class="d-inline-block">{{ activity.name }}</h1>
+                <h2 class="d-inline-block">{{ activity.name }}</h2>
                 <div class="float-end">
                     <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
                         <i class="far fa-clone"></i> Dupliquer l'activité
                     </a>
                 </div>
-                <h2>Créée par {{ activity.creator }}</h2>
+                <h6>Créée par {{ activity.creator }}</h6>
                 {% if activity.max_participants %}
                     {% if activity.participants.count > 0 %}
                         <div class="progress bg-wt">

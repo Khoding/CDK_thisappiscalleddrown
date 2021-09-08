@@ -42,6 +42,14 @@ class ActivityCreationForm(forms.ModelForm):
         date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
         label="Date de fin")
 
+    group = forms.Select()
+
+    def __init__(self, **kwargs):
+        self.request = kwargs.pop('request')
+        super(ActivityCreationForm, self).__init__(**kwargs)
+        self.fields['group'].queryset = Group.objects.filter(
+            members=self.request.user)
+
     class Meta:
         model = Activity
         fields = [
@@ -79,6 +87,16 @@ class ActivityCloneForm(forms.ModelForm):
         label="Date de fin")
 
     exclude = ['participants', ]
+
+    group = forms.Select()
+
+    # initial
+
+    def __init__(self, **kwargs):
+        self.request = kwargs.pop('request')
+        super(ActivityCloneForm, self).__init__(**kwargs)
+        self.fields['group'].queryset = Group.objects.filter(
+            members=self.request.user)
 
     class Meta:
         model = Activity
