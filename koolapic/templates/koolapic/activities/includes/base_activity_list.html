@@ -27,7 +27,7 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}" data-bs-id="{{ inscription.pk }}" data-bs-user="{{ inscription.user }}" data-bs-activity="{{ activity.pk }}">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
                                         Répondre
                                     </button>
                                 {% endif %}
@@ -110,7 +110,7 @@
                                         {% endfor %}
                                     </div>
 
-                                    <div class="col col-md-4">
+                                    <div class="col">
                                         <div class="form-floating">
                                             {{ form.guests_number|add_class:"form-control"|attr:"placeholder:Activity name" }}
                                             {{ form.guests_number.label_tag }}
@@ -147,33 +147,25 @@
                     </div>
                 </div>
             </div>
+
             <script>
                 var inscriptionModal = document.getElementById('inscriptionModal')
                 inscriptionModal.addEventListener('show.bs.modal', function (event) {
                     var button = event.relatedTarget
 
-                    var presence = button.getAttribute('data-bs-presence')
-                    var accompagnants = button.getAttribute('data-bs-accompagnants')
-                    var remarks = button.getAttribute('data-bs-remarks')
-                    var id = button.getAttribute('data-bs-id')
-                    var user = button.getAttribute('data-bs-user')
                     var activity = button.getAttribute('data-bs-activity')
 
-                    var modalTitle = inscriptionModal.querySelector('.modal-title')
-                    var modalPresence = inscriptionModal.querySelector('#id_presence')
+                    var modalActivity = inscriptionModal.querySelector('#id_activity')
                     var modalAccompagnants = inscriptionModal.querySelector('#id_guests_number')
                     var modalRemarks = inscriptionModal.querySelector('#id_remarks')
-                    var modalActivity = inscriptionModal.querySelector('#id_activity')
 
-                    presence.toString() === 'True' ? modalPresence.checked = true : modalPresence.checked = false
-
-                    modalAccompagnants.value = accompagnants
-                    remarks === 'None' ? modalRemarks.value = "" : modalRemarks.value = remarks
                     modalActivity.value = activity
+                    modalAccompagnants.value = 0
+                    modalRemarks.value = ""
                 });
             </script>
-            <script>
 
+            <script>
                 // Update Django Ajax Call
                 function editUser(id) {
                 if (id) {

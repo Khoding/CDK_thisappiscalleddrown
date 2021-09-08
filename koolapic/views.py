@@ -22,40 +22,26 @@ from koolapic.models import (Activity, Group, Inscription, Invitation,
                              Notification)
 
 
-# def activity_join_view(request, slug):
-#     activity = get_object_or_404(
-#         Activity, slug=request.POST.get('activity_slug'))
-#     activity.participants.add(request.user)
-#     return HttpResponseRedirect(reverse('koolapic:activity_detail', args=[str(slug)]))
-
-
-class IndexView(LoginRequiredMixin, TemplateView):
-    """
-    Vue de l'index.
-
-    **Contexte**
-
-    ``title``
-        Titre de la page.
-    ``description``
-        Description de la page.
-    ``upcoming_activities``
-        Activités futures. Liste de :model:`koolapic.Activity`
-
-    **Template**
-
-    :template:'koolapic/index.html'
-    """
-
+class IndexView(LoginRequiredMixin, ListView):
+    model = Activity
     template_name = 'koolapic/index.html'
     form_class = InscriptionCreationForm
     success_url = reverse_lazy('koolapic:activity_list')
 
-    def get(self, *args, **kwargs):
-        if 'next' in self.request.GET:
-            next_page = self.request.GET.get('next')
-            return redirect(next_page)
-        return super().get(*args, **kwargs)
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax and self.request.method == "POST":
+            form = self.form_class(self.request.POST)
+            if form.is_valid():
+                form.instance.user = self.request.user
+                activity = Activity.objects.get(
+                    pk=self.request.POST['activity'])
+                form.instance.activity_pk = activity
+                activity.participants.add(self.request.user)
+                form.save()
+                return redirect(reverse_lazy('koolapic:activity_list'))
+            else:
+                return redirect(reverse_lazy('koolapic:activity_list'))
+        return redirect(reverse_lazy('koolapic:activity_list'))
 
     def get_activities(self):
         return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
