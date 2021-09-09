@@ -1,3 +1,4 @@
+from django.template.loader import render_to_string
 import json
 
 from accounts.models import CustomUser
@@ -7,11 +8,11 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+                                  TemplateView, UpdateView, View)
 from utils.notifications import unread_notifications_number_to_dictionary
 
 from koolapic.forms import (ActivityChangeForm, ActivityCloneForm,
@@ -56,6 +57,58 @@ class IndexView(LoginRequiredMixin, ListView):
             Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
         context['form'] = InscriptionCreationForm
         return context
+
+
+# def create_post(request):
+#     if request.method == 'POST':
+#         post_text = request.POST.get('the_post')
+#         response_data = {}
+
+#         inscription = Inscription(text=post_text, author=request.user)
+#         inscription.save()
+
+#         response_data['result'] = 'Create post successful!'
+#         response_data['activity'] = inscription.pk
+#         response_data['text'] = inscription.activity
+#         response_data['remarks'] = inscription.remarks
+#         response_data['guests_number'] = inscription.guests_number
+
+#         return HttpResponse(
+#             json.dumps(response_data),
+#             content_type="application/json"
+#         )
+#     else:
+#         return HttpResponse(
+#             json.dumps({"nothing to see": "this isn't happening"}),
+#             content_type="application/json"
+#         )
+
+
+def save_inscription_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            books = Inscription.objects.all()
+            data['html_book_list'] = render_to_string('koolapic/partial_book_list.html', {
+                'books': books
+            })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(
+        template_name, context, request=request)
+    return JsonResponse(data)
+
+
+def inscription_update(request, slug):
+    inscription = get_object_or_404(Inscription, slug=slug)
+    if request.method == 'POST':
+        form = InscriptionCreationForm(request.POST, instance=inscription)
+    else:
+        form = InscriptionCreationForm(instance=inscription)
+    return save_inscription_form(request, form, 'koolapic/partial_book_update.html')
 
 
 class InscriptionsTemplateView(TemplateView):
@@ -303,6 +356,14 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
     template_name = 'koolapic/activities/add_activity.html'
     form_class = ActivityCloneForm
 
+    def get_form_kwargs(self):
+        """ Passes the request object to the form class.
+         This is necessary to only display members that belong to a given user"""
+
+        kwargs = super(ActivityCloneView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         form.instance.save()
@@ -312,12 +373,9 @@ class ActivityCloneView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        activity = self.get_object()
-
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'Créer une activité sur Koolapic'
-        context['form'] = ActivityCloneForm(instance=activity)
         return context
 
 
