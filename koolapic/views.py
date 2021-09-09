@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView, View)
+                                  TemplateView, UpdateView)
 from utils.notifications import unread_notifications_number_to_dictionary
 
 from koolapic.forms import (ActivityChangeForm, ActivityCloneForm,
