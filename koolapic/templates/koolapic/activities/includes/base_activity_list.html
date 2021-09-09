@@ -36,6 +36,9 @@
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
                                         Répondre
                                     </button>
+                                    {% comment %} <button type="button" class="btn btn-primary js-create-inscription" data-url="{% url 'koolapic:create_inscription_ajax' %}">
+                                        Répondre
+                                    </button> {% endcomment %}
                                 {% endif %}
                             </span>
                         </h4>
@@ -217,6 +220,10 @@
                     });
                     return false;
                 };
+
+                /// Create inscription
+                $("#activity-table").on("click", ".js-create-inscription", loadForm);
+                $("#modal-inscription").on("submit", ".js-inscription-create-form", saveForm);
 
                 // Update inscription
                 $("#activity-table").on("click", ".js-update-inscription", loadForm);

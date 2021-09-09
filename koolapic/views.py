@@ -78,6 +78,14 @@ def save_inscription_form(request, form, template_name):
     return JsonResponse(data)
 
 
+def inscription_create(request):
+    if request.method == 'POST':
+        form = InscriptionCreationForm(request.POST)
+    else:
+        form = InscriptionCreationForm()
+    return save_inscription_form(request, form, 'koolapic/partial_inscription_create.html')
+
+
 def inscription_update(request, slug):
     inscription = get_object_or_404(Inscription, slug=slug)
     if request.method == 'POST':

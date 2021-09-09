@@ -124,7 +124,7 @@ class Inscription(models.Model):
     """
 
     date = models.DateTimeField(
-        verbose_name="Date de l'inscription", default=datetime.now)
+        verbose_name="Date de l'inscription", auto_now=True)
     remarks = models.TextField(
         max_length=500, null=True, blank=True, verbose_name="Remarques")
     presence = models.BooleanField(verbose_name="Présence", default=True)
