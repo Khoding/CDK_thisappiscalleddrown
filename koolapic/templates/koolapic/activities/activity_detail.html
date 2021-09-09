@@ -26,14 +26,15 @@
                                  aria-valuenow="{{ activity.participants.count }}" aria-valuemin="0"
                                  aria-valuemax="{{ activity.max_participants }}">
                             </div>
-                            {{ activity.participants.count }}/{{ activity.max_participants }} Participants
+                            {{activity.get_participants_count}}
+                            {{ participants_count }}/{{ activity.max_participants }} participant{{ participants_count|pluralize:'s' }}
                         </div>
                     {% else %}
                         Aucun participant
                     {% endif %}
                 {% else %}
-                    {% if activity.participants.count > 0 %}
-                        {{ activity.participants.count }} participants
+                    {% if participants_count > 0 %}
+                        {{ participants_count }} participant{{ participants_count|pluralize:'s' }}
                     {% else %}
                         Aucun participant
                     {% endif %}

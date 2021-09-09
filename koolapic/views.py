@@ -200,10 +200,16 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
     model = Activity
     template_name = "koolapic/activities/activity_detail.html"
 
+    def get_participants_count(self):
+        participants = Inscription.objects.filter(
+            activity=self.get_object(), presence=True).count
+        return participants
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'La page détail d\'une activités sur Koolapic'
+        context['participants_count'] = self.get_participants_count()
         return context
 
 
