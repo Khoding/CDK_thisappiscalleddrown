@@ -1,0 +1,74 @@
+{% load widget_tweaks extras %}
+
+<div class="non-field-errors">
+    {{ form.non_field_errors }}
+</div>
+
+<div class="hidden-fields-errors">
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+</div>
+
+<div class="text-danger">
+    {{ form.non_field_errors }}
+</div>
+
+<div class="row mb-2">
+    <div class="col select_activity_inscription">
+        <div class="input-group">
+            <div class="form-floating">
+                {{ form.activity|add_class:"form-select activity"|attr:"placeholder:Activity" }}
+                {{ form.activity.label_tag }}
+            </div>
+        </div>
+        {% if form.activity.help_text %}
+            <span class="text-small text-muted">{{ form.activity.help_text }}</span>
+        {% endif %}
+        {% for error in form.activity.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="col-auto">
+        <div class="form-check ps-0">
+            {{ form.presence.label_tag }}
+            {{ form.presence|add_class:"d-inline-block presence" }}
+        </div>
+        {% if form.presence.help_text %}
+            <span class="text-small text-muted">{{ form.presence.help_text }}</span>
+        {% endif %}
+        {% for error in form.presence.errors %}
+            <small class="form-text text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="col">
+        <div class="form-floating">
+            {{ form.guests_number|add_class:"form-control participants"|attr:"placeholder:Activity name" }}
+            {{ form.guests_number.label_tag }}
+        </div>
+        {% if form.guests_number.help_text %}
+            <span class="text-small text-muted">{{ form.guests_number.help_text }}</span>
+        {% endif %}
+        {% for error in form.guests_number.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-floating">
+            {{ form.remarks|add_class:"form-control remarks"|attr:"placeholder:Activity remarks" }}
+            {{ form.remarks.label_tag }}
+        </div>
+        {% if form.remarks.help_text %}
+            <span class="text-small text-muted">{{ form.remarks.help_text }}</span>
+        {% endif %}
+        {% for error in form.remarks.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+</div>

@@ -1,9 +1,9 @@
 {% load static widget_tweaks extras %}
 
 <div class="container gradient-l2 text-white small-padding-container rounded pb-2">
-    <div class="row m-0">
-        {% block activity_list %}
-            {{ upcoming_activities|length }} Activité{{ upcoming_activities|pluralize:"s" }}
+    {{ upcoming_activities|length }} Activité{{ upcoming_activities|pluralize:"s" }}
+    {% block activity_list %}
+        <div id="activity-table" class="row m-0">
             {% for activity in upcoming_activities %}
                 <div class="card mb-2 bg-wt rounded" data-activity-id="{{ activity.id }}">
                     <div class="card-header px-0 bg-transparent">
@@ -18,9 +18,15 @@
                                     {% for inscription in activity.inscriptions.all %}
                                         {% if user == inscription.user %}
                                             {% if inscription.presence %}
-                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}">Inscrit</button>
+                                                <button type="button"
+                                                    class="btn btn-success js-update-inscription"
+                                                    data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
+                                                    Inscrit
+                                                </button>
                                             {% else %}
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-presence="{{ inscription.presence }}" data-bs-accompagnants="{{ inscription.guests_number }}" data-bs-remarks="{{ inscription.remarks }}">
+                                                <button type="button"
+                                                    class="btn btn-danger js-update-inscription"
+                                                    data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
                                                     Excusé
                                                 </button>
                                             {% endif %}
@@ -30,6 +36,9 @@
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
                                         Répondre
                                     </button>
+                                    {% comment %} <button type="button" class="btn btn-primary js-create-inscription" data-url="{% url 'koolapic:create_inscription_ajax' %}">
+                                        Répondre
+                                    </button> {% endcomment %}
                                 {% endif %}
                             </span>
                         </h4>
@@ -54,133 +63,172 @@
             {% empty %}
                 <div class="empty">Vous n'avez pas d'activités à venir</div>
             {% endfor %}
+        </div>
 
-            <div class="modal text-black" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="inscriptionModalLabel">Répondre</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form enctype="multipart/form-data" method="POST" novalidate>
-                                {% csrf_token %}
+        <div class="modal text-black" id="modal-inscription">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                                <div class="non-field-errors">
-                                    {{ form.non_field_errors }}
-                                </div>
+                </div>
+            </div>
+        </div>
 
-                                <div class="hidden-fields-errors">
-                                    {% for hidden_field in form.hidden_fields %}
-                                        {{ hidden_field.errors }}
-                                        {{ hidden_field }}
+        <div class="modal text-black" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="inscriptionModalLabel">Répondre</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form enctype="multipart/form-data" method="POST" novalidate>
+                            {% csrf_token %}
+
+                            <div class="non-field-errors">
+                                {{ form.non_field_errors }}
+                            </div>
+
+                            <div class="hidden-fields-errors">
+                                {% for hidden_field in form.hidden_fields %}
+                                    {{ hidden_field.errors }}
+                                    {{ hidden_field }}
+                                {% endfor %}
+                            </div>
+
+                            <div class="text-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col select_activity_inscription">
+                                    <div class="input-group">
+                                        <div class="form-floating">
+                                            {{ form.activity|add_class:"form-select"|attr:"placeholder:Activity" }}
+                                            {{ form.activity.label_tag }}
+                                        </div>
+                                    </div>
+                                    {% if form.activity.help_text %}
+                                        <span class="text-small text-muted">{{ form.activity.help_text }}</span>
+                                    {% endif %}
+                                    {% for error in form.activity.errors %}
+                                        <small class="form-text text-danger">{{ error }}</small>
                                     {% endfor %}
                                 </div>
 
-                                <div class="text-danger">
-                                    {{ form.non_field_errors }}
+                                <div class="col-auto">
+                                    <div class="form-check ps-0">
+                                        {{ form.presence.label_tag }}
+                                        {{ form.presence|add_class:"d-inline-block" }}
+                                    </div>
+                                    {% if form.presence.help_text %}
+                                        <span class="text-small text-muted">{{ form.presence.help_text }}</span>
+                                    {% endif %}
+                                    {% for error in form.presence.errors %}
+                                        <small class="form-text text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
 
-                                <div class="row mb-2">
-                                    <div class="col select_activity_inscription">
-                                        <div class="input-group">
-                                            <div class="form-floating">
-                                                {{ form.activity|add_class:"form-select"|attr:"placeholder:Activity" }}
-                                                {{ form.activity.label_tag }}
-                                            </div>
-                                        </div>
-                                        {% if form.activity.help_text %}
-                                            <span class="text-small text-muted">{{ form.activity.help_text }}</span>
-                                        {% endif %}
-                                        {% for error in form.activity.errors %}
-                                            <small class="form-text text-danger">{{ error }}</small>
-                                        {% endfor %}
+                                <div class="col">
+                                    <div class="form-floating">
+                                        {{ form.guests_number|add_class:"form-control"|attr:"placeholder:Activity name" }}
+                                        {{ form.guests_number.label_tag }}
                                     </div>
-
-                                    <div class="col-auto">
-                                        <div class="form-check ps-0">
-                                            {{ form.presence.label_tag }}
-                                            {{ form.presence|add_class:"d-inline-block" }}
-                                        </div>
-                                        {% if form.presence.help_text %}
-                                            <span class="text-small text-muted">{{ form.presence.help_text }}</span>
-                                        {% endif %}
-                                        {% for error in form.presence.errors %}
-                                            <small class="form-text text-danger">{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="form-floating">
-                                            {{ form.guests_number|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                                            {{ form.guests_number.label_tag }}
-                                        </div>
-                                        {% if form.guests_number.help_text %}
-                                            <span class="text-small text-muted">{{ form.guests_number.help_text }}</span>
-                                        {% endif %}
-                                        {% for error in form.guests_number.errors %}
-                                            <small class="text-danger">{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
+                                    {% if form.guests_number.help_text %}
+                                        <span class="text-small text-muted">{{ form.guests_number.help_text }}</span>
+                                    {% endif %}
+                                    {% for error in form.guests_number.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
+                            </div>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            {{ form.remarks|add_class:"form-control"|attr:"placeholder:Activity remarks" }}
-                                            {{ form.remarks.label_tag }}
-                                        </div>
-                                        {% if form.remarks.help_text %}
-                                            <span class="text-small text-muted">{{ form.remarks.help_text }}</span>
-                                        {% endif %}
-                                        {% for error in form.remarks.errors %}
-                                            <small class="text-danger">{{ error }}</small>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-
+                            <div class="row">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary col-auto mt-2">Répondre</button>
+                                    <div class="form-floating">
+                                        {{ form.remarks|add_class:"form-control"|attr:"placeholder:Activity remarks" }}
+                                        {{ form.remarks.label_tag }}
+                                    </div>
+                                    {% if form.remarks.help_text %}
+                                        <span class="text-small text-muted">{{ form.remarks.help_text }}</span>
+                                    {% endif %}
+                                    {% for error in form.remarks.errors %}
+                                        <small class="text-danger">{{ error }}</small>
+                                    {% endfor %}
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary col-auto mt-2">Répondre</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <script>
-                var inscriptionModal = document.getElementById('inscriptionModal')
-                inscriptionModal.addEventListener('show.bs.modal', function (event) {
-                    var button = event.relatedTarget
+        <script>
+            var inscriptionModal = document.getElementById('inscriptionModal')
+            inscriptionModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget
 
-                    var activity = button.getAttribute('data-bs-activity')
+                var activity = button.getAttribute('data-bs-activity')
 
-                    var modalActivity = inscriptionModal.querySelector('#id_activity')
-                    var modalAccompagnants = inscriptionModal.querySelector('#id_guests_number')
-                    var modalRemarks = inscriptionModal.querySelector('#id_remarks')
+                var modalActivity = inscriptionModal.querySelector('#id_activity')
+                var modalAccompagnants = inscriptionModal.querySelector('#id_guests_number')
+                var modalRemarks = inscriptionModal.querySelector('#id_remarks')
 
-                    modalActivity.value = activity
-                    modalAccompagnants.value = 0
-                    modalRemarks.value = ""
-                });
-            </script>
+                modalActivity.value = activity
+                modalAccompagnants.value = 0
+                modalRemarks.value = ""
+            });
+        </script>
 
-            <script>
-                // Update Django Ajax Call
-                function editUser(id) {
-                if (id) {
-                    tr_id = "#user-" + id;
-                    name = $(tr_id).find(".userName").text();
-                    address = $(tr_id).find(".userAddress").text();
-                    age = $(tr_id).find(".userAge").text();
-                    $('#form-id').val(id);
-                    $('#form-name').val(name);
-                    $('#form-address').val(address);
-                    $('#form-age').val(age);
-                }
-                }
-            </script>
+        <script>
+            $(function () {
+                var loadForm = function () {
+                    var btn = $(this);
+                    $.ajax({
+                        url: btn.attr("data-url"),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $("#modal-inscription .modal-content").html("");
+                            $("#modal-inscription").modal("show");
+                        },
+                        success: function (data) {
+                            $("#modal-inscription .modal-content").html(data.html_form);
+                        }
+                    });
+                };
 
-        {% endblock activity_list %}
-    </div>
+                var saveForm = function () {
+                    var form = $(this);
+                    $.ajax({
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        type: form.attr("method"),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.form_is_valid) {
+                                $("#activity-table").html(data.html_upcoming_activities_list);
+                                $("#modal-inscription").modal("hide");
+                            }
+                            else {
+                                $("#modal-inscription .modal-content").html(data.html_form);
+                            }
+                        }
+                    });
+                    return false;
+                };
+
+                /// Create inscription
+                $("#activity-table").on("click", ".js-create-inscription", loadForm);
+                $("#modal-inscription").on("submit", ".js-inscription-create-form", saveForm);
+
+                // Update inscription
+                $("#activity-table").on("click", ".js-update-inscription", loadForm);
+                $("#modal-inscription").on("submit", ".js-inscription-update-form", saveForm);
+            });
+        </script>
+    {% endblock activity_list %}
 </div>
