@@ -1,0 +1,57 @@
+{{ context }}
+{% for activity in upcoming_activities %}
+    <div class="card mb-2 bg-wt rounded" data-activity-id="{{ activity.id }}">
+        <div class="card-header px-0 bg-transparent">
+            <h4 class="d-flex mb-0">
+                <span class="col">
+                    <strong>{% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
+                        {% if activity.end_date %} au {{ activity.end_date }} {% endif %}</strong>
+                </span>
+
+                <span class="col-auto" style="z-index: 50;">
+                    {% if user in activity.participants.all or user == activity.creator %}
+                        {% for inscription in activity.inscriptions.all %}
+                            {% if user == inscription.user %}
+                                {% if inscription.presence %}
+                                    <button type="button"
+                                        class="btn btn-success js-update-inscription"
+                                        data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
+                                        Inscrit
+                                    </button>
+                                {% else %}
+                                    <button type="button"
+                                        class="btn btn-danger js-update-inscription"
+                                        data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
+                                        Excusé
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
+                            Répondre
+                        </button>
+                    {% endif %}
+                </span>
+            </h4>
+        </div>
+        <div class="card-body px-0 pb-2 pt-0">
+            <h5 class="text-ellipsis">
+                Emplacement: <strong>{{ activity.start_location }} {% if activity.end_location %} →
+                {{ activity.end_location }} {% endif %}</strong>
+            </h5>
+            <div class="text-ellipsis">
+                Nom de l'activité: <strong>{{ activity.name }}</strong>
+            </div>
+            <div class="text-ellipsis">
+                Dans groupe: <strong>{{ activity.group }}</strong>
+            </div>
+            <div class="text-ellipsis{% if user == activity.creator %} text-primary{% endif %}">
+                Organisateur: <strong>{{ activity.creator }}</strong>
+            </div>
+        </div>
+        <a href="{% url 'koolapic:activity_detail' slug=activity.slug %}" class="stretched-link"></a>
+    </div>
+{% empty %}
+    <div class="empty">Vous n'avez pas d'activités à venir</div>
+{% endfor %}

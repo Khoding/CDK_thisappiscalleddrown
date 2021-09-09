@@ -59,40 +59,16 @@ class IndexView(LoginRequiredMixin, ListView):
         return context
 
 
-# def create_post(request):
-#     if request.method == 'POST':
-#         post_text = request.POST.get('the_post')
-#         response_data = {}
-
-#         inscription = Inscription(text=post_text, author=request.user)
-#         inscription.save()
-
-#         response_data['result'] = 'Create post successful!'
-#         response_data['activity'] = inscription.pk
-#         response_data['text'] = inscription.activity
-#         response_data['remarks'] = inscription.remarks
-#         response_data['guests_number'] = inscription.guests_number
-
-#         return HttpResponse(
-#             json.dumps(response_data),
-#             content_type="application/json"
-#         )
-#     else:
-#         return HttpResponse(
-#             json.dumps({"nothing to see": "this isn't happening"}),
-#             content_type="application/json"
-#         )
-
-
 def save_inscription_form(request, form, template_name):
     data = dict()
     if request.method == 'POST':
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            books = Inscription.objects.all()
-            data['html_book_list'] = render_to_string('koolapic/partial_book_list.html', {
-                'books': books
+            upcoming_activities = Activity.objects.order_by('start_date').all() if request.user.is_superuser \
+                else Activity.objects.order_by('start_date').filter(Q(group__members=request.user))
+            data['html_upcoming_activities_list'] = render_to_string('koolapic/partial_activity_list.html', {
+                'upcoming_activities': upcoming_activities, 'user': request.user
             })
         else:
             data['form_is_valid'] = False
@@ -108,7 +84,7 @@ def inscription_update(request, slug):
         form = InscriptionCreationForm(request.POST, instance=inscription)
     else:
         form = InscriptionCreationForm(instance=inscription)
-    return save_inscription_form(request, form, 'koolapic/partial_book_update.html')
+    return save_inscription_form(request, form, 'koolapic/partial_inscription_update.html')
 
 
 class InscriptionsTemplateView(TemplateView):
