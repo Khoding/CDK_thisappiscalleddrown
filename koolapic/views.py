@@ -220,9 +220,10 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
         field_name = 'max_participants'
         obj = self.get_object()
         field_value = getattr(obj, field_name)
-        par = int(self.get_total_participants_count())
-        percent = par / field_value * 100
-        return round(percent)
+        if (field_value):
+            par = int(self.get_total_participants_count())
+            percent = par / field_value * 100
+            return round(percent)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
