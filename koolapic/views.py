@@ -202,14 +202,36 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
     def get_participants_count(self):
         participants = Inscription.objects.filter(
-            activity=self.get_object(), presence=True).count
+            activity=self.get_object(), presence=True)
         return participants
+
+    def get_guests_number(self):
+        guests = 0
+        participants = Inscription.objects.filter(
+            activity=self.get_object(), presence=True)
+        for par in participants:
+            guests += par.guests_number
+        return guests
+
+    def get_total_participants_count(self):
+        return self.get_participants_count().count() + self.get_guests_number()
+
+    def get_percentage(self):
+        field_name = 'max_participants'
+        obj = self.get_object()
+        field_value = getattr(obj, field_name)
+        par = int(self.get_total_participants_count())
+        percent = par / field_value * 100
+        return round(percent)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context['description'] = 'La page détail d\'une activités sur Koolapic'
-        context['participants_count'] = self.get_participants_count()
+        context['get_participants_count'] = self.get_participants_count()
+        context['get_guests_number'] = self.get_guests_number()
+        context['get_total_participants_count'] = self.get_total_participants_count()
+        context['get_percentage'] = self.get_percentage()
         return context
 
 

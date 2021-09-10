@@ -19,22 +19,21 @@
                 </div>
                 <h6>Créée par {{ activity.creator }}</h6>
                 {% if activity.max_participants %}
-                    {% if activity.participants.count > 0 %}
+                    {% if get_total_participants_count > 0 %}
                         <div class="progress bg-wt">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 style="width: {{ activity.participants.count }}%;"
-                                 aria-valuenow="{{ activity.participants.count }}" aria-valuemin="0"
+                                 style="width: {{ get_percentage }}%;"
+                                 aria-valuenow="{{ get_total_participants_count }}" aria-valuemin="0"
                                  aria-valuemax="{{ activity.max_participants }}">
+                            {{ get_total_participants_count }} / {{ activity.max_participants }} participant{{ get_total_participants_count|pluralize:'s' }}
                             </div>
-                            {{activity.get_participants_count}}
-                            {{ participants_count }}/{{ activity.max_participants }} participant{{ participants_count|pluralize:'s' }}
                         </div>
                     {% else %}
                         Aucun participant
                     {% endif %}
                 {% else %}
-                    {% if participants_count > 0 %}
-                        {{ participants_count }} participant{{ participants_count|pluralize:'s' }}
+                    {% if get_total_participants_count > 0 %}
+                        {{ get_total_participants_count }} participant{{ get_total_participants_count|pluralize:'s' }}
                     {% else %}
                         Aucun participant
                     {% endif %}
