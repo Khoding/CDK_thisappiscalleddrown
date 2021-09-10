@@ -4,12 +4,16 @@ URLs de l'application Koolapic.
 
 from django.urls import path
 
-from koolapic.views import ActivityCreateView, ActivityDetailView, InscriptionCreateView, ActivityUpdateView, \
-    ActivityDeleteView, \
-    GroupListView, GroupCreateView, GroupDetailView, GroupUpdateView, GroupDeleteView, ActivityCloneView, \
-    InscriptionUpdateView, InscriptionView, \
-    NotificationsView, InvitationView, LicenseView, GroupActivityCreateView, ContributorsView, InscriptionsTemplateView, inscription_create, inscription_update
-from koolapic.views import IndexView, HomeView
+from koolapic.views import (ActivityCloneView, ActivityCreateView,
+                            ActivityDeleteView, ActivityDetailView,
+                            ActivityUpdateView, GroupActivityCreateView,
+                            GroupCreateView, GroupDeleteView, GroupDetailView,
+                            GroupListView, GroupUpdateView, HomeView,
+                            IndexView, InscriptionCreateView,
+                            InscriptionsTemplateView, InscriptionView,
+                            InvitationView, inscription_create,
+                            inscription_update)
+
 from .feeds import GroupActivityFeed
 
 app_name = 'koolapic'
@@ -17,19 +21,15 @@ app_name = 'koolapic'
 urlpatterns = [
     path('', HomeView.as_view(), name='homepage'),
     path('app/', IndexView.as_view(), name='activity_list'),
-    path('conditions/', IndexView.as_view(), name='conditions'),
-    path('confidentiality/', IndexView.as_view(), name='confidentiality'),
-    path('licenses/', LicenseView.as_view(), name='licenses'),
-    path('notifications/', NotificationsView.as_view(), name='notifications'),
-    path('contributors/', ContributorsView.as_view(), name='contributors'),
+
     path('invitation/<slug:slug>/', InvitationView.as_view(), name='invitation'),
+
     path('inscription/', InscriptionsTemplateView.as_view(),
          name='inscription_list'),
     path('inscription/<slug:slug>/', InscriptionView.as_view(), name='inscription'),
+
     path('ajax/inscription/create/',
          inscription_create, name='create_inscription_ajax'),
-    path('inscription/<slug:slug>/update/',
-         InscriptionUpdateView.as_view(), name='update_inscription'),
     path('ajax/inscription/<slug:slug>/update/',
          inscription_update, name='update_inscription_ajax'),
 

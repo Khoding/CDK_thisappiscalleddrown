@@ -598,14 +598,14 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                 return JsonResponse(response_data)
 
     def get_context_data(self, **kwargs):
-        admins = self.object.admins.distinct()
+        admins = self.get_object().admins.distinct()
         admin_ids = admins.values_list('id', flat=True)
-        members = self.object.members.distinct().exclude(id__in=admin_ids)
+        members = self.get_object().members.distinct().exclude(id__in=admin_ids)
         all_members_count = Count(members) + Count(admins)
 
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        context['description'] = self.object.description
+        context['description'] = self.get_object().description
         context['members'] = members
         context['admins'] = admins
         context['all_members'] = members | admins
@@ -705,33 +705,6 @@ class InscriptionView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
-        return context
-
-
-class InscriptionUpdateView(LoginRequiredMixin, UpdateView):
-    """
-    Vue de mise à jour de groupe.
-
-    **Contexte**
-
-    ``title``
-        Titre de la page.
-    ``description``
-        Description de la page.
-
-    **Template**
-
-    :template:'koolapic/activities/update_inscription.html'
-    """
-
-    model = Inscription
-    template_name = 'koolapic/activities/update_inscription.html'
-    form_class = InscriptionCreationForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Koolapic'
-        context['description'] = 'Editer une inscription sur Koolapic'
         return context
 
 

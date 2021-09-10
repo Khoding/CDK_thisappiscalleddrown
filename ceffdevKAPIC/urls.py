@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from koolapic.views import ContributorsView, IndexView, LicenseView, NotificationsView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -30,10 +31,15 @@ admin.site.site_title = 'Koolapic'
 admin.site.index_title = 'Administration de Koolapic'
 
 urlpatterns = [
-                  path('', include(koolapic.urls)),
-                  path('admin/', admin.site.urls),
-                  path('admin/doc/', include('django.contrib.admindocs.urls')),
-                  path('api/', include(koolapicAPI.urls, namespace='api')),
-                  path('accounts/', include(accounts.urls, namespace='account')),
-                  path('dev/', include(dev_urls, namespace='dev')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', include(koolapic.urls)),
+    path('conditions/', IndexView.as_view(), name='conditions'),
+    path('confidentiality/', IndexView.as_view(), name='confidentiality'),
+    path('licenses/', LicenseView.as_view(), name='licenses'),
+    path('notifications/', NotificationsView.as_view(), name='notifications'),
+    path('contributors/', ContributorsView.as_view(), name='contributors'),
+    path('admin/', admin.site.urls),
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
+    path('api/', include(koolapicAPI.urls, namespace='api')),
+    path('accounts/', include(accounts.urls, namespace='account')),
+    path('dev/', include(dev_urls, namespace='dev')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

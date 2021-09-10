@@ -7,6 +7,4 @@
     <p>Activité: {{ inscription.activity }}</p>
     <p>Date d'inscription: {{ inscription.date }}</p>
     <p>Remarques: {{ inscription.remarks }}</p>
-
-    <p><a href="{% url 'koolapic:update_inscription' slug=inscription.slug %}">Editer l'inscription</a></p>
 {% endblock content %}

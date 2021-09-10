@@ -140,7 +140,7 @@
             {% if user.is_authenticated %}
                 <div class="d-flex align-items-center">
                     <div class="me-3">
-                        <a class="btn btn-primary position-relative" href="{% url "koolapic:notifications" %}">
+                        <a class="btn btn-primary position-relative" href="{% url "notifications" %}">
                             Notifications
                             {% if unread_notifications_number > 0 %}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -184,18 +184,18 @@
     <div class="container text-center">
         <div class="row justify-content-center">
             <div class="col">
-                <a href="{% url 'koolapic:conditions' %}">Conditions</a>
+                <a href="{% url 'conditions' %}">Conditions</a>
             </div>
             <div class="col">
-                <a href="{% url 'koolapic:confidentiality' %}">Confidentialité</a>
+                <a href="{% url 'confidentiality' %}">Confidentialité</a>
             </div>
             <div class="col">
-                <a href="{% url 'koolapic:licenses' %}">Licences</a>
+                <a href="{% url 'licenses' %}">Licences</a>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col">
-                <a href="{% url 'koolapic:contributors' %}">Contributeurs</a>
+                <a href="{% url 'contributors' %}">Contributeurs</a>
             </div>
         </div>
         <hr class="hr-white">
