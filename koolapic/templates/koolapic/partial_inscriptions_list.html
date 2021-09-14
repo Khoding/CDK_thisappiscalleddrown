@@ -13,9 +13,9 @@
                                 {% if inscription.user.profile_pic %}
                                     <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
                                 {% endif %}
-                                <h6 class="text-small">
+                                <span class="text-small">
                                     {{ inscription.user }}
-                                </h6>
+                                </span>
                             </a>
                         {% else %}
                             <a type="button"
