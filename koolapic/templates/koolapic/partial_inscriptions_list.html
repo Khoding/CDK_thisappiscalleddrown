@@ -42,7 +42,8 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        <a class="btn btn-primary"
-            href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
+            Répondre
+        </button>
     {% endif %}
 </span>
