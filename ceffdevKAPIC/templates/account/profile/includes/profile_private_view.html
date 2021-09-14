@@ -17,7 +17,7 @@
     </h3>
     <hr class="hr-white">
     <div class="bg-wt medium-padding-container rounded">
-        <h2>Informations</h2>
+        <h2>Profil public</h2>
         <div class="profile-info-label row">
             <div class="col"><strong><i class="fas fa-envelope"></i> Adresse e-mail</strong></div>
         </div>
@@ -43,7 +43,7 @@
         {% endif %}
         {% if profile.tel_home %}
             <div class="profile-info-label row">
-                <div class="col"><strong><i class="fas fa-home"></i> E.T. Téléphone maison</strong></div>
+                <div class="col"><strong><i class="fas fa-home"></i> Téléphone maison</strong></div>
             </div>
             <div class="profile-info row">
                 <div class="col">{{ profile.tel_home }}</div>
@@ -72,10 +72,7 @@
             {% endif %}
         {% endif %}
         <hr class="hr-white">
-        <h2>Informations avancées</h2>
-        <div class="profile-info-label row">
-            <div class="col"><strong><i class="fas fa-user-plus"></i> Compte créé le</strong></div>
-        </div>
+        <h2>Profil privé</h2>
         <div class="profile-info row">
             <div class="col">{{ profile.date_joined }}</div>
         </div>
@@ -92,13 +89,6 @@
         </div>
         <div class="profile-info row">
             <div class="col">{{ profile.donation_date }}</div>
-        </div>
-
-        <div class="profile-info-label row">
-            <div class="col"><strong><i class="fas fa-hashtag"></i> Slug</strong></div>
-        </div>
-        <div class="profile-info row">
-            <div class="col">{{ profile.slug }}</div>
         </div>
     </div>
     <div class="row profile-action-buttons mx-0">
