@@ -142,7 +142,7 @@
                         <p class="text-small mb-0">Dernière mise à jour</p>
                         <div class="text-small">
                             <strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
-                                à {% hour activity.last_update %}</strong></div>
+                                à {{ activity.last_update|time:"H:i" }}</strong></div>
                     </div>
                 </div>
                 <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">

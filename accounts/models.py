@@ -22,16 +22,21 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name']
     USERNAME_FIELD = 'email'
 
-    email = models.EmailField(max_length=255, unique=True, verbose_name='Adresse e-mail')
+    email = models.EmailField(
+        max_length=255, unique=True, verbose_name='Adresse e-mail')
 
-    profile_pic = models.ImageField(null=True, blank=True, upload_to="images/profile/", verbose_name="Photo de profil")
-    bio = models.TextField(null=True, blank=True, verbose_name="Bio", help_text="A propos de vous", max_length=256)
+    profile_pic = models.ImageField(
+        null=True, blank=True, upload_to="images/profile/", verbose_name="Photo de profil")
+    bio = models.TextField(null=True, blank=True, verbose_name="Bio",
+                           help_text="A propos de vous", max_length=256)
     donation_date = models.DateTimeField(null=True, blank=True, verbose_name="Date du dernier don",
                                          help_text="Date du dernier don")
     last_login = models.DateTimeField(auto_now_add=True, verbose_name="Dernier login",
                                       help_text="Date et heure du dernier login")
-    locality = models.CharField(max_length=50, null=True, blank=True, verbose_name="Localité", help_text="Localité")
-    npa = models.IntegerField(null=True, blank=True, verbose_name="NPA", help_text="NPA")
+    locality = models.CharField(
+        max_length=50, null=True, blank=True, verbose_name="Localité", help_text="Localité")
+    npa = models.IntegerField(null=True, blank=True,
+                              verbose_name="NPA", help_text="NPA")
     address = models.CharField(max_length=50, null=True, blank=True, verbose_name="Adresse",
                                help_text="Adresse du domicile")
     tel_pro = models.CharField(max_length=17, null=True, blank=True, verbose_name="Téléphone professionnel",
