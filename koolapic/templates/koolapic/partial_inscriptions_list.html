@@ -1,49 +1,53 @@
 <h6><strong>Inscriptions</strong></h6>
 
-<span class="col-auto" style="z-index: 50;">
-    {% if user in activity.participants.all or user == activity.creator %}
-        {% for inscription in inscriptions %}
-            {% if user == inscription.user %}
-                {% if inscription.presence %}
-                    <button type="button"
-                        class="btn btn-success ps-2 js-update-inscription"
-                        data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
-                        {% if inscription.user.profile_pic %}
-                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+<div class="container px-0">
+    <div class="row row-cols-3 g-2">
+        {% if user in activity.participants.all or user == activity.creator %}
+            {% for inscription in inscriptions %}
+                <div class="col">
+                    {% if user == inscription.user %}
+                        {% if inscription.presence %}
+                            <a type="button"
+                                class="btn btn-success d-block js-update-inscription"
+                                data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
+                                {% if inscription.user.profile_pic %}
+                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                {% endif %}
+                                {{ inscription.user }}
+                            </a>
+                        {% else %}
+                            <a type="button"
+                                class="btn btn-danger d-block js-update-inscription"
+                                data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
+                                {% if inscription.user.profile_pic %}
+                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                {% endif %}
+                                {{ inscription.user }}
+                            </a>
                         {% endif %}
-                        {{ inscription.user }}
-                    </button>
-                {% else %}
-                    <button type="button"
-                        class="btn btn-danger ps-2 js-update-inscription"
-                        data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
-                        {% if inscription.user.profile_pic %}
-                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                    {% else %}
+                        {% if inscription.presence %}
+                            <a class="btn btn-success d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                                {% if inscription.user.profile_pic %}
+                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                {% endif %}
+                                {{ inscription.user }}
+                            </a>
+                        {% else %}
+                            <a class="btn btn-danger d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                                {% if inscription.user.profile_pic %}
+                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                {% endif %}
+                                {{ inscription.user }}
+                            </a>
                         {% endif %}
-                        {{ inscription.user }}
-                    </button>
-                {% endif %}
-            {% else %}
-                {% if inscription.presence %}
-                    <a class="btn btn-success ps-2" href="{% url 'account:profile' slug=inscription.user.slug %}">
-                        {% if inscription.user.profile_pic %}
-                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
-                        {% endif %}
-                        {{ inscription.user }}
-                    </a>
-                {% else %}
-                    <a class="btn btn-danger ps-2" href="{% url 'account:profile' slug=inscription.user.slug %}">
-                        {% if inscription.user.profile_pic %}
-                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
-                        {% endif %}
-                        {{ inscription.user }}
-                    </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
-            Répondre
-        </button>
-    {% endif %}
-</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <button type="button" class="btn btn-primary col" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
+                Répondre
+            </button>
+        {% endif %}
+    </div>
+</div>
