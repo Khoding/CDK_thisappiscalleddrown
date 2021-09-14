@@ -150,14 +150,14 @@
                         <h6><strong>Inscriptions</strong></h6>
 
                         <div class="container px-0">
-                            <div class="row row-cols-3 g-2">
+                            <div class="row row-cols-md-auto row-cols-1 g-md-2 g-0 gy-2">
                                 {% if user in activity.participants.all or user == activity.creator %}
                                     {% for inscription in inscriptions %}
                                         <div class="col">
                                             {% if user == inscription.user %}
                                                 {% if inscription.presence %}
                                                     <a type="button"
-                                                        class="btn btn-success d-block js-update-inscription"
+                                                        class="btn btn-success text-start d-block js-update-inscription"
                                                         data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
                                                         {% if inscription.user.profile_pic %}
                                                             <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
@@ -166,7 +166,7 @@
                                                     </a>
                                                 {% else %}
                                                     <a type="button"
-                                                        class="btn btn-danger d-block js-update-inscription"
+                                                        class="btn btn-danger text-start d-block js-update-inscription"
                                                         data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
                                                         {% if inscription.user.profile_pic %}
                                                             <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
@@ -176,14 +176,14 @@
                                                 {% endif %}
                                             {% else %}
                                                 {% if inscription.presence %}
-                                                    <a class="btn btn-success d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                                                    <a class="btn btn-success text-start d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
                                                         {% if inscription.user.profile_pic %}
                                                             <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
                                                         {% endif %}
                                                         {{ inscription.user }}
                                                     </a>
                                                 {% else %}
-                                                    <a class="btn btn-danger d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                                                    <a class="btn btn-danger text-start d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
                                                         {% if inscription.user.profile_pic %}
                                                             <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
                                                         {% endif %}

@@ -8,7 +8,7 @@
                     {% if user == inscription.user %}
                         {% if inscription.presence %}
                             <a type="button"
-                                class="btn btn-success d-block js-update-inscription"
+                                class="btn btn-success text-start d-block js-update-inscription"
                                 data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
                                 {% if inscription.user.profile_pic %}
                                     <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
@@ -17,7 +17,7 @@
                             </a>
                         {% else %}
                             <a type="button"
-                                class="btn btn-danger d-block js-update-inscription"
+                                class="btn btn-danger text-start d-block js-update-inscription"
                                 data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
                                 {% if inscription.user.profile_pic %}
                                     <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
@@ -27,14 +27,14 @@
                         {% endif %}
                     {% else %}
                         {% if inscription.presence %}
-                            <a class="btn btn-success d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                            <a class="btn btn-success text-start d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
                                 {% if inscription.user.profile_pic %}
                                     <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
                                 {% endif %}
                                 {{ inscription.user }}
                             </a>
                         {% else %}
-                            <a class="btn btn-danger d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                            <a class="btn btn-danger text-start d-block" href="{% url 'account:profile' slug=inscription.user.slug %}">
                                 {% if inscription.user.profile_pic %}
                                     <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
                                 {% endif %}
