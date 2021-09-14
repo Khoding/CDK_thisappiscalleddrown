@@ -78,6 +78,25 @@ def save_inscription_form(request, form, template_name):
     return JsonResponse(data)
 
 
+def save_inscription_activity_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            inscriptions = Inscription.objects.filter(
+                Q(activity=form.instance.activity))
+            data['html_inscriptions_list'] = render_to_string('koolapic/partial_inscriptions_list.html', {
+                'inscriptions': inscriptions, 'user': request.user, 'activity': form.instance.activity
+            })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(
+        template_name, context, request=request)
+    return JsonResponse(data)
+
+
 def inscription_create(request):
     if request.method == 'POST':
         form = InscriptionCreationForm(request.POST)
@@ -93,6 +112,16 @@ def inscription_update(request, slug):
     else:
         form = InscriptionCreationForm(instance=inscription)
     return save_inscription_form(request, form, 'koolapic/partial_inscription_update.html')
+
+
+def inscription_update_activity_detail(request, slug):
+    inscription = get_object_or_404(
+        Inscription, slug=slug)
+    if request.method == 'POST':
+        form = InscriptionCreationForm(request.POST, instance=inscription)
+    else:
+        form = InscriptionCreationForm(instance=inscription)
+    return save_inscription_activity_form(request, form, 'koolapic/partial_inscription_update_detail.html')
 
 
 class InscriptionsTemplateView(TemplateView):
@@ -199,6 +228,7 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
     model = Activity
     template_name = "koolapic/activities/activity_detail.html"
+    form_class = InscriptionCreationForm
 
     def get_participants_count(self):
         participants = Inscription.objects.filter(
@@ -225,6 +255,24 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
             percent = par / field_value * 100
             return round(percent)
 
+    def get_inscriptions(self):
+        return Inscription.objects.filter(Q(activity=self.get_object()))
+
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax and self.request.method == "POST":
+            form = self.form_class(self.request.POST)
+            if form.is_valid():
+                form.instance.user = self.request.user
+                activity = Activity.objects.get(
+                    pk=self.request.POST['activity'])
+                form.instance.activity_pk = activity
+                activity.participants.add(self.request.user)
+                form.save()
+                return redirect(reverse_lazy('koolapic:activity_list'))
+            else:
+                return redirect(reverse_lazy('koolapic:activity_list'))
+        return redirect(reverse_lazy('koolapic:activity_list'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
@@ -233,6 +281,8 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
         context['get_guests_number'] = self.get_guests_number()
         context['get_total_participants_count'] = self.get_total_participants_count()
         context['get_percentage'] = self.get_percentage()
+        context['form'] = InscriptionCreationForm
+        context['inscriptions'] = self.get_inscriptions()
         return context
 
 

@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% load extras %}
-{% load static %}
+{% load static widget_tweaks extras %}
 
 {% block head %}
     <script src="{% static 'koolapic/js/tabs.js' %}"></script>
@@ -147,39 +146,50 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
-                    <div class="mt-2">
+                    <div class="mt-2" id="inscription-table">
                         <h6><strong>Inscriptions</strong></h6>
 
                         <span class="col-auto" style="z-index: 50;">
                             {% if user in activity.participants.all or user == activity.creator %}
-                                {% for inscription in activity.inscriptions.all %}
+                                {% for inscription in inscriptions %}
                                     {% if user == inscription.user %}
                                         {% if inscription.presence %}
-                                            <a class="btn btn-success"
-                                               href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit</a>
+                                            <button type="button"
+                                                class="btn btn-success ps-2 js-update-inscription"
+                                                data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
+                                                {% if inscription.user.profile_pic %}
+                                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                                {% endif %}
+                                                {{ inscription.user }}
+                                            </button>
                                         {% else %}
-                                            <a class="btn btn-danger"
-                                               href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé</a>
+                                            <button type="button"
+                                                class="btn btn-danger ps-2 js-update-inscription"
+                                                data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
+                                                {% if inscription.user.profile_pic %}
+                                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                                {% endif %}
+                                                {{ inscription.user }}
+                                            </button>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if inscription.presence %}
+                                            <a class="btn btn-success ps-2" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                                                {% if inscription.user.profile_pic %}
+                                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                                {% endif %}
+                                                {{ inscription.user }}
+                                            </a>
+                                        {% else %}
+                                            <a class="btn btn-danger ps-2" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                                                {% if inscription.user.profile_pic %}
+                                                    <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                                                {% endif %}
+                                                {{ inscription.user }}
+                                            </a>
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
-
-                                {% if user == activity.creator %}
-                                    {% for inscription in activity.inscriptions.all %}
-                                        {% if user != inscription.user %}
-                                            {% if inscription.presence %}
-                                                <a class="btn btn-success"
-                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Inscrit - {{ inscription.user }}</a>
-                                            {% else %}
-                                                <a class="btn btn-danger"
-                                                   href="{% url 'koolapic:inscription' slug=inscription.slug %}">Excusé - {{ inscription.user }}</a>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% empty %}
-                                        <a class="btn btn-primary"
-                                            href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
-                                    {% endfor %}
-                                {% endif %}
                             {% else %}
                                 <a class="btn btn-primary"
                                    href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
@@ -210,6 +220,62 @@
 
             </div>
         </div>
+
+        <div class="modal text-black" id="modal-inscription">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(function () {
+                var loadForm = function () {
+                    var btn = $(this);
+                    $.ajax({
+                        url: btn.attr("data-url"),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $("#modal-inscription .modal-content").html("");
+                            $("#modal-inscription").modal("show");
+                        },
+                        success: function (data) {
+                            $("#modal-inscription .modal-content").html(data.html_form);
+                        }
+                    });
+                };
+
+                var saveForm = function () {
+                    var form = $(this);
+                    $.ajax({
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        type: form.attr("method"),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.form_is_valid) {
+                                $("#inscription-table").html(data.html_inscriptions_list);
+                                $("#modal-inscription").modal("hide");
+                            }
+                            else {
+                                $("#modal-inscription .modal-content").html(data.html_form);
+                            }
+                        }
+                    });
+                    return false;
+                };
+
+                /// Create inscription
+                $("#inscription-table").on("click", ".js-create-inscription", loadForm);
+                $("#modal-inscription").on("submit", ".js-inscription-create-form", saveForm);
+
+                // Update inscription
+                $("#inscription-table").on("click", ".js-update-inscription", loadForm);
+                $("#modal-inscription").on("submit", ".js-inscription-update-form", saveForm);
+            });
+        </script>
     {% else %}
         <p>Vous n'êtes pas dans le groupe.</p>
     {% endif %}

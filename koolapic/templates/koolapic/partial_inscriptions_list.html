@@ -1,0 +1,48 @@
+<h6><strong>Inscriptions</strong></h6>
+
+<span class="col-auto" style="z-index: 50;">
+    {% if user in activity.participants.all or user == activity.creator %}
+        {% for inscription in inscriptions %}
+            {% if user == inscription.user %}
+                {% if inscription.presence %}
+                    <button type="button"
+                        class="btn btn-success ps-2 js-update-inscription"
+                        data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
+                        {% if inscription.user.profile_pic %}
+                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                        {% endif %}
+                        {{ inscription.user }}
+                    </button>
+                {% else %}
+                    <button type="button"
+                        class="btn btn-danger ps-2 js-update-inscription"
+                        data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
+                        {% if inscription.user.profile_pic %}
+                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                        {% endif %}
+                        {{ inscription.user }}
+                    </button>
+                {% endif %}
+            {% else %}
+                {% if inscription.presence %}
+                    <a class="btn btn-success ps-2" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                        {% if inscription.user.profile_pic %}
+                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                        {% endif %}
+                        {{ inscription.user }}
+                    </a>
+                {% else %}
+                    <a class="btn btn-danger ps-2" href="{% url 'account:profile' slug=inscription.user.slug %}">
+                        {% if inscription.user.profile_pic %}
+                            <img width="64" src="{{ inscription.user.profile_pic.url }}" alt="{{ inscription.user }}'s profile picture" />
+                        {% endif %}
+                        {{ inscription.user }}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <a class="btn btn-primary"
+            href="{% url 'koolapic:activity_inscription' slug=activity.slug %}">Répondre</a>
+    {% endif %}
+</span>
