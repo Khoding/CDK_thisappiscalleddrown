@@ -149,8 +149,8 @@
                     <div class="mt-2" id="inscription-table">
                         <h6><strong>Inscriptions</strong></h6>
 
-                        <div class="row row-cols-3 me-0">
-                            {% if user in activity.participants.all or user == activity.creator %}
+                        {% if user in activity.participants.all or user == activity.creator %}
+                            <div class="row row-cols-3 me-0">
                                 {% for inscription in inscriptions %}
                                     <div class="col pe-0">
                                         <div class="rounded group-member-row mb-2 bg-{% if inscription.presence %}success{% else %}danger{% endif %}">
@@ -186,12 +186,12 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-                            {% else %}
-                                <button type="button" class="btn btn-primary col" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
-                                    Répondre
-                                </button>
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% else %}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
+                                Répondre
+                            </button>
+                        {% endif %}
                     </div>
                 </div>
 
