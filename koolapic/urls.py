@@ -12,7 +12,7 @@ from koolapic.views import (ActivityCloneView, ActivityCreateView,
                             IndexView, InscriptionCreateView,
                             InscriptionsTemplateView, InscriptionView,
                             InvitationView, inscription_create,
-                            inscription_update, inscription_update_activity_detail)
+                            inscription_update)
 
 from .feeds import GroupActivityFeed
 
@@ -26,14 +26,13 @@ urlpatterns = [
 
     path('inscription/', InscriptionsTemplateView.as_view(),
          name='inscription_list'),
+    # Debug / Admin
     path('inscription/<slug:slug>/', InscriptionView.as_view(), name='inscription'),
 
     path('ajax/inscription/create/',
          inscription_create, name='create_inscription_ajax'),
     path('ajax/inscription/<slug:slug>/update/',
          inscription_update, name='update_inscription_ajax'),
-    path('ajax/inscription/<slug:slug>/',
-         inscription_update_activity_detail, name='activity_inscription_ajax'),
 
     path('activity/add/', ActivityCreateView.as_view(), name="add_activity"),
     path('activity/<slug:slug>/',

@@ -80,25 +80,6 @@ def save_inscription_form(request, form, template_name):
     return JsonResponse(data)
 
 
-def save_inscription_activity_form(request, form, template_name):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            inscriptions = Inscription.objects.filter(
-                Q(activity=form.instance.activity))
-            data['html_inscriptions_list'] = render_to_string('koolapic/partial_inscriptions_list.html', {
-                'inscriptions': inscriptions, 'user': request.user, 'activity': form.instance.activity
-            })
-        else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(
-        template_name, context, request=request)
-    return JsonResponse(data)
-
-
 def inscription_create(request):
     if request.method == 'POST':
         form = InscriptionCreationForm(request.POST)
@@ -114,16 +95,6 @@ def inscription_update(request, slug):
     else:
         form = InscriptionCreationForm(instance=inscription)
     return save_inscription_form(request, form, 'koolapic/partial_inscription_update.html')
-
-
-def inscription_update_activity_detail(request, slug):
-    inscription = get_object_or_404(
-        Inscription, slug=slug)
-    if request.method == 'POST':
-        form = InscriptionCreationForm(request.POST, instance=inscription)
-    else:
-        form = InscriptionCreationForm(instance=inscription)
-    return save_inscription_activity_form(request, form, 'koolapic/partial_inscription_update_detail.html')
 
 
 class InscriptionsTemplateView(TemplateView):

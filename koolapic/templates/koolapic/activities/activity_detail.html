@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static widget_tweaks extras %}
+{% load static widget_tweaks extras times_filter %}
 
 {% block head %}
     <script src="{% static 'koolapic/js/tabs.js' %}"></script>
@@ -142,56 +142,57 @@
                         <p class="text-small mb-0">Dernière mise à jour</p>
                         <div class="text-small">
                             <strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
-                                à {{ activity.last_update|time:"H:i" }}</strong></div>
+                                à {{ activity.last_update|time:"H:i" }}</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
                     <div class="mt-2" id="inscription-table">
                         <h6><strong>Inscriptions</strong></h6>
 
-                        {% if user in activity.participants.all or user == activity.creator %}
-                            <div class="row row-cols-3 me-0">
-                                {% for inscription in inscriptions %}
-                                    <div class="col pe-0">
-                                        <div class="rounded group-member-row mb-2 bg-{% if inscription.presence %}success{% else %}danger{% endif %}">
-                                            <div class="p-2">
-                                                {% if inscription.user.profile_pic %}
-                                                    <a class="tooltip-btn" href="{% url 'account:profile' slug=inscription.user.slug %}"
-                                                    data-template="tooltip-{{ inscription.user.slug }}">
-                                                        <img class="profile-picture" src="{{ inscription.user.profile_pic.url }}" alt="Votre photo de profil"/>
-                                                    </a>
-                                                {% else %}
-                                                    <a class="tooltip-btn" href="{% url 'account:profile' slug=inscription.user.slug %}" title="Profil"
-                                                    data-template="tooltip-{{ inscription.user.slug }}">
-                                                        <img class="profile-picture" src="{% static 'koolapic/images/default_profile_picture.png' %}"
-                                                            alt="Votre photo de profil"/>
-                                                    </a>
-                                                {% endif %}
+                        <div class="row row-cols-3 me-0">
+                            {% for inscription in inscriptions %}
+                                <div class="col pe-0">
+                                    <div class="rounded group-member-row mb-2 bg-{% if inscription.presence %}success{% else %}danger{% endif %}">
+                                        <div class="p-2">
+                                            {% if inscription.user.profile_pic %}
+                                                <a class="tooltip-btn" href="{% url 'account:profile' slug=inscription.user.slug %}"
+                                                data-template="tooltip-{{ inscription.user.slug }}">
+                                                    <img class="profile-picture" src="{{ inscription.user.profile_pic.url }}" alt="Votre photo de profil"/>
+                                                </a>
+                                            {% else %}
+                                                <a class="tooltip-btn" href="{% url 'account:profile' slug=inscription.user.slug %}" title="Profil"
+                                                data-template="tooltip-{{ inscription.user.slug }}">
+                                                    <img class="profile-picture" src="{% static 'koolapic/images/default_profile_picture.png' %}"
+                                                        alt="Votre photo de profil"/>
+                                                </a>
+                                            {% endif %}
 
-                                                <div class="tooltip" id="tooltip-{{ inscription.user.slug }}">
-                                                    <strong>{{ inscription.user }}</strong>
-                                                </div>
-                                            </div>
-                                            <div class="flex-column group-member-name-col">
-                                                {% if user == inscription.user %}
-                                                    <a type="button"
-                                                        class="btn btn-{% if inscription.presence %}success{% else %}danger{% endif %} text-start d-block js-update-inscription"
-                                                        data-url="{% url 'koolapic:activity_inscription_ajax' inscription.slug %}">
-                                                        <div class="ps-1 text-dark"><strong>{{ inscription.user }}</strong></div>
-                                                    </a>
-                                                {% else %}
-                                                    <div class="ps-1"><strong>{{ inscription.user }}</strong></div>
-                                                {% endif %}
+                                            <div class="tooltip" id="tooltip-{{ inscription.user.slug }}">
+                                                <strong>{{ inscription.user }}</strong>
                                             </div>
                                         </div>
+                                        <div class="flex-column group-member-name-col">
+                                            <div class="ps-1"><strong>{{ inscription.user }}</strong></div>
+                                        </div>
                                     </div>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
-                                Répondre
-                            </button>
-                        {% endif %}
+                                </div>
+                            {% endfor %}
+
+                            {% for invite in get_guests_number|times %}
+                                <div class="col pe-0">
+                                    <div class="rounded group-member-row mb-2 bg-wt">
+                                        <div class="p-2">
+                                            <img class="profile-picture" src="{% static 'koolapic/images/default_profile_picture.png' %}"
+                                                alt="Photo de profil par défaut"/>
+                                        </div>
+                                        <div class="flex-column group-member-name-col">
+                                            <div class="ps-1"><strong>Invité {{ forloop.counter }}</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
 
@@ -216,172 +217,6 @@
 
             </div>
         </div>
-
-        <div class="modal text-black" id="modal-inscription">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                </div>
-            </div>
-        </div>
-
-        <div class="modal text-black" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="inscriptionModalLabel">Répondre</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form enctype="multipart/form-data" method="POST" novalidate>
-                            {% csrf_token %}
-
-                            <div class="non-field-errors">
-                                {{ form.non_field_errors }}
-                            </div>
-
-                            <div class="hidden-fields-errors">
-                                {% for hidden_field in form.hidden_fields %}
-                                    {{ hidden_field.errors }}
-                                    {{ hidden_field }}
-                                {% endfor %}
-                            </div>
-
-                            <div class="text-danger">
-                                {{ form.non_field_errors }}
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="col select_activity_inscription">
-                                    <div class="input-group">
-                                        <div class="form-floating">
-                                            {{ form.activity|add_class:"form-select"|attr:"placeholder:Activity" }}
-                                            {{ form.activity.label_tag }}
-                                        </div>
-                                    </div>
-                                    {% if form.activity.help_text %}
-                                        <span class="text-small text-muted">{{ form.activity.help_text }}</span>
-                                    {% endif %}
-                                    {% for error in form.activity.errors %}
-                                        <small class="form-text text-danger">{{ error }}</small>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="form-check ps-0">
-                                        {{ form.presence.label_tag }}
-                                        {{ form.presence|add_class:"d-inline-block" }}
-                                    </div>
-                                    {% if form.presence.help_text %}
-                                        <span class="text-small text-muted">{{ form.presence.help_text }}</span>
-                                    {% endif %}
-                                    {% for error in form.presence.errors %}
-                                        <small class="form-text text-danger">{{ error }}</small>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-floating">
-                                        {{ form.guests_number|add_class:"form-control"|attr:"placeholder:Activity name" }}
-                                        {{ form.guests_number.label_tag }}
-                                    </div>
-                                    {% if form.guests_number.help_text %}
-                                        <span class="text-small text-muted">{{ form.guests_number.help_text }}</span>
-                                    {% endif %}
-                                    {% for error in form.guests_number.errors %}
-                                        <small class="text-danger">{{ error }}</small>
-                                    {% endfor %}
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        {{ form.remarks|add_class:"form-control"|attr:"placeholder:Activity remarks" }}
-                                        {{ form.remarks.label_tag }}
-                                    </div>
-                                    {% if form.remarks.help_text %}
-                                        <span class="text-small text-muted">{{ form.remarks.help_text }}</span>
-                                    {% endif %}
-                                    {% for error in form.remarks.errors %}
-                                        <small class="text-danger">{{ error }}</small>
-                                    {% endfor %}
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary col-auto mt-2">Répondre</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            var inscriptionModal = document.getElementById('inscriptionModal')
-            inscriptionModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget
-
-                var activity = button.getAttribute('data-bs-activity')
-
-                var modalActivity = inscriptionModal.querySelector('#id_activity')
-                var modalAccompagnants = inscriptionModal.querySelector('#id_guests_number')
-                var modalRemarks = inscriptionModal.querySelector('#id_remarks')
-
-                modalActivity.value = activity
-                modalAccompagnants.value = 0
-                modalRemarks.value = ""
-            });
-        </script>
-
-        <script>
-            $(function () {
-                var loadForm = function () {
-                    var btn = $(this);
-                    $.ajax({
-                        url: btn.attr("data-url"),
-                        type: 'get',
-                        dataType: 'json',
-                        beforeSend: function () {
-                            $("#modal-inscription .modal-content").html("");
-                            $("#modal-inscription").modal("show");
-                        },
-                        success: function (data) {
-                            $("#modal-inscription .modal-content").html(data.html_form);
-                        }
-                    });
-                };
-
-                var saveForm = function () {
-                    var form = $(this);
-                    $.ajax({
-                        url: form.attr("action"),
-                        data: form.serialize(),
-                        type: form.attr("method"),
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.form_is_valid) {
-                                $("#inscription-table").html(data.html_inscriptions_list);
-                                $("#modal-inscription").modal("hide");
-                            }
-                            else {
-                                $("#modal-inscription .modal-content").html(data.html_form);
-                            }
-                        }
-                    });
-                    return false;
-                };
-
-                /// Create inscription
-                $("#inscription-table").on("click", ".js-create-inscription", loadForm);
-                $("#modal-inscription").on("submit", ".js-inscription-create-form", saveForm);
-
-                // Update inscription
-                $("#inscription-table").on("click", ".js-update-inscription", loadForm);
-                $("#modal-inscription").on("submit", ".js-inscription-update-form", saveForm);
-            });
-        </script>
     {% else %}
         <p>Vous n'êtes pas dans le groupe.</p>
     {% endif %}
