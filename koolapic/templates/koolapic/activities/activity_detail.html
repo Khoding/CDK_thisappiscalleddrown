@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if user in activity.group.members.all %}
+    {% if user in activity.group.members.all or user.is_superuser %}
         <div class="activity-header gradient-l2 small-padding-container rounded text-white">
             <div class="activity-panel clearfix mb-2">
                 <h2 class="d-inline-block">{{ activity.name }}</h2>

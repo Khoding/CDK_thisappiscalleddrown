@@ -6,7 +6,7 @@ from ceffdevKAPIC.koolapic_settings import (CONTRIBUTORS,
                                             MAX_INVITATION_NUMBER_BY_USER)
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -27,6 +27,7 @@ class IndexView(LoginRequiredMixin, ListView):
     model = Activity
     template_name = 'koolapic/index.html'
     form_class = InscriptionCreationForm
+    context_object_name = 'upcoming_activities'
     success_url = reverse_lazy('koolapic:activity_list')
 
     def post(self, *args, **kwargs):
@@ -44,17 +45,18 @@ class IndexView(LoginRequiredMixin, ListView):
                 return redirect(reverse_lazy('koolapic:activity_list'))
         return redirect(reverse_lazy('koolapic:activity_list'))
 
-    def get_activities(self):
-        return Activity.objects.order_by('start_date').all() if self.request.user.is_superuser \
-            else Activity.objects.order_by('start_date').filter(Q(group__members=self.request.user))
+    def get_queryset(self):
+        queryset = Activity.objects.order_by('start_date').filter(
+            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now())) if self.request.user.is_superuser \
+            else Activity.objects.order_by('start_date').filter(Q(group__members=self.request.user)).filter(
+            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now())).filter(inscriptions__presence=True).annotate(Sum('inscriptions__guests_number'), Count('inscriptions'))
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
         context[
             'description'] = 'Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0'
-        context['upcoming_activities'] = self.get_activities().filter(
-            Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
         context['form'] = InscriptionCreationForm
         return context
 
@@ -65,10 +67,8 @@ def save_inscription_form(request, form, template_name):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            upcoming_activities = Activity.objects.order_by('start_date').filter(
-                Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now())) if request.user.is_superuser \
-                else Activity.objects.order_by('start_date').filter(Q(group__members=request.user)).filter(
-                Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
+            upcoming_activities = Activity.objects.order_by('start_date').filter(Q(group__members=request.user)).filter(
+                Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now())).filter(inscriptions__presence=True).annotate(Sum('inscriptions__guests_number'), Count('inscriptions'))
             data['html_upcoming_activities_list'] = render_to_string('koolapic/partial_activity_list.html', {
                 'upcoming_activities': upcoming_activities, 'user': request.user
             })
@@ -201,7 +201,6 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
     model = Activity
     template_name = "koolapic/activities/activity_detail.html"
-    form_class = InscriptionCreationForm
 
     def get_participants_count(self):
         participants = Inscription.objects.filter(
@@ -231,21 +230,6 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
     def get_inscriptions(self):
         return Inscription.objects.filter(Q(activity=self.get_object()))
 
-    def post(self, *args, **kwargs):
-        if self.request.is_ajax and self.request.method == "POST":
-            form = self.form_class(self.request.POST)
-            if form.is_valid():
-                form.instance.user = self.request.user
-                activity = Activity.objects.get(
-                    pk=self.request.POST['activity'])
-                form.instance.activity_pk = activity
-                activity.participants.add(self.request.user)
-                form.save()
-                return redirect(reverse_lazy('koolapic:activity_list'))
-            else:
-                return redirect(reverse_lazy('koolapic:activity_list'))
-        return redirect(reverse_lazy('koolapic:activity_list'))
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Koolapic'
@@ -254,7 +238,6 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
         context['get_guests_number'] = self.get_guests_number()
         context['get_total_participants_count'] = self.get_total_participants_count()
         context['get_percentage'] = self.get_percentage()
-        context['form'] = InscriptionCreationForm
         context['inscriptions'] = self.get_inscriptions()
         return context
 

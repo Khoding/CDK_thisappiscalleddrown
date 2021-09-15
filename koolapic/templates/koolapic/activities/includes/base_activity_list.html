@@ -1,4 +1,4 @@
-{% load static widget_tweaks extras %}
+{% load static widget_tweaks extras times_filter %}
 
 <div class="container gradient-l2 text-white small-padding-container rounded pb-2">
     {{ upcoming_activities|length }} Activité{{ upcoming_activities|pluralize:"s" }}
@@ -13,34 +13,50 @@
                                     {% if activity.end_date %} au {{ activity.end_date }} {% endif %}</strong>
                             </span>
 
-                            <span class="col-auto" style="z-index: 50;">
-                                {% if user in activity.participants.all or user == activity.creator %}
-                                    {% for inscription in activity.inscriptions.all %}
-                                        {% if user == inscription.user %}
-                                            {% if inscription.presence %}
-                                                <button type="button"
-                                                    class="btn btn-success js-update-inscription"
-                                                    data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
-                                                    Inscrit
-                                                </button>
-                                            {% else %}
-                                                <button type="button"
-                                                    class="btn btn-danger js-update-inscription"
-                                                    data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
-                                                    Excusé
-                                                </button>
+                            {% if not user.is_superuser %}
+                                <span class="col-auto" style="z-index: 50;">
+                                    {% if user in activity.participants.all or user == activity.creator %}
+                                        {% for inscription in activity.inscriptions.all %}
+                                            {% if user == inscription.user %}
+                                                {% if inscription.presence %}
+                                                    <button type="button"
+                                                        class="btn btn-success js-update-inscription"
+                                                        data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
+                                                        Inscrit
+                                                    </button>
+                                                {% else %}
+                                                    {% if not activity.max_participants or activity.inscriptions__guests_number__sum|add:activity.inscriptions__count < activity.max_participants %}
+                                                        <button type="button"
+                                                            class="btn btn-danger js-update-inscription"
+                                                            data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}">
+                                                            Excusé
+                                                        </button>
+                                                    {% else %}
+                                                        <button type="button"
+                                                            class="btn btn-danger js-update-inscription"
+                                                            data-url="{% url 'koolapic:update_inscription_ajax' inscription.slug %}" disabled>
+                                                            Excusé
+                                                        </button>
+                                                    {% endif %}
+                                                {% endif %}
                                             {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if not activity.max_participants or activity.inscriptions__guests_number__sum|add:activity.inscriptions__count < activity.max_participants %}
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
+                                                Répondre
+                                            </button>
+                                        {% else %}
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}" disabled>
+                                                Répondre
+                                            </button>
                                         {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inscriptionModal" data-bs-activity="{{ activity.pk }}">
-                                        Répondre
-                                    </button>
-                                    {% comment %} <button type="button" class="btn btn-primary js-create-inscription" data-url="{% url 'koolapic:create_inscription_ajax' %}">
-                                        Répondre
-                                    </button> {% endcomment %}
-                                {% endif %}
-                            </span>
+                                        {% comment %} <button type="button" class="btn btn-primary js-create-inscription" data-url="{% url 'koolapic:create_inscription_ajax' %}">
+                                            Répondre
+                                        </button> {% endcomment %}
+                                    {% endif %}
+                                </span>
+                            {% endif %}
                         </h4>
                     </div>
                     <div class="card-body px-0 pb-2 pt-0">
