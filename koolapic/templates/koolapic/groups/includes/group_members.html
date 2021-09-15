@@ -13,7 +13,7 @@
 {% if members.count %}
     <hr/>
 
-    <h6><strong>Membres</strong></h6>
+    <h6><strong>{{ members.count }} Membre{{ members.count|pluralize:'s' }}</strong></h6>
     <div class="row row-cols-3 me-0">
         {% for user_p in members %}
             <div class="col pe-0">
