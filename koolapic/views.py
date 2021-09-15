@@ -65,8 +65,10 @@ def save_inscription_form(request, form, template_name):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
-            upcoming_activities = Activity.objects.order_by('start_date').all() if request.user.is_superuser \
-                else Activity.objects.order_by('start_date').filter(Q(group__members=request.user))
+            upcoming_activities = Activity.objects.order_by('start_date').filter(
+                Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now())) if request.user.is_superuser \
+                else Activity.objects.order_by('start_date').filter(Q(group__members=request.user)).filter(
+                Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
             data['html_upcoming_activities_list'] = render_to_string('koolapic/partial_activity_list.html', {
                 'upcoming_activities': upcoming_activities, 'user': request.user
             })
