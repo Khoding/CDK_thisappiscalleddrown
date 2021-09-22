@@ -8,11 +8,11 @@ Fichier des formulaires de Koolapic. Contient tout ce qui est en rapport aux for
 from django import forms
 from django.core import validators
 from django.core.validators import FileExtensionValidator
-from django.forms import TextInput, ImageField
+from django.forms import ImageField, TextInput
 from easy_maps.widgets import AddressWithMapWidget
+from utils.image_utils import crop_redim_image
 
 from koolapic.models import Activity, Group, Inscription, Invitation
-from utils.image_utils import crop_redim_image
 
 VALID_IMAGE_EXTENSIONS = [
     'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
@@ -72,7 +72,7 @@ class ActivityCreationForm(forms.ModelForm):
         }
 
 
-class ActivityCloneForm(forms.ModelForm):
+class ActivityOldCloneForm(forms.ModelForm):
     """
     Formulaire de clonage des activités.
     """
@@ -94,7 +94,7 @@ class ActivityCloneForm(forms.ModelForm):
 
     def __init__(self, **kwargs):
         self.request = kwargs.pop('request')
-        super(ActivityCloneForm, self).__init__(**kwargs)
+        super(ActivityOldCloneForm, self).__init__(**kwargs)
         self.fields['group'].queryset = Group.objects.filter(
             members=self.request.user)
 
@@ -118,6 +118,24 @@ class ActivityCloneForm(forms.ModelForm):
         widgets = {
             'address': AddressWithMapWidget({'class': 'vTextField'}),
         }
+
+
+class ActivityCloneForm(forms.ModelForm):
+    """
+    Formulaire de clonage des activités.
+    """
+
+    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'],
+                                          widget=forms.SplitDateTimeWidget(
+                                              date_attrs={'type': 'date'}, date_format='%Y-%m-%d',
+                                              time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
+                                          label="Date de début")
+
+    class Meta:
+        model = Activity
+        fields = [
+            'start_date',
+        ]
 
 
 class ActivityChangeForm(forms.ModelForm):

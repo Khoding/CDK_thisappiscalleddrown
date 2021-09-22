@@ -1,3 +1,4 @@
+import datetime
 from django.template.loader import render_to_string
 import json
 
@@ -95,6 +96,29 @@ def inscription_update(request, slug):
     else:
         form = InscriptionCreationForm(instance=inscription)
     return save_inscription_form(request, form, 'koolapic/partial_inscription_update.html')
+
+
+def activity_clone(request, slug):
+    activity = get_object_or_404(Activity, slug=slug)
+    if request.method == 'POST':
+        form = ActivityCloneForm(request.POST, instance=activity)
+    else:
+        form = ActivityCloneForm(instance=activity)
+    return clone_activity_form(request, form, 'koolapic/partial_activity_clone.html')
+
+
+def clone_activity_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(
+        template_name, context, request=request)
+    return JsonResponse(data)
 
 
 class InscriptionsTemplateView(TemplateView):
@@ -201,6 +225,36 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
 
     model = Activity
     template_name = "koolapic/activities/activity_detail.html"
+    form_class = ActivityCloneForm
+
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax and self.request.method == "POST":
+            form = self.form_class(self.request.POST)
+            activity = get_object_or_404(
+                Activity, slug=self.kwargs['slug'])
+            if form.is_valid():
+                form.instance.group = activity.group
+                form.instance.max_participants = activity.max_participants
+                form.instance.start_location = activity.start_location
+                form.instance.end_location = activity.end_location
+                form.instance.description = activity.description
+                form.instance.remarks = activity.remarks
+                form.instance.name = activity.name
+                form.instance.creator = self.request.user
+                form.instance.start_date = activity.start_date + \
+                    datetime.timedelta(7)
+                if activity.end_date:
+                    form.instance.end_date = activity.end_date + \
+                        datetime.timedelta(7)
+                form.instance.save()
+                form.instance.participants.add(self.request.user)
+                form.instance.inscriptions.create(
+                    guests_number=0, user=self.request.user)
+                form.save()
+                return redirect(form.instance.get_absolute_url())
+            else:
+                return redirect(activity.get_absolute_url())
+        return redirect(reverse_lazy('koolapic:activity_list'))
 
     def get_participants_count(self):
         participants = Inscription.objects.filter(
@@ -239,6 +293,7 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
         context['get_total_participants_count'] = self.get_total_participants_count()
         context['get_percentage'] = self.get_percentage()
         context['inscriptions'] = self.get_inscriptions()
+        context['form'] = ActivityCloneForm
         return context
 
 

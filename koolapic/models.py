@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from accounts.models import CustomUser
 from django.db import models
 from django.urls import reverse, reverse_lazy
-
-from accounts.models import CustomUser
 from utils.db_utils import generate_unique_vanity
 
 
@@ -108,8 +107,11 @@ class Activity(models.Model):
     def get_absolute_url(self):
         return reverse("koolapic:activity_detail", kwargs={'slug': self.slug})
 
-    def get_clone_url(self):
+    def get_clone_old_url(self):
         return reverse("koolapic:clone_activity", kwargs={'slug': self.slug})
+
+    def get_clone_url(self):
+        return reverse("koolapic:clone_activity_ajax", kwargs={'slug': self.slug})
 
     def get_update_url(self):
         return reverse("koolapic:update_activity", kwargs={'slug': self.slug})

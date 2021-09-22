@@ -1,0 +1,31 @@
+{% load widget_tweaks extras %}
+
+<div class="non-field-errors">
+    {{ form.non_field_errors }}
+</div>
+
+<div class="hidden-fields-errors">
+    {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+    {% endfor %}
+</div>
+
+<div class="text-danger">
+    {{ form.non_field_errors }}
+</div>
+
+<div class="row mb-2">
+    <div class="col col-md-auto">
+        {{ form.start_date.label_tag }}
+        {{ form.start_date|add_class:"form-control" }}
+        {% if form.start_date.help_text %}
+            <span class="text-small text-muted">{{ form.start_date.help_text }}</span>
+        {% endif %}
+        {% for error in form.start_date.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+</div>
+
+

@@ -8,13 +8,18 @@
 
 {% block content %}
     {% if user in activity.group.members.all or user.is_superuser %}
-        <div class="activity-header gradient-l2 small-padding-container rounded text-white">
+        <div id="activity_detail" class="activity-header gradient-l2 small-padding-container rounded text-white">
             <div class="activity-panel clearfix mb-2">
                 <h2 class="d-inline-block">{{ activity.name }}</h2>
                 <div class="float-end">
-                    <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
+                    {% comment %} <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
                         <i class="far fa-clone"></i> Dupliquer l'activité
-                    </a>
+                    </a> {% endcomment %}
+
+                    <button type="button" class="btn btn-success js-clone-activity"
+                        data-url="{{ activity.get_clone_url }}">
+                            Dupliquer l'activité
+                    </button>
                 </div>
                 <h6>Créée par {{ activity.creator }}</h6>
                 {% if activity.max_participants %}
@@ -220,4 +225,56 @@
     {% else %}
         <p>Vous n'êtes pas dans le groupe.</p>
     {% endif %}
+
+    <div class="modal text-black" id="modal-activity">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            var loadForm = function () {
+                var btn = $(this);
+                $.ajax({
+                    url: btn.attr("data-url"),
+                    type: 'get',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#modal-activity .modal-content").html("");
+                        $("#modal-activity").modal("show");
+                    },
+                    success: function (data) {
+                        $("#modal-activity .modal-content").html(data.html_form);
+                    }
+                });
+            };
+
+            var saveForm = function () {
+                var form = $(this);
+                $.ajax({
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    type: form.attr("method"),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.form_is_valid) {
+                            $("#activity_detail").html(data.html_upcoming_activities_list);
+                            $("#modal-activity").modal("hide");
+                        }
+                        else {
+                            $("#modal-activity .modal-content").html(data.html_form);
+                        }
+                    }
+                });
+                return false;
+            };
+
+            // Update inscription
+            $("#activity_detail").on("click", ".js-clone-activity", loadForm);
+            $("#modal-inscription").on("submit", ".js-activity-clone-form", saveForm);
+        });
+    </script>
 {% endblock content %}
