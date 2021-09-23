@@ -241,11 +241,12 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
                 form.instance.remarks = activity.remarks
                 form.instance.name = activity.name
                 form.instance.creator = self.request.user
-                form.instance.start_date = activity.start_date + \
-                    datetime.timedelta(7)
+                form.instance.start_date = form.instance.start_date + \
+                    datetime.timedelta(8)
                 if activity.end_date:
-                    form.instance.end_date = activity.end_date + \
-                        datetime.timedelta(7)
+                    difference_date = activity.end_date.day - activity.start_date.day
+                    form.instance.end_date = form.instance.start_date + \
+                        datetime.timedelta(difference_date)
                 form.instance.save()
                 form.instance.participants.add(self.request.user)
                 form.instance.inscriptions.create(

@@ -125,11 +125,8 @@ class ActivityCloneForm(forms.ModelForm):
     Formulaire de clonage des activités.
     """
 
-    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'],
-                                          widget=forms.SplitDateTimeWidget(
-                                              date_attrs={'type': 'date'}, date_format='%Y-%m-%d',
-                                              time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                          label="Date de début", help_text="7 jours seront ajoutés à cette date")
+    start_date = forms.DateField(
+        label="Date de début", help_text="7 jours seront ajoutés à cette date", widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
 
     class Meta:
         model = Activity
