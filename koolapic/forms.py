@@ -129,7 +129,7 @@ class ActivityCloneForm(forms.ModelForm):
                                           widget=forms.SplitDateTimeWidget(
                                               date_attrs={'type': 'date'}, date_format='%Y-%m-%d',
                                               time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                          label="Date de début")
+                                          label="Date de début", help_text="7 jours seront ajoutés à cette date")
 
     class Meta:
         model = Activity
