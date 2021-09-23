@@ -16,7 +16,7 @@
                         rejoindre le groupe :</p>
                     <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
                     <h3 class="text-center mt-2">{{ invitation.group.name }}</h3>
-                    <p class="text-medium text-center">{{ members_count }} membres</p>
+                    <p class="text-medium text-center">{{ members_count }} membre{{ members_count|pluralize:'s' }}</p>
                 </div>
             </div>
         {% endwith %}

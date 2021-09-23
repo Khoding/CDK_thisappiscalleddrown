@@ -20,7 +20,7 @@
                     {% endif %}
                     <div class="card-header">
                         <h4>{{ group.name }}</h4>
-                        <h5>{{ group.members.count }} membre{% if group.members_count|length_is:'>1' %}s{% endif %}</h5>
+                        <h5>{{ group.members.count }} membre{{ group.members.count|pluralize:'s' }}</h5>
                     </div>
                     <div class="card-body">
                         <div>{{ group.description }}</div>
