@@ -155,7 +155,7 @@
                     <div class="mt-2" id="inscription-table">
                         <h6><strong>Inscriptions</strong></h6>
 
-                        <div class="row row-cols-3 me-0">
+                        <div class="row row-cols-1 row-cols-lg-3 me-0">
                             {% for inscription in inscriptions %}
                                 <div class="col pe-0">
                                     <div class="rounded group-member-row mb-2 bg-{% if inscription.presence %}success{% else %}danger{% endif %}">
@@ -178,13 +178,19 @@
                                             </div>
                                         </div>
                                         <div class="flex-column group-member-name-col">
-                                            <div class="ps-1"><strong>{{ inscription.user }}</strong></div>
+                                            <div class="ps-1">
+                                                <strong>{{ inscription.user }}</strong>
+
+                                                {% if inscription.guests_number %}
+                                                    <span class="badge bg-secondary">{{ inscription.guests_number }} invité{{ inscription.guests_number|pluralize:'s' }}</span>
+                                                {% endif %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             {% endfor %}
 
-                            {% for invite in get_guests_number|times %}
+                            {% comment %} {% for invite in get_guests_number|times %}
                                 <div class="col pe-0">
                                     <div class="rounded group-member-row mb-2 bg-wt">
                                         <div class="p-2">
@@ -196,7 +202,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            {% endfor %}
+                            {% endfor %} {% endcomment %}
                         </div>
                     </div>
                 </div>
