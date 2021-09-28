@@ -219,8 +219,9 @@ class Inscription(models.Model):
         """
         if not self.slug:
             self.slug = generate_unique_vanity(5, 10, Inscription)
-        if self.get_totalnum() > self.activity.max_participants:
-            raise ValidationError("x")
+
+        # if self.get_totalnum() > self.activity.max_participants:
+        #     raise ValidationError("x")
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
