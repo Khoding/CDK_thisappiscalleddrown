@@ -4,7 +4,14 @@ Fichier relatif à l'administration de l'application Koolapic.
 
 from django.contrib import admin
 
-from koolapic.models import Activity, Group, Inscription, Invitation, Notification, Donation
+from koolapic.models import (
+    Activity,
+    Donation,
+    Group,
+    Inscription,
+    Invitation,
+    Notification,
+)
 
 
 @admin.register(Activity)
@@ -13,7 +20,7 @@ class ActivityAdmin(admin.ModelAdmin):
     Modèle d'administration de la classe Activity.
     """
 
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Group)
@@ -22,7 +29,7 @@ class GroupAdmin(admin.ModelAdmin):
     Modèle d'administration de la classe Group.
     """
 
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Notification)
