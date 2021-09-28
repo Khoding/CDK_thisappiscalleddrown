@@ -14,9 +14,7 @@ from utils.image_utils import crop_redim_image
 
 from koolapic.models import Activity, Group, Inscription, Invitation
 
-VALID_IMAGE_EXTENSIONS = [
-    'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
-]
+VALID_IMAGE_EXTENSIONS = ["bmp", "gif", "png", "apng", "jpg", "jpeg"]
 
 
 class ImageCropField(ImageField):
@@ -24,51 +22,64 @@ class ImageCropField(ImageField):
     Champ de formulaire permettant de rogner les images avant leur import.
     """
 
-    default_validators = [validators.validate_image_file_extension,
-                          FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
+    default_validators = [
+        validators.validate_image_file_extension,
+        FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS),
+    ]
 
 
 class ActivityCreationForm(forms.ModelForm):
     """
     Formulaire de création des activités.
     """
-    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'],
-                                          widget=forms.SplitDateTimeWidget(
-                                              date_attrs={'type': 'date'}, date_format='%Y-%m-%d',
-                                              time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                          label="Date de début")
-    end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'],
-                                        input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-        label="Date de fin")
+
+    start_date = forms.SplitDateTimeField(
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de début",
+    )
+    end_date = forms.SplitDateTimeField(
+        required=False,
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de fin",
+    )
 
     group = forms.Select()
 
     def __init__(self, **kwargs):
-        self.request = kwargs.pop('request')
+        self.request = kwargs.pop("request")
         super(ActivityCreationForm, self).__init__(**kwargs)
-        self.fields['group'].queryset = Group.objects.filter(
-            members=self.request.user)
+        self.fields["group"].queryset = Group.objects.filter(members=self.request.user)
 
     class Meta:
         model = Activity
         fields = [
-            'name',
-            'group',
-
-            'description',
-            'remarks',
-
-            'start_location',
-            'start_date',
-
-            'max_participants',
-            'end_location',
-            'end_date',
+            "name",
+            "group",
+            "description",
+            "remarks",
+            "start_location",
+            "start_date",
+            "max_participants",
+            "end_location",
+            "end_date",
         ]
 
         widgets = {
-            'address': AddressWithMapWidget({'class': 'vTextField'}),
+            "address": AddressWithMapWidget({"class": "vTextField"}),
         }
 
 
@@ -76,47 +87,60 @@ class ActivityOldCloneForm(forms.ModelForm):
     """
     Formulaire de clonage des activités.
     """
-    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'],
-                                          widget=forms.SplitDateTimeWidget(
-                                              date_attrs={'type': 'date'}, date_format='%Y-%m-%d',
-                                              time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                          label="Date de début")
-    end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'],
-                                        input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-        label="Date de fin")
 
-    exclude = ['participants', ]
+    start_date = forms.SplitDateTimeField(
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de début",
+    )
+    end_date = forms.SplitDateTimeField(
+        required=False,
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de fin",
+    )
+
+    exclude = [
+        "participants",
+    ]
 
     group = forms.Select()
 
     # initial
 
     def __init__(self, **kwargs):
-        self.request = kwargs.pop('request')
+        self.request = kwargs.pop("request")
         super(ActivityOldCloneForm, self).__init__(**kwargs)
-        self.fields['group'].queryset = Group.objects.filter(
-            members=self.request.user)
+        self.fields["group"].queryset = Group.objects.filter(members=self.request.user)
 
     class Meta:
         model = Activity
         fields = [
-            'name',
-            'group',
-
-            'description',
-            'remarks',
-
-            'start_location',
-            'start_date',
-
-            'max_participants',
-            'end_location',
-            'end_date',
+            "name",
+            "group",
+            "description",
+            "remarks",
+            "start_location",
+            "start_date",
+            "max_participants",
+            "end_location",
+            "end_date",
         ]
 
         widgets = {
-            'address': AddressWithMapWidget({'class': 'vTextField'}),
+            "address": AddressWithMapWidget({"class": "vTextField"}),
         }
 
 
@@ -125,13 +149,22 @@ class ActivityCloneForm(forms.ModelForm):
     Formulaire de clonage des activités.
     """
 
-    start_date = forms.DateField(
-        label="Date de début", help_text="7 jours seront ajoutés à cette date", widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'))
+    start_date = forms.SplitDateTimeField(
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de début",
+    )
 
     class Meta:
         model = Activity
         fields = [
-            'start_date',
+            "start_date",
         ]
 
 
@@ -139,34 +172,46 @@ class ActivityChangeForm(forms.ModelForm):
     """
     Formulaire de modification des activités.
     """
-    start_date = forms.SplitDateTimeField(input_date_formats=['%Y-%m-%d'], input_time_formats=['%H:%M:%S', '%H:%M'],
-                                          widget=forms.SplitDateTimeWidget(
-                                              date_attrs={'type': 'date'}, date_format='%Y-%m-%d',
-                                              time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-                                          label="Date de début")
-    end_date = forms.SplitDateTimeField(required=False, input_date_formats=['%Y-%m-%d'],
-                                        input_time_formats=['%H:%M:%S', '%H:%M'], widget=forms.SplitDateTimeWidget(
-        date_attrs={'type': 'date'}, date_format='%Y-%m-%d', time_attrs={'type': 'time'}, time_format='%H:%M:%S'),
-        label="Date de fin")
+
+    start_date = forms.SplitDateTimeField(
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de début",
+    )
+    end_date = forms.SplitDateTimeField(
+        required=False,
+        input_date_formats=["%Y-%m-%d"],
+        input_time_formats=["%H:%M:%S", "%H:%M"],
+        widget=forms.SplitDateTimeWidget(
+            date_attrs={"type": "date"},
+            date_format="%Y-%m-%d",
+            time_attrs={"type": "time"},
+            time_format="%H:%M:%S",
+        ),
+        label="Date de fin",
+    )
 
     class Meta:
         model = Activity
         fields = [
-            'name',
-
-            'description',
-            'remarks',
-
-            'start_location',
-            'start_date',
-
-            'max_participants',
-            'end_location',
-            'end_date',
+            "name",
+            "description",
+            "remarks",
+            "start_location",
+            "start_date",
+            "max_participants",
+            "end_location",
+            "end_date",
         ]
 
         widgets = {
-            'address': AddressWithMapWidget({'class': 'vTextField'}),
+            "address": AddressWithMapWidget({"class": "vTextField"}),
         }
 
 
@@ -183,23 +228,30 @@ class CustomGroupCreationForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description',
-                  'banner_color', 'image', 'x', 'y', 'width', 'height')
+        fields = (
+            "name",
+            "description",
+            "banner_color",
+            "image",
+            "x",
+            "y",
+            "width",
+            "height",
+        )
 
         widgets = {
-            'banner_color': TextInput(attrs={'type': 'color'}),
+            "banner_color": TextInput(attrs={"type": "color"}),
         }
 
     def save(self, *args, **kwargs):
         custom_group = super(CustomGroupCreationForm, self).save()
-        if self.cleaned_data.get('width'):
-            x = self.cleaned_data.get('x')
-            y = self.cleaned_data.get('y')
-            w = self.cleaned_data.get('width')
-            h = self.cleaned_data.get('height')
+        if self.cleaned_data.get("width"):
+            x = self.cleaned_data.get("x")
+            y = self.cleaned_data.get("y")
+            w = self.cleaned_data.get("width")
+            h = self.cleaned_data.get("height")
 
-            crop_redim_image((x, y, w, h), (1072, 272),
-                             custom_group.image.path)
+            crop_redim_image((x, y, w, h), (1072, 272), custom_group.image.path)
         return custom_group
 
 
@@ -216,11 +268,21 @@ class CustomGroupChangeForm(forms.ModelForm):
 
     class Meta:
         model = Group
-        fields = ('name', 'description', 'banner_color',
-                  'admins', 'members', 'image', 'x', 'y', 'width', 'height')
+        fields = (
+            "name",
+            "description",
+            "banner_color",
+            "admins",
+            "members",
+            "image",
+            "x",
+            "y",
+            "width",
+            "height",
+        )
 
         widgets = {
-            'banner_color': TextInput(attrs={'type': 'color'}),
+            "banner_color": TextInput(attrs={"type": "color"}),
         }
 
     def save(self, *args, **kwargs):
@@ -230,14 +292,13 @@ class CustomGroupChangeForm(forms.ModelForm):
         """
 
         custom_group = super(CustomGroupChangeForm, self).save()
-        if self.cleaned_data.get('width'):
-            x = self.cleaned_data.get('x')
-            y = self.cleaned_data.get('y')
-            w = self.cleaned_data.get('width')
-            h = self.cleaned_data.get('height')
+        if self.cleaned_data.get("width"):
+            x = self.cleaned_data.get("x")
+            y = self.cleaned_data.get("y")
+            w = self.cleaned_data.get("width")
+            h = self.cleaned_data.get("height")
 
-            crop_redim_image((x, y, w, h), (1072, 272),
-                             custom_group.image.path)
+            crop_redim_image((x, y, w, h), (1072, 272), custom_group.image.path)
         return custom_group
 
 
@@ -251,7 +312,7 @@ class InvitationCreationForm(forms.ModelForm):
 
     class Meta:
         model = Invitation
-        fields = ('email', 'link')
+        fields = ("email", "link")
 
 
 class InscriptionCreationForm(forms.ModelForm):
@@ -261,4 +322,9 @@ class InscriptionCreationForm(forms.ModelForm):
 
     class Meta:
         model = Inscription
-        fields = ('remarks', 'presence', 'guests_number', 'activity',)
+        fields = (
+            "remarks",
+            "presence",
+            "guests_number",
+            "activity",
+        )

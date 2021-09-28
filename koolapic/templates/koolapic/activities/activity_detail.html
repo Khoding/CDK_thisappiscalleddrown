@@ -93,13 +93,13 @@
                         <div class="row">
                             <div class="col">
                                 <i class="far fa-calendar-alt"></i>
-                                {% weekday activity.start_date.date %} {{ activity.start_date.date }}
+                                {{ activity.end_date|date:"l"|capfirst }} {{ activity.end_date|date:"j F Y" }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <i class="far fa-clock"></i>
-                                {{ activity.start_date.time|date:'H:i' }}
+                                {{ activity.start_date|date:'H:i' }}
                             </div>
                         </div>
                         <div class="row">
@@ -119,7 +119,7 @@
                                         <i class="far fa-calendar-alt"></i>
                                     </div>
                                     <div class="col">
-                                        {% weekday activity.end_date.date %} {{ activity.end_date.date }}
+                                        {{ activity.end_date|date:"l"|capfirst }} {{ activity.end_date|date:"j F Y" }}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -127,7 +127,7 @@
                                         <i class="far fa-clock"></i>
                                     </div>
                                     <div class="col">
-                                        {% hour activity.end_date.time %}
+                                        {{ activity.end_date|time:"H:i" }}
                                     </div>
                                 </div>
                             {% endif %}
