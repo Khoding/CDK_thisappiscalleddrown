@@ -85,6 +85,9 @@ class IndexView(LoginRequiredMixin, ListView):
 def save_inscription_form(request, form, template_name):
     data = dict()
     if request.method == "POST":
+        # en gros je dois envoyer et sauver une instance avant de valider, si la valeur est trop haute, ne pas continuer
+        # sinon tu continues, et là tu sauves.
+        # bruh.
         if form.is_valid():
             form.save()
             data["form_is_valid"] = True
