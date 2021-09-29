@@ -7,6 +7,42 @@
                         {% if activity.end_date %} au {{ activity.end_date }} {% endif %}</strong>
                 </span>
 
+                {% if activity.max_participants %}
+                    <div class="me-2">
+                        <svg
+                            class="donut-chart"
+                            width="30"
+                            height="30">
+                                <circle
+                                    class="progress-ring__circle--{{ forloop.counter }}"
+                                    stroke="white"
+                                    stroke-width="4"
+                                    fill="transparent"
+                                    r="10"
+                                    cx="15"
+                                    cy="15" />
+                        </svg>
+
+                        <script>
+                            var circle = document.querySelector('.progress-ring__circle--{{ forloop.counter }}');
+                            var radius = circle.r.baseVal.value;
+                            var circumference = radius * 2 * Math.PI;
+
+                            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+                            circle.style.strokeDashoffset = `${circumference}`;
+
+                            function setProgress(percent) {
+                                const offset = circumference - percent / 100 * circumference;
+                                circle.style.strokeDashoffset = offset;
+                            }
+
+                            var percent = Math.round({{ activity.inscriptions__guests_number__sum|add:activity.inscriptions__count }} / {{ activity.max_participants }} * 100)
+
+                            setProgress(percent);
+                        </script>
+                    </div>
+                {% endif %}
+
                 {% if not user.is_superuser %}
                     <span class="col-auto" style="z-index: 50;">
                         {% if user in activity.participants.all or user == activity.creator %}

@@ -57,16 +57,12 @@ class IndexView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = (
             Activity.objects.order_by("start_date").filter(
-                Q(end_date__gte=timezone.now())
-                | Q(end_date__isnull=True, start_date__gte=timezone.now())
+                Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now())
             )
             if self.request.user.is_superuser
             else Activity.objects.order_by("start_date")
             .filter(Q(group__members=self.request.user))
-            .filter(
-                Q(end_date__gte=timezone.now())
-                | Q(end_date__isnull=True, start_date__gte=timezone.now())
-            )
+            .filter(Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
             .filter(inscriptions__presence=True)
             .annotate(Sum("inscriptions__guests_number"), Count("inscriptions"))
         )
@@ -95,10 +91,7 @@ def save_inscription_form(request, form, template_name):
             upcoming_activities = (
                 Activity.objects.order_by("start_date")
                 .filter(Q(group__members=request.user))
-                .filter(
-                    Q(end_date__gte=timezone.now())
-                    | Q(end_date__isnull=True, start_date__gte=timezone.now())
-                )
+                .filter(Q(end_date__gte=timezone.now()) | Q(end_date__isnull=True, start_date__gte=timezone.now()))
                 .filter(inscriptions__presence=True)
                 .annotate(Sum("inscriptions__guests_number"), Count("inscriptions"))
             )
@@ -118,9 +111,7 @@ def inscription_create(request):
         form = InscriptionCreationForm(request.POST)
     else:
         form = InscriptionCreationForm()
-    return save_inscription_form(
-        request, form, "koolapic/partial_inscription_create.html"
-    )
+    return save_inscription_form(request, form, "koolapic/partial_inscription_create.html")
 
 
 def inscription_update(request, slug):
@@ -129,9 +120,7 @@ def inscription_update(request, slug):
         form = InscriptionCreationForm(request.POST, instance=inscription)
     else:
         form = InscriptionCreationForm(instance=inscription)
-    return save_inscription_form(
-        request, form, "koolapic/partial_inscription_update.html"
-    )
+    return save_inscription_form(request, form, "koolapic/partial_inscription_update.html")
 
 
 def activity_clone(request, slug):
@@ -198,12 +187,8 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Koolapic"
-        context["notifications"] = Notification.objects.filter(
-            user=self.request.user
-        ).order_by("-date_sent")
-        context["invitations"] = Invitation.objects.filter(
-            user=self.request.user
-        ).order_by("-date")
+        context["notifications"] = Notification.objects.filter(user=self.request.user).order_by("-date_sent")
+        context["invitations"] = Invitation.objects.filter(user=self.request.user).order_by("-date")
         context[
             "description"
         ] = "Koolapic vous permet de planifier vos activités de groupe avec facilité sur le Web 2.0"
@@ -215,9 +200,7 @@ class NotificationsView(LoginRequiredMixin, TemplateView):
             notification_id = data["notification"]
             notification = Notification.objects.get(id=notification_id)
             notification.delete()
-            response_data = unread_notifications_number_to_dictionary(
-                user=self.request.user
-            )
+            response_data = unread_notifications_number_to_dictionary(user=self.request.user)
             return JsonResponse(response_data)
 
         if data["action"] == "deleteAllNotifications":
@@ -288,17 +271,12 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
                 if activity.end_date:
                     difference_date = activity.end_date.day - activity.start_date.day
                     difference_time = activity.end_date.hour - activity.start_date.hour
-                    form.instance.end_date = (
-                        form.instance.start_date
-                        + datetime.timedelta(
-                            days=difference_date, hours=difference_time
-                        )
+                    form.instance.end_date = form.instance.start_date + datetime.timedelta(
+                        days=difference_date, hours=difference_time
                     )
                 form.instance.save()
                 form.instance.participants.add(self.request.user)
-                form.instance.inscriptions.create(
-                    guests_number=0, user=self.request.user
-                )
+                form.instance.inscriptions.create(guests_number=0, user=self.request.user)
                 form.save()
                 return redirect(form.instance.get_absolute_url())
             else:
@@ -306,16 +284,12 @@ class ActivityDetailView(LoginRequiredMixin, DetailView):
         return redirect(reverse_lazy("koolapic:activity_list"))
 
     def get_participants_count(self):
-        participants = Inscription.objects.filter(
-            activity=self.get_object(), presence=True
-        )
+        participants = Inscription.objects.filter(activity=self.get_object(), presence=True)
         return participants
 
     def get_guests_number(self):
         guests = 0
-        participants = Inscription.objects.filter(
-            activity=self.get_object(), presence=True
-        )
+        participants = Inscription.objects.filter(activity=self.get_object(), presence=True)
         for par in participants:
             guests += par.guests_number
         return guests
@@ -402,9 +376,7 @@ class InscriptionCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
-        return reverse_lazy(
-            "koolapic:activity_detail", kwargs={"slug": self.kwargs["slug"]}
-        )
+        return reverse_lazy("koolapic:activity_detail", kwargs={"slug": self.kwargs["slug"]})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -449,9 +421,7 @@ class GroupActivityCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
-        return reverse_lazy(
-            "koolapic:group_detail", kwargs={"slug": self.kwargs["slug"]}
-        )
+        return reverse_lazy("koolapic:group_detail", kwargs={"slug": self.kwargs["slug"]})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -643,9 +613,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         if Invitation.objects.filter(slug=self.get_object().slug).exists():
             return Invitation.objects.get(slug=self.get_object().slug)
         else:
-            invitation = Invitation.objects.create(
-                sender=None, group=self.get_object(), slug=self.get_object().slug
-            )
+            invitation = Invitation.objects.create(sender=None, group=self.get_object(), slug=self.get_object().slug)
             invitation.save()
             return invitation
 
@@ -664,12 +632,7 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
             form = InvitationCreationForm(data["form"])
 
             if form.is_valid():
-                if (
-                    CustomUser.objects.filter(
-                        email=form.cleaned_data.get("email")
-                    ).count()
-                    > 0
-                ):
+                if CustomUser.objects.filter(email=form.cleaned_data.get("email")).count() > 0:
                     user = CustomUser.objects.get(email=form.cleaned_data.get("email"))
                     group = self.get_object()
 
@@ -683,15 +646,8 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
                             Invitation.objects.filter(sender=self.request.user).count()
                             <= MAX_INVITATION_NUMBER_BY_USER
                         ):
-                            if (
-                                Invitation.objects.filter(
-                                    user=user, group=group
-                                ).count()
-                                == 0
-                            ):
-                                invitation = Invitation(
-                                    user=user, sender=self.request.user, group=group
-                                )
+                            if Invitation.objects.filter(user=user, group=group).count() == 0:
+                                invitation = Invitation(user=user, sender=self.request.user, group=group)
                                 invitation.save()
                                 message = {
                                     "text": "Invitation envoyée.",
@@ -774,18 +730,10 @@ class InvitationView(DetailView):
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
             self.request.session["invitation"] = self.get_object().slug
-            return redirect(
-                f"{reverse('account:login')}?next={self.get_object().get_absolute_url()}"
-            )
+            return redirect(f"{reverse('account:login')}?next={self.get_object().get_absolute_url()}")
 
-        if (
-            self.request.user
-            in self.get_object().group.members.filter(member__id=self.request.user.id)
-            != 0
-        ):
-            messages.error(
-                request=self.request, message="Vous faites déjà partie de ce groupe."
-            )
+        if self.request.user in self.get_object().group.members.filter(member__id=self.request.user.id) != 0:
+            messages.error(request=self.request, message="Vous faites déjà partie de ce groupe.")
             return redirect(reverse("koolapic:activity_list"))
 
         if self.get_object().user and self.request.user != self.get_object().user:
@@ -808,9 +756,7 @@ class InvitationView(DetailView):
                     request=self.request,
                     message=f"Vous faites désormais partie du groupe {group.name}.",
                 )
-                return redirect(
-                    reverse("koolapic:group_detail", kwargs={"slug": group.slug})
-                )
+                return redirect(reverse("koolapic:group_detail", kwargs={"slug": group.slug}))
             elif self.request.POST.get("decline"):
                 messages.success(
                     request=self.request,

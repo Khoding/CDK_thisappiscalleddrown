@@ -210,7 +210,6 @@ class Inscription(models.Model):
         )
         users = self.activity.inscriptions.filter(presence=True).count()
         total = guests + users
-        print(total)
         return total
 
     def save(self, *args, **kwargs):

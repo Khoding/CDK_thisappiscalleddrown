@@ -1,19 +1,26 @@
 /* CSS principal */
 
+:root {
+    --color-checks-donut-error: #e5534b;
+    --color-checks-donut-pending: #c69026;
+    --color-checks-donut-success: #46954a;
+    --color-checks-donut-neutral: #768390;
+}
+
 /* Variables */
-@import 'variables';
+@import "variables";
 
 /* Mixins SCSS */
-@import 'mixins';
+@import "mixins";
 
 /* Bootstrap configuré */
-@import 'custom';
+@import "custom";
 
 /* Importe les classes utilitaires */
-@import 'utils';
+@import "utils";
 
 /* Importation de FontAwesome */
-@import '../../vendor/node_modules/@fortawesome/fontawesome-free/css/all.css';
+@import "../../vendor/node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 /* Layout global */
 body {
@@ -172,13 +179,13 @@ b {
     display: none;
 }
 
-input[type='file'] {
+input[type="file"] {
     border: none;
 }
 
 /* Menu */
 .navbar-brand {
-    font-family: 'Pattaya', sans-serif;
+    font-family: "Pattaya", sans-serif;
     font-size: 1.75rem;
 }
 
@@ -196,7 +203,7 @@ textarea {
 
 @include media-breakpoint-up(md) {
     #mainNavbar.active::before {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         left: -10px;
@@ -211,7 +218,7 @@ textarea {
     }
 
     #mainNavbar.active::after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         left: -13px;
@@ -235,6 +242,36 @@ textarea {
             transform: translateY(-50%) rotate(45deg);
         }
     }
+}
+
+.donut-chart > .error,
+.donut-chart > .cancelled,
+.donut-chart > .action_required,
+.donut-chart > .timed_out,
+.donut-chart > .failure {
+    fill: var(--color-checks-donut-error);
+}
+.donut-chart > .expected,
+.donut-chart > .queued,
+.donut-chart > .in_progress,
+.donut-chart > .waiting,
+.donut-chart > .requested,
+.donut-chart > .pending {
+    fill: var(--color-checks-donut-pending);
+}
+.donut-chart > .success {
+    fill: var(--color-checks-donut-success);
+}
+.donut-chart > .neutral,
+.donut-chart > .stale,
+.donut-chart > .skipped {
+    fill: var(--color-checks-donut-neutral);
+}
+
+.progress-ring__circle {
+    transition: 0.35s stroke-dashoffset;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
 }
 
 .contributor .contrib-icon {
