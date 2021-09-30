@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.aggregates import Sum
 from django.urls import reverse, reverse_lazy
 from utils.db_utils import generate_unique_vanity
+from model_utils import FieldTracker
 
 
 class Group(models.Model):
@@ -35,9 +36,7 @@ class Group(models.Model):
         verbose_name="Administrateurs du groupe",
     )
 
-    website = models.TextField(
-        max_length=100, null=True, blank=True, verbose_name="Site web"
-    )
+    website = models.TextField(max_length=100, null=True, blank=True, verbose_name="Site web")
 
     class Meta:
         verbose_name = "groupe"
@@ -72,9 +71,7 @@ class Activity(models.Model):
     Modèle représentant une activité.
     """
 
-    name = models.CharField(
-        max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité"
-    )
+    name = models.CharField(max_length=32, default="Activité sans nom", verbose_name="Nom de l'activité")
     description = models.TextField(max_length=500, verbose_name="Description")
     creator = models.ForeignKey(
         CustomUser,
@@ -84,26 +81,16 @@ class Activity(models.Model):
         on_delete=models.CASCADE,
     )
 
-    remarks = models.TextField(
-        max_length=500, null=True, blank=True, verbose_name="Remarques"
-    )
-    max_participants = models.PositiveIntegerField(
-        null=True, blank=True, verbose_name="Max de participants"
-    )
+    remarks = models.TextField(max_length=500, null=True, blank=True, verbose_name="Remarques")
+    max_participants = models.PositiveIntegerField(null=True, blank=True, verbose_name="Max de participants")
 
-    start_location = models.CharField(
-        max_length=100, null=True, verbose_name="Lieu de départ"
-    )
+    start_location = models.CharField(max_length=100, null=True, verbose_name="Lieu de départ")
     start_date = models.DateTimeField(verbose_name="Date de début")
 
-    end_location = models.CharField(
-        max_length=100, null=True, blank=True, verbose_name="Lieu de fin"
-    )
+    end_location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Lieu de fin")
     end_date = models.DateTimeField(null=True, blank=True, verbose_name="Date de fin")
 
-    last_update = models.DateTimeField(
-        verbose_name="Dernière mise à jour", auto_now=True
-    )
+    last_update = models.DateTimeField(verbose_name="Dernière mise à jour", auto_now=True)
     participants = models.ManyToManyField(
         CustomUser,
         related_name="participants",
@@ -112,9 +99,7 @@ class Activity(models.Model):
         blank=True,
     )
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
-    group = models.ForeignKey(
-        Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe"
-    )
+    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
     class Meta:
         verbose_name = "activité"
@@ -169,9 +154,7 @@ class Inscription(models.Model):
     """
 
     date = models.DateTimeField(verbose_name="Date de l'inscription", auto_now=True)
-    remarks = models.TextField(
-        max_length=500, blank=True, default="", verbose_name="Remarques"
-    )
+    remarks = models.TextField(max_length=500, blank=True, default="", verbose_name="Remarques")
     presence = models.BooleanField(verbose_name="Présence", default=True)
     guests_number = models.PositiveIntegerField(verbose_name="Accompagnants", default=0)
     user = models.ForeignKey(
@@ -189,6 +172,8 @@ class Inscription(models.Model):
         related_name="inscriptions",
     )
     slug = models.SlugField(max_length=255, null=True, unique=True, verbose_name="Slug")
+    tracker_guests = FieldTracker(fields=["guests_number"])
+    tracker_presence = FieldTracker(fields=["presence"])
 
     class Meta:
         verbose_name = "inscription"
@@ -219,8 +204,9 @@ class Inscription(models.Model):
         if not self.slug:
             self.slug = generate_unique_vanity(5, 10, Inscription)
 
-        # if self.get_totalnum() > self.activity.max_participants:
-        #     raise ValidationError("x")
+        if self.activity.max_participants:
+            if self.get_totalnum() > self.activity.max_participants:
+                raise ValidationError("x")
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -244,15 +230,9 @@ class Donation(models.Model):
 
     amount = models.FloatField(verbose_name="Montant")
     date = models.DateTimeField(verbose_name="Date de la donation")
-    description = models.TextField(
-        max_length=500, null=True, blank=True, verbose_name="Description"
-    )
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, null=True, verbose_name="Utilisateur"
-    )
-    group = models.ForeignKey(
-        Group, on_delete=models.DO_NOTHING, null=True, verbose_name="Groupe"
-    )
+    description = models.TextField(max_length=500, null=True, blank=True, verbose_name="Description")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, verbose_name="Utilisateur")
+    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=True, verbose_name="Groupe")
 
     def __str__(self):
         return self.description
@@ -280,13 +260,9 @@ class Notification(models.Model):
     title = models.CharField(max_length=100, verbose_name="Titre")
     description = models.CharField(max_length=250, verbose_name="Description")
     link = models.CharField(max_length=250, null=True, blank=True, verbose_name="Lien")
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, verbose_name="Utilisateur"
-    )
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Utilisateur")
     date_sent = models.DateTimeField(auto_now_add=True, verbose_name="Date d'envoi")
-    group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Groupe"
-    )
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Groupe")
 
     class Meta:
         verbose_name = "notification"
@@ -304,9 +280,7 @@ class Invitation(models.Model):
     ACCEPTATION_CHOICES = [("ACC", "Acceptée"), ("NAC", "Non acceptée")]
 
     date = models.DateTimeField(verbose_name="Date d'envoi", auto_now=True)
-    slug = models.SlugField(
-        max_length=10, null=True, unique=True, verbose_name="Vanité d'invitation"
-    )
+    slug = models.SlugField(max_length=10, null=True, unique=True, verbose_name="Vanité d'invitation")
     sender = models.ForeignKey(
         CustomUser,
         null=True,
@@ -321,9 +295,7 @@ class Invitation(models.Model):
         related_name="receiver",
         verbose_name="Utilisateur",
     )
-    group = models.ForeignKey(
-        Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe"
-    )
+    group = models.ForeignKey(Group, null=True, on_delete=models.CASCADE, verbose_name="Groupe")
 
     class Meta:
         verbose_name = "invitation"
