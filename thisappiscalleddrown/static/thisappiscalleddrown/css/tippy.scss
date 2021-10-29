@@ -1,0 +1,15 @@
+/* Thème custom pour Tippy */
+
+@import "variables";
+
+.tippy-box[data-theme~="thisappiscalleddrown"] {
+  background-image: radial-gradient(circle at top right, $palette-d2, $palette-d1);
+  padding: 0.5em;
+  border-radius: 5px;
+  color: $white;
+}
+
+.tippy-box[data-animation="pop"][data-state="hidden"] {
+  opacity: 0;
+  transform: scale(0.75);
+}

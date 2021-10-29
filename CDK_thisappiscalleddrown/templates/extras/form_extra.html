@@ -1,0 +1,31 @@
+{% comment %}
+    Description : Snippet permettant de créer des formulaires de base.
+    Page du wiki : https://github.com/ceffDptInfo/CDK_thisappiscalleddrown/wiki/Messages
+    Dépendances : django-widget-tweaks
+    Nécessite les scripts : password_visibility.js et popovers.js
+{% endcomment %}
+{% load extras %}
+{% load widget_tweaks %}
+
+{% csrf_token %}
+{% for field in form %}
+    {% if field.help_text and field|widget_type != "textarea" %}
+        <div class="tooltip" id="{{ field.auto_id }}tooltip">
+            <strong>{{ field.help_text }}</strong>
+        </div>
+    {% endif %}
+    <div class="{{ field|widget_type }}">
+        {% if field|widget_type == "checkboxinput" %}
+            <div class="form-check">
+                {% field_label field %}
+                {% form_field field %}
+            </div>
+        {% else %}
+            {% field_label field %}
+            {% form_field field %}
+        {% endif %}
+    </div>
+    {% for error in field.errors %}
+        <small class="form-error">{{ error }}</small>
+    {% endfor %}
+{% endfor %}

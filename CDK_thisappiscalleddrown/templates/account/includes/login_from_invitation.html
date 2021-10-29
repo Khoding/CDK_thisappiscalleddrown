@@ -1,0 +1,39 @@
+
+
+{% load static %}
+{% load extras %}
+
+<div class="card gradient-l2 formcard text-white">
+    <div class="card-header">
+        <h4>Invitation à un groupe thisappiscalleddrown</h4>
+        <hr class="hr-white">
+    </div>
+    <div class="card-body">
+        {% with invitation.sender as user_p %}
+            <div class="d-flex justify-content-center mb-4">
+                <div class="rounded small-padding-container bg-wt formcard w-50">
+                    <p class="text-medium text-center">{{ user_p.first_name }} {{ user_p.last_name }} vous a invité à
+                        rejoindre le groupe :</p>
+                    <img src="{{ invitation.group.image.url }}" alt="Bannière du groupe" class="group-banner">
+                    <h3 class="text-center mt-2">{{ invitation.group.name }}</h3>
+                    <p class="text-medium text-center">{{ members_count }} membre{{ members_count|pluralize:'s' }}</p>
+                </div>
+            </div>
+        {% endwith %}
+        <form action="{{ form_action }}" method="post" novalidate
+              class="medium-padding-container bg-wt rounded">
+            <h4>Se connecter</h4>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% form form %}
+            <br>
+            <input type="submit" class="btn btn-primary" value="Se connecter" name="Se connecter">
+        </form>
+        <hr class="hr-white">
+    </div>
+    <div class="card-footer">
+        <p class="text-right">Vous n'avez pas encore de compte ? <a
+                href="{% url 'account:signup' %}{% if next %}?next={{ next }}{% endif %}" class="btn btn-d2">Créez-en
+            un</a></p>
+    </div>
+</div>

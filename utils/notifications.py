@@ -2,7 +2,7 @@
 Fichier contenant des fonctions utilitaires pour la gestion des notifications.
 """
 
-from koolapic.models import Notification, Invitation
+from thisappiscalleddrown.models import Notification, Invitation
 
 SEVERITY_DANGER = "DANGER"
 SEVERITY_WARNING = "WARNING"

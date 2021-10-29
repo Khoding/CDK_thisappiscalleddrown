@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'thisappiscalleddrown/js/activities.js' %}" crossorigin="anonymous" type="module"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <span class="text-large gradient-text-d2"><strong>Mes activités</strong></span>
+        </div>
+    </div>
+
+    {% include 'thisappiscalleddrown/activities/includes/upcoming_activity_list.html' %}
+    {% include 'thisappiscalleddrown/activities/includes/past_activity_list.html' %}
+{% endblock content %}

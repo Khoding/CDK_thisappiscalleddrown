@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+{% load static widget_tweaks extras times_filter %}
+
+{% block head %}
+    <script src="{% static 'thisappiscalleddrown/js/tabs.js' %}"></script>
+    <script src="{% static 'thisappiscalleddrown/js/activities.js' %}" crossorigin="anonymous" type="module"></script>
+{% endblock %}
+
+{% block content %}
+    {% if user in activity.group.members.all or user.is_superuser %}
+        <div id="activity_detail" class="activity-header gradient-l2 small-padding-container rounded text-white">
+            <div class="activity-panel clearfix mb-2">
+                <h2 class="d-inline-block">{{ activity.name }}</h2>
+                <div class="float-end">
+                    {% comment %} <a class="text-reset" title="Dupliquer l'activité" href="{{ activity.get_clone_url }}">
+                        <i class="far fa-clone"></i> Dupliquer l'activité
+                    </a> {% endcomment %}
+
+                    <button type="button" class="btn btn-success js-clone-activity"
+                        data-url="{{ activity.get_clone_url }}">
+                            Dupliquer l'activité
+                    </button>
+                </div>
+                <h6>Créée par {{ activity.creator }}</h6>
+                {% if activity.max_participants %}
+                    {% if get_total_participants_count > 0 %}
+                        <div class="progress bg-wt">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                 style="width: {{ get_percentage }}%;"
+                                 aria-valuenow="{{ get_total_participants_count }}" aria-valuemin="0"
+                                 aria-valuemax="{{ activity.max_participants }}">
+                            {{ get_total_participants_count }} / {{ activity.max_participants }} participant{{ get_total_participants_count|pluralize:'s' }}
+                            </div>
+                        </div>
+                    {% else %}
+                        Aucun participant
+                    {% endif %}
+                {% else %}
+                    {% if get_total_participants_count > 0 %}
+                        {{ get_total_participants_count }} participant{{ get_total_participants_count|pluralize:'s' }}
+                    {% else %}
+                        Aucun participant
+                    {% endif %}
+                {% endif %}
+
+                {% if user in participants %}
+                    <button id="desinscriptionButton" type="button" class="btn btn-secondary"
+                            onclick="desinscription();">
+                        Quitter
+                    </button>
+                {% endif %}
+            </div>
+            <ul class="nav nav-tabs group-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" id="aboutTab" href="#about" role="tab"
+                       data-controls="about" aria-controls="about">Infos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" id="inscriptionsTab" href="#inscriptions" role="tab"
+                       data-controls="inscriptions" aria-controls="inscriptions">Inscriptions</a>
+                </li>
+                {% if user.id == activity.creator_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" id="managementTab" href="#management" role="tab"
+                           data-controls="management" aria-controls="management">Gestion</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="about" role="tabpanel" aria-labelledby="aboutTab">
+                    <div class="text-large">
+                        {% if activity.description %}
+                            <div class="row mt-2">
+                                <h6><strong>Description</strong></h6>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ activity.description }}</div>
+                            </div>
+                        {% endif %}
+
+                        {% if activity.remarks %}
+                            <div class="row mt-2">
+                                <div class="col"><strong>Remarques</strong></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ activity.remarks }}</div>
+                            </div>
+                        {% endif %}
+
+                        <hr class="hr-white">
+
+                        <h6><strong>Début de l'activité</strong></h6>
+                        <div class="row">
+                            <div class="col">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ activity.end_date|date:"l"|capfirst }} {{ activity.end_date|date:"j F Y" }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <i class="far fa-clock"></i>
+                                {{ activity.start_date|date:'H:i' }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <i class="fas fa-map-marked-alt"></i>
+                                {{ activity.start_location }}
+                            </div>
+                        </div>
+
+                        {% if activity.end_date %}
+                            <hr class="hr-white">
+
+                            <h6><strong>Fin de l'activité</strong></h6>
+                            {% if activity.end_date %}
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="col">
+                                        {{ activity.end_date|date:"l"|capfirst }} {{ activity.end_date|date:"j F Y" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="far fa-clock"></i>
+                                    </div>
+                                    <div class="col">
+                                        {{ activity.end_date|time:"H:i" }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if activity.end_location %}
+                                <div class="row">
+                                    <div class="col-1">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="col">
+                                        {{ activity.end_location }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <hr class="hr-white">
+
+                        <p class="text-small mb-0">Dernière mise à jour</p>
+                        <div class="text-small">
+                            <strong>{% weekday activity.last_update %} {{ activity.last_update.date }}
+                                à {{ activity.last_update|time:"H:i" }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="inscriptions" role="tabpanel" aria-labelledby="inscriptionsTab">
+                    <div class="mt-2" id="inscription-table">
+                        <h6><strong>Inscriptions</strong></h6>
+
+                        <div class="row row-cols-1 row-cols-lg-3 me-0">
+                            {% for inscription in inscriptions %}
+                                <div class="col pe-0">
+                                    <div class="rounded group-member-row mb-2 bg-{% if inscription.presence %}success{% else %}danger{% endif %}">
+                                        <div class="p-2">
+                                            {% if inscription.user.profile_pic %}
+                                                <a class="tooltip-btn" href="{% url 'account:profile' slug=inscription.user.slug %}"
+                                                data-template="tooltip-{{ inscription.user.slug }}">
+                                                    <img class="profile-picture" src="{{ inscription.user.profile_pic.url }}" alt="Votre photo de profil"/>
+                                                </a>
+                                            {% else %}
+                                                <a class="tooltip-btn" href="{% url 'account:profile' slug=inscription.user.slug %}" title="Profil"
+                                                data-template="tooltip-{{ inscription.user.slug }}">
+                                                    <img class="profile-picture" src="{% static 'thisappiscalleddrown/images/default_profile_picture.png' %}"
+                                                        alt="Votre photo de profil"/>
+                                                </a>
+                                            {% endif %}
+
+                                            <div class="tooltip" id="tooltip-{{ inscription.user.slug }}">
+                                                <strong>{{ inscription.user }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="flex-column group-member-name-col">
+                                            <div class="ps-1">
+                                                <strong>{{ inscription.user }}</strong>
+
+                                                {% if inscription.guests_number %}
+                                                    <span class="badge bg-secondary">{{ inscription.guests_number }} invité{{ inscription.guests_number|pluralize:'s' }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            {% comment %} {% for invite in get_guests_number|times %}
+                                <div class="col pe-0">
+                                    <div class="rounded group-member-row mb-2 bg-wt">
+                                        <div class="p-2">
+                                            <img class="profile-picture" src="{% static 'thisappiscalleddrown/images/default_profile_picture.png' %}"
+                                                alt="Photo de profil par défaut"/>
+                                        </div>
+                                        <div class="flex-column group-member-name-col">
+                                            <div class="ps-1"><strong>Invité {{ forloop.counter }}</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %} {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if user.id == activity.creator_id %}
+                    <div class="tab-pane" id="management" role="tabpanel" aria-labelledby="managementTab">
+                        <div class="mt-2">
+                            <h6><strong>Gérer l'activité</strong></h6>
+                            <p class="mb-0">
+                                <a class="text-light" title="Modifier l'activité" href="{{ activity.get_update_url }}">
+                                    <i class="icon fas fa-pen text-center"></i> Modifier l'activité
+                                </a>
+                            </p>
+                            <p class="mb-0">
+                                <a class="text-light" title="Supprimer l'activité"
+                                   href="{{ activity.get_confirm_delete_url }}">
+                                    <i class="icon fas fa-trash-alt text-center"></i> Supprimer l'activité
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    {% else %}
+        <p>Vous n'êtes pas dans le groupe.</p>
+    {% endif %}
+
+    <div class="modal text-black" id="modal-activity">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            var loadForm = function () {
+                var btn = $(this);
+                $.ajax({
+                    url: btn.attr("data-url"),
+                    type: 'get',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#modal-activity .modal-content").html("");
+                        $("#modal-activity").modal("show");
+                    },
+                    success: function (data) {
+                        $("#modal-activity .modal-content").html(data.html_form);
+                    }
+                });
+            };
+
+            var saveForm = function () {
+                var form = $(this);
+                $.ajax({
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    type: form.attr("method"),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.form_is_valid) {
+                            $("#activity_detail").html(data.html_upcoming_activities_list);
+                            $("#modal-activity").modal("hide");
+                        }
+                        else {
+                            $("#modal-activity .modal-content").html(data.html_form);
+                        }
+                    }
+                });
+                return false;
+            };
+
+            // Update inscription
+            $("#activity_detail").on("click", ".js-clone-activity", loadForm);
+            $("#modal-inscription").on("submit", ".js-activity-clone-form", saveForm);
+        });
+    </script>
+{% endblock content %}

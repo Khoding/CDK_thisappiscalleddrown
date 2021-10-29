@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+    {{ block.super }}
+{% endblock navbar %}
+
+{% block topbar %}
+    {% if user.is_authenticated %}
+        {{ block.super }}
+    {% else %}
+        <header class="container-fluid w-75 gradient-l2 medium-padding-container">
+            <div class="d-flex justify-content-between">
+                <div class="p-2 no-padding-container">
+                    <a class="navbar-brand" href="{% url 'thisappiscalleddrown:activity_list' %}">
+                        <img id="main-navbar-logo"
+                             src="{% static 'thisappiscalleddrown/images/logo/svg/logo-thisappiscalleddrown-fill-white.svg' %}"
+                             alt="Logo de thisappiscalleddrown">
+                    </a>
+                </div>
+                <div class="p-2 no-padding-container">
+
+                </div>
+            </div>
+        </header>
+    {% endif %}
+{% endblock topbar %}
+
+{% block content %}
+    <div class="w-100 mb-5">
+        <div class="container">
+            <div class="w-75">
+                <h1 class="mb-3 gradient-text-l2"><strong>Planifiez vos activités de groupe <br>avec facilité sur
+                    thisappiscalleddrown</strong></h1>
+            </div>
+            <div class="w-75">
+                <p class="homepage-text mb-5">
+                    Une interface web pour planifier vos activités en toute simplicité. Vous êtes un groupe d'amis, de
+                    sportifs, ou autres et vous désirez un espace de planification et d'inscription aux activités que
+                    vous organisez ?
+                    <strong>thisappiscalleddrown</strong> est la solution pour vous !
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="large-padding-container">
+        <div class="container-fluid w-75">
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-6">
+                    <h1 class="gradient-text-l2">Organisez vos activités avec <strong>thisappiscalleddrown</strong> !</h1>
+                    <p class="homepage-text">
+                        L'interface d'une grande simplicité de <strong>thisappiscalleddrown</strong> vous permet d'organiser
+                        rapidement vos
+                        activités de tout type.
+                    </p>
+                </div>
+                <div class="col-6">
+                    <img class="d-flex mx-auto h-100"
+                         src="{% static 'thisappiscalleddrown/images/logo/svg/logo-thisappiscalleddrown-Fill-primary.svg' %}"
+                         alt="Logo de thisappiscalleddrown">
+                </div>
+            </div>
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-5">
+                    <img class="d-flex mx-auto h-100"
+                         src="{% static 'thisappiscalleddrown/images/logo/svg/logo-thisappiscalleddrown-fill-primary.svg' %}"
+                         alt="Logo de thisappiscalleddrown">
+                </div>
+                <div class="col-7">
+                    <h1 class="gradient-text-l2">Compatible avec <strong>tous vos appareils</strong> !</h1>
+                    <p class="homepage-text">
+                        Vous pouvez planifier vos activités depuis <strong>n'importe quel appareil</strong>. Accédez à
+                        thisappiscalleddrown
+                        depuis votre ordinateur, votre téléphone mobile ou encore votre tablette sans aucun problème !
+                    </p>
+                </div>
+            </div>
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-5">
+                    <h1 class="gradient-text-l2"><strong>Invitez vos amis</strong> à y participer !</h1>
+                    <p class="homepage-text">
+                        De <strong>nombreux moyens sont fournis</strong> afin d'inviter des personnes à participer à vos
+                        activités.
+                    </p>
+                </div>
+                <div class="col-6">
+                    <img class="d-flex mx-auto h-100"
+                         src="{% static 'thisappiscalleddrown/images/logo/svg/logo-thisappiscalleddrown-fill-primary.svg' %}"
+                         alt="Logo de thisappiscalleddrown">
+                </div>
+            </div>
+            <div class="shadow p-5 rounded row mb-5 bg-wt-50">
+                <div class="col-5">
+                    <img class="d-flex mx-auto h-100"
+                         src="{% static 'thisappiscalleddrown/images/logo/svg/logo-thisappiscalleddrown-fill-primary.svg' %}"
+                         alt="Logo de thisappiscalleddrown">
+                </div>
+                <div class="col-6">
+                    <h1 class="gradient-text-l2">Créé par des élèves du <strong>ceff Industrie</strong></h1>
+                    <p class="homepage-text">
+                        <strong>thisappiscalleddrown</strong> a été créé par des apprentis informaticiens du <strong>ceff
+                        Industrie</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="special-gradient w-100 mb-5">
+        <div class="container medium-padding-container">
+            <div class="text-white px-5 py-2">
+                <h1 class="mb-5 text-center">
+                    Inscrivez-vous et utilisez <strong>thisappiscalleddrown</strong> afin de pouvoir planifier vos activités en
+                    toute
+                    simplicité !
+                </h1>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'account:signup' %}">
+                        <input type="button" class="btn btn-lg cta-button" value="Créer un compte sur thisappiscalleddrown"
+                               name="Créer un compte sur thisappiscalleddrown">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

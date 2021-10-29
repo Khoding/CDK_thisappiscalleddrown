@@ -1,0 +1,51 @@
+<div class="gradient-l2 text-white">
+    <h6><strong>Activités à venir</strong></h6>
+    <div class="mb-2">
+        <a class="btn btn-outline-light" title="Créer une activité"
+           href="{% url 'thisappiscalleddrown:group_activity_add' slug=group.slug %}"
+           role="button" data-bs-name="{{ group.name }}">
+            <i class="fas fa-plus"></i> Nouvelle activité
+        </a>
+    </div>
+    <div class="d-grid gap-2 gradient-l2 text-white">
+        <div class="row m-0">
+            {% block activity_list %}
+                {% if upcoming_activities.count %}
+                    {% for activity in upcoming_activities %}
+                        <div class="card{% if not forloop.last %} mb-2{% endif %} bg-wt rounded"
+                             data-bs-activity-id="{{ activity.id }}">
+                            <div class="card-header px-0 bg-transparent">
+                                <h4 class="d-flex">
+                                    <span class="col">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {% if activity.end_date %}Du {% endif %} {{ activity.start_date }}
+                                        {% if activity.end_date %} au {{ activity.end_date }} {% endif %}
+                                    </span>
+                                </h4>
+                            </div>
+                            <div class="card-body px-0 pb-2">
+                                <h5 class="text-ellipsis">
+                                    <i class="fas fa-map-marked"></i>
+                                    {{ activity.start_location }} {% if activity.end_location %} →
+                                    {{ activity.end_location }} {% endif %}
+                                </h5>
+                                <div class="text-ellipsis">
+                                    <i class="fas fa-users"></i>
+                                    {{ activity.group }}
+                                </div>
+                                <div class="text-ellipsis">
+                                    <i class="fas fa-user"></i>
+                                    {{ activity.creator }}
+                                </div>
+                            </div>
+                            <a href="{% url 'thisappiscalleddrown:activity_detail' slug=activity.slug %}"
+                               class="stretched-link"></a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty">Vous n'avez pas d'activités à venir</div>
+                {% endif %}
+            {% endblock activity_list %}
+        </div>
+    </div>
+</div>

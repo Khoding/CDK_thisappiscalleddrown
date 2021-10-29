@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="gradient-l2 rounded medium-padding-container text-white">
+        <h1><strong>403 Permission Denied</strong></h1>
+        <h2>Vous n'êtes pas autorisé à accéder à cette page.</h2>
+        <hr class="hr-white">
+        <p class="text-large">Vous n'avez pas la permission d'accéder à cette page. Essayez de vous connecter avec un
+            autre compte.</p>
+        <a class="btn btn-primary w-25" href="{% url 'account:login' %}">Se connecter</a>
+    </div>
+{% endblock %}

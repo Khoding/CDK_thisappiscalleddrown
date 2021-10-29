@@ -8,29 +8,30 @@ from utils.image_utils import crop_redim_image
 from .models import CustomUser
 from .validators import validate_user_email
 
-VALID_IMAGE_EXTENSIONS = [
-    'bmp', 'gif', 'png', 'apng', 'jpg', 'jpeg'
-]
+VALID_IMAGE_EXTENSIONS = ["bmp", "gif", "png", "apng", "jpg", "jpeg"]
 
 
 class ImageCropField(ImageField):
     """
     Champ de formulaire permettant de rogner les images avant leur import.
     """
-    default_validators = [validators.validate_image_file_extension,
-                          FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS)]
+
+    default_validators = [
+        validators.validate_image_file_extension,
+        FileExtensionValidator(allowed_extensions=VALID_IMAGE_EXTENSIONS),
+    ]
 
 
 class CustomUserCreationForm(UserCreationForm):
     """
-    Formulaire de création d'utilisateur Koolapic.
+    Formulaire de création d'utilisateur thisappiscalleddrown.
     """
 
     email = forms.EmailField(validators=[validate_user_email])
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name')
+        fields = ("email", "first_name", "last_name")
 
 
 class EditProfileForm(forms.ModelForm):
@@ -48,21 +49,21 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = (
-            'first_name',
-            'last_name',
-            'email',
-            'tel_mobile',
-            'tel_home',
-            'tel_pro',
-            'npa',
-            'locality',
-            'address',
-            'bio',
-            'profile_pic',
-            'x',
-            'y',
-            'width',
-            'height',
+            "first_name",
+            "last_name",
+            "email",
+            "tel_mobile",
+            "tel_home",
+            "tel_pro",
+            "npa",
+            "locality",
+            "address",
+            "bio",
+            "profile_pic",
+            "x",
+            "y",
+            "width",
+            "height",
         )
 
     def save(self, *args, **kwargs):
@@ -72,11 +73,11 @@ class EditProfileForm(forms.ModelForm):
         """
 
         custom_user = super(EditProfileForm, self).save()
-        if self.cleaned_data.get('width'):
-            x = self.cleaned_data.get('x')
-            y = self.cleaned_data.get('y')
-            w = self.cleaned_data.get('width')
-            h = self.cleaned_data.get('height')
+        if self.cleaned_data.get("width"):
+            x = self.cleaned_data.get("x")
+            y = self.cleaned_data.get("y")
+            w = self.cleaned_data.get("width")
+            h = self.cleaned_data.get("height")
 
             crop_redim_image((x, y, w, h), (500, 500), custom_user.profile_pic.path)
 

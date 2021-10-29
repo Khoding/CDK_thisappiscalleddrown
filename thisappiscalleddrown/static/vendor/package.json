@@ -1,0 +1,48 @@
+{
+  "name": "thisappiscalleddrown",
+  "version": "1.0.0",
+  "description": "thisappiscalleddrown vous permet d'organiser vos projet facilement sur le Web 2.0",
+  "private": true,
+  "keywords": [
+    "thisappiscalleddrown",
+    "CDK_thisappiscalleddrown",
+    "agenda",
+    "calendar",
+    "activities"
+  ],
+  "homepage": "https://thisappiscalleddrown.net",
+  "repository": {
+    "url": "https://github.com/Khoding/CDK_thisappiscalleddrown",
+    "type": "git"
+  },
+  "author": "ceff Industrie",
+  "contributors": [
+    {
+      "name": "Nicolas Schwab",
+      "email": "Nicolas.Schwab@ceff.ch"
+    },
+    {
+      "name": "Julien Rutscho",
+      "email": "Julien.Rutscho@ceff.ch"
+    },
+    {
+      "name": "Lorenzo Di Benedetto",
+      "email": "Lorenzo.DiBenedetto@ceff.ch"
+    },
+    {
+      "name": "Adrien Matthieu Rossier",
+      "email": "AdrienMatthieu.Rossier@ceff.ch"
+    }
+  ],
+  "license": "All rights reserved",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@popperjs/core": "^2.5.4",
+    "animejs": "^3.2.1",
+    "bootstrap": "^5.1.1",
+    "cropperjs": "^1.5.9",
+    "jquery": "^3.5.1",
+    "popper.js": "^2.0.0-next.4",
+    "tippy.js": "^6.2.7"
+  }
+}

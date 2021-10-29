@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="gradient-l2 rounded medium-padding-container text-white">
+        <h1><strong>500 Server Error</strong></h1>
+        <h2>Une erreur interne est survenue.</h2>
+        <hr class="hr-white">
+        <p class="text-large">Une erreur provenant du serveur est survenue. Veuillez réessayer plus tard. Si le problème
+            persiste, veuillez contacter un administrateur.</p>
+        <button class="btn btn-primary w-25" onclick="location.reload()">Rafraîchir</button>
+    </div>
+{% endblock %}
