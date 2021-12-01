@@ -16,3 +16,5 @@ Si vous voulez l'essayer: _Prend en compte que vous savez faire ce genre de chos
 10. `cd thisappiscalleddrown/static/vendor`.
 11. `npm install`.
 12. Générer le CSS à partir du SCSS, en utilisant un compilateur.
+13. Les mots de passes pour les comptes sont (pour tous) `123lol24#`.
+14. Le compte admin est `check@thisappiscalleddrown.com`.
