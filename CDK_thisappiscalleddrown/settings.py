@@ -9,32 +9,31 @@ Paramètres et valeurs :
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-import os
-from pathlib import Path
+import environ
 
-from dotenv import load_dotenv
+root = environ.Path(__file__) - 2  # root of project
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(root() + "/.env")  # reading .env file
 
-# Import des autres settings
-from .thisappiscalleddrown_settings import *
-from .third_party_settings import *
+# Build paths inside the project like this: BASE_DIR / ...
+BASE_DIR = root()
 
-# Loads .env file
-load_dotenv()
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env.str("SECRET_KEY")
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env.bool("DEBUG")
+SITE_ID = env.int("SITE_ID")
+
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = root()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.getenv("DEBUG") == "True" else False
-
-# ALLOWED HOSTS
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS")
 
 # Application definition
 INSTALLED_APPS = [
@@ -83,8 +82,8 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR / "CDK_thisappiscalleddrown/templates",
-            BASE_DIR / "thisappiscalleddrown/templates",
+            (BASE_DIR + "/CDK_thisappiscalleddrown/templates"),
+            (BASE_DIR + "/thisappiscalleddrown/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -109,12 +108,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "OPTIONS": {
-            "init_command": "SET default_storage_engine=INNODB",
+            "read_default_file": BASE_DIR + "/my.cnf",
+            "init_command": "SET sql_mode='STRICT_ALL_TABLES'; SET default_storage_engine=INNODB;",
+            "use_unicode": True,
         },
-        "NAME": os.getenv("DATABASE_NAME"),
-        "USER": os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
-        "TEST": {"NAME": os.getenv("TEST_DATABASE_NAME")},
     }
 }
 
@@ -155,12 +152,12 @@ USE_TZ = True
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = BASE_DIR + "/media"
 
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR + "/static"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "thisappiscalleddrown/static",
+    (BASE_DIR + "/thisappiscalleddrown/static"),
 ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"
@@ -173,5 +170,3 @@ AUTHENTICATION_BACKENDS = (
     "impostor.backend.AuthBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-
-SITE_ID = 2

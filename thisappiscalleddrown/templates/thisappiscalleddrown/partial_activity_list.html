@@ -36,7 +36,9 @@
                                 circle.style.strokeDashoffset = offset;
                             }
 
-                            var percent = Math.round({{ activity.inscriptions__guests_number__sum|add:activity.inscriptions__count }} / {{ activity.max_participants }} * 100)
+                            {% if not user.is_superuser %}
+                                var percent = Math.round({{ activity.inscriptions__guests_number__sum|add:activity.inscriptions__count }} / {{ activity.max_participants }} * 100)
+                            {% endif %}
 
                             setProgress(percent);
                         </script>
